@@ -1,4 +1,5 @@
 using Tulip, COBREXA, Serialization, COBREXA.Everything
+using Escher, CairoMakie, ColorSchemes
 
 model = deserialize("ec_e_coli_core.js")
 
@@ -25,7 +26,9 @@ sol = flux_balance_analysis(smodel, Tulip.Optimizer)
 
 fluxes = values_dict(:reaction, sol)
 fluxes["BIOMASS_Ecoli_core_w_GAM"]
-flux_summary(fluxes)
+@show flux_summary(fluxes)
+enzs = values_dict(:enzyme, sol)
+# @show enzs
 
 # Full enzyme constrained model (GECKO formulation)
 ecmodel = make_enzyme_constrained_model(
@@ -45,5 +48,12 @@ sol = flux_balance_analysis(ecmodel, Tulip.Optimizer)
 fluxes = values_dict(:reaction, sol)
 fluxes["BIOMASS_Ecoli_core_w_GAM"]
 @show flux_summary(fluxes)
-
 enzs = values_dict(:enzyme, sol)
+# @show enzs
+
+f = Figure(resolution = (1200, 800));
+ax = Axis(f[1, 1]);
+###### PLOT FUNCTION
+hidexdecorations!(ax)
+hideydecorations!(ax)
+escherplot!(ax, joinpath(pkgdir(Escher), "", "e_coli_core.json"))
