@@ -1,28 +1,30 @@
-using Tulip, COBREXA, Serialization, COBREXA.Everything
-using Escher, CairoMakie, ColorSchemes
+using SCIP, GLPK
+using COBREXA, Serialization, COBREXA.Everything
 
-model = deserialize("ec_e_coli_core.js")
+model = deserialize("data/ec_e_coli_core.js")
 
-m_rids = deserialize("metabolic_rids.js")
-t_rids = deserialize("transport_rids.js")
+m_rids = deserialize("data/metabolic_rids.js")
+t_rids = deserialize("data/transport_rids.js")
 
-m_gids = deserialize("metabolic_gids.js")
-t_gids = deserialize("transport_gids.js")
+m_gids = deserialize("data/metabolic_gids.js")
+t_gids = deserialize("data/transport_gids.js")
 
 # simplified enzyme constrained model (SMOMENT)
+# adjust the metabolic activity within the cell to respect known enzymatic parameters and enzyme mass constraints
 smodel = make_simplified_enzyme_constrained_model(
     model,
     reaction_mass_groups = Dict(
         "cytosol" => m_rids,
         "membrane" => t_rids,
     ),
+    # total mass limit of each group of reactions
     reaction_mass_group_bounds = Dict(
         "cytosol" => 75.0,
         "membrane" => 75.0,
     ),
 )
 
-sol = flux_balance_analysis(smodel, Tulip.Optimizer)
+sol = flux_balance_analysis(smodel, GLPK.Optimizer)
 
 fluxes = values_dict(:reaction, sol)
 fluxes["BIOMASS_Ecoli_core_w_GAM"]
@@ -43,7 +45,7 @@ ecmodel = make_enzyme_constrained_model(
     ),
 )
 
-sol = flux_balance_analysis(ecmodel, Tulip.Optimizer)
+sol = flux_balance_analysis(ecmodel, GLPK.Optimizer)
 
 fluxes = values_dict(:reaction, sol)
 fluxes["BIOMASS_Ecoli_core_w_GAM"]
@@ -51,9 +53,10 @@ fluxes["BIOMASS_Ecoli_core_w_GAM"]
 enzs = values_dict(:enzyme, sol)
 # @show enzs
 
-f = Figure(resolution = (1200, 800));
-ax = Axis(f[1, 1]);
-###### PLOT FUNCTION
-hidexdecorations!(ax)
-hideydecorations!(ax)
-escherplot!(ax, joinpath(pkgdir(Escher), "", "e_coli_core.json"))
+# LoadError: KeyError: key "PFK#forward#1" not found
+# flux_solution = flux_balance_analysis(
+#     ecmodel,
+#     GLPK.Optimizer;
+#     modifications = [add_loopless_constraints()],
+# ) #|> values_dict
+# @show flux_solution
