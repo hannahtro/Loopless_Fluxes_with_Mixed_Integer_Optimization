@@ -79,5 +79,9 @@ knock_out_flux =  MOI.get.(model, MOI.VariablePrimal(), x)
 
 # MOMA
 # modify objective
-# set_objective_coefficient(model, x[1], 0.25)
+L = - reference_flux
+Q = I(length(x))
+@objective(model, Min, 1/2 * x' * Q * x + L' * x)
 # @show objective_function(model)
+optimize!(model)
+@show MOI.get(model, MOI.ObjectiveValue())
