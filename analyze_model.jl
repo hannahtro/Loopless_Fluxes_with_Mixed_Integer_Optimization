@@ -1,13 +1,8 @@
 using COBREXA, Serialization, COBREXA.Everything
+include("functions.jl")
 
 model = deserialize("data/ec_e_coli_core.js")
-println("E COLI COBRA MODEL")
-println("number of metabolites : ", length(model.metabolites))
-println("number of reactions : ", length(model.reactions))
-println("number of genes : ", length(model.genes))
-# @show model.annotations
-# @show model.notes
-println("objective : ", model.objective)
+print_model(model, "E COLI COBRA MODEL")
 
 println("")
 println("sMOMENT data")
@@ -27,6 +22,6 @@ println("number of transport gene product ids : ", length(t_gids))
 
 fieldnames(ObjectModel)
 m = load_model(ObjectModel, "data/e_coli_core.json")
-@show stoichiometry(model)
-@show reactions(model)
-@show bounds(model)
+# @show stoichiometry(model)
+# @show reactions(model)
+# @show bounds(model)
