@@ -59,3 +59,62 @@ optimize_model(model, "loopless FBA with blocked reaction")
 # MOMA with Boscia 
 # moma_boscia(model, x, reference_flux)
 # objective value : -5.07598806e6
+
+# FBA with enzyme constraints
+# basic_model = deserialize("data/ec_e_coli_core.js")
+
+# m_rids = deserialize("data/metabolic_rids.js")
+# t_rids = deserialize("data/transport_rids.js")
+# m_gids = deserialize("data/metabolic_gids.js")
+# t_gids = deserialize("data/transport_gids.js")
+
+# smodel = make_simplified_enzyme_constrained_model(
+#     basic_model,
+#     reaction_mass_groups = Dict(
+#         "cytosol" => m_rids,
+#         "membrane" => t_rids,
+#     ),
+#     # total mass limit of each group of reactions
+#     reaction_mass_group_bounds = Dict(
+#         "cytosol" => 75.0,
+#         "membrane" => 75.0,
+#     ),
+# )
+
+# optimizer = SCIP.Optimizer
+# model = make_optimization_model(smodel, optimizer)
+# set_attribute(model, MOI.Silent(), true)
+# optimize_model(model, "enzyme-constrained FBA")
+
+# # ecFBA with loops 
+# r_1 = ReactionBidirectional("r_1", Dict("glc__D_e" => -1.0, "gln__L_c" => 1.0))
+# r_2 = ReactionBidirectional("r_2", Dict("gln__L_c" => -1.0, "gln__L_e" => 1.0))
+# r_3 = ReactionBidirectional("r_3", Dict("gln__L_e" => -1.0, "glc__D_e" => 1.0))
+
+# add_reactions!(basic_model, [r_1, r_2, r_3])
+# smodel = make_simplified_enzyme_constrained_model(
+#     basic_model,
+#     reaction_mass_groups = Dict(
+#         "cytosol" => m_rids,
+#         "membrane" => t_rids,
+#     ),
+#     # total mass limit of each group of reactions
+#     reaction_mass_group_bounds = Dict(
+#         "cytosol" => 75.0,
+#         "membrane" => 75.0,
+#     ),
+# )
+
+# optimizer = SCIP.Optimizer
+# model = make_optimization_model(smodel, optimizer)
+# set_attribute(model, MOI.Silent(), true)
+# optimize_model(model, "enzyme-constrained FBA with loops")
+
+# loopless ecFBA 
+# add_loopless_constraints(smodel, model)
+# optimize_model(model, "loopless ecFBA")
+# DOES NOT WORK YET
+
+# blocked loopless ecFBA
+
+# MOMA loopless ecFBA
