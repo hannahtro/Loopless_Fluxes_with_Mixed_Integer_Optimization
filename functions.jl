@@ -26,7 +26,7 @@ function optimize_model(model, type="FBA"; print_objective=false)
         println("objective function : ", objective_function(model))
     end
     optimize!(model)
-    println("objective value : ", MOI.get(model, MOI.ObjectiveValue()))
+    println("objective value : ", round(MOI.get(model, MOI.ObjectiveValue()),digits=2))
     println("")
     return model
 end
@@ -61,4 +61,41 @@ function add_loopless_constraints(molecular_model, model)
     end
 
     @constraint(model, N_int' * G .== 0)
+end
+
+function moma(model, x, reference_flux)
+    L = - reference_flux
+    Q = I(length(x))
+    @objective(model, Min, 1/2 * x' * Q * x + L' * x)
+    # @show objective_function(model)
+    # @show typeof(objective_function(model))
+    optimize_model(model, "loopless MOMA")
+end
+
+function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia")
+    println("")
+    println(type)
+    println("----------------------------------")
+    
+    L = - reference_flux
+    Q = I(length(x))
+
+    function f(x)
+        length_var = size(Q)[1]
+        f_x = 1/2 * x[1:length_var]' * Q * x[1:length_var] + L' * x[1:length_var]
+    end
+    # @show f(ones(length(x)))
+    
+    function grad!(storage, x)
+        length_var = size(Q)[1]
+        storage[1:length_var] = Q * x[1:length_var] + L
+        storage[length_var+1:length(x)] .= 0
+    end
+    
+    set_objective_sense(model, FEASIBILITY_SENSE)
+    moi_model = backend(model)
+    lmo = FrankWolfe.MathOptLMO(moi_model)
+    x, _, result = Boscia.solve(f, grad!, lmo, verbose=true) 
+    println("objective value : ", round(f(x),digits=2))   
+    println("")
 end

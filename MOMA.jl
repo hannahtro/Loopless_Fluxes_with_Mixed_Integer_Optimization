@@ -1,11 +1,12 @@
 using COBREXA, Serialization, COBREXA.Everything
-using SCIP, JuMP
+using SCIP, JuMP, Tulip
 using LinearAlgebra
 using Boscia, FrankWolfe
 include("functions.jl")
 
 # build model
 optimizer = SCIP.Optimizer
+# optimizer = Tulip.Optimizer
 
 molecular_model = deserialize("data/ec_e_coli_core.js")
 
@@ -22,8 +23,8 @@ model = make_optimization_model(molecular_model, optimizer)
 @show model
 set_attribute(model, MOI.Silent(), true)
 
-# FBA
-optimize_model(model, print_objective=true)
+# # FBA
+# optimize_model(model, print_objective=true)
 
 # FBA with modified objective
 x = model[:x]
@@ -33,3 +34,28 @@ optimize_model(model)
 # loopless FBA
 add_loopless_constraints(molecular_model, model)
 optimize_model(model, "loopless FBA")
+
+# loopless FBA max x[25]
+x = model[:x]
+@objective(model, Max, x[25])
+optimize_model(model, "loopless FBA without blocked reaction", print_objective=true)
+reference_flux =  MOI.get.(model, MOI.VariablePrimal(), x)
+
+# FBA on blocked reaction
+# block reaction
+set_lower_bound(x[1], 0)
+set_upper_bound(x[1], 0)
+optimize_model(model, "loopless FBA with blocked reaction")
+# knock_out_flux =  MOI.get.(model, MOI.VariablePrimal(), x)
+
+# MOMA
+# @objective(model, Min, 1/2 * x' * Q * x + L' * x)
+# # @show objective_function(model)
+# # @show typeof(objective_function(model))
+# optimize_model(model, "loopless MOMA")
+# moma(model, x, reference_flux)
+# unresolved numerical troubles in LP 1022 cannot be dealt with
+
+# MOMA with Boscia 
+# moma_boscia(model, x, reference_flux)
+# objective value : -5.07598806e6
