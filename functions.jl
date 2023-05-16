@@ -18,17 +18,37 @@ function print_model(model, name="MODEL")
     println("")
 end
 
-function optimize_model(model, type="FBA"; print_objective=false)
+function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=false)
     println("")
     println(type)
     println("----------------------------------")
     if print_objective
         println("objective function : ", objective_function(model))
     end
+    if !isinf(time_limit)
+        set_time_limit_sec(model, time_limit)
+    end
     optimize!(model)
-    println("objective value : ", round(MOI.get(model, MOI.ObjectiveValue()),digits=2))
-    println("")
-    return model
+    status = termination_status(model)
+    time = solve_time(model)
+    if isinf(time_limit)
+        objective_value_primal = MOI.get(model, MOI.ObjectiveValue())
+        println("objective value : ", round(objective_value_primal, digits=2))
+        println("")
+        solution = [value(var) for var in all_variables(model)]
+    else 
+        # @show solution_summary(model)
+        @show status
+        if has_values(model)
+            objective_value_primal = MOI.get(model, MOI.ObjectiveValue())
+            println("objective value : ", round(objective_value_primal, digits=2))
+            solution = [value(var) for var in all_variables(model)]
+        else 
+            objective_value_primal = NaN
+            solution = NaN
+        end
+    end
+    return objective_value_primal, solution, time, status
 end
 
 function add_loopless_constraints(molecular_model, model)
