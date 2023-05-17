@@ -85,16 +85,18 @@ function add_loopless_constraints(molecular_model, model)
     @constraint(model, N_int' * G .== 0)
 end
 
-function moma(model, x, reference_flux)
+function moma(model, x, reference_flux; time_limit=Inf)
     L = - reference_flux
     Q = I(length(x))
     @objective(model, Min, 1/2 * x' * Q * x + L' * x)
     # @show objective_function(model)
     # @show typeof(objective_function(model))
-    optimize_model(model, "loopless MOMA")
+    objective_value_primal, solution, time, status = optimize_model(model, "loopless MOMA"; time_limit=time_limit)
+
+    return objective_value_primal, solution, time, status
 end
 
-function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia")
+function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia"; time_limit=Inf)
     println("")
     println(type)
     println("----------------------------------")
@@ -114,10 +116,14 @@ function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia")
         storage[length_var+1:length(x)] .= 0
     end
     
+    set_time_limit_sec(model, time_limit)
     set_objective_sense(model, FEASIBILITY_SENSE)
     moi_model = backend(model)
     lmo = FrankWolfe.MathOptLMO(moi_model)
-    x, _, result = Boscia.solve(f, grad!, lmo, verbose=true) 
-    println("objective value : ", round(f(x),digits=2))   
+    x, _, result = Boscia.solve(f, grad!, lmo, verbose=true, time_limit=time_limit) 
+    objective_value_primal = f(x)
+    println("objective value : ", round(objective_value_primal, digits=2))   
     println("")
+
+    return objective_value_primal, x, result[:total_time_in_sec], result[:status]
 end

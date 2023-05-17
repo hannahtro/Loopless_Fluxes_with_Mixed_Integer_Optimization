@@ -33,13 +33,7 @@ knock_out_flux =  MOI.get.(model, MOI.VariablePrimal(), x)
 # @show knock_out_flux
 
 # MOMA
-# modify objective
-L = - reference_flux
-Q = I(length(x))
-@objective(model, Min, 1/2 * x' * Q * x + L' * x)
-# @show objective_function(model)
-@show typeof(objective_function(model))
-optimize_model(model, "loopless MOMA")
+moma(model, x, reference_flux)
 
 # Boscia
 println("")
