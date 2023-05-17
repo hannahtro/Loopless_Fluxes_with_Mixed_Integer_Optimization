@@ -6,6 +6,8 @@ using DataFrames, CSV
 
 include("functions.jl")
 
+@show VERSION
+
 organism = "iML1515"
 
 # could not extract json.gz
@@ -42,7 +44,7 @@ end
 
 # loopless FBA
 type = "loopless_fba"
-time_limit = 1800
+time_limit = 3600  #64000
 add_loopless_constraints(molecular_model, model)
 @show model
 set_attribute(model, MOI.Silent(), false)
@@ -62,3 +64,4 @@ if !isfile(file_name)
 else 
     CSV.write(file_name, df, append=true)    
 end
+
