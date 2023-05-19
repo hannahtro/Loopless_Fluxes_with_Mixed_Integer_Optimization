@@ -44,7 +44,7 @@ end
 
 # loopless FBA
 type = "loopless_fba"
-time_limit = 3600  #64000
+time_limit = 85000
 add_loopless_constraints(molecular_model, model)
 @show model
 set_attribute(model, MOI.Silent(), false)
