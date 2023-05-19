@@ -85,6 +85,30 @@ function add_loopless_constraints(molecular_model, model)
     @constraint(model, N_int' * G .== 0)
 end
 
+function add_loopless_indicator_constraints(molecular_model, model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+
+    N_int = nullspace(Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])) # no sparse nullspace function
+
+    x = model[:x]
+    G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+    a = @variable(model, a[1:length(internal_rxn_idxs)])
+
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        # add indicator 
+        @constraint(model, a[cidx] => {x[ridx] - eps() >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] + eps() <= 0})
+
+        @constraint(model, a[cidx] => {-1000 <= G[cidx] <= -1})
+        @constraint(model, !a[cidx] => {1 <= G[cidx] <= 1000})
+    end
+
+    @constraint(model, N_int' * G .== 0)
+end
+
 function moma(model, x, reference_flux)
     L = - reference_flux
     Q = I(length(x))
