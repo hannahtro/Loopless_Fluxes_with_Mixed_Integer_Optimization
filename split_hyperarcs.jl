@@ -53,28 +53,28 @@ function split_hyperarcs(S, lb, ub)
 end
 
 # test network
-S = [[0,1,1,-1] [-1,1,1,0]]
-@show S
-lb = [-5,-10]
-ub = [5,10]
-S_transform, lb_transform, ub_transform = split_hyperarcs(S, lb, ub)
-@show S_transform
-@show lb_transform, ub_transform
+# S = [[0,1,1,-1] [-1,1,1,0]]
+# @show S
+# lb = [-5,-10]
+# ub = [5,10]
+# S_transform, lb_transform, ub_transform = split_hyperarcs(S, lb, ub)
+# @show S_transform
+# @show lb_transform, ub_transform
 
-# bigger model
-organism = "iJR904"
+# # bigger model
+# organism = "iJR904"
 
-# build model
-optimizer = SCIP.Optimizer
+# # build model
+# optimizer = SCIP.Optimizer
 
-molecular_model = deserialize("data/" * organism * ".js")
-print_model(molecular_model, organism)
+# molecular_model = deserialize("data/" * organism * ".js")
+# print_model(molecular_model, organism)
 
-S = stoichiometry(molecular_model)
-lb,ub = bounds(molecular_model)
-S_transform, lb_transform, ub_transform = split_hyperarcs(S, lb, ub)
-@show size(S_transform)
-@show size(lb_transform), size(ub_transform)
+# S = stoichiometry(molecular_model)
+# lb,ub = bounds(molecular_model)
+# S_transform, lb_transform, ub_transform = split_hyperarcs(S, lb, ub)
+# @show size(S_transform)
+# @show size(lb_transform), size(ub_transform)
 
 # [`variables`](@ref)       # number of reactions
 # [`metabolites`](@ref)     # same
