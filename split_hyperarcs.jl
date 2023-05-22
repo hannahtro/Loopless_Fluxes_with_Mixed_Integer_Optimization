@@ -4,13 +4,15 @@ using LinearAlgebra
 
 include("functions.jl") 
 
-function split_hyperarcs(S)
+function split_hyperarcs(S, lb, ub)
     S_transpose = S'
     n,m = size(S_transpose)
     @show n,m # n reactions, m metabolites
     S_transform = []
+    lb_transform = []
+    ub_transform = []
 
-    for row in eachrow(S_transpose)
+    for (idx,row) in enumerate(eachrow(S_transpose))
         # @show row # reaction
         
         forward_arc_m = [] # metabolite
@@ -34,6 +36,8 @@ function split_hyperarcs(S)
         # add splitted reactions
         for (forward_idx,forward_m) in enumerate(forward_arc_m)
             for (backard_idx,backward_m) in enumerate(backward_arc_m)
+                push!(lb_transform,lb[idx])
+                push!(ub_transform,ub[idx])
                 split_arc = zeros(m)
                 split_arc[forward_m] = forward_coef[forward_idx]
                 split_arc[backward_m] = backward_coef[backard_idx]
@@ -45,14 +49,17 @@ function split_hyperarcs(S)
 
     S_transform = mapreduce(permutedims, vcat, S_transform)
     S_transform = S_transform'
-    return S_transform
+    return S_transform, lb_transform, ub_transform
 end
 
 # test network
 S = [[0,1,1,-1] [-1,1,1,0]]
 @show S
-S_transform = split_hyperarcs(S)
+lb = [-5,-10]
+ub = [5,10]
+S_transform, lb_transform, ub_transform = split_hyperarcs(S, lb, ub)
 @show S_transform
+@show lb_transform, ub_transform
 
 # bigger model
 organism = "iJR904"
@@ -64,42 +71,40 @@ molecular_model = deserialize("data/" * organism * ".js")
 print_model(molecular_model, organism)
 
 S = stoichiometry(molecular_model)
-S_transform = split_hyperarcs(S)
+lb,ub = bounds(molecular_model)
+S_transform, lb_transform, ub_transform = split_hyperarcs(S, lb, ub)
 @show size(S_transform)
+@show size(lb_transform), size(ub_transform)
 
-model = make_optimization_model(S_transform, optimizer)
-@show model
+# [`variables`](@ref)       # number of reactions
+# [`metabolites`](@ref)     # same
+# [`stoichiometry`](@ref)   # computed
+# [`bounds`](@ref)          # upper and lower_bound on each reaction
+# [`objective`](@ref)       # set correct reaction
 
-# list_of_constraints = all_constraints(model; include_variable_in_set_constraints = true)[1:10]
-
-# for reaction in list_of_constraints
-#     constraint = constraint_object(reaction)
-#     vars = constraint.func.terms.keys
-#     vals = constraint.func.terms.vals
-
-#     pos_vars = []
-#     neg_vars = []
-#     pos_vals = []
-#     neg_vals = []
-
-#     # separate forward and backward arcs
-#     for (id,v) in enumerate(vals)
-#         if v > 0
-#             push!(pos_vals, v)
-#             push!(pos_vars, vars[id])
-#         else
-#             push!(neg_vals, v)
-
-#             push!(neg_vars, vars[id])  
-#         end
-#     end
-
-#     # add splitted reactions
-#     for (pos_id,pos_reaction) in enumerate(pos_vars)
-#         for (neg_id,neg_reaction) in enumerate(neg_vars)
-#             @constraint(transformed_model, )
-#         end
-#     end   
-
-#     # fix arc direction
+# struct SplitModel <: AbstractMetabolicModel
+#     stoichiometry
+#     original_model::AbstractMetabolicModel
 # end
+
+# Everything.n_reactions(m::SplitModel) = size(m.stoichiometry)[2]
+# Everything.n_metabolites(m::SplitModel) = size(m.stoichiometry)[1]
+
+# Everything.objective(m::SplitModel) = m.original_model.objective # TODO update
+# Everything.metabolites(m::SplitModel) = m.original_model.metabolites
+# Everything.stoichiometry(m::SplitModel) = m.stoichiometry
+# Everything.reactions(m::SplitModel) = ["rxn$i" for i in 1:n_reactions(m)]
+
+# function Everything.bounds(m::SplitModel) # TODO update
+#     m = size(m.stoichiometry)[2]
+#     zeros(m) # lower bounds
+#     ones(m) # upper bounds
+# end
+
+# transformed_model = SplitModel(S_transform, molecular_model)
+# @show objective(transformed_model)
+# # @show length(metabolites(transformed_model))
+# # @show length(reactions(transformed_model))
+# # @show length(Everything.bounds(transformed_model))
+
+# make_optimization_model(transformed_model, optimizer)
