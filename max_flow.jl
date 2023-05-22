@@ -16,7 +16,6 @@ print_model(molecular_model)
 model = make_optimization_model(molecular_model, optimizer)
 @show model
 
-constraints = all_constraints(model, include_variable_in_set_constraints = false)
-@show constraints[1:10]
+# use split_hyperarcs.jl
 
 # perform max flow as MIP
