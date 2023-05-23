@@ -27,7 +27,6 @@ optimization_model = Model(optimizer)
 @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
 @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
 @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
-
 # @show optimization_model
 
 # perform max flow as MIP
@@ -45,15 +44,25 @@ S_transform = S_transform[1:end, 1:end .∉ [non_zero_reactions]]
 # build graph
 G = DiGraph()
 add_vertices!(G, size(S_transform)[1])
-for col in eachcol(S_transform)
-    metabolite_indices = findall(!iszero,col)
+for (idx,col) in enumerate(eachcol(S_transform))
+    # @show idx
+    metabolite_indices = findall(!iszero, col)
     # @show metabolite_indices
     # @show col[metabolite_indices[1]]
     if col[metabolite_indices[1]] > 0 #TODO verify direction
         add_edge!(G, metabolite_indices[1], metabolite_indices[2])
-    else 
+    else
         add_edge!(G, metabolite_indices[2], metabolite_indices[1])
     end
 end
 
-@show G
+@show edges(G)
+@show weights(G)
+@show vertices(G)
+
+# compute cycles
+cycles = [simplecycles(G)]
+@show length(cycles[1])
+
+# get original reactions
+
