@@ -6,6 +6,7 @@ using Graphs
 include("functions.jl")
 include("split_hyperarcs.jl")
 
+#TODO: why do we get loops in max_flow?
 function max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
     # make optimization model
     optimization_model = Model(optimizer)
@@ -22,13 +23,11 @@ function max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimi
     optimize!(optimization_model)
     solution = [value(var) for var in all_variables(optimization_model)]
     # @show solution
+    return solution
 end
 
 function ubounded_cycles(S_transform, solution)
-    # delete non used reactions
-    println("")
-    # @show size(S_transform)
-    # @show S_transform
+    # filter non used reactions
     non_zero_reactions = findall(!iszero,solution)
     # @show non_zero_reactions
     S_transform_reduced = []
@@ -40,7 +39,11 @@ function ubounded_cycles(S_transform, solution)
     # list to array
     S_transform_reduced = mapreduce(permutedims, vcat, S_transform_reduced)'
     @show size(S_transform_reduced)
+    # @show size(S_transform)
+    # @show S_transform
 
+    # map edges to reaction in transformed S_transform
+    # build graph of used edges in solution
     edge_mapping = Dict()
     # build graph
     G = DiGraph()
@@ -74,7 +77,7 @@ function ubounded_cycles(S_transform, solution)
     return cycles, edge_mapping
 end 
 
-function unbounded_cycles_S(cycles, edge_mapping)
+function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
     edge_mapping_reverse = Dict(value => key for (key, value) in edge_mapping)
     # @show edge_mapping_reverse
 
@@ -85,13 +88,39 @@ function unbounded_cycles_S(cycles, edge_mapping)
         push!(temp_cycle, cycle[1])
         # @show temp_cycle
         # @show cycle
-        for (idx,m) in enumerate(cycle)
-            key = [m,temp_cycle[idx+1]]
+        for (idx,r) in enumerate(cycle)
+            key = [r,temp_cycle[idx+1]]
             push!(unbounded_cycle,(edge_mapping_reverse[key]))
         end
         push!(unbounded_cycles, unbounded_cycle)
     end
-    return unbounded_cycles
+
+    # map reactions participating in cycles to reactions in S
+    # @show reaction_mapping
+    reaction_mapping_reverse = Dict()
+    for (key,value) in reaction_mapping
+        for val in value
+            reaction_mapping_reverse[val]=key
+        end
+    end
+    # @show reaction_mapping_reverse
+
+    # for each cycle, compute the current flux through reactions
+    unbounded_cycles_original = [] 
+    flux_values = []
+    for cycle in unbounded_cycles
+        unbounded_cycle_original = []
+        flux_value = []
+        for r in cycle 
+            push!(unbounded_cycle_original, reaction_mapping_reverse[r])
+            push!(flux_value,solution[r])
+        end
+        push!(unbounded_cycles_original, unbounded_cycle_original)
+        push!(flux_values, minimum(flux_value))
+    end
+    unique!(unbounded_cycles_original)
+
+    return unbounded_cycles_original, flux_values
 end
 
 # test network
@@ -113,30 +142,30 @@ cycles, edge_mapping = ubounded_cycles(S_transform, solution)
 @show cycles
 @show edge_mapping
 
-unbounded_cycles = unbounded_cycles_S(cycles, edge_mapping)
+unbounded_cycles, flux_values = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
 @show unbounded_cycles
+@show flux_values
 
+# # test organism
+# organism = "iAF692"
 
-# test organism
-organism = "iAF692"
+# # transform S
+# molecular_model = deserialize("data/" * organism * ".js")
+# print_model(molecular_model)
 
-# transform S
-molecular_model = deserialize("data/" * organism * ".js")
-print_model(molecular_model)
+# # split hyperarcs
+# S = stoichiometry(molecular_model)
+# lb, ub = bounds(molecular_model)
+# S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
+# # @show size(S_transform)
+# # @show size(lb_transform), size(ub_transform)
+# m, n = size(S_transform)
 
-# split hyperarcs
-S = stoichiometry(molecular_model)
-lb, ub = bounds(molecular_model)
-S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-# @show size(S_transform)
-# @show size(lb_transform), size(ub_transform)
-m, n = size(S_transform)
-
-solution = max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-# @show solution
-# get original reactions
-cycles, edge_mapping = ubounded_cycles(S_transform, solution)
-# @show cycles[1]
-# @show edge_mapping
-unbounded_cycles = unbounded_cycles_S(cycles, edge_mapping)
-# @show unbounded_cycles
+# solution = max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
+# # @show solution
+# # get original reactions
+# cycles, edge_mapping = ubounded_cycles(S_transform, solution)
+# # @show cycles[1]
+# # @show edge_mapping
+# unbounded_cycles = unbounded_cycles_S(cycles, edge_mapping)
+# # @show unbounded_cycles
