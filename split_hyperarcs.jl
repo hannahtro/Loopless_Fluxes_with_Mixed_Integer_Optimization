@@ -6,14 +6,14 @@ include("functions.jl")
 
 function split_hyperarcs(S, lb, ub)
     S_transpose = S'
-    n,m = size(S_transpose)
-    @show n,m # n reactions, m metabolites
+    n, m = size(S_transpose)
+    # @show n, m # n reactions, m metabolites
     S_transform = []
     lb_transform = []
     ub_transform = []
     reaction_mapping = Dict()
 
-    for (idx,row) in enumerate(eachrow(S_transpose))
+    for (idx, row) in enumerate(eachrow(S_transpose))
         reaction_mapping[idx] = []
 
         # @show row # reaction
@@ -37,10 +37,10 @@ function split_hyperarcs(S, lb, ub)
         # @show forward_coef, forward_arc_m
         
         # add splitted reactions
-        for (forward_idx,forward_m) in enumerate(forward_arc_m)
-            for (backard_idx,backward_m) in enumerate(backward_arc_m)
-                push!(lb_transform,lb[idx])
-                push!(ub_transform,ub[idx])
+        for (forward_idx, forward_m) in enumerate(forward_arc_m)
+            for (backard_idx, backward_m) in enumerate(backward_arc_m)
+                push!(lb_transform, lb[idx])
+                push!(ub_transform, ub[idx])
                 split_arc = zeros(m)
                 split_arc[forward_m] = forward_coef[forward_idx]
                 split_arc[backward_m] = backward_coef[backard_idx]
@@ -57,14 +57,14 @@ function split_hyperarcs(S, lb, ub)
 end
 
 # test network
-S = [[0,1,1,-1] [-1,1,1,0]]
-@show S
-lb = [-5,-10]
-ub = [5,10]
-S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-@show S_transform
-@show lb_transform, ub_transform
-@show reaction_mapping
+# S = [[0,1,1,-1] [-1,1,1,0]]
+# @show S
+# lb = [-5,-10]
+# ub = [5,10]
+# S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
+# @show S_transform
+# @show lb_transform, ub_transform
+# @show reaction_mapping
 
 # # bigger model
 # organism = "iJR904"
