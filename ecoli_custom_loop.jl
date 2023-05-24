@@ -46,13 +46,16 @@ unbounded_cycles, unbounded_cycles_original, flux_values = unbounded_cycles_S(cy
 # # loopless FBA
 # restrict cycle in FBA
 add_loopless_constraints(molecular_model, model)
-a = model[:a]
-for cycle in unbounded_cycles_original
-    cycle_vars = [a[i] for i in cycle]
-    @show cycle_vars
-    @constraint(model, sum(cycle_vars) >= 1)
-end
-optimize_model(model, "loopless FBA")
+# a = model[:a]
+# for cycle in unbounded_cycles_original
+#     cycle_vars = [a[i] for i in cycle]
+#     @show cycle_vars
+#     @constraint(model, sum(cycle_vars) >= 1)
+# end
+
+objective_value_primal, solution, time, status = optimize_model(model, "loopless FBA")
+cycles, edge_mapping = ubounded_cycles(S_transform, solution)
+@show cycles
 
 # # loopless FBA
 # add_loopless_constraints(molecular_model, model)
