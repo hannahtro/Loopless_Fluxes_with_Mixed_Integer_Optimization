@@ -146,26 +146,27 @@ unbounded_cycles, flux_values = unbounded_cycles_S(cycles, edge_mapping, solutio
 @show unbounded_cycles
 @show flux_values
 
-# # test organism
-# organism = "iAF692"
+# test organism
+organism = "iAF692"
 
-# # transform S
-# molecular_model = deserialize("data/" * organism * ".js")
-# print_model(molecular_model)
+# transform S
+molecular_model = deserialize("data/" * organism * ".js")
+print_model(molecular_model)
 
-# # split hyperarcs
-# S = stoichiometry(molecular_model)
-# lb, ub = bounds(molecular_model)
-# S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-# # @show size(S_transform)
-# # @show size(lb_transform), size(ub_transform)
-# m, n = size(S_transform)
+# split hyperarcs
+S = stoichiometry(molecular_model)
+lb, ub = bounds(molecular_model)
+S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
+# @show size(S_transform)
+# @show size(lb_transform), size(ub_transform)
+m, n = size(S_transform)
 
-# solution = max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-# # @show solution
-# # get original reactions
-# cycles, edge_mapping = ubounded_cycles(S_transform, solution)
-# # @show cycles[1]
-# # @show edge_mapping
-# unbounded_cycles = unbounded_cycles_S(cycles, edge_mapping)
-# # @show unbounded_cycles
+solution = max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
+# @show solution
+# get original reactions
+cycles, edge_mapping = ubounded_cycles(S_transform, solution)
+# @show cycles[1]
+# @show edge_mapping
+unbounded_cycles, flux_values = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
+# @show unbounded_cycles
+# @show flux_values
