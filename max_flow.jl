@@ -21,6 +21,10 @@ function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Opt
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
+    @show size(S_transform)
+    @show size(lb_transform)
+    @show size(ub_transform)
+
     @variable(optimization_model, x[1:n])
     @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
     @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
@@ -137,17 +141,22 @@ function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
 end
 
 # test network
-S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0]]
+println("FBA of transformed S with loop")
+S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0] [0,-1,0,0,0]]
 # @show S
 @show size(S)
-lb = [-10,-10,-10,-10,-10,0,0]
+_, num_reactions = size(S)
+lb = [-10,-10,-10,-10,0,0,0]
 ub = [10,10,10,10,10,10,10]
 S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
 @show size(S_transform)
 @show S_transform'
+_, num_reactions_transform = size(S_transform)
 @assert size(S_transform)[1] == size(S)[1]
 
 model = build_model(S_transform, lb_transform, ub_transform)
+x = model[:x]
+@objective(model, Max, x[2]+x[5]+x[6])
 _, solution, _, _ = optimize_model(model)
 @show solution
 @assert length(solution) == size(S_transform)[2]
@@ -161,20 +170,62 @@ unbounded_cycles, unbounded_cycles_original, flux_values = unbounded_cycles_S(cy
 @show unbounded_cycles
 @show flux_values
 
-# solution = max_flow(S_transform, lb_transform, ub_transform, cycles=[[2,5,6]], flux_values=flux_values)
+println("")
+println("loopless FBA of transformed S with blocked cycle")
+# block cycle in transformed S
 optimization_model = build_model(S_transform, lb_transform, ub_transform)
-add_loopless_constraints(optimization_model, [1,2,3,4])
+internal_rxn_idxs = [1,2,3,4,5,6]
+add_loopless_constraints(optimization_model, S_transform, internal_rxn_idxs)
 
 # @show optimization_model
 a = optimization_model[:a]
+x = optimization_model[:x]
 for cycle in unbounded_cycles_original
     cycle_vars = [a[i] for i in cycle]
     @show cycle_vars
     @constraint(optimization_model, sum(cycle_vars) >= 1)
 end
 # @show optimization_model
+x = optimization_model[:x]
+@objective(optimization_model, Max, x[2]+x[5]+x[6])
+_, solution, _, _ = optimize_model(optimization_model)
+
+@show solution[1:num_reactions_transform] # x, a, G
+@show solution[num_reactions_transform+1:num_reactions_transform+length(internal_rxn_idxs)]
+@show solution[num_reactions_transform+1+length(internal_rxn_idxs):end]
+
+
+println("")
+println("FBA of S with loop")
+model = build_model(S, lb, ub)
+x = model[:x]
+@objective(model, Max, x[1]+x[3]+x[4])
 _, solution, _, _ = optimize_model(model)
 @show solution
+
+println("")
+println("loopless FBA of S with blocked cycle")
+# # block cycle in original S
+optimization_model = build_model(S, lb, ub)
+x = optimization_model[:x]
+@objective(optimization_model, Max, x[1]+x[3]+x[4])
+internal_rxn_idxs = [1,2,3,4]
+add_loopless_constraints(optimization_model, S, internal_rxn_idxs)
+
+# @show optimization_model
+a = optimization_model[:a] #TODO: ensure direction of flux
+x = optimization_model[:x]
+for cycle in unbounded_cycles_original
+    cycle_vars = [a[i] for i in cycle]
+    @show cycle_vars
+    @constraint(optimization_model, sum(cycle_vars) >= 1)
+end
+# @show optimization_model
+_, solution, _, _ = optimize_model(optimization_model)
+
+@show solution[1:num_reactions] # x
+@show solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)] # a
+@show solution[num_reactions+1+length(internal_rxn_idxs):end] # G
 
 # # test organism
 # organism = "iAF692"
