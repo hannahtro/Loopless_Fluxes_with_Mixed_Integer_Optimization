@@ -3,7 +3,12 @@ using SCIP, JuMP
 using LinearAlgebra
 using Graphs
 
-include("functions.jl")
+using COBREXA, Serialization, COBREXA.Everything
+using SCIP, JuMP
+using LinearAlgebra
+using Boscia, FrankWolfe
+
+include("optimization_model.jl")
 include("split_hyperarcs.jl")
 
 # function constraints_to_matrix(model)
@@ -15,34 +20,6 @@ include("split_hyperarcs.jl")
 
 #     # @show model[:ubs][1]
 # end 
-
-#TODO: why do we get loops in max_flow?
-function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer, cycles=[], flux_values=[])
-    # make optimization model
-    optimization_model = Model(optimizer)
-    _, n = size(S_transform)
-    @show size(S_transform)
-    @show size(lb_transform)
-    @show size(ub_transform)
-
-    @variable(optimization_model, x[1:n])
-    @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
-    @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
-    @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
-    # @show optimization_model
-
-    #TODO: remove this part
-    if !isempty(cycles)
-        for (idx,cycle) in enumerate(cycles)
-            cycle_vars = [x[i] for i in cycle]
-            @show cycle_vars
-            @constraint(optimization_model, sum(cycle_vars) <= flux_values[idx])
-        end
-    end
-    @objective(optimization_model, Max, sum(x)) #TODO use original objective
-
-    return optimization_model
-end
 
 function ubounded_cycles(S_transform, solution)
     # filter non used reactions

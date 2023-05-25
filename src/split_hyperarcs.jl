@@ -2,7 +2,7 @@ using COBREXA, Serialization, COBREXA.Everything
 using SCIP, JuMP, Tulip
 using LinearAlgebra
 
-include("functions.jl") 
+include("optimization_model.jl") 
 
 function split_hyperarcs(S, lb, ub, solution)
     S_transpose = S'
