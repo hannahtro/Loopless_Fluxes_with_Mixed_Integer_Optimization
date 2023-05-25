@@ -49,6 +49,15 @@ function split_hyperarcs(S, lb, ub)
                 push!(reaction_mapping[idx], length(S_transform))
             end
         end  
+
+        # add exchange reactions
+        if isempty(forward_arc_m) || isempty(backward_arc_m)
+            push!(S_transform, row)
+            push!(reaction_mapping[idx], length(S_transform))    
+            push!(lb_transform, lb[idx])
+            push!(ub_transform, ub[idx])
+        end
+
     end
 
     S_transform = mapreduce(permutedims, vcat, S_transform)

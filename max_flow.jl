@@ -17,7 +17,7 @@ include("split_hyperarcs.jl")
 # end 
 
 #TODO: why do we get loops in max_flow?
-function max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer, cycles=[], flux_values=[])
+function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer, cycles=[], flux_values=[])
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
@@ -35,15 +35,9 @@ function max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimi
             @constraint(optimization_model, sum(cycle_vars) <= flux_values[idx])
         end
     end
-
-    # perform max flow as MIP
     @objective(optimization_model, Max, sum(x)) #TODO use original objective
-    #TODO optimizer_index(x::VariableRef)::MOI.VariableIndex
-    set_attribute(optimization_model, MOI.Silent(), true)
-    optimize!(optimization_model)
-    solution = [value(var) for var in all_variables(optimization_model)]
-    # @show solution
-    return solution, optimization_model
+
+    return optimization_model
 end
 
 function ubounded_cycles(S_transform, solution)
@@ -59,8 +53,6 @@ function ubounded_cycles(S_transform, solution)
     # list to array
     S_transform_reduced = mapreduce(permutedims, vcat, S_transform_reduced)'
     @show size(S_transform_reduced)
-    # @show size(S_transform)
-    # @show S_transform
 
     # map edges to reaction in transformed S_transform
     # build graph of used edges in solution
@@ -68,21 +60,22 @@ function ubounded_cycles(S_transform, solution)
     # build graph
     G = DiGraph()
     add_vertices!(G, size(S_transform)[1])
+    @show non_zero_reactions
     for (idx,col) in enumerate(eachcol(S_transform))
         if idx in non_zero_reactions
             edge_mapping[idx] = []
-            # @show idx
             metabolite_indices = findall(!iszero, col)
-            # @show metabolite_indices
-            # @show col[metabolite_indices[1]]
-            if col[metabolite_indices[1]] > 0 #TODO verify direction
-                add_edge!(G, metabolite_indices[1], metabolite_indices[2])
-                push!(edge_mapping[idx], metabolite_indices[1]) 
-                push!(edge_mapping[idx], metabolite_indices[2])
-            else
-                add_edge!(G, metabolite_indices[2], metabolite_indices[1])
-                push!(edge_mapping[idx], metabolite_indices[2]) 
-                push!(edge_mapping[idx], metabolite_indices[1])        
+            # for internal reactions only
+            if length(metabolite_indices) > 1
+                if col[metabolite_indices[1]] > 0 #TODO verify direction
+                    add_edge!(G, metabolite_indices[1], metabolite_indices[2])
+                    push!(edge_mapping[idx], metabolite_indices[1]) 
+                    push!(edge_mapping[idx], metabolite_indices[2])
+                else
+                    add_edge!(G, metabolite_indices[2], metabolite_indices[1])
+                    push!(edge_mapping[idx], metabolite_indices[2]) 
+                    push!(edge_mapping[idx], metabolite_indices[1])        
+                end
             end
         end    
     end
@@ -144,31 +137,44 @@ function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
 end
 
 # test network
-S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1]]
+S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0]]
 # @show S
-# @show size(S)
-lb = [-10,-10,-10,-10,-10]
-ub = [10,10,10,10,10]
+@show size(S)
+lb = [-10,-10,-10,-10,-10,0,0]
+ub = [10,10,10,10,10,10,10]
 S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
+@show size(S_transform)
 @show S_transform'
 @assert size(S_transform)[1] == size(S)[1]
 
-solution, model = max_flow(S_transform, lb_transform, ub_transform)
+model = build_model(S_transform, lb_transform, ub_transform)
+_, solution, _, _ = optimize_model(model)
 @show solution
 @assert length(solution) == size(S_transform)[2]
 
-# # get original reactions
-# cycles, edge_mapping = ubounded_cycles(S_transform, solution)
-# @show cycles
-# @show edge_mapping
+# get original reactions
+cycles, edge_mapping = ubounded_cycles(S_transform, solution)
+@show cycles
+@show edge_mapping
 
-# unbounded_cycles, unbounded_cycles_original, flux_values = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
-# @show unbounded_cycles
-# @show flux_values
+unbounded_cycles, unbounded_cycles_original, flux_values = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
+@show unbounded_cycles
+@show flux_values
 
-# # solution = max_flow(S_transform, lb_transform, ub_transform, cycles=[[2,5,6]], flux_values=flux_values)
-# solution = max_flow(S_transform, lb_transform, ub_transform, cycles=unbounded_cycles, flux_values=flux_values)
-# @show solution
+# solution = max_flow(S_transform, lb_transform, ub_transform, cycles=[[2,5,6]], flux_values=flux_values)
+optimization_model = build_model(S_transform, lb_transform, ub_transform)
+add_loopless_constraints(optimization_model, [1,2,3,4])
+
+# @show optimization_model
+a = optimization_model[:a]
+for cycle in unbounded_cycles_original
+    cycle_vars = [a[i] for i in cycle]
+    @show cycle_vars
+    @constraint(optimization_model, sum(cycle_vars) >= 1)
+end
+# @show optimization_model
+_, solution, _, _ = optimize_model(model)
+@show solution
 
 # # test organism
 # organism = "iAF692"

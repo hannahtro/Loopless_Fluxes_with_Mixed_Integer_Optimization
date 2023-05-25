@@ -18,7 +18,7 @@ function print_model(model, name="MODEL")
     println("")
 end
 
-function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=false)
+function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=false, silent=true)
     println("")
     println(type)
     println("----------------------------------")
@@ -27,6 +27,9 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
     end
     if !isinf(time_limit)
         set_time_limit_sec(model, time_limit)
+    end
+    if silent
+        set_attribute(model, MOI.Silent(), true)
     end
     optimize!(model)
     status = termination_status(model)
