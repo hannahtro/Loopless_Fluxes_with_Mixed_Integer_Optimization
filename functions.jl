@@ -57,16 +57,18 @@ function add_loopless_constraints(molecular_model, model)
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
+    add_loopless_constraints(model, internal_rxn_idxs)
+end
 
+function add_loopless_constraints(model, internal_rxn_idxs::Vector{Int64})
     # @show length(internal_rxn_idxs)
-
     N_int = nullspace(Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])) # no sparse nullspace function
 
     x = model[:x]
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
 
-    @show internal_rxn_idxs[1:10]
+    # @show internal_rxn_idxs[1:10]
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
         @constraint(model, x[ridx] <= 1000 * a[cidx])
