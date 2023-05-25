@@ -4,13 +4,14 @@ using LinearAlgebra
 
 include("functions.jl") 
 
-function split_hyperarcs(S, lb, ub)
+function split_hyperarcs(S, lb, ub, solution)
     S_transpose = S'
     n, m = size(S_transpose)
     # @show n, m # n reactions, m metabolites
     S_transform = []
     lb_transform = []
     ub_transform = []
+    solution_transform = []
     reaction_mapping = Dict()
 
     for (idx, row) in enumerate(eachrow(S_transpose))
@@ -47,6 +48,7 @@ function split_hyperarcs(S, lb, ub)
                 push!(S_transform, split_arc)
                 # @show split_arc
                 push!(reaction_mapping[idx], length(S_transform))
+                push!(solution_transform, solution[idx])
             end
         end  
 
@@ -56,13 +58,14 @@ function split_hyperarcs(S, lb, ub)
             push!(reaction_mapping[idx], length(S_transform))    
             push!(lb_transform, lb[idx])
             push!(ub_transform, ub[idx])
+            push!(solution_transform, solution[idx])
         end
 
     end
 
     S_transform = mapreduce(permutedims, vcat, S_transform)
     S_transform = S_transform'
-    return S_transform, lb_transform, ub_transform, reaction_mapping
+    return S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform
 end
 
 # test network
