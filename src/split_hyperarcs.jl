@@ -4,7 +4,7 @@ using LinearAlgebra
 
 include("optimization_model.jl") 
 
-function split_hyperarcs(S, lb, ub, solution)
+function split_hyperarcs(S, lb, ub, solution=[])
     S_transpose = S'
     n, m = size(S_transpose)
     # @show n, m # n reactions, m metabolites
@@ -48,7 +48,9 @@ function split_hyperarcs(S, lb, ub, solution)
                 push!(S_transform, split_arc)
                 # @show split_arc
                 push!(reaction_mapping[idx], length(S_transform))
-                push!(solution_transform, solution[idx])
+                if !isempty(solution)
+                    push!(solution_transform, solution[idx])
+                end
             end
         end  
 
@@ -58,14 +60,20 @@ function split_hyperarcs(S, lb, ub, solution)
             push!(reaction_mapping[idx], length(S_transform))    
             push!(lb_transform, lb[idx])
             push!(ub_transform, ub[idx])
-            push!(solution_transform, solution[idx])
+            if !isempty(solution)            
+                push!(solution_transform, solution[idx])
+            end
         end
 
     end
 
     S_transform = mapreduce(permutedims, vcat, S_transform)
     S_transform = S_transform'
-    return S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform
+    if !isempty(solution)    
+        return S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform
+    else 
+        return S_transform, lb_transform, ub_transform, reaction_mapping
+    end
 end
 
 # test network

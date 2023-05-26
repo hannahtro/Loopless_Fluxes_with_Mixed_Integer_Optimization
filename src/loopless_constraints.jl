@@ -1,5 +1,5 @@
 using COBREXA, Serialization, COBREXA.Everything
-using SCIP, JuMP
+import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra
 using Boscia, FrankWolfe
 

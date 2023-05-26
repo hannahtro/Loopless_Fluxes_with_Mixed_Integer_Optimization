@@ -3,11 +3,6 @@ using SCIP, JuMP
 using LinearAlgebra
 using Graphs
 
-using COBREXA, Serialization, COBREXA.Everything
-using SCIP, JuMP
-using LinearAlgebra
-using Boscia, FrankWolfe
-
 include("optimization_model.jl")
 include("split_hyperarcs.jl")
 
@@ -23,8 +18,9 @@ include("split_hyperarcs.jl")
 
 function ubounded_cycles(S_transform, solution)
     # filter non used reactions
-    @show size(S_transform)
-    @show length(solution)
+    # @show size(S_transform)
+    # @show length(solution)
+    @assert size(S_transform)[2] == length(solution)
     non_zero_reactions = findall(!iszero,solution)
     # @show non_zero_reactions
     S_transform_reduced = []
@@ -35,7 +31,8 @@ function ubounded_cycles(S_transform, solution)
     end
     # list to array
     S_transform_reduced = mapreduce(permutedims, vcat, S_transform_reduced)'
-    @show size(S_transform_reduced)
+    # @show size(S_transform_reduced)
+    @assert size(S_transform)[1] == size(S_transform_reduced)[1]
 
     # map edges to reaction in transformed S_transform
     # build graph of used edges in solution
@@ -43,7 +40,7 @@ function ubounded_cycles(S_transform, solution)
     # build graph
     G = DiGraph()
     add_vertices!(G, size(S_transform)[1])
-    @show non_zero_reactions
+    # @show non_zero_reactions
     for (idx,col) in enumerate(eachcol(S_transform))
         # @show col
         if idx in non_zero_reactions
@@ -65,7 +62,7 @@ function ubounded_cycles(S_transform, solution)
         end    
     end
 
-    @show length(edges(G))
+    # @show length(edges(G))
     # @show neighbors(G,1)
     # @show neighbors(G,2)
     # @show neighbors(G,3)
@@ -74,7 +71,7 @@ function ubounded_cycles(S_transform, solution)
 
     # compute cycles
     cycles = simplecycles_iter(G, 10^5)
-    @show length(cycles)
+    # @show length(cycles)
     return cycles, edge_mapping
 end 
 
@@ -124,114 +121,6 @@ function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
     return unbounded_cycles, unbounded_cycles_original, flux_directions
 end
 
-# test network
-println("FBA of transformed S with loop")
-S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0] [0,-1,0,0,0]]
-# @show S
-@show size(S)
-_, num_reactions = size(S)
-lb = [-10,-10,-10,-10,0,0,0]
-ub = [10,10,10,10,10,10,10]
-# S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-# @show size(S_transform)
-# @show S_transform'
-# _, num_reactions_transform = size(S_transform)
-# @assert size(S_transform)[1] == size(S)[1]
-
-# model = build_model(S_transform, lb_transform, ub_transform)
-# x = model[:x]
-# @objective(model, Max, x[2]+x[5]+x[6])
-# _, solution, _, _ = optimize_model(model)
-# @show solution
-# @assert length(solution) == size(S_transform)[2]
-
-# # get original reactions
-# cycles, edge_mapping = ubounded_cycles(S_transform, solution)
-# @show cycles
-# @show edge_mapping
-
-# unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
-# @show unbounded_cycles
-# @show flux_directions
-
-# println("")
-# println("loopless FBA of transformed S with blocked cycle")
-# # block cycle in transformed S
-# optimization_model = build_model(S_transform, lb_transform, ub_transform)
-# internal_rxn_idxs = [1,2,3,4,5,6]
-# add_loopless_constraints(optimization_model, S_transform, internal_rxn_idxs)
-
-# # @show optimization_model
-# a = optimization_model[:a]
-# x = optimization_model[:x]
-# for cycle in unbounded_cycles_original
-#     cycle_vars = [a[i] for i in cycle]
-#     @show cycle_vars
-#     @constraint(optimization_model, sum(cycle_vars) >= 1)
-# end
-# # @show optimization_model
-# x = optimization_model[:x]
-# @objective(optimization_model, Max, x[2]+x[5]+x[6])
-# _, solution, _, _ = optimize_model(optimization_model)
-
-# @show solution[1:num_reactions_transform] # x, a, G
-# @show solution[num_reactions_transform+1:num_reactions_transform+length(internal_rxn_idxs)]
-# @show solution[num_reactions_transform+1+length(internal_rxn_idxs):end]
-
-
-println("")
-println("FBA of S with loop")
-model = build_model(S, lb, ub)
-x = model[:x]
-@objective(model, Max, x[1]+x[3]+x[4])
-_, solution, _, _ = optimize_model(model)
-@show solution
-
-# check if cycle exists
-# get original reactions
-S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
-@show solution_transform
-cycles, edge_mapping = ubounded_cycles(S_transform, solution_transform)
-@show cycles
-# @show edge_mapping
-
-unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
-@show unbounded_cycles
-@show flux_directions
-
-# block cycle in loopless FBA
-println("")
-println("loopless FBA of S with blocked cycle")
-# # block cycle in original S
-optimization_model = build_model(S, lb, ub)
-x = optimization_model[:x]
-@objective(optimization_model, Max, x[1]+x[3]+x[4])
-internal_rxn_idxs = [1,2,3,4]
-add_loopless_constraints(optimization_model, S, internal_rxn_idxs)
-
-# @show optimization_model
-a = optimization_model[:a] #TODO: ensure direction of flux
-x = optimization_model[:x]
-for (idx, cycle) in enumerate(unbounded_cycles_original)
-    cycle_vars = [a[i] for i in cycle]
-    bool_blocked_cycle = []
-    for (dir_idx, dir) in enumerate(flux_directions[idx])
-        if dir > 0
-            push!(bool_blocked_cycle, 1)
-            push!(bool_blocked_cycle, -cycle_vars[dir_idx])
-        elseif dir == 0
-            push!(bool_blocked_cycle, cycle_vars)
-        end
-    end
-    # @show bool_blocked_cycle
-    @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
-end
-# @show optimization_model
-_, solution, _, _ = optimize_model(optimization_model)
-
-@show solution[1:num_reactions] # x
-@show solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)] # a
-@show solution[num_reactions+1+length(internal_rxn_idxs):end] # G
 
 # # test organism
 # organism = "iAF692"

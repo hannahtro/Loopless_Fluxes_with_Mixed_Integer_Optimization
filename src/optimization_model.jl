@@ -8,9 +8,9 @@ function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Opt
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
-    @show size(S_transform)
-    @show size(lb_transform)
-    @show size(ub_transform)
+    # @show size(S_transform)
+    # @show size(lb_transform)
+    # @show size(ub_transform)
 
     @variable(optimization_model, x[1:n])
     @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
@@ -22,7 +22,7 @@ function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Opt
     if !isempty(cycles)
         for (idx,cycle) in enumerate(cycles)
             cycle_vars = [x[i] for i in cycle]
-            @show cycle_vars
+            # @show cycle_vars
             @constraint(optimization_model, sum(cycle_vars) <= flux_values[idx])
         end
     end
@@ -46,10 +46,12 @@ function print_model(model, name="MODEL")
     println("")
 end
 
-function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=false, silent=true)
-    println("")
-    println(type)
-    println("----------------------------------")
+function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=false, silent=true, mute=true)
+    if !mute 
+        println("")
+        println(type)
+        println("----------------------------------")
+    end
     if print_objective
         println("objective function : ", objective_function(model))
     end
@@ -64,15 +66,20 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
     time = solve_time(model)
     if isinf(time_limit)
         objective_value_primal = MOI.get(model, MOI.ObjectiveValue())
-        println("objective value : ", round(objective_value_primal, digits=2))
-        println("")
+        if !mute
+            println("objective value : ", round(objective_value_primal, digits=2))
+            println("")
+        end
         solution = [value(var) for var in all_variables(model)]
     else 
         # @show solution_summary(model)
         @show status
         if has_values(model)
             objective_value_primal = MOI.get(model, MOI.ObjectiveValue())
-            println("objective value : ", round(objective_value_primal, digits=2))
+            if !mute
+                println("objective value : ", round(objective_value_primal, digits=2))
+                println("")
+            end
             solution = [value(var) for var in all_variables(model)]
         else 
             objective_value_primal = NaN
