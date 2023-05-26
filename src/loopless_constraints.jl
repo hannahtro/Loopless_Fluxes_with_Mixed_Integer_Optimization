@@ -78,7 +78,9 @@ using Boolean expresssions
 """
 function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions)
     a = optimization_model[:a] 
+    @show length(a)
     for (idx, cycle) in enumerate(unbounded_cycles)
+        @show cycle
         cycle_vars = [a[i] for i in cycle]
         bool_blocked_cycle = []
         for (dir_idx, dir) in enumerate(flux_directions[idx])

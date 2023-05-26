@@ -17,10 +17,11 @@ include("split_hyperarcs.jl")
 # end 
 
 """
-returns cycles found in graph G, where G is constructed using 
-the reactions in transformed S that are non zero in the solution
+returns cycles as list of nodes found in graph G, where G is constructed using 
+the reactions in transformed S that are non zero in the solution,
+maps edges to reactions in transformed S
 """
-function ubounded_cycles(S_transform, solution)
+function ubounded_cycles(S_transform, solution; ceiling=10^5)
     # filter non used reactions
     # @show size(S_transform)
     # @show length(solution)
@@ -75,7 +76,7 @@ function ubounded_cycles(S_transform, solution)
     # @show neighbors(G,5)
     
     # compute cycles
-    cycles = simplecycles_iter(G, 10^5)
+    cycles = simplecycles_iter(G, ceiling) # cycles are nodes in the network
     # @show length(cycles)
     return cycles, edge_mapping, G
 end 
@@ -86,7 +87,8 @@ returns direction of reactions in cycle
 """
 function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
     edge_mapping_reverse = Dict(value => key for (key, value) in edge_mapping)
-    # @show edge_mapping_reverse
+    @show collect(keys(edge_mapping))[1:3]
+    @show collect(keys(edge_mapping_reverse))[1:3]
 
     unbounded_cycles = []
     for cycle in cycles
@@ -129,29 +131,3 @@ function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
 
     return unbounded_cycles, unbounded_cycles_original, flux_directions
 end
-
-
-# # test organism
-# organism = "iAF692"
-
-# # transform S
-# molecular_model = deserialize("data/" * organism * ".js")
-# print_model(molecular_model)
-
-# # split hyperarcs
-# S = stoichiometry(molecular_model)
-# lb, ub = bounds(molecular_model)
-# S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-# # @show size(S_transform)
-# # @show size(lb_transform), size(ub_transform)
-# m, n = size(S_transform)
-
-# solution = max_flow(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-# # @show solution
-# # get original reactions
-# cycles, edge_mapping = ubounded_cycles(S_transform, solution)
-# # @show cycles[1]
-# # @show edge_mapping
-# unbounded_cycles, flux_values = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
-# # @show unbounded_cycles
-# # @show flux_values
