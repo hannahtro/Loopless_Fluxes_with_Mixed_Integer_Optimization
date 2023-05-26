@@ -63,3 +63,20 @@ function add_loopless_indicator_constraints(molecular_model, model)
     @constraint(model, N_int' * G .== 0)
 end
 
+function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions)
+    a = optimization_model[:a] 
+    for (idx, cycle) in enumerate(unbounded_cycles)
+        cycle_vars = [a[i] for i in cycle]
+        bool_blocked_cycle = []
+        for (dir_idx, dir) in enumerate(flux_directions[idx])
+            if dir > 0
+                push!(bool_blocked_cycle, 1)
+                push!(bool_blocked_cycle, -cycle_vars[dir_idx])
+            elseif dir == 0
+                push!(bool_blocked_cycle, cycle_vars)
+            end
+        end
+        # @show bool_blocked_cycle
+        @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
+    end
+end

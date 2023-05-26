@@ -3,13 +3,14 @@ using Test
 include("../src/cycle_detection.jl")
 include("../src/loopless_constraints.jl")
 
+S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0] [0,-1,0,0,0]]
+# @show S
+# @show size(S)
+_, num_reactions = size(S)
+lb = [-10,-10,-10,-10,0,0,0]
+ub = [10,10,10,10,10,10,10]
+
 @testset "block cycles in transformed S of simple model" begin
-    S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0] [0,-1,0,0,0]]
-    # @show S
-    # @show size(S)
-    _, num_reactions = size(S)
-    lb = [-10,-10,-10,-10,0,0,0]
-    ub = [10,10,10,10,10,10,10]
     S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
     # @show size(S_transform)
     # @show S_transform'
@@ -40,14 +41,9 @@ include("../src/loopless_constraints.jl")
     add_loopless_constraints(optimization_model, S_transform, internal_rxn_idxs)
 
     # @show optimization_model
-    a = optimization_model[:a]
-    x = optimization_model[:x]
-    for cycle in unbounded_cycles_original
-        cycle_vars = [a[i] for i in cycle]
-        # @show cycle_vars
-        @constraint(optimization_model, sum(cycle_vars) >= 1)
-    end
+    block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions)
     # @show optimization_model
+
     x = optimization_model[:x]
     @objective(optimization_model, Max, x[2]+x[5]+x[6])
     _, solution, _, _ = optimize_model(optimization_model)
@@ -86,22 +82,8 @@ end
     add_loopless_constraints(optimization_model, S, internal_rxn_idxs)
 
     # @show optimization_model
-    a = optimization_model[:a] 
-    x = optimization_model[:x]
-    for (idx, cycle) in enumerate(unbounded_cycles_original)
-        cycle_vars = [a[i] for i in cycle]
-        bool_blocked_cycle = []
-        for (dir_idx, dir) in enumerate(flux_directions[idx])
-            if dir > 0
-                push!(bool_blocked_cycle, 1)
-                push!(bool_blocked_cycle, -cycle_vars[dir_idx])
-            elseif dir == 0
-                push!(bool_blocked_cycle, cycle_vars)
-            end
-        end
-        # @show bool_blocked_cycle
-        @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
-    end
+    block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions)
+
     # @show optimization_model
     _, solution, _, _ = optimize_model(optimization_model)
 
