@@ -43,6 +43,7 @@ function ubounded_cycles(S_transform, solution)
     edge_mapping = Dict()
     # build graph
     G = DiGraph()
+    # @show size(S_transform)[1]
     add_vertices!(G, size(S_transform)[1])
     # @show non_zero_reactions
     for (idx,col) in enumerate(eachcol(S_transform))
@@ -72,11 +73,11 @@ function ubounded_cycles(S_transform, solution)
     # @show neighbors(G,3)
     # @show neighbors(G,4)
     # @show neighbors(G,5)
-
+    
     # compute cycles
     cycles = simplecycles_iter(G, 10^5)
     # @show length(cycles)
-    return cycles, edge_mapping
+    return cycles, edge_mapping, G
 end 
 
 """

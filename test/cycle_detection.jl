@@ -1,4 +1,5 @@
 using Test 
+using GraphPlot, Cairo
 
 include("../src/cycle_detection.jl")
 include("../src/loopless_constraints.jl")
@@ -6,7 +7,7 @@ include("../src/loopless_constraints.jl")
 S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0] [0,-1,0,0,0]]
 # @show S
 # @show size(S)
-_, num_reactions = size(S)
+m, num_reactions = size(S)
 lb = [-10,-10,-10,-10,0,0,0]
 ub = [10,10,10,10,10,10,10]
 
@@ -25,7 +26,10 @@ ub = [10,10,10,10,10,10,10]
     @test length(solution_loop) == size(S_transform)[2]
 
     # get original reactions
-    cycles, edge_mapping = ubounded_cycles(S_transform, solution_loop)
+    cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_loop)
+    nodelabel = ["A", "B", "C", "D", "E"]
+    gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
+
     # @show cycles
     @test length(cycles) == 1
     # @show edge_mapping
@@ -65,9 +69,12 @@ end
     # get original reactions
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution_loop)
     # @show solution_transform
-    cycles, edge_mapping = ubounded_cycles(S_transform, solution_transform)
+    cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
     @test length(cycles) == 1
     # @show edge_mapping
+
+    nodelabel = ["A", "B", "C", "D", "E"]
+    gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
 
     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
     @show unbounded_cycles
