@@ -23,21 +23,21 @@ maps edges to reactions in transformed S
 """
 function ubounded_cycles(S_transform, solution; ceiling=10^5)
     # filter non used reactions
-    # @show size(S_transform)
+    m, n = size(S_transform)
     # @show length(solution)
     @assert size(S_transform)[2] == length(solution)
     non_zero_reactions = findall(!iszero,solution)
     # @show non_zero_reactions
-    S_transform_reduced = []
-    for (id,row) in enumerate(eachcol(S_transform))
-        if id in non_zero_reactions
-            push!(S_transform_reduced, row)
-        end
-    end
-    # list to array
-    S_transform_reduced = mapreduce(permutedims, vcat, S_transform_reduced)'
-    # @show size(S_transform_reduced)
-    @assert size(S_transform)[1] == size(S_transform_reduced)[1]
+    # S_transform_reduced = []
+    # for (id,row) in enumerate(eachcol(S_transform))
+    #     if id in non_zero_reactions
+    #         push!(S_transform_reduced, row)
+    #     end
+    # end
+    # # list to array
+    # S_transform_reduced = mapreduce(permutedims, vcat, S_transform_reduced)'
+    # # @show size(S_transform_reduced)
+    # @assert size(S_transform)[1] == size(S_transform_reduced)[1]
 
     # map edges to reaction in transformed S_transform
     # build graph of used edges in solution
@@ -50,10 +50,12 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
     for (idx,col) in enumerate(eachcol(S_transform))
         # @show col
         if idx in non_zero_reactions
-            edge_mapping[idx] = []
+            edge_mapping[idx] = [] # reaction is key
             metabolite_indices = findall(!iszero, col)
+            @assert maximum(metabolite_indices) <= m
             # for internal reactions only
             if length(metabolite_indices) > 1
+                @assert length(metabolite_indices) == 2
                 if col[metabolite_indices[1]] < 0
                     add_edge!(G, metabolite_indices[1], metabolite_indices[2])
                     push!(edge_mapping[idx], metabolite_indices[1]) 
@@ -68,7 +70,7 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
         end    
     end
 
-    # @show length(edges(G))
+    @show nv(G)
     # @show neighbors(G,1)
     # @show neighbors(G,2)
     # @show neighbors(G,3)
@@ -87,8 +89,8 @@ returns direction of reactions in cycle
 """
 function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
     edge_mapping_reverse = Dict(value => key for (key, value) in edge_mapping)
-    @show collect(keys(edge_mapping))[1:3]
-    @show collect(keys(edge_mapping_reverse))[1:3]
+    # @show collect(keys(edge_mapping)) # reaction in transformed S to pair of nodes in G
+    # @show collect(keys(edge_mapping_reverse)) # pair of nodes to reaction
 
     unbounded_cycles = []
     for cycle in cycles
