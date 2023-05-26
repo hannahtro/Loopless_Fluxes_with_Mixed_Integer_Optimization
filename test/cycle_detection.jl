@@ -28,7 +28,7 @@ ub = [10,10,10,10,10,10,10]
     # get original reactions
     cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_loop)
     nodelabel = ["A", "B", "C", "D", "E"]
-    gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
+    # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
 
     # @show cycles
     @test length(cycles) == 1
@@ -98,4 +98,14 @@ end
     @show solution[1:num_reactions] # x
     # @show solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)] # a
     # @show solution[num_reactions+1+length(internal_rxn_idxs):end] # G
+
+    S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
+    cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
+    #TODO: add node position
+    # locs_x = [2,1,3,2,4]
+    # locs_y = [1,2,2,3,3]
+    # locs_x, locs_y = shell_layout(G)
+    # @show locs_x, locs_y
+    gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
+    # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout, locs_x_in=locs_x, locs_y_in=locs_y)
 end
