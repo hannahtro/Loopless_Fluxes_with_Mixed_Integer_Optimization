@@ -3,6 +3,9 @@ import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra
 using Boscia, FrankWolfe
 
+"""
+compute internal reactions of COBREXA model
+"""
 function add_loopless_constraints(molecular_model, model)
     # loopless model
     internal_rxn_idxs = [
@@ -12,6 +15,9 @@ function add_loopless_constraints(molecular_model, model)
     add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs)
 end
 
+"""
+add loopless FBA constraints
+"""
 function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
     # @show length(internal_rxn_idxs)
     N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
@@ -39,6 +45,9 @@ function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
     @constraint(model, N_int' * G .== 0)
 end
 
+"""
+add loopless FBA constraints using indicator variables instead of big M formulation
+"""
 function add_loopless_indicator_constraints(molecular_model, model)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
@@ -63,6 +72,10 @@ function add_loopless_indicator_constraints(molecular_model, model)
     @constraint(model, N_int' * G .== 0)
 end
 
+"""
+add constraints to block detected cycles in loopless FBA model
+using Boolean expresssions
+"""
 function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions)
     a = optimization_model[:a] 
     for (idx, cycle) in enumerate(unbounded_cycles)

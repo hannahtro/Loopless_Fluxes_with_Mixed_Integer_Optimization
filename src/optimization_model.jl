@@ -4,7 +4,10 @@ using LinearAlgebra
 using Boscia, FrankWolfe
 
 #TODO: why do we get loops in max_flow?
-function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer, cycles=[], flux_values=[])
+"""
+build FBA model
+"""
+function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
@@ -18,19 +21,14 @@ function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Opt
     @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
     # @show optimization_model
 
-    #TODO: remove this part
-    if !isempty(cycles)
-        for (idx,cycle) in enumerate(cycles)
-            cycle_vars = [x[i] for i in cycle]
-            # @show cycle_vars
-            @constraint(optimization_model, sum(cycle_vars) <= flux_values[idx])
-        end
-    end
-    @objective(optimization_model, Max, sum(x)) #TODO use original objective
+    @objective(optimization_model, Max, sum(x))
 
     return optimization_model
 end
 
+"""
+print information on COBREXA model
+"""
 function print_model(model, name="MODEL")
     println("")
     println(name)
@@ -46,6 +44,10 @@ function print_model(model, name="MODEL")
     println("")
 end
 
+"""
+optimize model and print process,
+returns objective value, solution, time taken and termination status
+"""
 function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=false, silent=true, mute=true)
     if !mute 
         println("")

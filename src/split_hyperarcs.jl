@@ -4,21 +4,22 @@ using LinearAlgebra
 
 include("optimization_model.jl") 
 
+"""
+generate transformed S where hyperarcs are split, 
+maps bounds and flow given by solution to transformed S which has more edges
+"""
 function split_hyperarcs(S, lb, ub, solution=[])
-    S_transpose = S'
-    n, m = size(S_transpose)
-    # @show n, m # n reactions, m metabolites
+    n, m = size(S') # n reactions, m metabolites
     S_transform = []
     lb_transform = []
     ub_transform = []
     solution_transform = []
     reaction_mapping = Dict()
 
-    for (idx, row) in enumerate(eachrow(S_transpose))
+    for (idx, row) in enumerate(eachrow(S'))
         reaction_mapping[idx] = []
 
         # @show row # reaction
-        
         forward_arc_m = [] # metabolite
         backward_arc_m = []
         forward_coef = []

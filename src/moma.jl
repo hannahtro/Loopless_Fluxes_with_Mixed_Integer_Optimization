@@ -3,6 +3,8 @@ using SCIP, JuMP
 using LinearAlgebra
 using Boscia, FrankWolfe
 
+"""
+"""
 function moma(model, x, reference_flux)
     L = - reference_flux
     Q = I(length(x))
@@ -14,6 +16,8 @@ function moma(model, x, reference_flux)
     return objective_value_primal, solution, time, status
 end
 
+"""
+"""
 function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia"; time_limit=Inf)
     println("")
     println(type)

@@ -16,6 +16,10 @@ include("split_hyperarcs.jl")
 #     # @show model[:ubs][1]
 # end 
 
+"""
+returns cycles found in graph G, where G is constructed using 
+the reactions in transformed S that are non zero in the solution
+"""
 function ubounded_cycles(S_transform, solution)
     # filter non used reactions
     # @show size(S_transform)
@@ -75,6 +79,10 @@ function ubounded_cycles(S_transform, solution)
     return cycles, edge_mapping
 end 
 
+"""
+maps cycles found in G back to transformed S and S,
+returns direction of reactions in cycle
+"""
 function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
     edge_mapping_reverse = Dict(value => key for (key, value) in edge_mapping)
     # @show edge_mapping_reverse
