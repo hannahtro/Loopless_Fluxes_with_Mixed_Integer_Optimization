@@ -26,6 +26,8 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
     m, n = size(S_transform)
     # @show length(solution)
     @assert size(S_transform)[2] == length(solution)
+    # ignore too small fluxes
+    solution = [isapprox(0,i) ? 0 : i for i in solution]
     non_zero_reactions = findall(!iszero,solution)
     
     # map edges to reaction in transformed S_transform

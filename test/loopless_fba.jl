@@ -49,7 +49,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10)
     @show objective_function
     S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
     optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-    # @objective(optimization_model, Max, optimization_model[:x][269])
+    @objective(optimization_model, Max, optimization_model[:x][269])
     _, _, solution, _, _ = optimize_model(optimization_model, print_objective=true)
 
     # find cycles, get original reactions
@@ -85,7 +85,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10)
         time=time_loopless_fba, 
         termination=termination_loopless_fba)
 
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
+    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
 
     CSV.write(file_name, df, append=false, writeheader=true)
 end
@@ -122,9 +122,9 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
 end
 
 organism = "iJR904"
-# loopless_fba_data(organism, time_limit=10)
+# loopless_fba_data(organism, time_limit=600)
 # loopless_indicator_fba_data(organism, time_limit=600)
-loopless_fba_blocked_data(organism, time_limit=600, ceiling=100)
+loopless_fba_blocked_data(organism, time_limit=10, ceiling=100)
 
 # compute dual gap with time limit of loopless FBA with indicators with bocked cycles
  
