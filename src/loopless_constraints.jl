@@ -42,7 +42,7 @@ function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
         )
     end
 
-    @constraint(model, N_int' * G .== 0)
+    # @constraint(model, N_int' * G .== 0)
 end
 
 """
