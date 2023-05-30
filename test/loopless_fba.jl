@@ -42,24 +42,28 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10)
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
 
+    # compute FBA
+    optimizer = SCIP.Optimizer
+    model = make_optimization_model(molecular_model, optimizer)
+    # @show model
+    set_attribute(model, MOI.Silent(), true)
+    type = "fba"
+    _, _, solution, _, _ = optimize_model(model, print_objective=true)
+
     # split hyperarcs
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
     objective_function = objective(molecular_model)
     @show objective_function
-    S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-    optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-    @objective(optimization_model, Max, optimization_model[:x][269])
-    _, _, solution, _, _ = optimize_model(optimization_model, print_objective=true)
+    S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform  = split_hyperarcs(S, lb, ub, solution)
 
     # find cycles, get original reactions
-    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution, ceiling=ceiling)
+    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling)
     # @show cycles
-    unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
+    unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
 
     # build model
     # add loopless constraints and block cycles
-    optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
 
@@ -124,7 +128,7 @@ end
 organism = "iJR904"
 # loopless_fba_data(organism, time_limit=600)
 # loopless_indicator_fba_data(organism, time_limit=600)
-loopless_fba_blocked_data(organism, time_limit=10, ceiling=100)
+loopless_fba_blocked_data(organism, time_limit=600, ceiling=200)
 
 # compute dual gap with time limit of loopless FBA with indicators with bocked cycles
  
