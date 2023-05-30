@@ -120,21 +120,20 @@ end
 
     # split hyperarcs
     S = stoichiometry(molecular_model)
-    @show size(S)
+    # @show size(S)
     lb, ub = bounds(molecular_model)
     S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-    @show size(S_transform)
-    @show size(lb_transform), size(ub_transform)
+    @test size(S_transform)[2] == length(lb_transform) == length(ub_transform)
     m, n = size(S_transform)
 
     optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
     _, solution, _, _ = optimize_model(optimization_model)
-    @show size(solution)
+    # @show size(solution)
 
     # get original reactions
     cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution, ceiling=10)
-    @show length(cycles)
-    @show cycles
+    @test length(cycles) == 10
+    # @show cycles
     # @show edge_mapping
     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
     # @show unbounded_cycles
