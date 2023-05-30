@@ -27,13 +27,13 @@ model = make_optimization_model(molecular_model, optimizer)
 set_attribute(model, MOI.Silent(), true)
 
 # # FBA
-# objective_value_primal, solution, time, status = optimize_model(model, print_objective=true)
+# primal_objective_value, _, solution, time, status = optimize_model(model, print_objective=true)
 # @show solution 
 
 # FBA with modified objective
 x = model[:x]
 @objective(model, Max, sum(x))
-objective_value_primal, solution, time, status = optimize_model(model)
+primal_objective_value, _, solution, time, status = optimize_model(model)
 # check if solution contains loops
 #TODO: get stoichiometric matrix from model including bounds and objective
 @show size(stoichiometry(molecular_model))
@@ -55,7 +55,7 @@ for cycle in unbounded_cycles_original
 end
 # @show model
 
-objective_value_primal, solution, time, status = optimize_model(model, "loopless FBA")
+primal_objective_value, _, solution, time, status = optimize_model(model, "loopless FBA")
 cycles, edge_mapping = ubounded_cycles(S_transform, solution)
 @show cycles
 

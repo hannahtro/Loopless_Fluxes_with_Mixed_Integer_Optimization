@@ -26,7 +26,7 @@ set_attribute(model, MOI.Silent(), true)
 
 # FBA
 type = "fba"
-objective_fba, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
+objective_fba, _, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
 
 df = DataFrame(
     objective_fba=objective_fba, 
@@ -48,7 +48,7 @@ time_limit = 85000
 add_loopless_constraints(molecular_model, model)
 @show model
 set_attribute(model, MOI.Silent(), false)
-objective_loopless_fba, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+objective_loopless_fba, _, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
     optimize_model(model, "loopless FBA", time_limit=time_limit)
 
 df = DataFrame(

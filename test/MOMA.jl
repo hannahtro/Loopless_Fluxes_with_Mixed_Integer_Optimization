@@ -25,7 +25,7 @@ function get_fba_data(organism="iML1515"; time_limit = 1800)
 
     # FBA
     type = "fba"
-    objective_fba, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
+    objective_fba, _, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
 
     df = DataFrame(
         objective_fba=objective_fba, 
@@ -46,7 +46,7 @@ function get_fba_data(organism="iML1515"; time_limit = 1800)
     add_loopless_constraints(molecular_model, model)
     @show model
     set_attribute(model, MOI.Silent(), false)
-    objective_loopless_fba, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+    objective_loopless_fba, _, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, "loopless FBA", time_limit=time_limit)
 
     df = DataFrame(
@@ -88,10 +88,10 @@ function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_
     reference_flux = DataFrame(CSV.File(
         joinpath(@__DIR__, "csv/" * organism * "_loopless_fba_" * string(time_limit_fba) * ".csv")
         ))[!,:vars_loopless_fba][1:length(var)]
-    objective_value_primal, solution, time, status = moma(model, var, reference_flux, time_limit=time_limit)
+    primal_objective_value, solution, time, status = moma(model, var, reference_flux, time_limit=time_limit)
 
     df = DataFrame(
-        objective_loopless_moma=objective_value_primal, 
+        objective_loopless_moma=primal_objective_value, 
         vars_loopless_moma=solution, 
         time_loopless_moma=time, 
         termination_loopless_moma=status)
@@ -130,10 +130,10 @@ function get_moma_boscia_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf
     reference_flux = DataFrame(CSV.File(
         joinpath(@__DIR__, "csv/" * organism * "_loopless_fba_" * string(time_limit_fba) * ".csv")
         ))[!,:vars_loopless_fba][1:length(var)]
-    objective_value_primal, solution, time, status = moma_boscia(model, var, reference_flux, time_limit=time_limit)
+    primal_objective_value, solution, time, status = moma_boscia(model, var, reference_flux, time_limit=time_limit)
 
     df = DataFrame(
-        objective_loopless_moma=objective_value_primal, 
+        objective_loopless_moma=primal_objective_value, 
         vars_loopless_moma=solution, 
         time_loopless_moma=time, 
         termination_loopless_moma=status)

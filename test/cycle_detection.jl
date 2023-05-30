@@ -21,7 +21,7 @@ ub = [10,10,10,10,10,10,10]
     model = build_model(S_transform, lb_transform, ub_transform)
     x = model[:x]
     @objective(model, Max, x[2]+x[5]+x[6])
-    _, solution_loop, _, _ = optimize_model(model)
+    _, _, solution_loop, _, _ = optimize_model(model)
     @show solution_loop
     @test length(solution_loop) == size(S_transform)[2]
 
@@ -50,7 +50,7 @@ ub = [10,10,10,10,10,10,10]
 
     x = optimization_model[:x]
     @objective(optimization_model, Max, x[2]+x[5]+x[6])
-    _, solution, _, _ = optimize_model(optimization_model)
+    _, _, solution, _, _ = optimize_model(optimization_model)
 
     @show solution[1:num_reactions_transform] # x, a, G
     # @show solution[num_reactions_transform+1:num_reactions_transform+length(internal_rxn_idxs)]
@@ -62,7 +62,7 @@ end
     model = build_model(S, lb, ub)
     x = model[:x]
     @objective(model, Max, x[1]+x[3]+x[4])
-    _, solution_loop, _, _ = optimize_model(model)
+    _, _, solution_loop, _, _ = optimize_model(model)
     @show solution_loop
 
     # check if cycle exists
@@ -92,7 +92,7 @@ end
     block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs)
 
     # @show optimization_model
-    _, solution, _, _ = optimize_model(optimization_model)
+    _, _, solution, _, _ = optimize_model(optimization_model)
 
     @test solution[1:num_reactions] != solution_loop
     @show solution[1:num_reactions] # x
@@ -127,7 +127,7 @@ end
     m, n = size(S_transform)
 
     optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-    _, solution, _, _ = optimize_model(optimization_model)
+    _, _, solution, _, _ = optimize_model(optimization_model)
     # @show size(solution)
 
     # get original reactions

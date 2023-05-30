@@ -11,9 +11,9 @@ function moma(model, x, reference_flux)
     @objective(model, Min, 1/2 * x' * Q * x + L' * x)
     # @show objective_function(model)
     # @show typeof(objective_function(model))
-    objective_value_primal, solution, time, status = optimize_model(model, "loopless MOMA"; time_limit=time_limit)
+    primal_objective_value, dual_objective_value, solution, time, status = optimize_model(model, "loopless MOMA"; time_limit=time_limit)
 
-    return objective_value_primal, solution, time, status
+    return primal_objective_value, solution, time, status
 end
 
 """
@@ -43,9 +43,9 @@ function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia"; t
     moi_model = backend(model)
     lmo = FrankWolfe.MathOptLMO(moi_model)
     x, _, result = Boscia.solve(f, grad!, lmo, verbose=true, time_limit=time_limit) 
-    objective_value_primal = f(x)
-    println("objective value : ", round(objective_value_primal, digits=2))   
+    primal_objective_value = f(x)
+    println("objective value : ", round(primal_objective_value, digits=2))   
     println("")
 
-    return objective_value_primal, x, result[:total_time_in_sec], result[:status]
+    return primal_objective_value, x, result[:total_time_in_sec], result[:status]
 end
