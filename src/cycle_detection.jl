@@ -26,7 +26,8 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
     m, n = size(S_transform)
     # @show length(solution)
     @assert size(S_transform)[2] == length(solution)
-
+    non_zero_reactions = findall(!iszero,solution)
+    
     # map edges to reaction in transformed S_transform
     # build graph of used edges in solution
     edge_mapping = Dict()
