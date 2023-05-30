@@ -26,18 +26,6 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
     m, n = size(S_transform)
     # @show length(solution)
     @assert size(S_transform)[2] == length(solution)
-    non_zero_reactions = findall(!iszero,solution)
-    # @show non_zero_reactions
-    # S_transform_reduced = []
-    # for (id,row) in enumerate(eachcol(S_transform))
-    #     if id in non_zero_reactions
-    #         push!(S_transform_reduced, row)
-    #     end
-    # end
-    # # list to array
-    # S_transform_reduced = mapreduce(permutedims, vcat, S_transform_reduced)'
-    # # @show size(S_transform_reduced)
-    # @assert size(S_transform)[1] == size(S_transform_reduced)[1]
 
     # map edges to reaction in transformed S_transform
     # build graph of used edges in solution
@@ -70,7 +58,7 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
         end    
     end
 
-    @show nv(G)
+    # @show nv(G)
     # @show neighbors(G,1)
     # @show neighbors(G,2)
     # @show neighbors(G,3)
