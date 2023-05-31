@@ -125,10 +125,13 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-organism = "iJR904"
-# loopless_fba_data(organism, time_limit=600)
+organism = "iML1515"
+loopless_fba_data(organism, time_limit=600)
 # loopless_indicator_fba_data(organism, time_limit=600)
-loopless_fba_blocked_data(organism, time_limit=600, ceiling=200)
 
+loopless_fba_blocked_data(organism, time_limit=600, ceiling=200)
 # compute dual gap with time limit of loopless FBA with indicators with bocked cycles
- 
+
+loopless_fba_blocked_data(organism, time_limit=600, ceiling=100)
+
+loopless_fba_blocked_data(organism, time_limit=600, ceiling=50)
