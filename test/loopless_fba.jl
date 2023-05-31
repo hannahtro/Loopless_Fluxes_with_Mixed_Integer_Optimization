@@ -24,12 +24,16 @@ function loopless_fba_data(organism; time_limit=1800)
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, type, time_limit=time_limit, print_objective=true)
 
+    nodes = MOI.get(model, MOI.NodeCount())
+    
+    @show nodes
     df = DataFrame(
         objective_value=objective_loopless_fba, 
         dual_bound=dual_bound,
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
-        termination=termination_loopless_fba)
+        termination=termination_loopless_fba,
+        nodes=nodes)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
@@ -82,12 +86,15 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10)
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, type, time_limit=time_limit, print_objective=true)
 
+    nodes = MOI.get(model, MOI.NodeCount())
+
     df = DataFrame(
         objective_value=objective_loopless_fba, 
         dual_bound=dual_bound,
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
-        termination=termination_loopless_fba)
+        termination=termination_loopless_fba,
+        nodes=nodes)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
 
@@ -112,26 +119,53 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
     set_attribute(model, MOI.Silent(), false)
     objective_loopless_fba, dual_objective_value, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, "loopless FBA", time_limit=time_limit)
+    
+    nodes = MOI.get(model, MOI.NodeCount())
 
     df = DataFrame(
         objective_value=objective_loopless_fba, 
         dual_bound=dual_objective_value,
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
-        termination=termination_loopless_fba)
+        termination=termination_loopless_fba,
+        nodes=nodes)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
 
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-organism = "iML1515"
-loopless_fba_data(organism, time_limit=600)
-# loopless_indicator_fba_data(organism, time_limit=600)
+organism = "iJR904"
+loopless_fba_data(organism, time_limit=3600)
 
-loopless_fba_blocked_data(organism, time_limit=600, ceiling=200)
-# compute dual gap with time limit of loopless FBA with indicators with bocked cycles
+loopless_indicator_fba_data(organism, time_limit=3600)
 
-loopless_fba_blocked_data(organism, time_limit=600, ceiling=100)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
-loopless_fba_blocked_data(organism, time_limit=600, ceiling=50)
+organism = "iAF692"
+loopless_fba_data(organism, time_limit=3600)
+
+loopless_indicator_fba_data(organism, time_limit=3600)
+
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
+
+
+organism = "iML151"
+loopless_fba_data(organism, time_limit=3600)
+
+loopless_indicator_fba_data(organism, time_limit=3600)
+
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
+
+
+# # compute dual gap with time limit of loopless FBA with indicators with bocked cycles
+
