@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
 import COBREXA.Everything: add_loopless_constraints
-using LinearAlgebra
+using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
 
 """
@@ -82,19 +82,28 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     # @show internal_reactions
     a = optimization_model[:a] 
     # @show length(a)
+
+    # cycle through forward arcs:  a1 ∧ a2 ∧ a3 = 1
+    # to block cycle: ¬(a1 ∧ a2 ∧ a3) = ¬a1 ∨ ¬a2 ∨ ¬a3 >= 1
+    # ¬a1 = 1 - a1 => 
+    # 1-a1 ∨ 1-a2 ∨ 1-a3 >= 1 
+    # -a1 ∨ -a2 ∨ -a3 >= 1-3 = -2
+    # for backward arc: ¬(¬a1) = a1
     for (idx, cycle) in enumerate(unbounded_cycles)
-        # @show cycle # reactions
-        cycle_vars = [a[internal_reactions[i]] for i in cycle]
-        bool_blocked_cycle = []
+        cycle_vars = [internal_reactions[i] for i in cycle] # get correct a, v > a
+        sum_forward = 0
+        coef_vec = Float64[]
         for (dir_idx, dir) in enumerate(flux_directions[idx])
             if dir > 0
-                push!(bool_blocked_cycle, 1)
-                push!(bool_blocked_cycle, -cycle_vars[dir_idx])
-            elseif dir == 0
-                push!(bool_blocked_cycle, cycle_vars)
+                sum_forward += 1
+                push!(coef_vec, -1)
+            elseif dir < 0
+                push!(coef_vec, 1)
             end
         end
-        # @show bool_blocked_cycle
-        @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
+        coef_sparse = Array(sparsevec(cycle_vars, coef_vec, length(a)))
+        @constraint(optimization_model, coef_sparse' * a >= 1 - sum_forward)
+        # @constraint(optimization_model, sum(bool_blocked_cycle) >= 1 - sum_forward)
     end
+    # print(optimization_model)
 end
