@@ -135,28 +135,28 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-organism = "iJR904"
+#organism = "iJR904"
 # loopless_fba_data(organism, time_limit=3600)
 
-loopless_indicator_fba_data(organism, time_limit=3600)
+#loopless_indicator_fba_data(organism, time_limit=3600)
 
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
-organism = "iAF692"
-loopless_fba_data(organism, time_limit=3600)
+#organism = "iAF692"
+#loopless_fba_data(organism, time_limit=3600)
 
-loopless_indicator_fba_data(organism, time_limit=3600)
+#loopless_indicator_fba_data(organism, time_limit=3600)
 
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
+#loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
+#
 
-
-organism = "iML151"
+organism = "iML1515"
 loopless_fba_data(organism, time_limit=3600)
 
 loopless_indicator_fba_data(organism, time_limit=3600)
