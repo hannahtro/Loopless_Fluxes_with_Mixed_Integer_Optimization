@@ -9,3 +9,12 @@ status = MathOptInterface.TIME_LIMIT
 objective function : x[2669]
 objective_function =   [2669]  =  1.0
 objective function : x[2669]
+status = MathOptInterface.TIME_LIMIT
+objective function : x[2669]
+objective_function =   [2669]  =  1.0
+objective function : x[2669]
+status = MathOptInterface.TIME_LIMIT
+objective function : x[2669]
+objective_function =   [2669]  =  1.0
+objective function : x[2669]
+status = MathOptInterface.TIME_LIMIT
