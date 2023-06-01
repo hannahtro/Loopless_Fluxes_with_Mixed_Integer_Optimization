@@ -76,12 +76,9 @@ end
 add constraints to block detected cycles in loopless FBA model
 using Boolean expresssions
 """
-function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions, internal_rxn_idxs)
-    # @show enumerate(internal_rxn_idxs)
+function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions, internal_rxn_idxs; vector_formulation=true)
     internal_reactions = Dict(ridx => cidx for (cidx, ridx) in enumerate(internal_rxn_idxs))
-    # @show internal_reactions
     a = optimization_model[:a] 
-    # @show length(a)
 
     # cycle through forward arcs:  a1 ∧ a2 ∧ a3 = 1
     # to block cycle: ¬(a1 ∧ a2 ∧ a3) = ¬a1 ∨ ¬a2 ∨ ¬a3 >= 1
@@ -89,14 +86,32 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     # 1-a1 ∨ 1-a2 ∨ 1-a3 >= 1 
     # -a1 ∨ -a2 ∨ -a3 >= 1-3 = -2
     # for backward arc: ¬(¬a1) = a1
-    for (idx, cycle) in enumerate(unbounded_cycles)
-         # get correct a, because v > a
-        cycle_vars = [internal_reactions[i] for i in cycle]
-        # reactions that have to be negated
-        sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
-        dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
-        constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
-        @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
+    if vector_formulation
+        for (idx, cycle) in enumerate(unbounded_cycles)
+            # get correct a, because v > a
+            cycle_vars = [internal_reactions[i] for i in cycle]
+            # reactions that have to be negated
+            sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
+            dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
+            constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
+            @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
+        end
+    else 
+        for (idx, cycle) in enumerate(unbounded_cycles)
+            # @show cycle # reactions
+            cycle_vars = [a[internal_reactions[i]] for i in cycle]
+            bool_blocked_cycle = []
+            for (dir_idx, dir) in enumerate(flux_directions[idx])
+                if dir > 0
+                    push!(bool_blocked_cycle, 1)
+                    push!(bool_blocked_cycle, -cycle_vars[dir_idx])
+                elseif dir == 0
+                    push!(bool_blocked_cycle, cycle_vars)
+                end
+            end
+            # @show bool_blocked_cycle
+            @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
+        end
     end
     # print(optimization_model)
 end
