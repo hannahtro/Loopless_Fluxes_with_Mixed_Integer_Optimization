@@ -96,6 +96,9 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
             constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
             @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
         end
+        # open("../csv/model_vector.lp", "w") do f
+        #     print(f, optimization_model)
+        # end
     else 
         for (idx, cycle) in enumerate(unbounded_cycles)
             # @show cycle # reactions
@@ -112,6 +115,9 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
             # @show bool_blocked_cycle
             @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
         end
+        # open("../csv/model_loop.lp", "w") do f
+        #     print(f, optimization_model)
+        # end
     end
     # print(optimization_model)
 end
