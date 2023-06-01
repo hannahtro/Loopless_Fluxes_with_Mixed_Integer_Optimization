@@ -21,7 +21,7 @@ returns cycles as list of nodes found in graph G, where G is constructed using
 the reactions in transformed S that are non zero in the solution,
 maps edges to reactions in transformed S
 """
-function ubounded_cycles(S_transform, solution; ceiling=10^5)
+function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=false)
     # filter non used reactions
     m, n = size(S_transform)
     # @show length(solution)
@@ -69,8 +69,20 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5)
     # @show neighbors(G,5)
     
     # compute cycles
-    cycles = simplecycles_iter(G, ceiling) # cycles are nodes in the network
-    # @show length(cycles)
+    if smallest_cycles 
+        cycles = simplecycles_iter(G) # cycles are nodes in the network
+        cycles_length = [length(c) for c in cycles]
+        @show length(cycles)
+        @show issorted(cycles_length, rev=false)
+        cycles_length, cycles = getindex.((cycles_length, cycles), (sortperm(cycles_length),))    
+        @show issorted(cycles_length, rev=false)
+        # @show cycles[1], cycles[end]
+        cycles = [c for c in cycles if length(c) > 2]
+        cycles = cycles[1:ceiling]
+        @show length(cycles)
+    else 
+        cycles = simplecycles_iter(G, ceiling)
+    end
     return cycles, edge_mapping, G
 end 
 

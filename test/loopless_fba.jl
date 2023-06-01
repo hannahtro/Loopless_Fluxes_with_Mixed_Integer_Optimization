@@ -41,7 +41,7 @@ function loopless_fba_data(organism; time_limit=1800)
 end
 
 # compute dual gap with time limit of loopless FBA with blocked cycles
-function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_objective=true, vector_formulation=true)
+function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_objective=true, vector_formulation=true, smallest_cycles=false)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -56,7 +56,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
         x = model[:x]
         @objective(model, Max, sum(x))
     end
-    _, _, solution, _, _ = optimize_model(model, print_objective=true)
+    _, _, solution, _, _ = optimize_model(model, print_objective=false)
 
     # split hyperarcs
     S = stoichiometry(molecular_model)
@@ -64,7 +64,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform  = split_hyperarcs(S, lb, ub, solution)
 
     # find cycles, get original reactions
-    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling)
+    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling, smallest_cycles=smallest_cycles)
     # @show cycles
     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
 
@@ -83,15 +83,23 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
 
     # optimize loopless FBA
     if vector_formulation
-        type = "loopless_fba_blocked"
+        if smallest_cycles
+            type = "loopless_fba_blocked_smallest_cycles"
+        else
+            type = "loopless_fba_blocked"
+        end
     else 
-        type = "loopless_fba_blocked_for_loop"
+        if smallest_cycles
+            type = "loopless_fba_blocked_for_loop_smallest_cycles"
+        else
+            type = "loopless_fba_blocked_for_loop"
+        end
     end
 
     # @show model
     set_attribute(model, MOI.Silent(), false)
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
-        optimize_model(model, type, time_limit=time_limit, print_objective=true)
+        optimize_model(model, type, time_limit=time_limit, print_objective=false)
 
     nodes = MOI.get(model, MOI.NodeCount())
 
@@ -157,13 +165,13 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     model = make_optimization_model(molecular_model, optimizer)
     # @show model
     set_attribute(model, MOI.Silent(), true)
-    _, _, solution, _, _ = optimize_model(model, print_objective=true)
+    _, _, solution, _, _ = optimize_model(model, print_objective=false)
 
     # split hyperarcs
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
     objective_function = objective(molecular_model)
-    @show objective_function
+    # @show objective_function
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform  = split_hyperarcs(S, lb, ub, solution)
 
     # find cycles, get original reactions
@@ -189,7 +197,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     # @show model
     set_attribute(model, MOI.Silent(), false)
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
-        optimize_model(model, type, time_limit=time_limit, print_objective=true)
+        optimize_model(model, type, time_limit=time_limit, print_objective=false)
 
     nodes = MOI.get(model, MOI.NodeCount())
 
@@ -238,9 +246,11 @@ end
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
 organism = "iJR904"
-loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=false)
-loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
+# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=false)
+# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
 
-# loopless_fba_blocked_data(organism, time_limit=600, ceiling=50, same_objective=false, vector_formulation=false)
+# loopless_fba_blocked_data(organism, time_limit=300, ceiling=50, same_objective=false, vector_formulation=true)
+loopless_fba_blocked_data(organism, time_limit=300, ceiling=50, same_objective=false, vector_formulation=true, smallest_cycles=false)
+
 # loopless_fba_data(organism, time_limit=600)
 
