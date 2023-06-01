@@ -130,13 +130,13 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
         termination=termination_loopless_fba,
         nodes=nodes)
 
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
+    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) *  ".csv")
 
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
 organism = "iJR904"
-loopless_fba_data(organism, time_limit=3600)
+# loopless_fba_data(organism, time_limit=3600)
 
 loopless_indicator_fba_data(organism, time_limit=3600)
 
