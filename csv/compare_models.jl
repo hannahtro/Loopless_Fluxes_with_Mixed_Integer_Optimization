@@ -10,5 +10,5 @@ else
     println("different")
 end
 
-diff_output = read(ignorestatus(`diff model_loop.lp model_vector.lp`), String)
-@show diff_output
+# diff_output = read(ignorestatus(`diff model_loop.lp model_vector.lp`), String)
+# @show diff_output

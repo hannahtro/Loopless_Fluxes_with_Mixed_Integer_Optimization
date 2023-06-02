@@ -8,7 +8,7 @@ include("../src/optimization_model.jl")
 include("../src/cycle_detection.jl")
 
 # compute dual gap with time limit of loopless FBA
-function loopless_fba_data(organism; time_limit=1800)
+function loopless_fba_data(organism; time_limit=1800, silent=true)
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -16,13 +16,12 @@ function loopless_fba_data(organism; time_limit=1800)
 
     model = make_optimization_model(molecular_model, optimizer)
     # @show model
-    set_attribute(model, MOI.Silent(), true)
 
     type = "loopless_fba"
     add_loopless_constraints(molecular_model, model)
     # @show model
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
-        optimize_model(model, type, time_limit=time_limit, print_objective=true)
+        optimize_model(model, type, time_limit=time_limit, print_objective=true, silent=silent)
 
     nodes = MOI.get(model, MOI.NodeCount())
     
@@ -224,16 +223,18 @@ end
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
-# organism = "iAF692"
-# loopless_fba_data(organism, time_limit=3600)
+organism = "iAF692"
+# loopless_fba_data(organism, time_limit=3600, silent=false)
 
 # loopless_indicator_fba_data(organism, time_limit=3600)
 
-# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
-# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
-# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
-# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
+# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50, same_objective=false)
+# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100, same_objective=false)
+# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200, same_objective=false)
+# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500, same_objective=false)
 
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100, same_objective=true)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100, same_objective=true, vector_formulation=false)
 
 # organism = "iML151"
 # loopless_fba_data(organism, time_limit=3600)
@@ -245,9 +246,11 @@ end
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
-organism = "iJR904"
-loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=false)
-loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
+# organism = "iJR904"
+# loopless_fba_data(organism, time_limit=3600)
+
+# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=false)
+# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
 
 # loopless_fba_blocked_data(organism, time_limit=600, ceiling=50, same_objective=false, vector_formulation=true)
 # loopless_fba_blocked_data(organism, time_limit=600, ceiling=50, same_objective=false, vector_formulation=true, smallest_cycles=true)
