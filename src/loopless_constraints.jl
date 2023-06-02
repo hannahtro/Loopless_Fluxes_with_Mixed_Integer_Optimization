@@ -93,7 +93,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
             # reactions that have to be negated
             sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
             dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
-            @show length(cycle_vars), length(dir_coef)
+            # @show length(cycle_vars), length(dir_coef)
             constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
             @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
         end

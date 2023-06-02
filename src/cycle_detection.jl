@@ -69,17 +69,15 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=fa
     # @show neighbors(G,5)
     
     # compute cycles
+    # cycles are nodes in the network
     if smallest_cycles 
-        cycles = simplecycles_iter(G) # cycles are nodes in the network
+        cycles = simplecycles_iter(G) 
         cycles_length = [length(c) for c in cycles]
-        @show length(cycles)
-        @show issorted(cycles_length, rev=false)
+        # @show issorted(cycles_length, rev=false)
         cycles_length, cycles = getindex.((cycles_length, cycles), (sortperm(cycles_length),))    
-        @show issorted(cycles_length, rev=false)
-        # @show cycles[1], cycles[end]
+        # @show issorted(cycles_length, rev=false)
         cycles = [c for c in cycles if length(c) > 2]
         cycles = cycles[1:ceiling]
-        @show length(cycles)
     else 
         cycles = simplecycles_iter(G, ceiling)
     end
@@ -132,7 +130,9 @@ function unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
         push!(unbounded_cycles_original, unbounded_cycle_original)
         push!(flux_directions, [sign(i) for i in flux_directions_cycle]) #TODO: check when fluxes are negative
     end
-    unique!(unbounded_cycles_original)
+    duplicates = [(i, count(==(i), unbounded_cycles_original)) for i in unique(unbounded_cycles_original)]
+    
+    # unique!(unbounded_cycles_original)
 
     return unbounded_cycles, unbounded_cycles_original, flux_directions
 end
