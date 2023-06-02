@@ -246,13 +246,14 @@ end
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
 organism = "iJR904"
-# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=false)
-# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
+loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=false)
+loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
 
 # loopless_fba_blocked_data(organism, time_limit=600, ceiling=50, same_objective=false, vector_formulation=true)
 # loopless_fba_blocked_data(organism, time_limit=600, ceiling=50, same_objective=false, vector_formulation=true, smallest_cycles=true)
 
-loopless_fba_data(organism, time_limit=600)
+# loopless_fba_data(organism, time_limit=10)
+# loopless_fba_blocked_data(organism, time_limit=10, ceiling=50, vector_formulation=true)
 
 # organism = "iAF692"
 # loopless_fba_data(organism, time_limit=3600)

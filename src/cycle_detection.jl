@@ -70,6 +70,7 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=fa
     
     # compute cycles
     # cycles are nodes in the network
+    # first element ≠ last element
     if smallest_cycles 
         cycles = simplecycles_iter(G) 
         cycles_length = [length(c) for c in cycles]

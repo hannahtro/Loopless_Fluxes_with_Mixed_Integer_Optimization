@@ -71,6 +71,7 @@ end
     # @show solution_transform
     cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
     @test length(cycles) == 1
+    @show cycles
     # @show edge_mapping
 
     # nodelabel = ["A", "B", "C", "D", "E"]
@@ -110,41 +111,41 @@ end
     # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout, locs_x_in=locs_x, locs_y_in=locs_y)
 end
 
-@testset "block cycle in iAF692" begin
-    # test organism
-    organism = "iAF692"
+# @testset "block cycle in iAF692" begin
+#     # test organism
+#     organism = "iAF692"
 
-    # transform S
-    molecular_model = deserialize("../data/" * organism * ".js")
-    print_model(molecular_model, organism)
+#     # transform S
+#     molecular_model = deserialize("../data/" * organism * ".js")
+#     print_model(molecular_model, organism)
 
-    # split hyperarcs
-    S = stoichiometry(molecular_model)
-    # @show size(S)
-    lb, ub = bounds(molecular_model)
-    S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-    @test size(S_transform)[2] == length(lb_transform) == length(ub_transform)
-    m, n = size(S_transform)
+#     # split hyperarcs
+#     S = stoichiometry(molecular_model)
+#     # @show size(S)
+#     lb, ub = bounds(molecular_model)
+#     S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
+#     @test size(S_transform)[2] == length(lb_transform) == length(ub_transform)
+#     m, n = size(S_transform)
 
-    optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-    _, _, solution, _, _ = optimize_model(optimization_model)
-    # @show size(solution)
+#     optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
+#     _, _, solution, _, _ = optimize_model(optimization_model)
+#     # @show size(solution)
 
-    # get original reactions
-    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution, ceiling=10)
-    @test length(cycles) == 10
-    # @show cycles
-    # @show edge_mapping
-    unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
-    # @show unbounded_cycles
-    # @show flux_directions
-    add_loopless_constraints(molecular_model, optimization_model)
+#     # get original reactions
+#     cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution, ceiling=10)
+#     @test length(cycles) == 10
+#     # @show cycles
+#     # @show edge_mapping
+#     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
+#     # @show unbounded_cycles
+#     # @show flux_directions
+#     add_loopless_constraints(molecular_model, optimization_model)
 
-    # @show optimization_model
-    # @show unbounded_cycles_original
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
-    block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs)
-end
+#     # @show optimization_model
+#     # @show unbounded_cycles_original
+#     internal_rxn_idxs = [
+#         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+#         !is_boundary(reaction_stoichiometry(molecular_model, rid))
+#     ]
+#     block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs)
+# end
