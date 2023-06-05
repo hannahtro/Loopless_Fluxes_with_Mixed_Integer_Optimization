@@ -78,7 +78,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, vector_formulation=vector_formulation)
+    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, vector_formulation=vector_formulation)
 
     # optimize loopless FBA
     if vector_formulation
@@ -108,7 +108,8 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
-        nodes=nodes)
+        nodes=nodes,
+        num_blocked_cycles=num_blocked_cycles)
 
     if !same_objective
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
@@ -189,7 +190,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs)
+    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
 
     # optimize loopless FBA
     type = "loopless_indicator_fba_blocked"
@@ -206,24 +207,25 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
-        nodes=nodes)
+        nodes=nodes,
+        num_blocked_cycles=num_blocked_cycles)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
 
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-# organism = "iJR904"
+organism = "iJR904"
 # loopless_fba_data(organism, time_limit=3600)
 
 # loopless_indicator_fba_data(organism, time_limit=3600)
 
-# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50, same_objective=false)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500)
 
-organism = "iAF692"
+# organism = "iAF692"
 # loopless_fba_data(organism, time_limit=3600, silent=false)
 
 # loopless_indicator_fba_data(organism, time_limit=3600)
@@ -233,7 +235,7 @@ organism = "iAF692"
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200, same_objective=false)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500, same_objective=false)
 
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50, same_objective=true)
+# loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500, same_objective=true)
 
 # organism = "iML151"
 # loopless_fba_data(organism, time_limit=3600)
