@@ -86,3 +86,10 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
     return primal_objective_value, dual_objective_value, solution, time, status
 end
 
+function internal_reactions(molecular_model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+    return internal_rxn_idxs
+end

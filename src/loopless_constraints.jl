@@ -155,3 +155,24 @@ function thermo_feasible(cycle, flux_directions, S)
     # @show solution, N_int' * solution
     return status == MOI.OPTIMAL
 end
+
+# returns assignment of G and a for a given solution
+function determine_G(S, solution, internal_rxn_idxs)
+    Gibbs_model = Model(SCIP.Optimizer)
+    N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
+    G = @variable(Gibbs_model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+
+    a = ones(length(internal_rxn_idxs))
+    for (idx,ridx) in enumerate(internal_rxn_idxs)
+        if solution[ridx] > 0
+            @constraint(Gibbs_model, -1000 <= G[idx] <= -1)
+        elseif solution[ridx] < 0
+            a[idx] = -1
+            @constraint(Gibbs_model, 1 <= G[idx] <= 1000)
+        end
+    end
+
+    @constraint(Gibbs_model, N_int' * G .== 0)
+    _, _, G, _, status = optimize_model(Gibbs_model)
+    return vcat(solution, G, a)
+end
