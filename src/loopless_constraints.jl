@@ -128,7 +128,6 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
             # end
         # print(optimization_model)
     end
-    @show num_blocked_cycles
     return num_blocked_cycles
 end
 
