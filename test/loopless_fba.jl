@@ -233,8 +233,7 @@ organism = "iAF692"
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=200, same_objective=false)
 # loopless_fba_blocked_data(organism, time_limit=3600, ceiling=500, same_objective=false)
 
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100, same_objective=true)
-loopless_fba_blocked_data(organism, time_limit=3600, ceiling=100, same_objective=true, vector_formulation=false)
+loopless_fba_blocked_data(organism, time_limit=3600, ceiling=50, same_objective=true)
 
 # organism = "iML151"
 # loopless_fba_data(organism, time_limit=3600)

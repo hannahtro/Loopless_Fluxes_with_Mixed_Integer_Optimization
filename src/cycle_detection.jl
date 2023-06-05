@@ -67,6 +67,7 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=fa
     # @show neighbors(G,4)
     # @show neighbors(G,5)
     
+    #TODO: filter cycles later when thermo feasibility checked
     # compute cycles
     # cycles are nodes in the network
     # first element ≠ last element
