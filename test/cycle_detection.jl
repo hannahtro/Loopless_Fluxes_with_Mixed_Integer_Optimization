@@ -111,56 +111,53 @@ include("../src/loopless_constraints.jl")
 #     # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout, locs_x_in=locs_x, locs_y_in=locs_y)
 # end
 
-# @testset "block cycle in simple graph with feasible cycle" begin
-#     S = [[1,0,0,0,0,0,0,0,0] [0,0,0,0,0,1,0,0,0] [0,1,0,0,0,-1,0,0,0] [0,-1,0,0,0,0,1,0,0] [0,0,0,0,0,0,-1,0,0] [0,0,0,0,-1,0,0,0,0] [-1,-1,1,1,0,0,0,0,0] [0,1,0,-1,1,0,0,0,0] [0,0,-1,0,0,0,0,0,0] [0,0,0,0,0,0,0,1,0] [0,0,0,1,0,0,0,-1,0] [0,0,0,-1,0,0,0,0,1] [0,0,0,0,0,0,0,0,-1]]
+@testset "block cycle in simple graph with feasible cycle" begin
+    S = [[1,0,0,0,0,0,0,0,0] [0,0,0,0,0,1,0,0,0] [0,1,0,0,0,-1,0,0,0] [0,-1,0,0,0,0,1,0,0] [0,0,0,0,0,0,-1,0,0] [0,0,0,0,-1,0,0,0,0] [-1,-1,1,1,0,0,0,0,0] [0,1,0,-1,1,0,0,0,0] [0,0,-1,0,0,0,0,0,0] [0,0,0,0,0,0,0,1,0] [0,0,0,1,0,0,0,-1,0] [0,0,0,-1,0,0,0,0,1] [0,0,0,0,0,0,0,0,-1]]
+    m, num_reactions = size(S)
+    @show m, num_reactions
+    lb = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+    ub = [10,10,10,10,10,10,10,10,10,10,10,10,10]
+    # @show length(lb), length(ub)
+    # println("-----------------------------------")
 
-#     m, num_reactions = size(S)
-#     @show m, num_reactions
-#     lb = [0,0,0,0,0,0,0,0,0,0,0,0,0]
-#     ub = [10,10,10,10,10,10,10,10,10,10,10,10,10]
-#     # @show length(lb), length(ub)
-#     println("-----------------------------------")
+    # feasible loop
+    model = build_model(S, lb, ub)
+    x = model[:x]
+    @objective(model, Max, x[1]+x[3]+x[4])
+    add_loopless_constraints(model, S, [3,4,7,8,11,12])
+    _, _, solution, _, _ = optimize_model(model)
+    S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
+    cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
+    @test length(cycles) == 1
+    println("# thermo feasible cylces: ", length(cycles))
+    println("-----------------------------------")
 
-#     # feasible loop
-#     model = build_model(S, lb, ub)
-#     x = model[:x]
-#     @objective(model, Max, x[1]+x[3]+x[4])
-#     add_loopless_constraints(model, S, [3,4,7,8,11,12])
-#     _, _, solution, _, _ = optimize_model(model)
-#     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
-#     cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
-#     @test length(cycles) == 1
-#     println("thermo feasible cylce: ", cycles)
-#     println("-----------------------------------")
-
-#     # verify that found loop is thermodynamically feasible
-#     model = build_model(S, lb, ub)
-#     x = model[:x]
-#     @objective(model, Max, x[1]+x[3]+x[4])
-#     # add_loopless_constraints(model, S, [3,4,7,8,11,12])
-#     _, _, solution_loop, _, _ = optimize_model(model)
-#     # @show solution_loop
-#     # check if cycle exists
-#     # get original reactions
-#     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution_loop)
-#     # @show solution_transform
-#     cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
-#     @test length(cycles) == 1
-#     @show cycles
-#     # @show edge_mapping
-#     # nodelabel = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
-#     # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
-#     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
-#     @show unbounded_cycles
-#     @show unbounded_cycles_original
-#     internal_rxn_idxs = [3,4,7,8,11,12]
-#     feasible = thermo_feasible(unbounded_cycles_original, flux_directions, S)
-#     @show feasible
-# end
+    # verify that found loop is thermodynamically feasible
+    model = build_model(S, lb, ub)
+    x = model[:x]
+    @objective(model, Max, x[1]+x[3]+x[4])
+    # add_loopless_constraints(model, S, [3,4,7,8,11,12])
+    _, _, solution_loop, _, _ = optimize_model(model)
+    # @show solution_loop
+    # check if cycle exists
+    # get original reactions
+    S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution_loop)
+    # @show solution_transform
+    cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
+    @test length(cycles) == 1
+    # @show edge_mapping
+    # nodelabel = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
+    # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
+    unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
+    # @show unbounded_cycles
+    @show unbounded_cycles_original
+    internal_rxn_idxs = [3,4,7,8,11,12]
+    feasible = thermo_feasible(unbounded_cycles_original, flux_directions, S)
+    @test feasible
+end
 
 @testset "block cycle in simple graph with infeasible cycle" begin
     S = [[1,0,0] [-1,1,0] [0,-1,1] [-1,0,1] [0,0,-1]]
-    @show S
     lb = [0,-10,-10,-10,0]
     ub = [10,10,10,10,10]
     m, num_reactions = size(S)
@@ -189,25 +186,21 @@ include("../src/loopless_constraints.jl")
     # check if cycle exists
     # get original reactions
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution_loop)
-    @show S_transform
     @test S == S_transform
     @test solution_loop == solution_transform
     cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
-    # @test length(cycles) == 1
-    @show cycles
+    @test length(cycles) == 1
     nodelabel = ["A", "B", "C"]
-    draw(PDF("cycle.pdf", 16cm, 16cm), gplot(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout))
+    # draw(PDF("cycle.pdf", 16cm, 16cm), gplot(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout))
 
-#     # @show edge_mapping
-#     # nodelabel = ["A", "B", "C", "D", "E", "F", "G", "H", "I"]
-#     # gplothtml(G, nodesize=0.1, nodelabel=nodelabel, layout=circular_layout)
-#     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
-#     @show unbounded_cycles
-#     @show unbounded_cycles_original
-#     internal_rxn_idxs = [3,4,7,8,11,12]
-#     feasible = thermo_feasible(unbounded_cycles_original, flux_directions, S)
-#     @show feasible
+    # @show edge_mapping
+    unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
+    @show unbounded_cycles_original
+    internal_rxn_idxs = [2,3,4]
+    feasible = thermo_feasible(unbounded_cycles_original, flux_directions, S)
+    @test !feasible
 end
+
 # @testset "block cycle in iAF692" begin
 #     # test organism
 #     organism = "iAF692"
