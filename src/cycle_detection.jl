@@ -39,7 +39,6 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=fa
     add_vertices!(G, size(S_transform)[1])
     # @show non_zero_reactions
     for (idx,col) in enumerate(eachcol(S_transform))
-        # @show col
         if idx in non_zero_reactions
             edge_mapping[idx] = [] # reaction is key
             metabolite_indices = findall(!iszero, col)
@@ -47,7 +46,7 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=fa
             # for internal reactions only
             if length(metabolite_indices) > 1
                 @assert length(metabolite_indices) == 2
-                if col[metabolite_indices[1]] < 0
+                if col[metabolite_indices[1]] * solution[idx] < 0
                     add_edge!(G, metabolite_indices[1], metabolite_indices[2])
                     push!(edge_mapping[idx], metabolite_indices[1]) 
                     push!(edge_mapping[idx], metabolite_indices[2])

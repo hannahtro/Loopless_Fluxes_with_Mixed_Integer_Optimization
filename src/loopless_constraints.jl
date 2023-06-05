@@ -123,7 +123,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     # print(optimization_model)
 end
 
-function thermo_feasible(unbounded_cycles_original, flux_directions, model, internal_rxn_idxs)
+function thermo_feasible(unbounded_cycles_original, flux_directions, S)
     #TODO: verify for list of cycles
     for (cycle_idx, cycle) in enumerate(unbounded_cycles_original)
         thermo_feasible_model = Model(SCIP.Optimizer)
@@ -140,12 +140,16 @@ function thermo_feasible(unbounded_cycles_original, flux_directions, model, inte
             end
         end
 
-        @show flux_directions[cycle_idx]
-        @constraint(thermo_feasible_model, flux_directions[cycle_idx]' * G .== 0)
+        @show Array(S[:, cycle])
+        N_int = nullspace(Array(S[:, cycle])) # no sparse nullspace function
+        @show N_int
+        @constraint(thermo_feasible_model, N_int' * G .== 0)
 
         print(thermo_feasible_model)
 
-        _, _, _, _, status = optimize_model(thermo_feasible_model)
-        @show status
+        _, _, solution, _, status = optimize_model(thermo_feasible_model)
+        @show solution
+        @show N_int' * solution
+        return status == MOI.OPTIMAL
     end
 end

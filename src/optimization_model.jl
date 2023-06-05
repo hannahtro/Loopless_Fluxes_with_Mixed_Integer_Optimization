@@ -68,7 +68,7 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
     time = solve_time(model)
 
     # @show solution_summary(model)
-    @show status
+    # @show status
     if has_values(model)
         primal_objective_value = MOI.get(model, MOI.ObjectiveValue())
         dual_objective_value = MOI.get(model, MOI.ObjectiveBound())
