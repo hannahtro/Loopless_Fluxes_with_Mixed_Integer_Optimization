@@ -124,7 +124,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
 end
 
 function thermo_feasible(unbounded_cycles_original, flux_directions, model, internal_rxn_idxs)
-    #TODO: implement for list of cycles
+    #TODO: verify for list of cycles
     for (cycle_idx, cycle) in enumerate(unbounded_cycles_original)
         thermo_feasible_model = Model(SCIP.Optimizer)
         G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
@@ -145,7 +145,7 @@ function thermo_feasible(unbounded_cycles_original, flux_directions, model, inte
 
         print(thermo_feasible_model)
 
-        _, _, solution, _, _ = optimize_model(thermo_feasible_model)
-        @show solution
+        _, _, _, _, status = optimize_model(thermo_feasible_model)
+        @show status
     end
 end

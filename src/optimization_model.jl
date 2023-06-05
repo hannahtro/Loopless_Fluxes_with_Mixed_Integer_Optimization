@@ -66,7 +66,10 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
     optimize!(model)
     status = termination_status(model)
     time = solve_time(model)
-    if isinf(time_limit)
+
+    # @show solution_summary(model)
+    @show status
+    if has_values(model)
         primal_objective_value = MOI.get(model, MOI.ObjectiveValue())
         dual_objective_value = MOI.get(model, MOI.ObjectiveBound())
         if !mute
@@ -75,23 +78,11 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
         end
         solution = [value(var) for var in all_variables(model)]
     else 
-        # @show solution_summary(model)
-        @show status
-        if has_values(model)
-            primal_objective_value = MOI.get(model, MOI.ObjectiveValue())
-            dual_objective_value = MOI.get(model, MOI.ObjectiveBound())
-
-            if !mute
-                println("objective value : ", round(primal_objective_value, digits=2))
-                println("")
-            end
-            solution = [value(var) for var in all_variables(model)]
-        else 
-            primal_objective_value = NaN
-            dual_objective_value = NaN
-            solution = NaN
-        end
+        primal_objective_value = NaN
+        dual_objective_value = NaN
+        solution = NaN
     end
+
     return primal_objective_value, dual_objective_value, solution, time, status
 end
 
