@@ -125,42 +125,27 @@ end
 
 function thermo_feasible(unbounded_cycles_original, flux_directions, model, internal_rxn_idxs)
     #TODO: implement for list of cycles
-    thermo_feasibility_model = copy(model) #TODO: copy properly, deep copy
-    x = thermo_feasibility_model[:x]
+    for (cycle_idx, cycle) in enumerate(unbounded_cycles_original)
+        thermo_feasible_model = Model(SCIP.Optimizer)
+        G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
 
-    # zero fluxes
-    z = @variable(thermo_feasibility_model, z[1:length(internal_rxn_idxs)]) 
-    for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        @constraint(thermo_feasibility_model, !z[cidx] => {x[ridx] == 0})
+        # add G variables for each reaction in cycle
+        for (idx, ridx) in enumerate(cycle)
+            @show idx, ridx
+            @show flux_directions[cycle_idx][idx]
+            if flux_directions[cycle_idx][idx] > 0
+                @constraint(thermo_feasible_model, -1000 <= G[idx] <= -1)
+            elseif flux_directions[cycle_idx][idx] < 0
+                @constraint(thermo_feasible_model, 1 <= G[idx] <= 1000)
+            end
+        end
+
+        @show flux_directions[cycle_idx]
+        @constraint(thermo_feasible_model, flux_directions[cycle_idx]' * G .== 0)
+
+        print(thermo_feasible_model)
+
+        _, _, solution, _, _ = optimize_model(thermo_feasible_model)
+        @show solution
     end
-
-    # force cycle 
-    a = @variable(thermo_feasibility_model, a[1:length(unbounded_cycles_original)])
-    for (cidx,ridx) in enumerate(unbounded_cycles_original)
-        @constraint(thermo_feasibility_model, a[cidx] => {x[ridx] - eps() >= 0})
-        @constraint(thermo_feasibility_model, !a[cidx] => {x[ridx] + eps() <= 0}) 
-    end  
-
-    @show unbounded_cycles_original
-    for (idx, cycle) in enumerate(unbounded_cycles_original)
-        cycle_vars = [internal_reactions[i] for i in cycle]
-        sum_forward = sum([1 for dir in flux_directions if dir > 0])
-        dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions]
-        constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
-        @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
-    end
-
-    # min #(fluxes = 0)
-    @objective(thermo_feasibility_model, Min, sum(z))
-    _, _, solution, _, status = optimize_model(model)
-    solution[1:length(x)]
-
-    # check if solution is feasible in loopless FBA
-    loopless_model = copy(model)
-    add_loopless_constraints(loopless_model, S, internal_rxn_idxs)
-    @constraint(loopless_model, x.==solution) #TODO: do this properly
-    x = loopless_model[:x]
-    _, _, _, _, status = optimize_model(loopless_model)
-    @show status
-    return status == MOI.Optimal()
 end
