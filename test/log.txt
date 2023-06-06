@@ -1,20 +1,27 @@
-objective function : x[2669]
-status = MathOptInterface.TIME_LIMIT
-nodes = 294
-status = MathOptInterface.TIME_LIMIT
-objective function : x[2669]
-objective_function =   [2669]  =  1.0
-objective function : x[2669]
-status = MathOptInterface.TIME_LIMIT
-objective function : x[2669]
-objective_function =   [2669]  =  1.0
-objective function : x[2669]
-status = MathOptInterface.TIME_LIMIT
-objective function : x[2669]
-objective_function =   [2669]  =  1.0
-objective function : x[2669]
-status = MathOptInterface.TIME_LIMIT
-objective function : x[2669]
-objective_function =   [2669]  =  1.0
-objective function : x[2669]
-status = MathOptInterface.TIME_LIMIT
+objective function : x[269]
+nodes = 641
+objective function : x[442]
+nodes = 575
+ERROR: LoadError: SystemError: opening file "../data/iML151.js": Datei oder Verzeichnis nicht gefunden
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base ./error.jl:176
+  [2] #systemerror#82
+    @ ./error.jl:175 [inlined]
+  [3] systemerror
+    @ ./error.jl:175 [inlined]
+  [4] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Nothing, append::Nothing)
+    @ Base ./iostream.jl:293
+  [5] open
+    @ ./iostream.jl:275 [inlined]
+  [6] open(f::typeof(deserialize), args::String; kwargs::Base.Pairs{Symbol, Union{}, Tuple{}, NamedTuple{(), Tuple{}}})
+    @ Base ./io.jl:393
+  [7] open
+    @ ./io.jl:392 [inlined]
+  [8] deserialize
+    @ /scratch/opt/htroppen/julia-1.9.0/share/julia/stdlib/v1.9/Serialization/src/Serialization.jl:813 [inlined]
+  [9] loopless_fba_data(organism::String; time_limit::Int64, silent::Bool)
+    @ Main /nfs/homeoptimi/htroppen/git/MA/test/loopless_fba.jl:14
+ [10] top-level scope
+    @ /nfs/homeoptimi/htroppen/git/MA/test/loopless_fba.jl:267
+in expression starting at /nfs/homeoptimi/htroppen/git/MA/test/loopless_fba.jl:267

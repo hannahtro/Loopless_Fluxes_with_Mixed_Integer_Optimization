@@ -224,7 +224,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-
+"""
 organism = "iJR904"
 loopless_fba_data(organism, time_limit=1800)
 
@@ -261,9 +261,9 @@ loopless_fba_blocked_data(organism, time_limit=1800, ceiling=50)
 loopless_fba_blocked_data(organism, time_limit=1800, ceiling=100)
 loopless_fba_blocked_data(organism, time_limit=1800, ceiling=200)
 loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500)
+"""
 
-
-organism = "iML151"
+organism = "iML1515"
 loopless_fba_data(organism, time_limit=1800)
 
 loopless_indicator_fba_data(organism, time_limit=1800)
