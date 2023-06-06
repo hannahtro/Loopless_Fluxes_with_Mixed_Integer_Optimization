@@ -162,12 +162,10 @@ function determine_G(S, solution, internal_rxn_idxs)
     N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
     G = @variable(Gibbs_model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
 
-    a = ones(length(internal_rxn_idxs))
     for (idx,ridx) in enumerate(internal_rxn_idxs)
         if solution[ridx] > 0
             @constraint(Gibbs_model, -1000 <= G[idx] <= -1)
         elseif solution[ridx] < 0
-            a[idx] = -1
             @constraint(Gibbs_model, 1 <= G[idx] <= 1000)
         end
     end

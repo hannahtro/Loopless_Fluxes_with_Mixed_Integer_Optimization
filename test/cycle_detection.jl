@@ -59,6 +59,7 @@ ub = [10,10,10,10,10,10,10]
 end
 
 # TODO: verify thermo feasibilty of cycle
+# thermodynamically feasible but not biological valid as no external source is take up
 # @testset "block cycle in S of simple model" begin
 #     model = build_model(S, lb, ub)
 #     x = model[:x]
@@ -91,7 +92,8 @@ end
 #     add_loopless_constraints(optimization_model, S, internal_rxn_idxs)
 
 #     # @show optimization_model
-#     block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
+#     num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
+#     @show num_blocked_cycles
 
 #     # @show optimization_model
 #     _, _, solution, _, _ = optimize_model(optimization_model)
