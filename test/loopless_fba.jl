@@ -21,7 +21,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true)
     add_loopless_constraints(molecular_model, model)
     # @show model
     open("../csv/model_vector.lp", "w") do f
-        print(f, optimization_model)
+        print(f, model)
     end
 
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
@@ -229,7 +229,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
 end
 
 
-organism = "iJR904"
+organism = "iAF692"
 loopless_fba_data(organism, time_limit=1800)
 
 # loopless_indicator_fba_data(organism, time_limit=1800)
