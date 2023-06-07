@@ -20,7 +20,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true)
     type = "loopless_fba"
     add_loopless_constraints(molecular_model, model)
     # @show model
-    open("../csv/model_vector.lp", "w") do f
+    open("../csv/model_vector_" * organism * ".lp", "w") do f
         print(f, model)
     end
 
