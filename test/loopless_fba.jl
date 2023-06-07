@@ -230,7 +230,7 @@ end
 
 
 organism = "iAF692"
-loopless_fba_data(organism, time_limit=1800)
+loopless_fba_data(organism, time_limit=10)
 
 # loopless_indicator_fba_data(organism, time_limit=1800)
 # loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10)
