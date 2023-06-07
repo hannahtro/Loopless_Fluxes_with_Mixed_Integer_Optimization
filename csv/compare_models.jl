@@ -4,11 +4,11 @@
 #     println("different")
 # end
 
-if success(`cmp --quiet model_loop.lp model_vector.lp`)
+if success(`cmp --quiet model_vector_iAF692_laptop.lp model_vector_iAF692_server.lp`)
     println("same")
 else
     println("different")
 end
 
-# diff_output = read(ignorestatus(`diff model_loop.lp model_vector.lp`), String)
-# @show diff_output
+diff_output = read(ignorestatus(`diff model_vector_iAF692_laptop.lp model_vector_iAF692_server.lp`), String)
+@show diff_output
