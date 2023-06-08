@@ -17,6 +17,9 @@ function loopless_fba_data(organism; time_limit=1800, silent=true)
 
     model = make_optimization_model(molecular_model, optimizer)
     # @show model
+    open("../csv/model_cobrexa_" * organism * ".lp", "w") do f
+        print(f, model)
+    end
 
     type = "loopless_fba"
     add_loopless_constraints(molecular_model, model)
