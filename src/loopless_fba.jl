@@ -1,5 +1,4 @@
 using COBREXA, Serialization, COBREXA.Everything
-using Serialization
 using DataFrames, CSV
 using SCIP, JuMP
 
