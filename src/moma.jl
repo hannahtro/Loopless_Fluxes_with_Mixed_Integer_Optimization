@@ -4,8 +4,11 @@ using LinearAlgebra
 using Boscia, FrankWolfe
 
 """
+perform moma for given reference flux,
+    reaction has to be blocked in the model before calling moma()
 """
-function moma(model, x, reference_flux)
+
+function moma(model, x, reference_flux; time_limit)
     L = - reference_flux
     Q = I(length(x))
     @objective(model, Min, 1/2 * x' * Q * x + L' * x)
@@ -17,6 +20,7 @@ function moma(model, x, reference_flux)
 end
 
 """
+use boscia to perform moma for given reference flux 
 """
 function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia"; time_limit=Inf)
     println("")
@@ -48,4 +52,88 @@ function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia"; t
     println("")
 
     return primal_objective_value, x, result[:total_time_in_sec], result[:status]
+end
+
+function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_limit_fba=1800)
+    # build model
+    optimizer = SCIP.Optimizer
+
+    molecular_model = deserialize("data/" * organism * ".js")
+    print_model(molecular_model)
+
+    model = make_optimization_model(molecular_model, optimizer)
+    @show model
+    add_loopless_constraints(molecular_model, model)
+    @show model
+
+    # block reaction
+    if isnan(var)
+        var = model[:x]
+    end
+
+    set_lower_bound(var[idx], 0)
+    set_upper_bound(var[idx], 0)
+
+    # load from csv
+    reference_flux = DataFrame(CSV.File(
+        joinpath(@__DIR__, "csv/" * organism * "_loopless_fba_" * string(time_limit_fba) * ".csv")
+        ))[!,:vars_loopless_fba][1:length(var)]
+    primal_objective_value, solution, time, status = moma(model, var, reference_flux, time_limit=time_limit)
+
+    df = DataFrame(
+        objective_loopless_moma=primal_objective_value, 
+        vars_loopless_moma=solution, 
+        time_loopless_moma=time, 
+        termination_loopless_moma=status)
+
+    type = "moma"
+    file_name = joinpath(@__DIR__,"csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+
+    if !isfile(file_name)
+        CSV.write(file_name, df, append=true, writeheader=true)
+    else 
+        CSV.write(file_name, df, append=true)    
+    end
+end
+
+function get_moma_boscia_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_limit_fba=1800)
+    # build model
+    optimizer = SCIP.Optimizer
+
+    molecular_model = deserialize("data/" * organism * ".js")
+    print_model(molecular_model)
+
+    model = make_optimization_model(molecular_model, optimizer)
+    @show model
+    add_loopless_constraints(molecular_model, model)
+    set_attribute(model, MOI.Silent(), true)
+
+    # block reaction
+    if isnan(var)
+        var = model[:x]
+    end
+
+    set_lower_bound(var[idx], 0)
+    set_upper_bound(var[idx], 0)
+
+    # load from csv
+    reference_flux = DataFrame(CSV.File(
+        joinpath(@__DIR__, "csv/" * organism * "_loopless_fba_" * string(time_limit_fba) * ".csv")
+        ))[!,:vars_loopless_fba][1:length(var)]
+    primal_objective_value, solution, time, status = moma_boscia(model, var, reference_flux, time_limit=time_limit)
+
+    df = DataFrame(
+        objective_loopless_moma=primal_objective_value, 
+        vars_loopless_moma=solution, 
+        time_loopless_moma=time, 
+        termination_loopless_moma=status)
+
+    type = "moma_boscia"
+    file_name = joinpath(@__DIR__,"csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+
+    if !isfile(file_name)
+        CSV.write(file_name, df, append=true, writeheader=true)
+    else 
+        CSV.write(file_name, df, append=true)    
+    end
 end

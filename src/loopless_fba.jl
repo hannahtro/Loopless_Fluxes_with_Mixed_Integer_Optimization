@@ -7,7 +7,9 @@ include("loopless_constraints.jl")
 include("optimization_model.jl")
 include("cycle_detection.jl")
 
-# compute dual gap with time limit of loopless FBA
+"""
+compute dual gap with time limit of loopless FBA
+"""
 function loopless_fba_data(organism; time_limit=1800, silent=true)
     # build model
     optimizer = SCIP.Optimizer
@@ -44,7 +46,9 @@ function loopless_fba_data(organism; time_limit=1800, silent=true)
     return objective_loopless_fba, time_loopless_fba, nodes
 end
 
-# compute dual gap with time limit of loopless FBA with blocked cycles
+"""
+compute dual gap with time limit of loopless FBA with blocked cycles
+"""
 function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_objective=true, vector_formulation=true, smallest_cycles=false)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -125,7 +129,9 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-# compute dual gap with time limit of loopless FBA with indicators
+"""
+compute dual gap with time limit of loopless FBA with indicators
+"""
 function loopless_indicator_fba_data(organism; time_limit=1800)
     # build model
     optimizer = SCIP.Optimizer
@@ -159,7 +165,9 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-# compute dual gap with time limit of loopless FBA with indicators with bocked cycles
+"""
+compute dual gap with time limit of loopless FBA with indicators with bocked cycles
+"""
 function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, smallest_cycles=false)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
