@@ -1,2 +1,0 @@
-objective function : x[2669]
-nodes = 15
