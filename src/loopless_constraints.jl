@@ -45,7 +45,6 @@ function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
             -a[cidx] + 1000 * (1 - a[cidx])
         )
     end
-    println("nullspace formulation")
     @constraint(model, N_int' * G .== 0)
 end
 
@@ -77,7 +76,6 @@ function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64})
         )
     end
 
-    println("without nullspace formulation")
     @constraint(model, G' .== μ' * S_int)
 end
 
@@ -109,6 +107,34 @@ function add_loopless_indicator_constraints(molecular_model, model)
 end
 
 """
+add loopless FBA constraints using indicator variables instead of big M formulation, without nullspace formulation
+"""
+function add_loopless_indicator_constraints_mu(molecular_model, model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+
+    N_int = nullspace(Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])) # no sparse nullspace function
+
+    x = model[:x]
+    G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+    a = @variable(model, a[1:length(internal_rxn_idxs)])
+    μ = @variable(model, μ[1:size(S)[1]])
+
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        # add indicator 
+        @constraint(model, a[cidx] => {x[ridx] - eps() >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] + eps() <= 0})
+
+        @constraint(model, a[cidx] => {-1000 <= G[cidx] <= -1})
+        @constraint(model, !a[cidx] => {1 <= G[cidx] <= 1000})
+    end
+
+    @constraint(model, G' .== μ' * S_int)
+end
+
+"""
 add constraints to block detected cycles in loopless FBA model
 using Boolean expresssions
 """
@@ -128,7 +154,6 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
         # @show issorted(cycles_length, rev=false)
         cycles_length, unbounded_cycles, flux_directions = getindex.((cycles_length, unbounded_cycles, flux_directions), (sortperm(cycles_length),))    
         # @show issorted(cycles_length, rev=false)
-        unbounded_cycles = [c for c in unbounded_cycles if length(c) > 2]
     end 
 
     # subset of cycles
@@ -143,35 +168,39 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     num_blocked_cycles = 0
     if vector_formulation
         for (idx, cycle) in enumerate(unbounded_cycles)
-            num_blocked_cycles += 1
-            # get correct a, because v > a
-            cycle_vars = [internal_reactions[i] for i in cycle]
-            # reactions that have to be negated
-            sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
-            dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
-            # @show length(cycle_vars), length(dir_coef)
-            constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
-            @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
+            if length(cycle > 2)
+                num_blocked_cycles += 1
+                # get correct a, because v > a
+                cycle_vars = [internal_reactions[i] for i in cycle]
+                # reactions that have to be negated
+                sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
+                dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
+                # @show length(cycle_vars), length(dir_coef)
+                constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
+                @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
+            end
         end
         # open("../csv/model_vector.lp", "w") do f
         #     print(f, optimization_model)
         # end
     else 
         for (idx, cycle) in enumerate(unbounded_cycles)
+            if length(cycle > 2)
             num_blocked_cycles += 1
-            # @show cycle # reactions
-            cycle_vars = [a[internal_reactions[i]] for i in cycle]
-            bool_blocked_cycle = []
-            for (dir_idx, dir) in enumerate(flux_directions[idx])
-                if dir > 0
-                    push!(bool_blocked_cycle, 1)
-                    push!(bool_blocked_cycle, -cycle_vars[dir_idx])
-                elseif dir < 0
-                    push!(bool_blocked_cycle, cycle_vars[dir_idx])
+                # @show cycle # reactions
+                cycle_vars = [a[internal_reactions[i]] for i in cycle]
+                bool_blocked_cycle = []
+                for (dir_idx, dir) in enumerate(flux_directions[idx])
+                    if dir > 0
+                        push!(bool_blocked_cycle, 1)
+                        push!(bool_blocked_cycle, -cycle_vars[dir_idx])
+                    elseif dir < 0
+                        push!(bool_blocked_cycle, cycle_vars[dir_idx])
+                    end
                 end
+                # @show bool_blocked_cycle
+                @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
             end
-            # @show bool_blocked_cycle
-            @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
         end
             # open("../csv/model_loop.lp", "w") do f
             #     print(f, optimization_model)

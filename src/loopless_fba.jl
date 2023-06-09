@@ -55,7 +55,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with blocked cycles
 """
-function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked")
+function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=true)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -87,7 +87,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
-    add_loopless_constraints(molecular_model, model)
+    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -133,7 +133,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with indicators
 """
-function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless_indicator_fba")
+function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless_indicator_fba", nullspace_formulation=true)
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -144,7 +144,12 @@ function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless
     set_attribute(model, MOI.Silent(), true)
     # loopless FBA
 
-    add_loopless_indicator_constraints(molecular_model, model)
+    if nullspace_formulation    
+        add_loopless_indicator_constraints(molecular_model, model)
+    else 
+        add_loopless_indicator_constraints_mu(molecular_model, model)
+    end
+
     # @show model
     set_attribute(model, MOI.Silent(), false)
     objective_loopless_fba, dual_objective_value, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
@@ -160,6 +165,10 @@ function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless
         termination=termination_loopless_fba,
         nodes=nodes)
 
+    if !nullspace_formulation
+        type = type * "_mu"
+    end
+
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     CSV.write(file_name, df, append=false, writeheader=true)
@@ -168,7 +177,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with indicators with bocked cycles
 """
-function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked")
+function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked", nullspace_formulation=true)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -202,7 +211,12 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
-    add_loopless_indicator_constraints(molecular_model, model)
+    if nullspace_formulation
+        add_loopless_indicator_constraints(molecular_model, model)
+    else 
+        add_loopless_indicator_constraints_mu(molecular_model, model)
+    end
+    
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -226,6 +240,9 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         nodes=nodes,
         num_blocked_cycles=num_blocked_cycles)
 
+    if !nullspace_formulation
+        type = type * "_mu"
+    end
 
     if !same_objective
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
