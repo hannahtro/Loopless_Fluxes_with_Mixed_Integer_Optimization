@@ -3,10 +3,12 @@ include("../src/loopless_fba.jl")
 @show VERSION
 
 organism = "iAF692"
-loopless_fba_data(organism, time_limit=600)
+# loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=false)
 
 organism = "iJR904"
-loopless_fba_data(organism, time_limit=600)
+# loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=false)
 
 # loopless_indicator_fba_data(organism, time_limit=1800)
 # loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10)

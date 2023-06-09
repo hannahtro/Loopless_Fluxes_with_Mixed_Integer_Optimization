@@ -6,13 +6,17 @@ using Boscia, FrankWolfe
 """
 compute internal reactions of COBREXA model
 """
-function add_loopless_constraints(molecular_model, model)
+function add_loopless_constraints(molecular_model, model; nullspace_formulation=true)
     # loopless model
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs)
+    if nullspace_formulation
+        add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs)
+    else 
+        add_loopless_constraints_mu(model, stoichiometry(molecular_model), internal_rxn_idxs)
+    end
 end
 
 """
@@ -41,8 +45,40 @@ function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
             -a[cidx] + 1000 * (1 - a[cidx])
         )
     end
-
+    println("nullspace formulation")
     @constraint(model, N_int' * G .== 0)
+end
+
+"""
+add loopless FBA constraints witout nullspace formulation
+"""
+function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64})
+    # @show length(internal_rxn_idxs)
+    S_int = Array(S[:, internal_rxn_idxs])
+
+    x = model[:x]
+    a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
+    G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+    μ = @variable(model, μ[1:size(S)[1]])
+
+    # @show internal_rxn_idxs[1:10]
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
+        @constraint(model, x[ridx] <= 1000 * a[cidx])
+
+        @constraint(
+            model,
+            -1000 * a[cidx] + (1 - a[cidx]) <= G[cidx]
+        )
+        @constraint(
+            model,
+            G[cidx] <=
+            -a[cidx] + 1000 * (1 - a[cidx])
+        )
+    end
+
+    println("without nullspace formulation")
+    @constraint(model, G' .== μ' * S_int)
 end
 
 """
