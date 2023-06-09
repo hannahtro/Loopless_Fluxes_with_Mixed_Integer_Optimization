@@ -168,7 +168,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     num_blocked_cycles = 0
     if vector_formulation
         for (idx, cycle) in enumerate(unbounded_cycles)
-            if length(cycle > 2)
+            if length(cycle) > 2
                 num_blocked_cycles += 1
                 # get correct a, because v > a
                 cycle_vars = [internal_reactions[i] for i in cycle]
@@ -185,7 +185,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
         # end
     else 
         for (idx, cycle) in enumerate(unbounded_cycles)
-            if length(cycle > 2)
+            if length(cycle) > 2
             num_blocked_cycles += 1
                 # @show cycle # reactions
                 cycle_vars = [a[internal_reactions[i]] for i in cycle]
