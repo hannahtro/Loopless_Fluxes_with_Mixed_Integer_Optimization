@@ -20,8 +20,10 @@ include("split_hyperarcs.jl")
 returns cycles as list of nodes found in graph G, where G is constructed using 
 the reactions in transformed S that are non zero in the solution,
 maps edges to reactions in transformed S
+
+ceilings limits the number of cycles returned by simplecycles_iter
 """
-function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=false)
+function ubounded_cycles(S_transform, solution; ceiling=10^5)
     # filter non used reactions
     m, n = size(S_transform)
     # @show length(solution)
@@ -67,21 +69,19 @@ function ubounded_cycles(S_transform, solution; ceiling=10^5, smallest_cycles=fa
     # @show neighbors(G,4)
     # @show neighbors(G,5)
     
-    #TODO: filter cycles later when thermo feasibility checked
-    # compute cycles
-    # cycles are nodes in the network
-    # first element ≠ last element
-    if smallest_cycles 
-        cycles = simplecycles_iter(G) 
-        cycles_length = [length(c) for c in cycles]
-        # @show issorted(cycles_length, rev=false)
-        cycles_length, cycles = getindex.((cycles_length, cycles), (sortperm(cycles_length),))    
-        # @show issorted(cycles_length, rev=false)
-        cycles = [c for c in cycles if length(c) > 2]
-        cycles = cycles[1:ceiling]
-    else 
-        cycles = simplecycles_iter(G, ceiling)
-    end
+    # #TODO: filter cycles later when thermo feasibility checked
+    # # compute cycles
+    # # cycles are nodes in the network
+    # # first element ≠ last element
+    # if shortest_cycles 
+    #     cycles = simplecycles_iter(G) 
+    #     cycles_length = [length(c) for c in cycles]
+    #     # @show issorted(cycles_length, rev=false)
+    #     cycles_length, cycles = getindex.((cycles_length, cycles), (sortperm(cycles_length),))    
+    #     # @show issorted(cycles_length, rev=false)
+    #     cycles = [c for c in cycles if length(c) > 2]
+    #     cycles = cycles[1:ceiling]
+    cycles = simplecycles_iter(G, ceiling)
     return cycles, edge_mapping, G
 end 
 

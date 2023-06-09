@@ -112,9 +112,27 @@ end
 add constraints to block detected cycles in loopless FBA model
 using Boolean expresssions
 """
-function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions, internal_rxn_idxs, S; vector_formulation=true)
+function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions, internal_rxn_idxs, S; vector_formulation=true, shortest_cycles=false, block_limit=10000)
     internal_reactions = Dict(ridx => cidx for (cidx, ridx) in enumerate(internal_rxn_idxs))
     a = optimization_model[:a] 
+
+    # filter infeasible cycles
+    infeasible = [thermo_feasible(cycle, flux_directions[idx], S) ? 0 : 1 for (idx, cycle) in enumerate(unbounded_cycles)]
+    idx_infeasible = findall(x->x==1, infeasible)
+    unbounded_cycles = unbounded_cycles[idx_infeasible]
+    flux_directions = flux_directions[idx_infeasible]
+
+    # sort by length
+    if shortest_cycles 
+        cycles_length = [length(c) for c in unbounded_cycles]
+        # @show issorted(cycles_length, rev=false)
+        cycles_length, unbounded_cycles, flux_directions = getindex.((cycles_length, unbounded_cycles, flux_directions), (sortperm(cycles_length),))    
+        # @show issorted(cycles_length, rev=false)
+        unbounded_cycles = [c for c in unbounded_cycles if length(c) > 2]
+    end 
+
+    # subset of cycles
+    unbounded_cycles = unbounded_cycles[1:min(block_limit, length(unbounded_cycles))]
 
     # cycle through forward arcs:  a1 ∧ a2 ∧ a3 = 1
     # to block cycle: ¬(a1 ∧ a2 ∧ a3) = ¬a1 ∨ ¬a2 ∨ ¬a3 >= 1
@@ -125,39 +143,35 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     num_blocked_cycles = 0
     if vector_formulation
         for (idx, cycle) in enumerate(unbounded_cycles)
-            if !thermo_feasible(cycle, flux_directions[idx], S)
-                num_blocked_cycles += 1
-                # get correct a, because v > a
-                cycle_vars = [internal_reactions[i] for i in cycle]
-                # reactions that have to be negated
-                sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
-                dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
-                # @show length(cycle_vars), length(dir_coef)
-                constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
-                @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
-            end
+            num_blocked_cycles += 1
+            # get correct a, because v > a
+            cycle_vars = [internal_reactions[i] for i in cycle]
+            # reactions that have to be negated
+            sum_forward = sum([1 for dir in flux_directions[idx] if dir > 0])
+            dir_coef = [dir > 0 ? -1 : 1 for dir in flux_directions[idx]]
+            # @show length(cycle_vars), length(dir_coef)
+            constraint_coef = Array(sparsevec(cycle_vars, dir_coef, length(a)))
+            @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
         end
         # open("../csv/model_vector.lp", "w") do f
         #     print(f, optimization_model)
         # end
     else 
         for (idx, cycle) in enumerate(unbounded_cycles)
-            if !thermo_feasible(cycle, flux_directions[idx], S)
-                num_blocked_cycles += 1
-                # @show cycle # reactions
-                cycle_vars = [a[internal_reactions[i]] for i in cycle]
-                bool_blocked_cycle = []
-                for (dir_idx, dir) in enumerate(flux_directions[idx])
-                    if dir > 0
-                        push!(bool_blocked_cycle, 1)
-                        push!(bool_blocked_cycle, -cycle_vars[dir_idx])
-                    elseif dir < 0
-                        push!(bool_blocked_cycle, cycle_vars[dir_idx])
-                    end
+            num_blocked_cycles += 1
+            # @show cycle # reactions
+            cycle_vars = [a[internal_reactions[i]] for i in cycle]
+            bool_blocked_cycle = []
+            for (dir_idx, dir) in enumerate(flux_directions[idx])
+                if dir > 0
+                    push!(bool_blocked_cycle, 1)
+                    push!(bool_blocked_cycle, -cycle_vars[dir_idx])
+                elseif dir < 0
+                    push!(bool_blocked_cycle, cycle_vars[dir_idx])
                 end
-                # @show bool_blocked_cycle
-                @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
             end
+            # @show bool_blocked_cycle
+            @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
         end
             # open("../csv/model_loop.lp", "w") do f
             #     print(f, optimization_model)

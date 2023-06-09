@@ -6,7 +6,7 @@ using DataFrames, CSV
 
 include("optimization_model.jl")
 
-function get_fba_data(organism="iML1515"; time_limit=1800)
+function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba")
     # build model
     optimizer = SCIP.Optimizer
 
@@ -18,7 +18,6 @@ function get_fba_data(organism="iML1515"; time_limit=1800)
     set_attribute(model, MOI.Silent(), true)
 
     # FBA
-    type = "fba"
     objective_fba, _, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
 
     df = DataFrame(

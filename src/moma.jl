@@ -54,7 +54,7 @@ function moma_boscia(model, x, reference_flux, type="loopless MOMA in Boscia"; t
     return primal_objective_value, x, result[:total_time_in_sec], result[:status]
 end
 
-function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_limit_fba=1800)
+function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_limit_fba=1800, type = "moma")
     # build model
     optimizer = SCIP.Optimizer
 
@@ -86,7 +86,6 @@ function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_
         time_loopless_moma=time, 
         termination_loopless_moma=status)
 
-    type = "moma"
     file_name = joinpath(@__DIR__,"csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     if !isfile(file_name)
@@ -96,7 +95,7 @@ function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_
     end
 end
 
-function get_moma_boscia_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_limit_fba=1800)
+function get_moma_boscia_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_limit_fba=1800, type = "moma_boscia")
     # build model
     optimizer = SCIP.Optimizer
 
@@ -128,7 +127,6 @@ function get_moma_boscia_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf
         time_loopless_moma=time, 
         termination_loopless_moma=status)
 
-    type = "moma_boscia"
     file_name = joinpath(@__DIR__,"csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     if !isfile(file_name)

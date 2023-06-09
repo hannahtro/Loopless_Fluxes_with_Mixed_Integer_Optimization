@@ -9,7 +9,7 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=true)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=true, type = "loopless_fba")
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -21,7 +21,6 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         print(f, model)
     end
 
-    type = "loopless_fba"
     add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation)
 
     # @show model
@@ -56,7 +55,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with blocked cycles
 """
-function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_objective=true, vector_formulation=true, smallest_cycles=false)
+function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked")
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -66,7 +65,6 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
     model = make_optimization_model(molecular_model, optimizer)
     # @show model
     set_attribute(model, MOI.Silent(), true)
-    type = "fba"
     if !same_objective
         x = model[:x]
         @objective(model, Max, sum(x))
@@ -79,7 +77,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform  = split_hyperarcs(S, lb, ub, solution)
 
     # find cycles, get original reactions
-    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling, smallest_cycles=smallest_cycles)
+    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling)
     # @show cycles
     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
 
@@ -94,21 +92,17 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=10, same_ob
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, vector_formulation=vector_formulation)
+    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, vector_formulation=vector_formulation, shortest_cycles=shortest_cycles, block_limit=block_limit)
 
     # optimize loopless FBA
-    if vector_formulation
-        if smallest_cycles
-            type = "loopless_fba_blocked_smallest_cycles"
-        else
-            type = "loopless_fba_blocked"
-        end
-    else 
-        if smallest_cycles
-            type = "loopless_fba_blocked_for_loop_smallest_cycles"
-        else
-            type = "loopless_fba_blocked_for_loop"
-        end
+    if !vector_formulation
+        type = type * "_for_loop" 
+    end
+    if shortest_cycles
+        type = type * "_shortest_cycles"
+    end
+    if block_limit != 0
+        type = type * "_" * string(block_limit)
     end
 
     # @show model
@@ -139,7 +133,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with indicators
 """
-function loopless_indicator_fba_data(organism; time_limit=1800)
+function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless_indicator_fba")
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -150,7 +144,6 @@ function loopless_indicator_fba_data(organism; time_limit=1800)
     set_attribute(model, MOI.Silent(), true)
     # loopless FBA
 
-    type = "loopless_indicator_fba"
     add_loopless_indicator_constraints(molecular_model, model)
     # @show model
     set_attribute(model, MOI.Silent(), false)
@@ -175,7 +168,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with indicators with bocked cycles
 """
-function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, smallest_cycles=false)
+function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked")
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -199,7 +192,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform  = split_hyperarcs(S, lb, ub, solution)
 
     # find cycles, get original reactions
-    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling, smallest_cycles=smallest_cycles)
+    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution_transform, ceiling=ceiling)
     # @show cycles
     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
 
@@ -214,10 +207,9 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
+    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, vector_formulation=vector_formulation, shortest_cycles=shortest_cycles, block_limit=block_limit)
 
     # optimize loopless FBA
-    type = "loopless_indicator_fba_blocked"
     # @show model
     set_attribute(model, MOI.Silent(), false)
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
