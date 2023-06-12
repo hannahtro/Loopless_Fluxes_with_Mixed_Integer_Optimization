@@ -49,7 +49,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     end
 
     CSV.write(file_name, df, append=false, writeheader=true)
-    return objective_loopless_fba, time_loopless_fba, nodes
+    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
 end
 
 """
@@ -221,7 +221,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, vector_formulation=vector_formulation, shortest_cycles=shortest_cycles, block_limit=block_limit)
+    num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, shortest_cycles=shortest_cycles, block_limit=block_limit)
 
     # optimize loopless FBA
     # @show model
