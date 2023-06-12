@@ -115,7 +115,7 @@ function add_loopless_indicator_constraints_mu(molecular_model, model)
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
-    N_int = nullspace(Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])) # no sparse nullspace function
+    S_int = Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])
 
     x = model[:x]
     G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
