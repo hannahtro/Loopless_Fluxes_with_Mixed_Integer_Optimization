@@ -120,7 +120,7 @@ function add_loopless_indicator_constraints_mu(molecular_model, model)
     x = model[:x]
     G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
     a = @variable(model, a[1:length(internal_rxn_idxs)])
-    μ = @variable(model, μ[1:size(S)[1]])
+    μ = @variable(model, μ[1:size(stoichiometry(molecular_model))[1]])
 
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
