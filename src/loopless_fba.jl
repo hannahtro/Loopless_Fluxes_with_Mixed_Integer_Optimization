@@ -9,7 +9,7 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=true, type = "loopless_fba")
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=true, type = "loopless_fba", csv=true)
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -24,9 +24,9 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation)
 
     # @show model
-    open("../csv/model_vector_" * organism * ".lp", "w") do f
-        print(f, model)
-    end
+    # open("../csv/model_vector_" * organism * ".lp", "w") do f
+    #     print(f, model)
+    # end
 
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
@@ -48,7 +48,9 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_mu_" * string(time_limit) * ".csv")
     end
 
-    CSV.write(file_name, df, append=false, writeheader=true)
+    if csv
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
     return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
 end
 
