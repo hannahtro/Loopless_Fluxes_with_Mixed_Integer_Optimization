@@ -1,0 +1,12 @@
+VERSION = v"1.9.0"
+WARNING: Dual bound 0.0267481 is smaller than the objective of the primal solution 0.0267741. The solution might not be optimal.
+WARNING: Dual bound 0.921912 is smaller than the objective of the primal solution 0.921948. The solution might not be optimal.
+WARNING: Dual bound 0.921918 is smaller than the objective of the primal solution 0.921948. The solution might not be optimal.
+WARNING: Dual bound -0.920703 is larger than the objective of the primal solution -0.920708. The solution might not be optimal.
+WARNING: Dual bound 0.921918 is smaller than the objective of the primal solution 0.921948. The solution might not be optimal.
+WARNING: Dual bound -0.920489 is larger than the objective of the primal solution -0.920498. The solution might not be optimal.
+ERROR: LoadError: syntax: keyword argument "nullspace_formulation" repeated in call to "loopless_fba_data" around /nfs/homeoptimi/htroppen/git/MA/test/loopless_fba.jl:22
+Stacktrace:
+ [1] top-level scope
+   @ /nfs/homeoptimi/htroppen/git/MA/test/loopless_fba.jl:22
+in expression starting at /nfs/homeoptimi/htroppen/git/MA/test/loopless_fba.jl:22
