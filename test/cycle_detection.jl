@@ -243,3 +243,6 @@ end
     ]
     num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
 end
+
+
+# TODO: test feasibility mu

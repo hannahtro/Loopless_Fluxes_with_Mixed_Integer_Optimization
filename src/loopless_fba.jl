@@ -262,6 +262,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     if nullspace_formulation
         type = type * "_nullspace"
     end
+    type = type * "_" * string(block_limit)
     
     if !same_objective
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
