@@ -129,6 +129,7 @@ end
     @objective(model, Max, x[1]+x[3]+x[4])
     add_loopless_constraints(model, S, [3,4,7,8,11,12])
     _, _, solution, _, _ = optimize_model(model)
+    @show solution
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
     cycles, edge_mapping, G = ubounded_cycles(S_transform, solution_transform)
     @test length(cycles) == 1

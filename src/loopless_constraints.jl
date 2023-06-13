@@ -251,5 +251,33 @@ function determine_G(S, solution, internal_rxn_idxs)
 
     @constraint(Gibbs_model, N_int' * G .== 0)
     _, _, G, _, status = optimize_model(Gibbs_model)
+
+    a = [solution[ridx] > 0 ? 1 : 0 for (idx,ridx) in enumerate(internal_rxn_idxs)] # if s is zero, a can be zero or one
+
+    @show length(G), length(a)
     return vcat(solution, G, a)
+end
+
+# returns assignment of G, mu and a for a given solution
+function determine_G_mu(S, solution, internal_rxn_idxs)
+    Gibbs_model = Model(SCIP.Optimizer)
+    S_int = Array(S[:, internal_rxn_idxs])
+    G = @variable(Gibbs_model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+    μ = @variable(Gibbs_model, μ[1:size(S_int)[1]])
+
+    for (idx,ridx) in enumerate(internal_rxn_idxs)
+        if solution[ridx] > 0
+            @constraint(Gibbs_model, -1000 <= G[idx] <= -1)
+        elseif solution[ridx] < 0
+            @constraint(Gibbs_model, 1 <= G[idx] <= 1000)
+        end
+    end
+
+    @constraint(Gibbs_model, G' .== μ' * S_int)   
+     _, _, sol, _, status = optimize_model(Gibbs_model)
+
+     a = [solution[ridx] > 0 ? 1 : 0 for (idx,ridx) in enumerate(internal_rxn_idxs)] # if s is zero, a can be zero or one
+
+    # @show sol, a
+    return vcat(solution, sol[1:length(internal_rxn_idxs)], a, sol[length(internal_rxn_idxs)+1:end]) # G, a, μ
 end
