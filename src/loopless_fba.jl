@@ -9,7 +9,7 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=true, type = "loopless_fba", csv=true)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", csv=true)
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -40,12 +40,14 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
-        nodes=nodes)
+        nodes=nodes,
+        time_limit=time_limit, 
+        nullspace_formulation=nullspace_formulation)
 
-    if nullspace_formulation
+    if !nullspace_formulation
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
     else 
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_mu_" * string(time_limit) * ".csv")
+        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_nullspace_" * string(time_limit) * ".csv")
     end
 
     if csv
@@ -57,7 +59,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with blocked cycles
 """
-function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=true)
+function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=false)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -103,9 +105,12 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
     if shortest_cycles
         type = type * "_shortest_cycles"
     end
-    if block_limit != 0
-        type = type * "_" * string(block_limit)
+    
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
+
+    type = type * "_" * string(block_limit)
 
     # @show model
     set_attribute(model, MOI.Silent(), false)
@@ -121,7 +126,12 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
         nodes=nodes,
-        num_blocked_cycles=num_blocked_cycles)
+        num_blocked_cycles=num_blocked_cycles,
+        ceiling=ceiling,
+        time_limit=time_limit, 
+        shortest_cycles=shortest_cycles, 
+        nullspace_formulation=nullspace_formulation, 
+        block_limit=block_limit)
 
     if !same_objective
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
@@ -165,10 +175,12 @@ function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless
         solution=vars_loopless_fba, 
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
-        nodes=nodes)
+        nodes=nodes,
+        time_limit=time_limit, 
+        nullspace_formulation=nullspace_formulation)
 
-    if !nullspace_formulation
-        type = type * "_mu"
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
@@ -179,7 +191,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with indicators with bocked cycles
 """
-function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked", nullspace_formulation=true)
+function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked", nullspace_formulation=false)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -240,12 +252,17 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
         nodes=nodes,
-        num_blocked_cycles=num_blocked_cycles)
+        num_blocked_cycles=num_blocked_cycles,
+        ceiling=ceiling,
+        time_limit=time_limit, 
+        shortest_cycles=shortest_cycles, 
+        nullspace_formulation=nullspace_formulation, 
+        block_limit=block_limit)
 
-    if !nullspace_formulation
-        type = type * "_mu"
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
-
+    
     if !same_objective
         file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
     else 
@@ -254,4 +271,3 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
 
     CSV.write(file_name, df, append=false, writeheader=true)
 end
-

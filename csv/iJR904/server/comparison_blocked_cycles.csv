@@ -1,0 +1,13 @@
+type,objective,termination,blocked_cycles,time_s,nodes
+loopless_fba,0.9219,OPTIMAL,,328.92,947
+loopless_indicator_fba_mu,0.0,TIME_LIMIT,,1800.04,27559
+loopless_indicator_fba_blocked_mu_10_same_objective,0.0,TIME_LIMIT,0,1800.0,27459
+loopless_fba_blocked_50,0.9219,OPTIMAL,13,487.06,4500
+loopless_fba_blocked_100_100,0.9219,OPTIMAL,20,46.41,881
+loopless_fba_blocked_100_200,0.9219,OPTIMAL,60,101.61,28
+loopless_fba_blocked_100_500,0.9219,OPTIMAL,100,46.71,2314
+loopless_fba_blocked_shortest_cycles_100_50,0.9219,OPTIMAL,13,87.32,2792
+loopless_fba_blocked_50_same_objective,0.9219,OPTIMAL,0,172.44,641
+loopless_fba_blocked_100_100_same_objective,0.9219,OPTIMAL,0,114.67,7614
+loopless_fba_blocked_100_200_same_objective,0.9219,OPTIMAL,0,124.35,7614
+loopless_fba_blocked_100_500_same_objective,0.9219,OPTIMAL,0,121.22,7614
