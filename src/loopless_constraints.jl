@@ -306,6 +306,8 @@ function determine_G_mu(S, solution, internal_rxn_idxs)
     G = @variable(Gibbs_model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
     μ = @variable(Gibbs_model, μ[1:size(S_int)[1]])
 
+    @show length(G), length(solution)
+
     for (idx,ridx) in enumerate(internal_rxn_idxs)
         if solution[ridx] > 0
             @constraint(Gibbs_model, -1000 <= G[idx] <= -1)
@@ -316,14 +318,14 @@ function determine_G_mu(S, solution, internal_rxn_idxs)
 
     @constraint(Gibbs_model, G' .== μ' * S_int)   
      _, _, sol, _, status = optimize_model(Gibbs_model)
+     @show status
 
      a = [solution[ridx] > 0 ? 1 : 0 for (idx,ridx) in enumerate(internal_rxn_idxs)] # if s is zero, a can be zero or one
 
-     if length(G)==1
-         @show isnan(G)
+     if length(sol)==1
+         @show isnan(sol)
          @error "no assignment found for G, invalid flux" 
      end
 
-    # @show sol, a
     return vcat(solution, sol[1:length(internal_rxn_idxs)], a, sol[length(internal_rxn_idxs)+1:end]) # G, a, μ
 end

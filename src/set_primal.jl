@@ -21,21 +21,23 @@ function variable_mapping(model::Model, solution)
     end
 end
 
-
-function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; mu=true, flux=[], time_limit=600)
-    if !mu 
+"""
+compute loopless fba after setting primal for a given model
+"""
+function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspace_formulation=true, flux=[], time_limit=600)
+    if nullspace_formulation 
         solution = determine_G(S, flux, internal_rxn_idxs)   
     else
         solution = determine_G_mu(S, flux, internal_rxn_idxs)   
     end
 
-    if mu
+    if !nullspace_formulation
         @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs) + size(S)[1]
     else 
         @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs)
     end 
 
-    if !mu 
+    if nullspace_formulation 
         add_loopless_constraints(model, S, internal_rxn_idxs)
     else 
         add_loopless_constraints_mu(model, S, internal_rxn_idxs)
@@ -46,8 +48,8 @@ function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; mu=true,
 
     # @show model
     type = "set_primal"
-    if mu
-        type = type * "_mu"
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
 
     set_attribute(model, MOI.Silent(), true)
@@ -71,19 +73,21 @@ function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; mu=true,
 end
 
 """
+compute loopless fba after setting primal for a given organism
 """
-function loopless_fba_set_primal(organism; flux=[], load=true, mu=true, time_limit=180)
+function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formulation=false, time_limit=180)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
 
     print_model(molecular_model)
     # get values for G and a for solution 
     S = stoichiometry(molecular_model)
+    num_m, num_reactions = size(S)
     internal_rxn_idxs = internal_reactions(molecular_model)
 
     type = "solution"
-    if mu
-        type = type * "_mu"
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
 
@@ -91,8 +95,17 @@ function loopless_fba_set_primal(organism; flux=[], load=true, mu=true, time_lim
         df = CSV.read(file_name, DataFrame)
         solution = df[!,:sol]
     else 
+        if isempty(flux)
+            objective, flux, _, _ = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=nullspace_formulation, csv=false)
+            if !nullspace_formulation
+                @assert length(flux) == num_reactions + 2 * length(internal_rxn_idxs) + size(S)[1]
+            else 
+                @assert length(flux) == num_reactions + 2 * length(internal_rxn_idxs)
+            end 
+            flux = flux[1:num_reactions]
+        end
         # TODO: can take long, but is LP
-        if !mu 
+        if nullspace_formulation
             solution = determine_G(S, flux, internal_rxn_idxs)   
         else
             solution = determine_G_mu(S, flux, internal_rxn_idxs)   
@@ -104,7 +117,7 @@ function loopless_fba_set_primal(organism; flux=[], load=true, mu=true, time_lim
     # @show length(flux)
     # @show length(solution)
 
-    if mu
+    if !nullspace_formulation
         @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs) + size(S)[1]
     else 
         @show length(solution), length(internal_rxn_idxs), size(S)[1]
@@ -116,8 +129,8 @@ function loopless_fba_set_primal(organism; flux=[], load=true, mu=true, time_lim
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
     model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    if !mu 
-        add_loopless_constraints(molecular_model, model)
+    if nullspace_formulation 
+        add_loopless_constraints(molecular_model, model, nullspace_formulation=true)
     else 
         add_loopless_constraints(molecular_model, model, nullspace_formulation=false)
     end 
@@ -126,8 +139,8 @@ function loopless_fba_set_primal(organism; flux=[], load=true, mu=true, time_lim
     variable_mapping(model, solution)
 
     type = "set_primal"
-    if mu
-        type = type * "_mu"
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
 
     # @show model

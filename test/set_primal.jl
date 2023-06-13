@@ -17,10 +17,10 @@ include("../src/set_primal.jl")
     nodes = MOI.get(model, MOI.NodeCount())
 
     model = build_model(S, lb, ub)
-    objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, mu=false, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
+    objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=true, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
 
     model = build_model(S, lb, ub)
-    objective_value_primal_mu, time_primal_mu, nodes_primal_mu = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, mu=true, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
+    objective_value_primal_mu, time_primal_mu, nodes_primal_mu = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=false, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
 
     @test isapprox(objective, objective_value_primal)
     @test isapprox(objective_value_primal, objective_value_primal_mu)
@@ -31,8 +31,10 @@ end
 @testset "set optimal solution as primal in loopless FBA without nullspace formulation" begin
     organism = "iAF692"
 
-    objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false, csv=false)
-    objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal(organism, mu=true, flux=solution[1:690], load=true, time_limit=1800)
+    objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, csv=false)
+    loopless_fba_set_primal(organism, nullspace_formulation=true, load=false, time_limit=1800)
+
+    objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal(organism, nullspace_formulation=true, flux=solution[1:690], load=false, time_limit=1800)
 
     @test isapprox(objective_value_primal,objective_value, atol=0.001)
     @test nodes_primal < nodes
