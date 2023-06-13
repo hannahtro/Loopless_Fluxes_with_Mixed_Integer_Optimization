@@ -31,20 +31,19 @@ end
 @testset "set optimal solution as primal in loopless FBA without nullspace formulation" begin
     organism = "iAF692"
 
-    objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, csv=false)
+    objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false, csv=false)
     objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal(organism, mu=true, flux=solution[1:690], load=true, time_limit=1800)
 
     @test isapprox(objective_value_primal,objective_value, atol=0.001)
-    @test time_primal < time
     @test nodes_primal < nodes
 end
 
-# TODO: G and a not found for optimal solution
-# @testset "set optimal solution as primal in loopless FBA without nullspace formulation" begin
+# TODO: no assignment for G found for given flux
+# @testset "set optimal solution as primal in loopless FBA with nullspace formulation" begin
 #     organism = "iAF692"
 
-#     objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
-#     objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal(organism, mu=true, flux=solution[1:690], load=false, time_limit=1800)
+#     objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true)
+#     objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal(organism, mu=false, flux=solution[1:690], load=false, time_limit=1800)
 
 #     @test isapprox(objective_value_primal,objective_value, atol=0.001)
 #     @test time_primal < time

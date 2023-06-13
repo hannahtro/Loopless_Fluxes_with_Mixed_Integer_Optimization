@@ -255,6 +255,11 @@ function determine_G(S, solution, internal_rxn_idxs)
     a = [solution[ridx] > 0 ? 1 : 0 for (idx,ridx) in enumerate(internal_rxn_idxs)] # if s is zero, a can be zero or one
 
     @show length(G), length(a)
+    if length(G)!=length(a)
+        @show isnan(G)
+        @error "no assignment found for G, invalid flux" 
+    end
+
     return vcat(solution, G, a)
 end
 
@@ -277,6 +282,11 @@ function determine_G_mu(S, solution, internal_rxn_idxs)
      _, _, sol, _, status = optimize_model(Gibbs_model)
 
      a = [solution[ridx] > 0 ? 1 : 0 for (idx,ridx) in enumerate(internal_rxn_idxs)] # if s is zero, a can be zero or one
+
+     if length(G)==1
+         @show isnan(G)
+         @error "no assignment found for G, invalid flux" 
+     end
 
     # @show sol, a
     return vcat(solution, sol[1:length(internal_rxn_idxs)], a, sol[length(internal_rxn_idxs)+1:end]) # G, a, μ
