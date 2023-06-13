@@ -210,6 +210,9 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     return num_blocked_cycles
 end
 
+"""
+compute thermodynamic feasibility for a given cycle using the nullspace formulation
+"""
 function thermo_feasible(cycle, flux_directions, S)
     thermo_feasible_model = Model(SCIP.Optimizer)
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
@@ -235,7 +238,38 @@ function thermo_feasible(cycle, flux_directions, S)
     return status == MOI.OPTIMAL
 end
 
-# returns assignment of G and a for a given solution
+"""
+compute thermodynamic feasibility for a given cycle without using the nullspace formulation
+"""
+function thermo_feasible_mu(cycle, flux_directions, S)
+    thermo_feasible_model = Model(SCIP.Optimizer)
+    S_int = S[:, cycle]
+    G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
+    μ = @variable(Gibbs_model, μ[1:size(S_int)[1]])
+
+    # add G variables for each reaction in cycle
+    # @show cycle
+    for (idx,cycle) in enumerate(cycle)
+        if flux_directions[idx] > 0
+            @constraint(thermo_feasible_model, -1000 <= G[idx] <= -1)
+        elseif flux_directions[idx] < 0
+            @constraint(thermo_feasible_model, 1 <= G[idx] <= 1000)
+        end
+    end
+
+    # @show N_int, Array(S[:, cycle])
+    @constraint(thermo_feasible_model, G' .== μ' * S_int)   
+
+    # print(thermo_feasible_model)
+
+    _, _, solution, _, status = optimize_model(thermo_feasible_model)
+    # @show solution, N_int' * solution
+    return status == MOI.OPTIMAL
+end
+
+"""
+returns assignment of G and a for a given solution
+"""
 function determine_G(S, solution, internal_rxn_idxs)
     Gibbs_model = Model(SCIP.Optimizer)
     N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
@@ -263,7 +297,9 @@ function determine_G(S, solution, internal_rxn_idxs)
     return vcat(solution, G, a)
 end
 
-# returns assignment of G, mu and a for a given solution
+"""
+returns assignment of G, mu and a for a given solution
+"""
 function determine_G_mu(S, solution, internal_rxn_idxs)
     Gibbs_model = Model(SCIP.Optimizer)
     S_int = Array(S[:, internal_rxn_idxs])
