@@ -1,1 +1,6 @@
 VERSION = v"1.9.0"
+WARNING: Dual bound 0.0267436 is smaller than the objective of the primal solution 0.0267804. The solution might not be optimal.
+WARNING: Dual bound 0.0267436 is smaller than the objective of the primal solution 0.0267804. The solution might not be optimal.
+WARNING: Dual bound 0.0267436 is smaller than the objective of the primal solution 0.0267804. The solution might not be optimal.
+WARNING: Dual bound 0.0267436 is smaller than the objective of the primal solution 0.0267804. The solution might not be optimal.
+WARNING: Dual bound 0.0267436 is smaller than the objective of the primal solution 0.0267804. The solution might not be optimal.
