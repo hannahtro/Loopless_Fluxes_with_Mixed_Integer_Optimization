@@ -53,6 +53,7 @@ function compare_blocked_cycles(;file_names, organism)
     end 
 
     df[!,:objective_value] = round.(df[!,:objective_value], digits=4)
+    df[!,:dual_bound] = round.(df[!,:dual_bound], digits=4)
     df[!,:time] = round.(df[!,:time], digits=2)
     rename!(df,:objective_value => :objective)
     rename!(df,:time => :time_s)
@@ -85,25 +86,48 @@ end
 #     #"iAF692_loopless_fba_blocked_shortest_cycles_100_1800_10000"
 # ]
 
-organism = "iML1515"
+# organism = "iML1515"
+# file_names = [
+#     "iML1515_loopless_fba_1800", 
+#     "iML1515_loopless_fba_nullspace_1800", 
+#     "iML1515_loopless_indicator_fba_1800", 
+#     "iML1515_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
+#     "iML1515_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
+#     "iML1515_loopless_fba_blocked_100_1800_50_same_objective", 
+#     "iML1515_loopless_fba_blocked_100_1800_100_same_objective", 
+#     "iML1515_loopless_fba_blocked_100_1800_200_same_objective", 
+#     "iML1515_loopless_fba_blocked_100_1800_500_same_objective",
+#     "iML1515_loopless_fba_blocked_100_1800_50", 
+#     "iML1515_loopless_fba_blocked_100_1800_100", 
+#     "iML1515_loopless_fba_blocked_100_1800_200", 
+#     "iML1515_loopless_fba_blocked_100_1800_500", 
+#     #"iML1515_loopless_fba_blocked_50_1800_10000", 
+#     #"iML1515_loopless_fba_blocked_100_1800_10000", 
+#     #"iML1515_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
+#     "iML1515_loopless_fba_blocked_shortest_cycles_100_1800_50"
+# ]
+
+# compare_blocked_cycles(file_names=file_names, organism=organism)
+
+organism = "iJR904"
 file_names = [
-    "iML1515_loopless_fba_1800", 
-    "iML1515_loopless_fba_nullspace_1800", 
-    "iML1515_loopless_indicator_fba_1800", 
-    "iML1515_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
-    "iML1515_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
-    "iML1515_loopless_fba_blocked_100_1800_50_same_objective", 
-    "iML1515_loopless_fba_blocked_100_1800_100_same_objective", 
-    "iML1515_loopless_fba_blocked_100_1800_200_same_objective", 
-    "iML1515_loopless_fba_blocked_100_1800_500_same_objective",
-    "iML1515_loopless_fba_blocked_100_1800_50", 
-    "iML1515_loopless_fba_blocked_100_1800_100", 
-    "iML1515_loopless_fba_blocked_100_1800_200", 
-    "iML1515_loopless_fba_blocked_100_1800_500", 
-    #"iML1515_loopless_fba_blocked_50_1800_10000", 
-    #"iML1515_loopless_fba_blocked_100_1800_10000", 
-    #"iML1515_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
-    "iML1515_loopless_fba_blocked_shortest_cycles_100_1800_50"
+    "iJR904_loopless_fba_1800", 
+    "iJR904_loopless_fba_nullspace_1800", 
+    "iJR904_loopless_indicator_fba_1800", 
+    "iJR904_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
+    "iJR904_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
+    "iJR904_loopless_fba_blocked_100_1800_50_same_objective", 
+    "iJR904_loopless_fba_blocked_100_1800_100_same_objective", 
+    "iJR904_loopless_fba_blocked_100_1800_200_same_objective", 
+    "iJR904_loopless_fba_blocked_100_1800_500_same_objective",
+    "iJR904_loopless_fba_blocked_100_1800_50", 
+    "iJR904_loopless_fba_blocked_100_1800_100", 
+    "iJR904_loopless_fba_blocked_100_1800_200", 
+    "iJR904_loopless_fba_blocked_100_1800_500", 
+    # "iJR904_loopless_fba_blocked_50_1800_10000", 
+    # "iJR904_loopless_fba_blocked_100_1800_10000", 
+    # "iJR904_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
+    # "iJR904_loopless_fba_blocked_shortest_cycles_100_1800_50"
 ]
 
 compare_blocked_cycles(file_names=file_names, organism=organism)
