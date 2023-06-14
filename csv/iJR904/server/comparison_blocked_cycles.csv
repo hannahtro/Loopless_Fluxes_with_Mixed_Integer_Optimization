@@ -12,3 +12,7 @@ loopless_fba_blocked,0.9219,0.9219,OPTIMAL,13,50,100,1800,89.4,4804
 loopless_fba_blocked,0.9219,0.9219,OPTIMAL,20,100,100,1800,45.61,881
 loopless_fba_blocked,0.9219,0.9219,OPTIMAL,60,200,100,1800,101.19,28
 loopless_fba_blocked,0.9219,0.9219,OPTIMAL,100,500,100,1800,48.43,2314
+loopless_fba_blocked00,0.9219,0.9219,OPTIMAL,50,10000,50,1800,99.55,6505
+loopless_fba_blocked00,0.9219,0.9219,OPTIMAL,100,10000,100,1800,48.28,2314
+loopless_fba_blocked_shortest_cycles00,0.9219,0.9219,OPTIMAL,50,10000,50,1800,74.12,5777
+loopless_fba_blocked_shortest_cycles,0.9219,0.9219,OPTIMAL,13,50,100,1800,87.25,2792

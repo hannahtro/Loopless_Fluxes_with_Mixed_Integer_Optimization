@@ -64,27 +64,26 @@ function compare_blocked_cycles(;file_names, organism)
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-# TODO rerun instances wih missing data
-# organism = "iAF692"
-# file_names = [
-#     "iAF692_loopless_fba_1800", 
-#     "iAF692_loopless_fba_nullspace_1800", 
-#     "iAF692_loopless_indicator_fba_1800", 
-#     "iAF692_loopless_indicator_fba_blocked_500_1800_50_same_objective", 
-#     "iAF692_loopless_indicator_fba_blocked_500_1800_100_same_objective", #TODO: differet objective
-#     "iAF692_loopless_fba_blocked_100_1800_50_same_objective", 
-#     "iAF692_loopless_fba_blocked_100_1800_100_same_objective", 
-#     "iAF692_loopless_fba_blocked_100_1800_200_same_objective", 
-#     "iAF692_loopless_fba_blocked_100_1800_500_same_objective",
-#     "iAF692_loopless_fba_blocked_100_1800_50", 
-#     "iAF692_loopless_fba_blocked_100_1800_100", 
-#     "iAF692_loopless_fba_blocked_100_1800_200", 
-#     "iAF692_loopless_fba_blocked_100_1800_500", 
-#     #"iAF692_loopless_fba_blocked_50_1800_10000", 
-#     #"iAF692_loopless_fba_blocked_100_1800_10000", 
-#     #"iAF692_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
-#     #"iAF692_loopless_fba_blocked_shortest_cycles_100_1800_10000"
-# ]
+organism = "iAF692"
+file_names = [
+    "iAF692_loopless_fba_1800", 
+    "iAF692_loopless_fba_nullspace_1800", 
+    "iAF692_loopless_indicator_fba_1800", 
+    "iAF692_loopless_indicator_fba_blocked_500_1800_50_same_objective", 
+    "iAF692_loopless_indicator_fba_blocked_500_1800_100_same_objective", #TODO: differet objective
+    "iAF692_loopless_fba_blocked_100_1800_50_same_objective", 
+    "iAF692_loopless_fba_blocked_100_1800_100_same_objective", 
+    "iAF692_loopless_fba_blocked_100_1800_200_same_objective", 
+    "iAF692_loopless_fba_blocked_100_1800_500_same_objective",
+    "iAF692_loopless_fba_blocked_100_1800_50", 
+    "iAF692_loopless_fba_blocked_100_1800_100", 
+    "iAF692_loopless_fba_blocked_100_1800_200", 
+    "iAF692_loopless_fba_blocked_100_1800_500", 
+    "iAF692_loopless_fba_blocked_50_1800_10000", 
+    "iAF692_loopless_fba_blocked_100_1800_10000", 
+    "iAF692_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
+    "iAF692_loopless_fba_blocked_shortest_cycles_100_1800_10000"
+]
 
 # organism = "iML1515"
 # file_names = [
@@ -109,25 +108,25 @@ end
 
 # compare_blocked_cycles(file_names=file_names, organism=organism)
 
-organism = "iJR904"
-file_names = [
-    "iJR904_loopless_fba_1800", 
-    "iJR904_loopless_fba_nullspace_1800", 
-    "iJR904_loopless_indicator_fba_1800", 
-    "iJR904_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
-    "iJR904_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
-    "iJR904_loopless_fba_blocked_100_1800_50_same_objective", 
-    "iJR904_loopless_fba_blocked_100_1800_100_same_objective", 
-    "iJR904_loopless_fba_blocked_100_1800_200_same_objective", 
-    "iJR904_loopless_fba_blocked_100_1800_500_same_objective",
-    "iJR904_loopless_fba_blocked_100_1800_50", 
-    "iJR904_loopless_fba_blocked_100_1800_100", 
-    "iJR904_loopless_fba_blocked_100_1800_200", 
-    "iJR904_loopless_fba_blocked_100_1800_500", 
-    # "iJR904_loopless_fba_blocked_50_1800_10000", 
-    # "iJR904_loopless_fba_blocked_100_1800_10000", 
-    # "iJR904_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
-    # "iJR904_loopless_fba_blocked_shortest_cycles_100_1800_50"
-]
+# organism = "iJR904"
+# file_names = [
+#     "iJR904_loopless_fba_1800", 
+#     "iJR904_loopless_fba_nullspace_1800", 
+#     "iJR904_loopless_indicator_fba_1800", 
+#     "iJR904_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
+#     "iJR904_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
+#     "iJR904_loopless_fba_blocked_100_1800_50_same_objective", 
+#     "iJR904_loopless_fba_blocked_100_1800_100_same_objective", 
+#     "iJR904_loopless_fba_blocked_100_1800_200_same_objective", 
+#     "iJR904_loopless_fba_blocked_100_1800_500_same_objective",
+#     "iJR904_loopless_fba_blocked_100_1800_50", 
+#     "iJR904_loopless_fba_blocked_100_1800_100", 
+#     "iJR904_loopless_fba_blocked_100_1800_200", 
+#     "iJR904_loopless_fba_blocked_100_1800_500", 
+#     "iJR904_loopless_fba_blocked_50_1800_10000", 
+#     "iJR904_loopless_fba_blocked_100_1800_10000", 
+#     "iJR904_loopless_fba_blocked_shortest_cycles_50_1800_10000", 
+#     "iJR904_loopless_fba_blocked_shortest_cycles_100_1800_50"
+# ]
 
 compare_blocked_cycles(file_names=file_names, organism=organism)
