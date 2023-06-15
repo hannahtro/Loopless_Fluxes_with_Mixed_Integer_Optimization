@@ -3,8 +3,9 @@ include("../src/loopless_fba.jl")
 @show VERSION
 
 organism = "iAF692"
-loopless_fba_blocked_data(organism, time_limit=1800, ceiling=10000, same_objective=false, nullspace_formulation=false, reduced=true)
-# loopless_fba_blocked_data(organism, time_limit=1800, ceiling=10000, same_objective=false, nullspace_formulation=false)
+loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true)
+loopless_fba_blocked_data(organism, time_limit=1800, ceiling=1000, block_limit=20, same_objective=false, nullspace_formulation=true, reduced=false)
+loopless_fba_blocked_data(organism, time_limit=1800, ceiling=1000, block_limit=20, same_objective=false, nullspace_formulation=false, reduced=false)
 
 # # iAF692_loopless_fba_blocked_100_1800_10000
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=10000, same_objective=false, nullspace_formulation=false)

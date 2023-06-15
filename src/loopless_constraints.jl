@@ -172,12 +172,16 @@ end
 add constraints to block detected cycles in loopless FBA model
 using Boolean expresssions
 """
-function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions, internal_rxn_idxs, S; vector_formulation=true, shortest_cycles=false, block_limit=10000)
+function block_cycle_constraint(optimization_model, unbounded_cycles, flux_directions, internal_rxn_idxs, S; vector_formulation=true, shortest_cycles=false, block_limit=10000, nullspace_formulation=false)
     internal_reactions = Dict(ridx => cidx for (cidx, ridx) in enumerate(internal_rxn_idxs))
     a = optimization_model[:a] 
 
     # filter infeasible cycles
-    infeasible = [thermo_feasible(cycle, flux_directions[idx], S) ? 0 : 1 for (idx, cycle) in enumerate(unbounded_cycles)]
+    if nullspace_formulation
+        infeasible = [thermo_feasible(cycle, flux_directions[idx], S) ? 0 : 1 for (idx, cycle) in enumerate(unbounded_cycles)]
+    else 
+        infeasible = [thermo_feasible_mu(cycle, flux_directions[idx], S) ? 0 : 1 for (idx, cycle) in enumerate(unbounded_cycles)]
+    end 
     idx_infeasible = findall(x->x==1, infeasible)
     unbounded_cycles = unbounded_cycles[idx_infeasible]
     flux_directions = flux_directions[idx_infeasible]
@@ -279,7 +283,7 @@ function thermo_feasible_mu(cycle, flux_directions, S)
     thermo_feasible_model = Model(SCIP.Optimizer)
     S_int = S[:, cycle]
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
-    μ = @variable(Gibbs_model, μ[1:size(S_int)[1]])
+    μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
 
     # add G variables for each reaction in cycle
     # @show cycle
