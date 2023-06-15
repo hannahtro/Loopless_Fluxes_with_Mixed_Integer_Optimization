@@ -6,7 +6,7 @@ using Boscia, FrankWolfe
 """
 compute internal reactions of COBREXA model
 """
-function add_loopless_constraints(molecular_model, model; nullspace_formulation=true)
+function add_loopless_constraints(molecular_model, model; nullspace_formulation=true, reduced=false)
     # loopless model
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
@@ -15,7 +15,11 @@ function add_loopless_constraints(molecular_model, model; nullspace_formulation=
     if nullspace_formulation
         add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs)
     else 
-        add_loopless_constraints_mu(model, stoichiometry(molecular_model), internal_rxn_idxs)
+        if !reduced
+            add_loopless_constraints_mu(model, stoichiometry(molecular_model), internal_rxn_idxs)
+        else 
+            add_loopless_constraints_mu_reduced(model, stoichiometry(molecular_model), internal_rxn_idxs)
+        end
     end
 end
 
@@ -77,6 +81,36 @@ function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64})
     end
 
     @constraint(model, G' .== μ' * S_int)
+end
+
+"""
+add loopless FBA constraints witout nullspace formulation using less decision variables,
+as G is defined by mu and S_int, we do not need G explicitly
+"""
+function add_loopless_constraints_mu_reduced(model, S, internal_rxn_idxs::Vector{Int64})
+    # @show length(internal_rxn_idxs)
+    S_int = Array(S[:, internal_rxn_idxs])
+
+    x = model[:x]
+    a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
+    μ = @variable(model, μ[1:size(S)[1]])
+
+    # @show internal_rxn_idxs[1:10]
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
+        @constraint(model, x[ridx] <= 1000 * a[cidx])﻿
+
+        @constraint(
+            model,
+            -1000 * a[cidx] + (1 - a[cidx]) <= (μ' * S_int)[cidx]
+        )
+        @constraint(
+            model,
+            (μ' * S_int)[cidx] <=
+            -a[cidx] + 1000 * (1 - a[cidx])
+        )
+    end
+
 end
 
 """

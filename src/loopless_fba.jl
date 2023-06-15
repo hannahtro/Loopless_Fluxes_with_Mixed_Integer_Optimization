@@ -44,11 +44,11 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         time_limit=time_limit, 
         nullspace_formulation=nullspace_formulation)
 
-    if !nullspace_formulation
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
-    else 
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_nullspace_" * string(time_limit) * ".csv")
+    if nullspace_formulation
+        type = type * "_nullspace"
     end
+    
+    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     if csv
         CSV.write(file_name, df, append=false, writeheader=true)
@@ -59,7 +59,7 @@ end
 """
 compute dual gap with time limit of loopless FBA with blocked cycles
 """
-function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=false)
+function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=false, reduced=false)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -91,7 +91,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
-    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation)
+    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation, reduced=reduced)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -105,11 +105,13 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
     if shortest_cycles
         type = type * "_shortest_cycles"
     end
-    
     if nullspace_formulation
         type = type * "_nullspace"
     end
-
+    if reduced
+        type = type * "_reduced"
+    end
+    
     type = type * "_" * string(block_limit)
 
     # @show model
