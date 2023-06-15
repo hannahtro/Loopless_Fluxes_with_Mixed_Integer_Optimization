@@ -309,6 +309,9 @@ end
 returns assignment of G and a for a given solution
 """
 function determine_G(S, solution, internal_rxn_idxs)
+    @assert length(solution) == size(S)[2]
+    steady_state =  isapprox.(S * solution[1:size(S)[2]],0, atol=0.0001)
+    @assert steady_state == ones(size(S)[1])
     Gibbs_model = Model(SCIP.Optimizer)
     N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
     G = @variable(Gibbs_model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
@@ -339,6 +342,7 @@ end
 returns assignment of G, mu and a for a given solution
 """
 function determine_G_mu(S, solution, internal_rxn_idxs)
+    @assert length(solution) == size(S)[2]
     Gibbs_model = Model(SCIP.Optimizer)
     S_int = Array(S[:, internal_rxn_idxs])
     G = @variable(Gibbs_model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions

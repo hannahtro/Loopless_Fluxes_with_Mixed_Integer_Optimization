@@ -7,7 +7,7 @@ using Boscia, FrankWolfe
 """
 build FBA model
 """
-function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
+function build_model(S_transform, lb_transform, ub_transform; set_objective=true, optimizer=SCIP.Optimizer)
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
@@ -21,8 +21,10 @@ function build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Opt
     @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
     # @show optimization_model
 
-    @objective(optimization_model, Max, sum(x))
-
+    if set_objective
+        @objective(optimization_model, Max, sum(x))
+    end 
+    
     return optimization_model
 end
 

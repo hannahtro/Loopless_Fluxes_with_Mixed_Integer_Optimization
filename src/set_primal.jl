@@ -75,7 +75,7 @@ end
 """
 compute loopless fba after setting primal for a given organism
 """
-function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formulation=false, time_limit=180)
+function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formulation=false, time_limit=180, csv=true)
     # load model
     molecular_model = deserialize("../data/" * organism * ".js")
 
@@ -114,15 +114,16 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
         df_sol = DataFrame(sol = solution)
         CSV.write(file_name, df_sol, append=false, writeheader=true)
     end
-    # @show length(flux)
-    # @show length(solution)
 
-    if !nullspace_formulation
-        @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs) + size(S)[1]
-    else 
-        @show length(solution), length(internal_rxn_idxs), size(S)[1]
-        @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs)
-    end 
+    @show length(flux)
+    @show length(solution)
+
+    # if !nullspace_formulation
+    #     @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs) + size(S)[1]
+    # else 
+    #     @show length(solution), length(internal_rxn_idxs), size(S)[1]
+    #     @assert length(solution) == length(flux) + 2 * length(internal_rxn_idxs)
+    # end 
 
     # loopless FBA 
     # add loopless constraints and block cycles
@@ -149,6 +150,7 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
         optimize_model(model, type, time_limit=time_limit, print_objective=false)
 
     num_nodes = MOI.get(model, MOI.NodeCount())
+    @show termination_loopless_fba
 
     df = DataFrame(
         objective_value=objective_loopless_fba, 
@@ -159,8 +161,9 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
         nodes=num_nodes)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
-
-    CSV.write(file_name, df, append=false, writeheader=true)
+    if csv 
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
     return objective_loopless_fba, time_loopless_fba, num_nodes
 end
 

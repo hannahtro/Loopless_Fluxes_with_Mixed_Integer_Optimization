@@ -16,6 +16,12 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
+    # S = stoichiometry(molecular_model)
+    # xl, xu = bounds(molecular_model)
+    # model = build_model(S, xl, xu)
+    # x = model[:x]
+    # @objective(model, MAX_SENSE, objective(molecular_model)' * x)
+
     # @show model
     # open("../csv/model_cobrexa_" * organism * ".lp", "w") do f
     #     print(f, model)
@@ -32,7 +38,12 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
 
     nodes = MOI.get(model, MOI.NodeCount())
-    
+    @show termination_status(model)
+
+    S = stoichiometry(molecular_model)
+    steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
+    @assert steady_state == ones(size(S)[1])
+
     # @show nodes
     df = DataFrame(
         objective_value=objective_loopless_fba, 
