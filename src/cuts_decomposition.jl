@@ -45,13 +45,11 @@ function no_good_cuts(model, internal_rxn_idxs, S)
         # print(model)
 
         _, _, solution, _, _ = optimize_model(model)
-
+        solution = round.(solution, digits=5)
         solution_a = solution[num_reactions+1:end]
-        # @show solution_a
+
         @assert solutions[end][num_reactions+1:end] != solution_a
         @assert sum(solution_a[O]) + sum([1-solution_a[i] for i in Z]) <= length(internal_rxn_idxs)-1
-        # @show solution
-        solution = round.(solution, digits=5)
         @assert !(solution in solutions)
         push!(solutions,solution)
         @show thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
