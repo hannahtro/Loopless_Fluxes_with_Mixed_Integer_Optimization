@@ -3,6 +3,9 @@ using Dates
 include("optimization_model.jl")
 include("loopless_constraints.jl")
 
+"""
+add an additional cycle to block until the solution is thermodynamically feasible
+"""
 function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     x = model[:x]
     m, num_reactions = size(S)
