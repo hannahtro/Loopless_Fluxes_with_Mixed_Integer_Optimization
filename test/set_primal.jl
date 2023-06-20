@@ -9,17 +9,17 @@ include("../src/set_primal.jl")
     m, num_reactions = size(S)
     lb = [0,0,0,0,0,0,0,0,0,0,0,0,0]
     ub = [10,10,10,10,10,10,10,10,10,10,10,10,10]
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     internal_rxn_idxs = [3,4,7,8,11,12]
 
     add_loopless_constraints(model, S, internal_rxn_idxs)
     objective, _, solution, time, _ = optimize_model(model, time_limit=1800)
     nodes = MOI.get(model, MOI.NodeCount())
 
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=true, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
 
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     objective_value_primal_mu, time_primal_mu, nodes_primal_mu = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=false, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
 
     @test isapprox(objective, objective_value_primal)

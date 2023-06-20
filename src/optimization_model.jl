@@ -7,7 +7,7 @@ using Boscia, FrankWolfe
 """
 build FBA model
 """
-function build_model(S_transform, lb_transform, ub_transform; set_objective=true, optimizer=SCIP.Optimizer)
+function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=true, optimizer=SCIP.Optimizer)
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)

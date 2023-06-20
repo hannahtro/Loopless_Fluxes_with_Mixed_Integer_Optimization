@@ -18,7 +18,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     model = make_optimization_model(molecular_model, optimizer)
     # S = stoichiometry(molecular_model)
     # xl, xu = bounds(molecular_model)
-    # model = build_model(S, xl, xu)
+    # model = build_fba_model(S, xl, xu)
     # x = model[:x]
     # @objective(model, MAX_SENSE, objective(molecular_model)' * x)
 

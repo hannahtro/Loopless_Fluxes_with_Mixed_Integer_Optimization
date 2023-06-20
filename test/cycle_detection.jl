@@ -18,7 +18,7 @@ include("../src/loopless_constraints.jl")
 #     _, num_reactions_transform = size(S_transform)
 #     @test size(S_transform)[1] == size(S)[1]
 
-#     model = build_model(S_transform, lb_transform, ub_transform)
+#     model = build_fba_model(S_transform, lb_transform, ub_transform)
 #     x = model[:x]
 #     @objective(model, Max, x[2]+x[5]+x[6])
 #     _, _, solution_loop, _, _ = optimize_model(model)
@@ -40,7 +40,7 @@ include("../src/loopless_constraints.jl")
 #     # @show flux_directions
 
 #     # block cycle in transformed S
-#     optimization_model = build_model(S_transform, lb_transform, ub_transform)
+#     optimization_model = build_fba_model(S_transform, lb_transform, ub_transform)
 #     internal_rxn_idxs = [1,2,3,4,5,6]
 #     add_loopless_constraints(optimization_model, S_transform, internal_rxn_idxs)
 
@@ -61,7 +61,7 @@ include("../src/loopless_constraints.jl")
 # TODO: verify thermo feasibilty of cycle
 # thermodynamically feasible but not biological valid as no external source is take up
 # @testset "block cycle in S of simple model" begin
-#     model = build_model(S, lb, ub)
+#     model = build_fba_model(S, lb, ub)
 #     x = model[:x]
 #     @objective(model, Max, x[1]+x[3]+x[4])
 #     _, _, solution_loop, _, _ = optimize_model(model)
@@ -85,7 +85,7 @@ include("../src/loopless_constraints.jl")
 #     # @show flux_directions
 
 #     # block cycle in original S
-#     optimization_model = build_model(S, lb, ub)
+#     optimization_model = build_fba_model(S, lb, ub)
 #     x = optimization_model[:x]
 #     @objective(optimization_model, Max, x[1]+x[3]+x[4])
 #     internal_rxn_idxs = [1,2,3,4]
@@ -124,7 +124,7 @@ include("../src/loopless_constraints.jl")
 #     # println("-----------------------------------")
 
 #     # feasible loop
-#     model = build_model(S, lb, ub)
+#     model = build_fba_model(S, lb, ub)
 #     x = model[:x]
 #     @objective(model, Max, x[1]+x[3]+x[4])
 #     add_loopless_constraints(model, S, [3,4,7,8,11,12])
@@ -137,7 +137,7 @@ include("../src/loopless_constraints.jl")
 #     println("-----------------------------------")
 
 #     # verify that found loop is thermodynamically feasible
-#     model = build_model(S, lb, ub)
+#     model = build_fba_model(S, lb, ub)
 #     x = model[:x]
 #     @objective(model, Max, x[1]+x[3]+x[4])
 #     # add_loopless_constraints(model, S, [3,4,7,8,11,12])
@@ -169,7 +169,7 @@ include("../src/loopless_constraints.jl")
     println("-----------------------------------")
 
     # infeasible loop
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     x = model[:x]
     @objective(model, Max, x[2]+x[3]+x[4])
     add_loopless_constraints(model, S, [2,3,4])
@@ -183,7 +183,7 @@ include("../src/loopless_constraints.jl")
     println("-----------------------------------")
 
     # infeasible loop using add_loopless_constraints_mu
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     x = model[:x]
     @objective(model, Max, x[2]+x[3]+x[4])
     add_loopless_constraints_mu(model, S, [2,3,4])
@@ -197,7 +197,7 @@ include("../src/loopless_constraints.jl")
     println("-----------------------------------")
 
     # infeasible loop using add_loopless_constraints_mu_reduced
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     x = model[:x]
     @objective(model, Max, x[2]+x[3]+x[4])
     add_loopless_constraints_mu_reduced(model, S, [2,3,4])
@@ -211,7 +211,7 @@ include("../src/loopless_constraints.jl")
     println("-----------------------------------")
 
     # verify that found loop is thermodynamically feasible
-    model = build_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
     x = model[:x]
     @objective(model, Max, x[2]-x[4])
     _, _, solution_loop, _, _ = optimize_model(model)
@@ -250,7 +250,7 @@ end
 #     @test size(S_transform)[2] == length(lb_transform) == length(ub_transform)
 #     m, n = size(S_transform)
 
-#     optimization_model = build_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
+#     optimization_model = build_fba_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
 #     _, _, solution, _, _ = optimize_model(optimization_model)
 #     # @show size(solution)
 
