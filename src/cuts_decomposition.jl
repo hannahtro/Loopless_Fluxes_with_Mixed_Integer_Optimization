@@ -22,8 +22,11 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
 
     start_time = time()
     # println("here")
+    dual_bounds = []
+
     objective_value, dual_bound, solution, _, termination = optimize_model(model)
     # @show solution
+    push!(dual_bounds, dual_bound)
     solutions = [round.(solution, digits=5)]
     cuts = []
     # print(model)
@@ -51,6 +54,7 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
         # print(model)
 
         objective_value, dual_bound, solution, _, termination = optimize_model(model)
+        push!(dual_bounds, dual_bound)
         solution = round.(solution, digits=5)
         solution_a = solution[num_reactions+1:end]
 
@@ -67,7 +71,7 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     time_taken = end_time - start_time
     @show time_taken
 
-    return objective_value, dual_bound, solution, time_taken, termination, iter
+    return objective_value, dual_bounds, solution, time_taken, termination, iter
 end
 
 function no_good_cuts_data(organism; time_limit=1800, csv=true)
@@ -82,14 +86,14 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     ]
 
     model = build_model(S, lb, ub)
-    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+    objective_value, dual_bounds, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
     thermo_feasible = thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
 
     df = DataFrame(
         objective_value=objective_value, 
-        dual_bound=dual_bound,
-        solution=solution, 
+        dual_bounds=[dual_bounds],
+        solution=[solution], 
         time=time, 
         termination=termination,
         time_limit=time_limit, 
