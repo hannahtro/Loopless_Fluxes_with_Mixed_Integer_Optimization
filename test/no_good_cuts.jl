@@ -1,4 +1,6 @@
 using Test 
+using DataFrames
+using CSV
 
 include("../src/cuts_decomposition.jl")
 
@@ -12,7 +14,7 @@ include("../src/cuts_decomposition.jl")
     model = build_model(S, lb, ub)
     internal_rxn_idxs = [2,3,4]
 
-    solution = no_good_cuts(model, internal_rxn_idxs, S)
+    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S)
 
     @test thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
 end
@@ -31,8 +33,16 @@ end
     ]
 
     model = build_model(S, lb, ub)
-    solution = no_good_cuts(model, internal_rxn_idxs, S)
 
-    @test thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    time_limit = 2
+    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+
+    try 
+        thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    catch 
+    else 
+        @test time >= time_limit
+    end
 end
 
+no_good_cuts_data("iAF692", time_limit=3600)

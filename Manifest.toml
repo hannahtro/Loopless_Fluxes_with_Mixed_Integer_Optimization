@@ -81,7 +81,7 @@ version = "1.0.8+0"
 
 [[deps.COBREXA]]
 deps = ["Distributed", "DistributedData", "DocStringExtensions", "HDF5", "JSON", "JuMP", "LinearAlgebra", "MAT", "MacroTools", "OrderedCollections", "PikaParser", "Pkg", "Random", "SBML", "Serialization", "SparseArrays", "StableRNGs", "Statistics"]
-git-tree-sha1 = "d2e2d9a48b70d6981165c88ff68b74308362d5f7"
+git-tree-sha1 = "6a7881a02d382f791b530c28125c1cf69a3d8568"
 repo-rev = "next"
 repo-url = "https://github.com/LCSB-BioCore/COBREXA.jl"
 uuid = "babc4406-5200-4a30-9033-bf5ae714c842"
@@ -487,9 +487,9 @@ version = "0.1.8"
 
 [[deps.MPItrampoline_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "MPIPreferences", "TOML"]
-git-tree-sha1 = "b3dcf8e1c610a10458df3c62038c8cc3a4d6291d"
+git-tree-sha1 = "228d5366a7c89b3c81469592b6f4c612db693d50"
 uuid = "f1f71cc9-e9ae-5b93-9b94-4fe0e1ad3748"
-version = "5.3.0+0"
+version = "5.3.0+1"
 
 [[deps.MUMPS_seq_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "METIS_jll", "OpenBLAS32_jll", "Pkg"]
