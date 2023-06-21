@@ -1,5 +1,6 @@
 using Dates 
 using HiGHS
+using Dualization 
 
 include("optimization_model.jl")
 include("loopless_constraints.jl")
@@ -106,10 +107,8 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     end
 end
 
-function combinatorial_benders(master_problem, internal_rxn_idxs, S)
+function build_master_problem(master_problem, internal_rxn_idxs, S)
     x = master_problem[:x]
-    m, num_reactions = size(S)
-    S_int = Array(S[:, internal_rxn_idxs])
 
     # add indicator variables 
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
@@ -118,35 +117,75 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S)
         @constraint(master_problem, a[cidx] => {x[ridx] - eps() >= 0})
         @constraint(master_problem, !a[cidx] => {x[ridx] + eps() <= 0})
     end
+end
 
+function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a)
+    set_objective_sense(sub_problem, MAX_SENSE)
+    S_int = Array(S[:, internal_rxn_idxs])
+
+    G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
+    μ = @variable(sub_problem, μ[1:size(S)[1]])
+    constraint_list = []
+    for (idx,val) in enumerate(solution_a)
+        if val == 0
+            c = @constraint(sub_problem, G[idx] <= -1) #TODO: check loopless fba formulation
+            push!(constraint_list,c)
+        elseif val == 1
+            c = @constraint(sub_problem, G[idx] >= 1)      
+            push!(constraint_list,c)
+        end
+    end
+    c_matrix = @constraint(sub_problem, G' .== μ' * S_int)
+    # push!(constraint_list,c)
+    print(sub_problem)
+    
+    return constraint_list, c_matrix
+end
+
+function combinatorial_benders(master_problem, internal_rxn_idxs, S)
+    m, num_reactions = size(S)
+    
+    build_master_problem(master_problem, internal_rxn_idxs, S)   
     objective_value, dual_bound, solution, _, termination = optimize_model(master_problem)
     solution_a = solution[num_reactions+1:end]
 
     # build sub problem to solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
-
-    G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
-    μ = @variable(sub_problem, μ[1:size(S)[1]])
-    for (idx,val) in enumerate(solution_a)
-        if val == 0
-            @constraint(sub_problem, G[idx] <= -1) #TODO: check loopless fba formulation
-        elseif val == 1
-            @constraint(sub_problem, G[idx] >= 1)      
-        end
-    end
-    @constraint(sub_problem, G' .== μ' * S_int)
+    constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a)
 
     objective_value, dual_bound, solution, _, termination = optimize_model(sub_problem, silent=false)
 
     # if infeasible, block ray from dual program in master sub_problem
-    @show termination
-    @show primal_status(sub_problem)
-    @show dual_status(sub_problem)
-    @show has_duals(sub_problem)
+    if termination == MOI.INFEASIBLE
+        @assert primal_status(sub_problem) == MOI.NO_SOLUTION
+        @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
+        @assert has_duals(sub_problem)
+    end
 
     @show MOI.get(sub_problem, MOI.ObjectiveBound())
-    @show result_count(sub_problem)
+    # @show result_count(sub_problem)
     @show dual_objective_value(sub_problem)
+
+    dual_values = []
+    for c in constraint_list
+        push!(dual_values, dual(c))
+    end
+    append!(dual_values, dual.(c_matrix))
+    @show dual_values
+
+    dual_sub_problem = dualize(sub_problem; dual_names = DualNames("dual", ""))
+    print(dual_sub_problem)
+    # optimize!(dual_sub_problem)
+    # @show MOI.get(dual_sub_problem, objective)
+
+    obj = objective_function(dual_sub_problem)
+    @constraint(dual_sub_problem, obj==1)
+    @objective(dual_sub_problem, Min, 0)
+
+    print(dual_sub_problem)
+    # optimize!(dual_sub_problem)
+    # @show MOI.get(dual_sub_problem, objective)
+
     # repeat until solution is feasible
 end
