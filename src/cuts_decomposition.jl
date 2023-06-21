@@ -174,18 +174,17 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S)
     append!(dual_values, dual.(c_matrix))
     @show dual_values
 
-    dual_sub_problem = dualize(sub_problem; dual_names = DualNames("dual", ""))
+    dual_sub_problem = dualize(sub_problem, HiGHS.Optimizer; dual_names = DualNames("dual", ""))
     print(dual_sub_problem)
-    # optimize!(dual_sub_problem)
-    # @show MOI.get(dual_sub_problem, objective)
+    optimize!(dual_sub_problem)
+    @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
 
     obj = objective_function(dual_sub_problem)
     @constraint(dual_sub_problem, obj==1)
     @objective(dual_sub_problem, Min, 0)
 
     print(dual_sub_problem)
-    # optimize!(dual_sub_problem)
-    # @show MOI.get(dual_sub_problem, objective)
-
+    optimize!(dual_sub_problem)
+    @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
     # repeat until solution is feasible
 end
