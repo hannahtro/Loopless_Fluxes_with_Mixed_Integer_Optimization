@@ -147,7 +147,11 @@ end
 
 # TODO: implement fast MIS Search
 # TODO: block zeros and ones??
+# compute several MISs at once
 function compute_MIS(solution_a)
+    # build mis_search_primal
+    # build mis_search_dual
+    # add objective with weights
     # C = 1:length(solution_a)
     C = [idx for (idx,val) in enumerate(solution_a) if val==1]
     # @show C
