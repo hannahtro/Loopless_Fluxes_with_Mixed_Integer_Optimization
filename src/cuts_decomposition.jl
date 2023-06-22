@@ -69,7 +69,7 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     # @show solutions
     end_time = time()
     time_taken = end_time - start_time
-    @show time_taken
+    # @show time_taken
 
     return objective_value, dual_bounds, solution, time_taken, termination, iter
 end
@@ -107,7 +107,8 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     end
 end
 
-function build_master_problem(master_problem, internal_rxn_idxs, S)
+function build_master_problem(master_problem, internal_rxn_idxs)
+    set_attribute(master_problem, MOI.Silent(), true)
     x = master_problem[:x]
 
     # add indicator variables 
@@ -117,9 +118,12 @@ function build_master_problem(master_problem, internal_rxn_idxs, S)
         @constraint(master_problem, a[cidx] => {x[ridx] - eps() >= 0})
         @constraint(master_problem, !a[cidx] => {x[ridx] + eps() <= 0})
     end
+    # print(master_problem)
 end
 
-function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a)
+# TODO: pass MIS
+function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+    set_attribute(sub_problem, MOI.Silent(), true)
     set_objective_sense(sub_problem, MAX_SENSE)
     S_int = Array(S[:, internal_rxn_idxs])
 
@@ -137,54 +141,102 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a)
     end
     c_matrix = @constraint(sub_problem, G' .== μ' * S_int)
     # push!(constraint_list,c)
-    print(sub_problem)
-    
+    # print(sub_problem)
     return constraint_list, c_matrix
 end
 
-function combinatorial_benders(master_problem, internal_rxn_idxs, S)
-    m, num_reactions = size(S)
-    
-    build_master_problem(master_problem, internal_rxn_idxs, S)   
-    objective_value, dual_bound, solution, _, termination = optimize_model(master_problem)
-    solution_a = solution[num_reactions+1:end]
+# TODO: implement fast MIS Search
+# TODO: block zeros and ones??
+function compute_MIS(solution_a)
+    # C = 1:length(solution_a)
+    C = [idx for (idx,val) in enumerate(solution_a) if val==1]
+    # @show C
+    return C
+end
 
-    # build sub problem to solution 
+function add_combinatorial_benders_cut(master_problem, solution_a, C)
+    a = master_problem[:a]
+    Z = []
+    O = []
+    for idx in C
+        if solution_a[idx] > 0 
+            push!(O,idx)
+        else 
+            push!(Z,idx)
+        end
+    end 
+    # @show Z,O
+    if isempty(Z)
+        @constraint(master_problem, sum(a[O]) <= length(C)-1)
+    elseif isempty(O)
+        @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
+    else 
+        @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
+    end
+end 
+
+function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf)
+    m, num_reactions = size(S)
+
+    # solve master problem
+    build_master_problem(master_problem, internal_rxn_idxs)   
+    objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
+    solutions = [solution_master]
+    solution_a = solution_master[num_reactions+1:end]
+    
+    # compute corresponding MIS
+    C = compute_MIS(solution_a)
+
+    # build sub problem to master solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
-    constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a)
+    constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
-    objective_value, dual_bound, solution, _, termination = optimize_model(sub_problem, silent=false)
+    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false)
 
-    # if infeasible, block ray from dual program in master sub_problem
-    if termination == MOI.INFEASIBLE
+    # if infeasible, add Benders' cut
+    iter = 1
+    while termination_sub == MOI.INFEASIBLE && iter < max_iter
         @assert primal_status(sub_problem) == MOI.NO_SOLUTION
         @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
         @assert has_duals(sub_problem)
+
+        add_combinatorial_benders_cut(master_problem, solution_a, C) 
+        objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
+        @assert !(solution_master in solutions)
+        push!(solutions, solution_master)
+        solution_a = solution_master[num_reactions+1:end]
+        # @show solution_a
+
+        sub_problem = Model(optimizer)
+        constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false)
+
+        iter += 1
     end
 
-    @show MOI.get(sub_problem, MOI.ObjectiveBound())
-    # @show result_count(sub_problem)
-    @show dual_objective_value(sub_problem)
+    # @show MOI.get(sub_problem, MOI.ObjectiveBound())
+    # # @show result_count(sub_problem)
+    # @show dual_objective_value(sub_problem)
 
-    dual_values = []
-    for c in constraint_list
-        push!(dual_values, dual(c))
-    end
-    append!(dual_values, dual.(c_matrix))
-    @show dual_values
+    # dual_values = []
+    # for c in constraint_list
+    #     push!(dual_values, dual(c))
+    # end
+    # append!(dual_values, dual.(c_matrix))
+    # @show dual_values
 
-    dual_sub_problem = dualize(sub_problem, HiGHS.Optimizer; dual_names = DualNames("dual", ""))
-    print(dual_sub_problem)
-    optimize!(dual_sub_problem)
-    @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
+    # dual_sub_problem = dualize(sub_problem, HiGHS.Optimizer; dual_names = DualNames("dual", ""))
+    # print(dual_sub_problem)
+    # optimize!(dual_sub_problem)
+    # @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
 
-    obj = objective_function(dual_sub_problem)
-    @constraint(dual_sub_problem, obj==1)
-    @objective(dual_sub_problem, Min, 0)
+    # obj = objective_function(dual_sub_problem)
+    # @constraint(dual_sub_problem, obj==1)
+    # @objective(dual_sub_problem, Min, 0)
 
-    print(dual_sub_problem)
-    optimize!(dual_sub_problem)
-    @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
+    # print(dual_sub_problem)
+    # optimize!(dual_sub_problem)
+    # @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
     # repeat until solution is feasible
 end

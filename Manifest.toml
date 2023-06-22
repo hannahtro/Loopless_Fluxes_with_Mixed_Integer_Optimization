@@ -83,7 +83,7 @@ version = "1.0.8+0"
 deps = ["Distributed", "DistributedData", "DocStringExtensions", "HDF5", "JSON", "JuMP", "LinearAlgebra", "MAT", "MacroTools", "OrderedCollections", "PikaParser", "Pkg", "Random", "SBML", "Serialization", "SparseArrays", "StableRNGs", "Statistics"]
 git-tree-sha1 = "6a7881a02d382f791b530c28125c1cf69a3d8568"
 repo-rev = "next"
-repo-url = "https://github.com/LCSB-BioCore/COBREXA.jl"
+repo-url = "https://github.com/lcsb-biocore/COBREXA.jl"
 uuid = "babc4406-5200-4a30-9033-bf5ae714c842"
 version = "2.0.0"
 
