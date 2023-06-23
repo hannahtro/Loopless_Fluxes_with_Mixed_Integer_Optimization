@@ -20,7 +20,12 @@ include("../src/cuts_decomposition.jl")
 
     # combinatorial Benders'
     model = build_fba_model(S, lb, ub)
-    combinatorial_benders(model, internal_rxn_idxs, S)
+    combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
+
+    # fast combinatorial Benders'
+    model = build_fba_model(S, lb, ub)
+    @show S
+    combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
 end
 
 # TODO: does not terminate in 200 iterations: verify that solution is eventually found
@@ -50,7 +55,7 @@ end
 
     # combinatorial Benders'
     model = build_fba_model(S, lb, ub)
-    combinatorial_benders(model, internal_rxn_idxs, S, max_iter=10)
+    combinatorial_benders(model, internal_rxn_idxs, S, max_iter=10, fast=false)
 end
 
 # no_good_cuts_data("iAF692", time_limit=3600)

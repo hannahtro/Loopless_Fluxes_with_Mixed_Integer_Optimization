@@ -147,18 +147,77 @@ end
 
 # TODO: implement fast MIS Search
 # TODO: block zeros and ones??
-# compute several MISs at once
-function compute_MIS(solution_a)
+# TODO: compute several MISs at once
+function compute_MIS(solution_a, S_int; fast=true)
     # build mis_search_primal
     # build mis_search_dual
     # add objective with weights
     # C = 1:length(solution_a)
-    C = [idx for (idx,val) in enumerate(solution_a) if val==1]
-    # @show C
+    if !fast
+        C = [idx for (idx,val) in enumerate(solution_a) if val==1]
+    else 
+        @show solution_a
+        @show S_int
+        @show S_int'
+
+        A = deepcopy(S_int')
+        for (idx,a) in enumerate(solution_a)
+            if a == 0
+                A[idx,:] = - A[idx,:] # update rows
+            end
+        end
+        @show S_int'
+        @show A
+        # @show A[3,:] #TODO verify idex
+
+        b = [eps for i in 1:size(S_int)[1]]
+
+        @show b
+        C = []
+
+        mis_model = Model(SCIP.Optimizer)
+        @variable(mis_model, λ[1:length(b)])
+        @constraint(mis_model, λ .>= 0)
+        @constraint(mis_model, A' * λ .== 0)
+        # @constraint(mis_model, b'*λ==1)
+        @objective(mis_model, Min, sum(λ))
+
+        optimize!(mis_model)
+
+        @show termination_status(mis_model)
+        @show MOI.get(mis_model, MOI.ObjectiveValue())
+
+
+        # @show MOI.get(sub_problem, MOI.ObjectiveBound())
+        # # @show result_count(sub_problem)
+        # @show dual_objective_value(sub_problem)
+
+        # dual_values = []
+        # for c in constraint_list
+        #     push!(dual_values, dual(c))
+        # end
+        # append!(dual_values, dual.(c_matrix))
+        # @show dual_values
+
+        # dual_sub_problem = dualize(sub_problem, HiGHS.Optimizer; dual_names = DualNames("dual", ""))
+        # print(dual_sub_problem)
+        # optimize!(dual_sub_problem)
+        # @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
+
+        # obj = objective_function(dual_sub_problem)
+        # @constraint(dual_sub_problem, obj==1)
+        # @objective(dual_sub_problem, Min, 0)
+
+        # print(dual_sub_problem)
+        # optimize!(dual_sub_problem)
+        # @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
+        # repeat until solution is feasible
+        # @show C
+    end
     return C
 end
 
-function add_combinatorial_benders_cut(master_problem, solution_a, C)
+function add_combinatorial_benders_cut(master_problem, solution_a, C; fast=true)
     a = master_problem[:a]
     Z = []
     O = []
@@ -179,7 +238,8 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C)
     end
 end 
 
-function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true)
+    @show fast
     m, num_reactions = size(S)
 
     # solve master problem
@@ -189,7 +249,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     solution_a = solution_master[num_reactions+1:end]
     
     # compute corresponding MIS
-    C = compute_MIS(solution_a)
+    S_int = Array(S[:, internal_rxn_idxs])
+    C = compute_MIS(solution_a, fast=fast, S_int)
 
     # build sub problem to master solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
@@ -218,29 +279,4 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
         iter += 1
     end
-
-    # @show MOI.get(sub_problem, MOI.ObjectiveBound())
-    # # @show result_count(sub_problem)
-    # @show dual_objective_value(sub_problem)
-
-    # dual_values = []
-    # for c in constraint_list
-    #     push!(dual_values, dual(c))
-    # end
-    # append!(dual_values, dual.(c_matrix))
-    # @show dual_values
-
-    # dual_sub_problem = dualize(sub_problem, HiGHS.Optimizer; dual_names = DualNames("dual", ""))
-    # print(dual_sub_problem)
-    # optimize!(dual_sub_problem)
-    # @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
-
-    # obj = objective_function(dual_sub_problem)
-    # @constraint(dual_sub_problem, obj==1)
-    # @objective(dual_sub_problem, Min, 0)
-
-    # print(dual_sub_problem)
-    # optimize!(dual_sub_problem)
-    # @show MOI.get(dual_sub_problem, MOI.ObjectiveValue())
-    # repeat until solution is feasible
 end
