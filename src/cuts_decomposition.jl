@@ -182,6 +182,7 @@ function compute_MIS(solution_a, S_int; fast=true)
         @constraint(mis_model, b'*λ==1)
         @objective(mis_model, Min, sum(λ))
 
+        print(mis_model)
         optimize!(mis_model)
 
         @show termination_status(mis_model)
