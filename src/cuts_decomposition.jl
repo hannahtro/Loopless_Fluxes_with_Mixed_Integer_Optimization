@@ -170,7 +170,7 @@ function compute_MIS(solution_a, S_int; fast=true)
         @show A
         # @show A[3,:] #TODO verify idex
 
-        b = [eps for i in 1:size(S_int)[1]]
+        b = [1 for i in 1:size(S_int)[1]]
 
         @show b
         C = []
@@ -179,13 +179,14 @@ function compute_MIS(solution_a, S_int; fast=true)
         @variable(mis_model, λ[1:length(b)])
         @constraint(mis_model, λ .>= 0)
         @constraint(mis_model, A' * λ .== 0)
-        # @constraint(mis_model, b'*λ==1)
+        @constraint(mis_model, b'*λ==1)
         @objective(mis_model, Min, sum(λ))
 
         optimize!(mis_model)
 
         @show termination_status(mis_model)
         @show MOI.get(mis_model, MOI.ObjectiveValue())
+        @show [value(var) for var in all_variables(mis_model)]
 
 
         # @show MOI.get(sub_problem, MOI.ObjectiveBound())
