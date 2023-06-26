@@ -153,7 +153,10 @@ returns a minimal infeasible subset of reactions for a give soltion and stoichio
 # TODO: compute several MISs at once
 function compute_MIS(solution_a, S_int; fast=true)
     if !fast
+        # not a MIS
+        # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
         C = [idx for (idx,val) in enumerate(solution_a)]
+        # C = [1,2,3]
     else 
         # build mis_search_dual
         A = deepcopy(S_int')
@@ -225,6 +228,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     # solve master problem
     build_master_problem(master_problem, internal_rxn_idxs)   
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
+    solution_master = round.(solution_master, digits=5)
     solutions = [solution_master]
     solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
@@ -251,6 +255,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # add CB cut to MP and solve MP
         add_combinatorial_benders_cut(master_problem, solution_a, C)
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
+        solution_master = round.(solution_master, digits=5)
         @assert !(solution_master in solutions)
         push!(solutions, solution_master)
         push!(dual_bounds, dual_bound_master)
@@ -270,7 +275,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     end_time = time()
     time_taken = end_time - start_time
     solution = vcat(solution_master, solution_sub)
-    @show termination_sub
+    # @show termination_sub
 
     return objective_value_master, dual_bounds, solution, time_taken, termination_sub, iter
 end

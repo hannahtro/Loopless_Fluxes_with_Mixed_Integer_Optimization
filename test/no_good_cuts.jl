@@ -7,7 +7,7 @@ include("../src/cuts_decomposition.jl")
 @testset "simple model" begin
     S = [[1,0,0,0] [-1,1,0,0] [0,-1,1,0] [-1,0,1,0] [0,0,-1,0] [-1,0,0,1] [0,0,1,-1]]
     lb = [0,-10,-10,-10,0,0,0]
-    ub = [10,30,30,30,10,10,10]
+    ub = [20,30,30,30,20,10,10]
     m, num_reactions = size(S)
     @show m, num_reactions
 
@@ -19,23 +19,24 @@ include("../src/cuts_decomposition.jl")
     @test thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
 
     # combinatorial Benders'
-    # TODO: solution not thermo feasible
     model = build_fba_model(S, lb, ub)
     objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
-    @show solution
-    @show objective_value
+    @test termination == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
     println("--------------------------------------------------------")
 
-    # # fast combinatorial Benders'
-    # model = build_fba_model(S, lb, ub)
-    # @show S
-    # objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
-    # @show solution
-    # @show objective_value
-    # feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
-    # @test feasible
+    # fast combinatorial Benders'
+    model = build_fba_model(S, lb, ub)
+    objective_value_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
+    @test termination_fast == MOI.OPTIMAL 
+    feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+    @test feasible
+
+    @test iter >= iter_fast
+    @test time >= time_fast
+    @test isapprox(objective_value,objective_value_fast)
+    @test solution == solution_fast
 end
 
 # # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
