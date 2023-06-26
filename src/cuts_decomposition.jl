@@ -121,7 +121,9 @@ end
 build sub problem of combinatorial Benders decomposition including the thermodynamic constraints on the indicator variables 
 for a given solution to the master problem and the minimal infeasible subset C
 """
-function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_master, C)
+    _, num_reactions = size(S)
+    solution_a = solution_master[num_reactions+1:end]
     # @show solution_a
     # @show C
     set_attribute(sub_problem, MOI.Silent(), true)
@@ -151,15 +153,16 @@ end
 returns a minimal infeasible subset of reactions for a give soltion and stoichiometric matrix
 """
 # TODO: compute several MISs at once
-function compute_MIS(solution_a, S_int; fast=true)
+function compute_MIS(solution_master, S, internal_rxn_idxs; fast=true)
+    S_int = Array(S[:, internal_rxn_idxs])
+    _, num_reactions = size(S)
+    solution_a = solution_master[num_reactions+1:end]
+
     if !fast
         # not a MIS
         # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
         C = [idx for (idx,val) in enumerate(solution_a)]
         # C = [1,2,3]
-        solution = []
-        A = []
-        b = []
     else 
         # build mis_search_dual
         A = deepcopy(S_int)
@@ -185,12 +188,18 @@ function compute_MIS(solution_a, S_int; fast=true)
         optimize!(mis_model)
         @assert termination_status(mis_model) == MOI.OPTIMAL
         # @show MOI.get(mis_model, MOI.ObjectiveValue())
-        solution = [value(var) for var in all_variables(mis_model)]
+        solution_mis = [value(var) for var in all_variables(mis_model)]
 
-        C = [idx for (idx,val) in enumerate(solution) if !(isapprox(val,0))]
+        C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
         # print(mis_model)
+
+        # TODO: BUG: how can proven violation lead to a feasible solution of the sub problem???
+        # λ'Aμ ≥ λ'b should be violated
+        # λ solution to sub problem, A constructed in fast MIS search, 
+        # μ flux values of master problem, b constructed in fast MIS search
+        @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
     end
-    return C, solution, A, b
+    return C
 end
 
 """
@@ -224,7 +233,7 @@ on a solution to the master problem and minimal infeasible subsets. The sub prob
 """
 function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true, time_limit=1800)
     @show fast
-    _, num_reactions = size(S)
+    # _, num_reactions = size(S)
 
     start_time = time()
     dual_bounds = []
@@ -234,29 +243,21 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
     solution_master = round.(solution_master, digits=5)
     solutions = [solution_master]
-    solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
 
     # compute corresponding MIS
-    S_int = Array(S[:, internal_rxn_idxs])
     # @show size(S_int)
-    C, solution_mis, A, b = compute_MIS(solution_a, fast=fast, S_int)
+    C = compute_MIS(solution_master, S, internal_rxn_idxs, fast=fast)
 
     # build sub problem to master solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
-    constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+    constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_master, C)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false)
     @show C
     print(sub_problem)
 
-    # TODO: BUG: how can proven violation lead to a feasible solution of the sub problem???
-    # λ'Aμ ≥ λ'b should be violated
-    # λ solution to sub problem, A constructed in fast MIS search, 
-    # μ flux values of master problem, b constructed in fast MIS search
-    @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
-    
     # print(sub_problem)
     # add Benders' cut if subproblem is infeasible
     iter = 1
@@ -277,7 +278,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # @show solution_a
 
         # compute corresponding MIS
-        C, solution_mis, A, b = compute_MIS(solution_a, fast=fast, S_int)
+        C = compute_MIS(solution_a, S, internal_rxn_idxs, fast=fast)
 
         # build sub problem to master solution 
         sub_problem = Model(optimizer)
