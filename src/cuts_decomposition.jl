@@ -122,29 +122,29 @@ build sub problem of combinatorial Benders decomposition including the thermodyn
 for a given solution to the master problem and the minimal infeasible subset C
 """
 function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-    @show solution_a
-    @show C
+    # @show solution_a
+    # @show C
     set_attribute(sub_problem, MOI.Silent(), true)
     set_objective_sense(sub_problem, MAX_SENSE)
     S_int = Array(S[:, internal_rxn_idxs])
 
-    G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
+    # G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
     μ = @variable(sub_problem, μ[1:size(S_int)[1]])
     constraint_list = []
     for (idx,val) in enumerate(solution_a) 
         if val == 0 && (idx in C)
-            c = @constraint(sub_problem, G[idx] <= -1) #TODO: check loopless fba formulation
+            c = @constraint(sub_problem, (S_int' * μ)[idx] <= -1) #TODO: check loopless fba formulation
             push!(constraint_list,c)
         elseif val == 1 && (idx in C)
-            c = @constraint(sub_problem, G[idx] >= 1)      
+            c = @constraint(sub_problem, (S_int' * μ)[idx] >= 1)      
             push!(constraint_list,c)
         else
             @assert (idx in C) == false
         end
     end
-    c_matrix = @constraint(sub_problem, G .== S_int' * μ)
+    # c_matrix = @constraint(sub_problem, G .== S_int' * μ)
 
-    return constraint_list, c_matrix
+    return constraint_list #, c_matrix
 end
 
 """
@@ -157,12 +157,15 @@ function compute_MIS(solution_a, S_int; fast=true)
         # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
         C = [idx for (idx,val) in enumerate(solution_a)]
         # C = [1,2,3]
+        solution = []
+        A = []
+        b = []
     else 
         # build mis_search_dual
-        A = deepcopy(S_int')
+        A = deepcopy(S_int)
         for (idx,a) in enumerate(solution_a)
             if a == 0
-                A[idx,:] = - A[idx,:] # update rows
+                A'[idx,:] = - A'[idx,:] # update rows
             end
         end
 
@@ -173,7 +176,7 @@ function compute_MIS(solution_a, S_int; fast=true)
 
         @variable(mis_model, λ[1:length(b)])
         @constraint(mis_model, λ .>= 0)
-        @constraint(mis_model, A * λ .== 0)
+        @constraint(mis_model, A' * λ .== 0)
         @constraint(mis_model, b'*λ==1)
 
         # add objective with weights
@@ -185,8 +188,9 @@ function compute_MIS(solution_a, S_int; fast=true)
         solution = [value(var) for var in all_variables(mis_model)]
 
         C = [idx for (idx,val) in enumerate(solution) if !(isapprox(val,0))]
+        # print(mis_model)
     end
-    return C
+    return C, solution, A, b
 end
 
 """
@@ -235,7 +239,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
     # compute corresponding MIS
     S_int = Array(S[:, internal_rxn_idxs])
-    C = compute_MIS(solution_a, fast=fast, S_int)
+    # @show size(S_int)
+    C, solution_mis, A, b = compute_MIS(solution_a, fast=fast, S_int)
 
     # build sub problem to master solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
@@ -243,7 +248,16 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     constraint_list, c_matrix = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false)
+    @show C
+    print(sub_problem)
 
+    # TODO: BUG: how can proven violation lead to a feasible solution of the sub problem???
+    # λ'Aμ ≥ λ'b should be violated
+    # λ solution to sub problem, A constructed in fast MIS search, 
+    # μ flux values of master problem, b constructed in fast MIS search
+    @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
+    
+    # print(sub_problem)
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
@@ -263,7 +277,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # @show solution_a
 
         # compute corresponding MIS
-        C = compute_MIS(solution_a, fast=fast, S_int)
+        C, solution_mis, A, b = compute_MIS(solution_a, fast=fast, S_int)
 
         # build sub problem to master solution 
         sub_problem = Model(optimizer)
@@ -295,7 +309,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     master_problem = build_fba_model(S, lb, ub)
     objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast)
 
-    @show max_iter, time_limit
+    @show termination
     @show objective_value
     df = DataFrame(
         objective_value=objective_value, 
@@ -308,6 +322,9 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
         iter=iter)
 
     type = "combinatorial_benders"
+    if fast
+        type = type * "_fast"
+    end
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
     if csv
         CSV.write(file_name, df, append=false, writeheader=true)
