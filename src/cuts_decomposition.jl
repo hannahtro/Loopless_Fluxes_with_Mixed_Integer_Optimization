@@ -181,6 +181,8 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         # print(mis_model)
         if silent
             set_attribute(mis_model, MOI.Silent(), true)
+        else 
+            set_attribute(mis_model, MOI.Silent(), false)
         end
         set_time_limit_sec(mis_model, time_limit)
         optimize!(mis_model)
@@ -225,7 +227,7 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true, time_limit=1800)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true, time_limit=1800, silent=true)
     @show fast
     _, num_reactions = size(S)
 
@@ -250,7 +252,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     sub_problem = Model(optimizer)
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
-    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true, time_limit=time_limit)
+    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
     # @show C
 
     # add Benders' cut if subproblem is infeasible
@@ -263,8 +265,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
         # add CB cut to MP and solve MP
         add_combinatorial_benders_cut(master_problem, solution_a, C)
+        println("_______________")
         println("master problem")
-        objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
+        objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
         solution_master = round.(solution_master, digits=5)
         @assert !(solution_master in solutions)
         push!(solutions, solution_master)
@@ -273,14 +276,16 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # @show solution_a
 
         # compute corresponding MIS
+        println("_______________")
         println("compute MIS")
-        C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=false)
+        C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
 
         # build sub problem to master solution 
         sub_problem = Model(optimizer)
         constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+        println("_______________")
         println("sub problem")
-        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false, time_limit=time_limit)
+        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
 
         iter += 1
     end
@@ -297,7 +302,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     return objective_value_master, dual_bounds, solution, time_taken, termination_sub, iter
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true)
+function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true)
     @show fast
     model = deserialize("../data/" * organism * ".js")
     print_model(model, "organism")
@@ -310,7 +315,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     ]
 
     master_problem = build_fba_model(S, lb, ub)
-    objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast)
+    objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent)
 
     @show termination
     @show objective_value
