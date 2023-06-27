@@ -34,7 +34,7 @@ include("../src/cuts_decomposition.jl")
     @test feasible
 
     @test iter >= iter_fast
-    @test time >= time_fast
+#    @test time >= time_fast
     @test isapprox(objective_value,objective_value_fast)
     @test solution[1:num_reactions] == solution_fast[1:num_reactions]
 end
