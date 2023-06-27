@@ -151,7 +151,7 @@ end
 returns a minimal infeasible subset of reactions for a give soltion and stoichiometric matrix
 """
 # TODO: compute several MISs at once
-function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true)
+function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true, time_limit=1800)
     if !fast
         # not a MIS
         # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
@@ -179,6 +179,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         @objective(mis_model, Min, sum(all_variables(mis_model)))
 
         # print(mis_model)
+        set_time_limit_sec(mis_model, time_limit)
         optimize!(mis_model)
 
         solution_mis = [value(var) for var in all_variables(mis_model)]
@@ -239,14 +240,14 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     # compute corresponding MIS
     S_int = Array(S[:, internal_rxn_idxs])
     # @show size(S_int)
-    C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast)
+    C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit)
 
     # build sub problem to master solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
-    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true)
+    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true, time_limit=time_limit)
     # @show C
 
     # add Benders' cut if subproblem is infeasible
@@ -268,12 +269,12 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # @show solution_a
 
         # compute corresponding MIS
-        C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast)
+        C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit)
 
         # build sub problem to master solution 
         sub_problem = Model(optimizer)
         constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false)
+        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false, time_limit=time_limit)
 
         iter += 1
     end
