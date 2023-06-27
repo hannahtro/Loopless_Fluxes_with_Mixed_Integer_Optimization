@@ -164,7 +164,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
                 A'[idx,:] = - A'[idx,:] # update rows
             end
         end
-        b = [0.001 for i in 1:length(internal_rxn_idxs)]
+        b = [1 for i in 1:length(internal_rxn_idxs)]
 
         model = Model(HiGHS.Optimizer)
         μ = @variable(model, μ[1:size(S_int)[1]])
@@ -189,7 +189,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
 
         if termination_status(mis_model) != MOI.OPTIMAL
             println("MIS problem not feasible")
-            C = [idx for (idx,val) in enumerate(solution_a)]
+            C = []
         else
             solution_mis = [value(var) for var in all_variables(mis_model)]
             C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
@@ -285,15 +285,22 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         println("_______________")
         println("compute MIS")
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
-
-        # build sub problem to master solution 
-        sub_problem = Model(optimizer)
-        constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-        println("_______________")
-        println("sub problem")
-        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-
-        iter += 1
+        if isempty(C)
+            feasible = thermo_feasible(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
+            @assert feasible
+            sub_problem = Model(optimizer)
+            constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, internal_rxn_idxs)
+            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+            @assert termination_sub == MOI.OPTIMAL
+        else 
+            # build sub problem to master solution 
+            sub_problem = Model(optimizer)
+            constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+            println("_______________")
+            println("sub problem")
+            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+            iter += 1
+        end
     end
     end_time = time()
     time_taken = end_time - start_time
