@@ -52,7 +52,7 @@ end
         !is_boundary(reaction_stoichiometry(model, rid))
     ]
 
-    model = build_fba_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
 
     time_limit = 2
     objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
@@ -77,4 +77,5 @@ end
 
 println("--------------------------------------------------------")
 #combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false)
-combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)
+# combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
+combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)

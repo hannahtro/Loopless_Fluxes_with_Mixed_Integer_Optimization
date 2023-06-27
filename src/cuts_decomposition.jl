@@ -286,7 +286,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         println("compute MIS")
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
         if isempty(C)
-            feasible = thermo_feasible(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
+            print("here")
+            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
             @assert feasible
             sub_problem = Model(optimizer)
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, internal_rxn_idxs)
@@ -308,7 +309,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     # @show termination_sub
 
     if termination_sub == MOI.OPTIMAL
-        feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+        feasible = thermo_feasible_mu(internal_rxn_idxs, solution[internal_rxn_idxs], S)
         @assert feasible
     end 
 
