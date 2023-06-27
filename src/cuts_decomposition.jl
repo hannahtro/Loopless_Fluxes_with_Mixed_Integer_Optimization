@@ -158,40 +158,36 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         C = [idx for (idx,val) in enumerate(solution_a)]
         # C = [1,2,3]
     else 
-        # build mis_search_dual
         A = deepcopy(S_int)
         for (idx,a) in enumerate(solution_a)
             if a == 0
                 A'[idx,:] = - A'[idx,:] # update rows
             end
         end
+        b = [0.001 for i in 1:length(internal_rxn_idxs)]
 
-        b = [0.001 for i in 1:size(S_int)[1]]
+        model = Model(HiGHS.Optimizer)
+        μ = @variable(model, μ[1:size(S_int)[1]])
+        @constraint(model, A' * μ .>= b)
+        @objective(model, Max, 0)
 
-        mis_model = Model(HiGHS.Optimizer)
+        optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
+        mis_model = dualize(model, optimizer, dual_names = DualNames("dual","dual_costraints"))
         set_attribute(mis_model, MOI.Silent(), true)
 
-        @variable(mis_model, λ[1:length(b)])
-        @constraint(mis_model, λ .>= 0)
-        @constraint(mis_model, A' * λ .== 0)
-        @constraint(mis_model, b'*λ==1)
+        @constraint(mis_model, b' * all_variables(mis_model) == 1)
+        @objective(mis_model, Min, sum(all_variables(mis_model)))
 
-        # add objective with weights
-        @objective(mis_model, Min, sum(λ))
-
-        optimize!(mis_model)
-        @assert termination_status(mis_model) == MOI.OPTIMAL
-        # @show MOI.get(mis_model, MOI.ObjectiveValue())
-        solution_mis = [value(var) for var in all_variables(mis_model)]
-
-        C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
         # print(mis_model)
+        optimize!(mis_model)
 
-        # TODO: BUG: how can proven violation lead to a feasible solution of the sub problem???
-        # λ'Aμ ≥ λ'b should be violated
-        # λ solution to sub problem, A constructed in fast MIS search, 
-        # μ flux values of master problem, b constructed in fast MIS search
-        @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
+        solution_mis = [value(var) for var in all_variables(mis_model)]
+        C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
+
+        # # λ'Aμ ≥ λ'b should be violated
+        # # λ solution to sub problem, A constructed in fast MIS search, 
+        # # μ flux values of master problem, b constructed in fast MIS search
+        # @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
     end
     return C
 end
@@ -250,11 +246,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     sub_problem = Model(optimizer)
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
-    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=false)
-    @show C
-    print(sub_problem)
+    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true)
+    # @show C
 
-    # print(sub_problem)
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
@@ -288,8 +282,10 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     solution = vcat(solution_master, solution_sub)
     # @show termination_sub
 
-    feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
-    @assert feasible
+    if termination_sub == MOI.OPTIMAL
+        feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+        @assert feasible
+    end 
 
     return objective_value_master, dual_bounds, solution, time_taken, termination_sub, iter
 end

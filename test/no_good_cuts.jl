@@ -39,42 +39,42 @@ include("../src/cuts_decomposition.jl")
     @test solution[1:num_reactions] == solution_fast[1:num_reactions]
 end
 
-# # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
-# @testset "iAF692" begin
-#     organism = "iAF692"
-#     model = deserialize("../data/" * organism * ".js")
-#     print_model(model, "organism")
+# TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
+@testset "iAF692" begin
+    organism = "iAF692"
+    model = deserialize("../data/" * organism * ".js")
+    print_model(model, "organism")
 
-#     S = stoichiometry(model)
-#     lb, ub = bounds(model)
-#     internal_rxn_idxs = [
-#         ridx for (ridx, rid) in enumerate(variables(model)) if
-#         !is_boundary(reaction_stoichiometry(model, rid))
-#     ]
+    S = stoichiometry(model)
+    lb, ub = bounds(model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(model)) if
+        !is_boundary(reaction_stoichiometry(model, rid))
+    ]
 
-    # model = build_fba_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub)
 
-    # time_limit = 2
-    # objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+    time_limit = 2
+    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
-    # try 
-    #     thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
-    # catch 
-    # else 
-    #     @test time >= time_limit
-    # end
+    try 
+        thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    catch 
+    else 
+        @test time >= time_limit
+    end
 
-#     # combinatorial Benders'
-#     model = build_fba_model(S, lb, ub)
-#     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=10, fast=false)
+    # combinatorial Benders'
+    model = build_fba_model(S, lb, ub)
+    combinatorial_benders(model, internal_rxn_idxs, S, max_iter=10, fast=false)
 
-#     # fast combinatorial Benders'
-#     model = build_fba_model(S, lb, ub)
-#     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=10, fast=true)
-# end
+    # fast combinatorial Benders'
+    model = build_fba_model(S, lb, ub)
+    combinatorial_benders(model, internal_rxn_idxs, S, max_iter=10, fast=true)
+end
 
 # no_good_cuts_data("iAF692", time_limit=3600)
 
-# println("--------------------------------------------------------")
-# combinatorial_benders_data("iAF692", max_iter=10, time_limit=30, csv=false, fast=false)
-combinatorial_benders_data("iAF692", max_iter=10, time_limit=30, csv=false, fast=true)
+println("--------------------------------------------------------")
+combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false)
+combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true)
