@@ -78,4 +78,4 @@ end
 println("--------------------------------------------------------")
 #combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false)
 # combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
-combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)
+combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)
