@@ -187,8 +187,13 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         set_time_limit_sec(mis_model, time_limit)
         optimize!(mis_model)
 
-        solution_mis = [value(var) for var in all_variables(mis_model)]
-        C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
+        if termination_status(mis_model) != MOI.OPTIMAL
+            println("MIS problem not feasible")
+            C = [idx for (idx,val) in enumerate(solution_a)]
+        else
+            solution_mis = [value(var) for var in all_variables(mis_model)]
+            C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
+        end
 
         # # λ'Aμ ≥ λ'b should be violated
         # # λ solution to sub problem, A constructed in fast MIS search, 
@@ -270,6 +275,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
         solution_master = round.(solution_master, digits=5)
         @assert !(solution_master in solutions)
+        @assert termination_master == MOI.OPTIMAL
         push!(solutions, solution_master)
         push!(dual_bounds, dual_bound_master)
         solution_a = solution_master[num_reactions+1:end]
