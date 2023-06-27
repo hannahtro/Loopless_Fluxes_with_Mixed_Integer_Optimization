@@ -64,6 +64,8 @@ function optimize_model(model, type="FBA"; time_limit = Inf, print_objective=fal
     end
     if silent
         set_attribute(model, MOI.Silent(), true)
+    else 
+        set_attribute(model, MOI.Silent(), false)
     end
     optimize!(model)
     status = termination_status(model)
