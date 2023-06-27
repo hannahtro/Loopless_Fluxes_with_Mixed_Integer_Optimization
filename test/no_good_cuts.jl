@@ -76,5 +76,5 @@ end
 # no_good_cuts_data("iAF692", time_limit=3600)
 
 println("--------------------------------------------------------")
-combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false)
+#combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false)
 combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true)
