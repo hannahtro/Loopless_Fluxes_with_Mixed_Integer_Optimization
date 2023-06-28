@@ -20,18 +20,20 @@ include("../src/cuts_decomposition.jl")
 
     # combinatorial Benders'
     model = build_fba_model(S, lb, ub)
-    objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
     @test termination == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
+    @test objective_values == sort(objective_values, rev=true)
     println("--------------------------------------------------------")
 
     # fast combinatorial Benders'
     model = build_fba_model(S, lb, ub)
-    objective_value_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
     @test termination_fast == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
+    @test objective_values_fast == sort(objective_values_fast, rev=true)
 
     @test iter >= iter_fast
     # @test time >= time_fast
