@@ -238,6 +238,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
     start_time = time()
     dual_bounds = []
+    objective_values = []
 
     # solve master problem
     build_master_problem(master_problem, internal_rxn_idxs)   
@@ -246,6 +247,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     solutions = [solution_master]
     solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
+    push!(objective_values, objective_value_master)
 
     # compute corresponding MIS
     S_int = Array(S[:, internal_rxn_idxs])
@@ -278,6 +280,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         @assert termination_master == MOI.OPTIMAL
         push!(solutions, solution_master)
         push!(dual_bounds, dual_bound_master)
+        push!(objective_values, objective_value_master)
         solution_a = solution_master[num_reactions+1:end]
         # @show solution_a
 
@@ -312,7 +315,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         @assert feasible
     end 
 
-    return objective_value_master, dual_bounds, solution, time_taken, termination_sub, iter
+    return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter
 end
 
 function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true)
@@ -328,18 +331,18 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     ]
 
     master_problem = build_fba_model(S, lb, ub)
-    objective_value, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent)
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent)
 
     @show termination
     @show objective_value
     df = DataFrame(
         objective_value=objective_value, 
         dual_bounds=[dual_bounds],
+        objective_values=[objective_values],
         solution=[solution], 
         time=time, 
         termination=termination,
         time_limit=time_limit, 
-        thermo_feasible=thermo_feasible,
         iter=iter)
 
     type = "combinatorial_benders"
