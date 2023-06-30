@@ -3,6 +3,7 @@ using DataFrames
 using CSV
 
 include("../src/cuts_decomposition.jl")
+include("../src/constraint_handler.jl")
 
 @testset "simple model" begin
     S = [[1,0,0,0] [-1,1,0,0] [0,-1,1,0] [-1,0,1,0] [0,0,-1,0] [-1,0,0,1] [0,0,1,-1]]
@@ -39,6 +40,12 @@ include("../src/cuts_decomposition.jl")
     # @test time >= time_fast
     @test isapprox(objective_value,objective_value_fast)
     @test solution[1:num_reactions] == solution_fast[1:num_reactions]
+
+    # test constraint handler        
+    model = build_fba_model(S, lb, ub)
+    scip_model = Model(SCIP.Optimizer)
+    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S)
+    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
 end
 
 # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
