@@ -7,6 +7,11 @@ function plot_dual_bound(organism, file_name)
     @show df
 
     objective_value = df[!,:objective_value]
+    objective_values = df[!,:objective_values][1]
+    objective_values = replace(objective_values, "Any[" => "")
+    objective_values = replace(objective_values, "]" => "")
+    objective_values = replace(objective_values, "," => "")
+    objective_values = parse.(Float64, split(objective_values))
     dual_bounds = df[!,:dual_bounds][1]
     dual_bounds = replace(dual_bounds, "Any[" => "")
     dual_bounds = replace(dual_bounds, "]" => "")
@@ -18,13 +23,15 @@ function plot_dual_bound(organism, file_name)
     iter = df[!,:iter][1] + 1
 
     # @show objective_value
-    @show dual_bounds[end]
-    @show length(dual_bounds)
+    @show isapprox(objective_values[end],0)
+    @show length(objective_values)
+    @show objective_values
     @show iter
 
     fig = plt.figure(figsize=(6.5, 3.5))
     ax = fig.add_subplot(111)
-    ax.plot(collect(1:length(dual_bounds)), dual_bounds)
+    # ax.plot(collect(1:length(dual_bounds)), dual_bounds)
+    ax.plot(collect(1:length(objective_values)), objective_values)
 
     ylabel("dual bound")
     #locator_params(axis="y", nbins=4)
@@ -42,10 +49,22 @@ organism = "iAF692"
 file_name = "combinatorial_benders_fast_1800"
 plot_dual_bound(organism, file_name)
 
-organism = "iAF692"
-file_name = "combinatorial_benders_1800"
-plot_dual_bound(organism, file_name)
+# organism = "iAF692"
+# file_name = "combinatorial_benders_1800"
+# plot_dual_bound(organism, file_name)
 
-organism = "iJR904"
-file_name = "combinatorial_benders_fast_1800"
-plot_dual_bound(organism, file_name)
+# organism = "iJR904"
+# file_name = "combinatorial_benders_fast_1800"
+# plot_dual_bound(organism, file_name)
+
+# organism = "iJR904"
+# file_name = "combinatorial_benders_1800"
+# plot_dual_bound(organism, file_name)
+
+# organism = "iML1515"
+# file_name = "combinatorial_benders_fast_1800"
+# plot_dual_bound(organism, file_name)
+
+# organism = "iML1515"
+# file_name = "combinatorial_benders_1800"
+# plot_dual_bound(organism, file_name)

@@ -44,18 +44,18 @@ end
 # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
 @testset "iAF692" begin
     organism = "iAF692"
-    model = deserialize("../data/" * organism * ".js")
-    print_model(model, "organism")
+    molecular_model = deserialize("../data/" * organism * ".js")
+    print_model(molecular_model, "organism")
 
-    S = stoichiometry(model)
-    lb, ub = bounds(model)
+    S = stoichiometry(molecular_model)
+    # lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(model)) if
-        !is_boundary(reaction_stoichiometry(model, rid))
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
-    model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
-
+    # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
+    model = make_optimization_model(molecular_model, SCIP.Optimizer)
     time_limit = 2
     objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
@@ -67,19 +67,19 @@ end
     end
 
     # combinatorial Benders'
-    model = build_fba_model(S, lb, ub)
+    model = make_optimization_model(molecular_model, SCIP.Optimizer)
     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=false)
 
     # fast combinatorial Benders'
-    model = build_fba_model(S, lb, ub)
+    model = make_optimization_model(molecular_model, SCIP.Optimizer)
     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=true)
 end
 
 # no_good_cuts_data("iAF692", time_limit=3600)
 
 println("--------------------------------------------------------")
-#combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
-#combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)
+combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
+combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)
 combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)
 combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=true, silent=false)
 combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=false, silent=false)

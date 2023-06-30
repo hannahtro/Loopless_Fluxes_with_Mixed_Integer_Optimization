@@ -242,8 +242,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
     # solve master problem
     build_master_problem(master_problem, internal_rxn_idxs)   
+    @show objective_function(master_problem)
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
-    solution_master = round.(solution_master, digits=5)
+    solution_master = round.(solution_master, digits=6)
     solutions = [solution_master]
     solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
@@ -320,17 +321,19 @@ end
 
 function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true)
     @show fast
-    model = deserialize("../data/" * organism * ".js")
-    print_model(model, "organism")
+    molecular_model = deserialize("../data/" * organism * ".js")
+    print_model(molecular_model, "organism")
 
-    S = stoichiometry(model)
-    lb, ub = bounds(model)
+    S = stoichiometry(molecular_model)
+    # lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(model)) if
-        !is_boundary(reaction_stoichiometry(model, rid))
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
-    master_problem = build_fba_model(S, lb, ub)
+    # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
+    master_problem = make_optimization_model(molecular_model, SCIP.Optimizer)
+   
     objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent)
 
     @show termination
