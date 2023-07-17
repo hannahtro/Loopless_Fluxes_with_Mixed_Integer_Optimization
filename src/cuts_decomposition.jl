@@ -102,7 +102,8 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
 end
 
 """
-build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables
+build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables,
+maps indicator variables to flux direction
 """
 function build_master_problem(master_problem, internal_rxn_idxs)
     set_attribute(master_problem, MOI.Silent(), true)
@@ -143,7 +144,6 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
         end
     end
     # c_matrix = @constraint(sub_problem, G .== S_int' * μ)
-
     return constraint_list #, c_matrix
 end
 
@@ -232,7 +232,7 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true, time_limit=1800, silent=true)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true, time_limit=1800, silent=true, save_model=false, organism="")
     @show fast
     _, num_reactions = size(S)
 
@@ -242,6 +242,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
     # solve master problem
     build_master_problem(master_problem, internal_rxn_idxs)   
+    if save_model
+        open("../csv/model_" * organism * ".lp", "w") do f
+            print(f, master_problem)
+        end
+    end 
     @show objective_function(master_problem)
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
     solution_master = round.(solution_master, digits=6)
@@ -273,6 +278,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
 
         # add CB cut to MP and solve MP
         add_combinatorial_benders_cut(master_problem, solution_a, C)
+        if save_model
+            open("../csv/model_" * organism * "_" * string(iter) * ".lp", "w") do f
+                print(f, master_problem)
+            end
+        end 
         println("_______________")
         println("master problem")
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
@@ -319,7 +329,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true)
+function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true, save_model=false)
     @show fast
     molecular_model = deserialize("../data/" * organism * ".js")
     print_model(molecular_model, "organism")
@@ -334,7 +344,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
     master_problem = make_optimization_model(molecular_model, SCIP.Optimizer)
    
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent)
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent, save_model=save_model, organism=organism)
 
     @show termination
     @show objective_value

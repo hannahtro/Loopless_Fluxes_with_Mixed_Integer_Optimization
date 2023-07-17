@@ -12,6 +12,7 @@ function plot_dual_bound(organism, file_name; fba_comparison=true)
     objective_values = replace(objective_values, "]" => "")
     objective_values = replace(objective_values, "," => "")
     objective_values = parse.(Float64, split(objective_values))
+    objective_values = round.(objective_values, digits=5)
     dual_bounds = df[!,:dual_bounds][1]
     dual_bounds = replace(dual_bounds, "Any[" => "")
     dual_bounds = replace(dual_bounds, "]" => "")
@@ -67,7 +68,7 @@ plot_dual_bound(organism, file_name, fba_comparison=true)
 
 # organism = "iAF692"
 # file_name = "combinatorial_benders_1800"
-# plot_dual_bound(organism, file_name)
+# plot_dual_bound(organism, file_name, fba_comparison=false)
 
 organism = "iJR904"
 file_name = "combinatorial_benders_fast_1800"
@@ -76,7 +77,7 @@ plot_dual_bound(organism, file_name, fba_comparison=true)
 
 # organism = "iJR904"
 # file_name = "combinatorial_benders_1800"
-# plot_dual_bound(organism, file_name)
+# plot_dual_bound(organism, file_name, fba_comparison=false)
 
 organism = "iML1515"
 file_name = "combinatorial_benders_fast_1800"
@@ -85,4 +86,4 @@ plot_dual_bound(organism, file_name, fba_comparison=true)
 
 # organism = "iML1515"
 # file_name = "combinatorial_benders_1800"
-# plot_dual_bound(organism, file_name)
+# plot_dual_bound(organism, file_name, fba_comparison=false)
