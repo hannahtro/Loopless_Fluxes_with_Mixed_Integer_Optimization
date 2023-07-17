@@ -2,6 +2,8 @@ using COBREXA, Serialization, COBREXA.Everything
 using SCIP, JuMP
 using LinearAlgebra
 using Boscia, FrankWolfe
+# import MathOptInterface
+# const MOI = MathOptInterface
 
 #TODO: why do we get loops in max_flow?
 """
@@ -27,6 +29,30 @@ function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=
     
     return optimization_model
 end
+
+# """
+# build FBA model using MOI interface
+# """
+# function build_fba_model_moi(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer)
+#     # make optimization model
+#     optimization_model = SCIP.Optimizer()
+#     _, n = size(S_transform)
+#     # @show size(S_transform)
+#     # @show size(lb_transform)
+#     # @show size(ub_transform)
+
+#     @variable(optimization_model, x[1:n])
+#     @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
+#     @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
+#     @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
+#     # @show optimization_model
+
+#     if set_objective
+#         @objective(optimization_model, Max, sum(x))
+#     end 
+    
+#     return optimization_model
+# end
 
 """
 print information on COBREXA model

@@ -43,9 +43,10 @@ include("../src/constraint_handler.jl")
 
     # test constraint handler        
     model = build_fba_model(S, lb, ub)
-    scip_model = Model(SCIP.Optimizer)
+    scip_model = SCIP.Optimizer()
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S)
-    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
+    SCIP.include_conshdlr(model.moi_backend.optimizer.model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
+    MOI.optimize!(model.moi_backend.optimizer.model)
 end
 
 # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
@@ -84,10 +85,10 @@ end
 
 # no_good_cuts_data("iAF692", time_limit=3600)
 
-println("--------------------------------------------------------")
-combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
-#combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)
-combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)
-#combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=true, silent=false)
-combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=false, silent=false)
-#combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)
+# println("--------------------------------------------------------")
+# combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
+# #combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)
+# combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)
+# #combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=true, silent=false)
+# combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=false, silent=false)
+# #combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)

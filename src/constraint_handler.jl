@@ -8,9 +8,12 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     S::Matrix{Int64}
 end
 
-# check if solution is thermodynamically feasible
+# check if primal solution cnadidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
-    feasible = thermo_feasible_mu(internal_rxn_idxs, sol[internal_rxn_idxs], S)
+    print(ch.o)
+    @show sol
+    @show sol[ch.internal_rxn_idxs]
+    feasible = thermo_feasible_mu(ch.internal_rxn_idxs, sol[ch.internal_rxn_idxs], S)
     if !feasible
         return SCIP.SCIP_INFEASIBLE
     end
@@ -19,7 +22,8 @@ end
 
 function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nusefulconss, solinfeasible)
     @assert length(constraints) == 0
-    return add_cb_cut(ch)
+    add_cb_cut(ch)
+    return SCIP_CONSADDED
 end
 
 function SCIP.enforce_pseudo_sol(
@@ -27,7 +31,8 @@ function SCIP.enforce_pseudo_sol(
         solinfeasible, objinfeasible,
     )
     @assert length(constraints) == 0
-    return add_cb_cut(ch)
+    add_cb_cut(ch)
+    return SCIP_CONSADDED
 end
 
 # add combinatorial Benders cut if solution infeasible
@@ -63,15 +68,16 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
     return SCIP.SCIP_FEASIBLE
 end
 
-# function SCIP.lock(ch::ThermoFeasibleConstaintHandler, constraint, locktype, nlockspos, nlocksneg)
-#     z::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, ch.epivar)
-#     if z != C_NULL
-#         SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, z, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos, nlocksneg)
-#     end
-#     for x in ch.vars
-#         xi::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, x)
-#         xi == C_NULL && continue
-#         SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, xi, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos + nlocksneg, nlockspos + nlocksneg)
-#     end
-# end
+# TODO:lock binary variables of master problem
+function SCIP.lock(ch::ThermoFeasibleConstaintHandler, constraint, locktype, nlockspos, nlocksneg)
+    # z::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, ch.epivar)
+    # if z != C_NULL
+    #     SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, z, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos, nlocksneg)
+    # end
+    # for x in ch.vars
+    #     xi::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, x)
+    #     xi == C_NULL && continue
+    #     SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, xi, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos + nlocksneg, nlockspos + nlocksneg)
+    # end
+end
 
