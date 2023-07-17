@@ -13,6 +13,7 @@ include("../src/constraint_handler.jl")
     @show m, num_reactions
 
     model = build_fba_model(S, lb, ub)
+    print(model)
     internal_rxn_idxs = [2,3,4,6,7]
 
     # no good cuts
@@ -42,11 +43,13 @@ include("../src/constraint_handler.jl")
     @test solution[1:num_reactions] == solution_fast[1:num_reactions]
 
     # test constraint handler        
-    model = build_fba_model(S, lb, ub)
+    moi_model = build_fba_model_moi(S, lb, ub)
     scip_model = SCIP.Optimizer()
+    print(moi_model)
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S)
-    SCIP.include_conshdlr(model.moi_backend.optimizer.model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
-    MOI.optimize!(model.moi_backend.optimizer.model)
+    SCIP.include_conshdlr(moi_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
+    MOI.optimize!(moi_model)
+    primal_objective_value = MOI.get(moi_model, MOI.ObjectiveValue())
 end
 
 # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found

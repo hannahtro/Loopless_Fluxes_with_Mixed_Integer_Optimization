@@ -30,29 +30,44 @@ function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=
     return optimization_model
 end
 
-# """
-# build FBA model using MOI interface
-# """
-# function build_fba_model_moi(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer)
-#     # make optimization model
-#     optimization_model = SCIP.Optimizer()
-#     _, n = size(S_transform)
-#     # @show size(S_transform)
-#     # @show size(lb_transform)
-#     # @show size(ub_transform)
+"""
+build FBA model using MOI interface
+"""
+function build_fba_model_moi(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer)
+    # # make optimization model
+    # optimization_model = Model(optimizer)
+    # moi_model = direct_model(optimization_model.moi_backend)
+    m, n = size(S_transform)
+    # # @show size(S_transform)
+    # # @show size(lb_transform)
+    # # @show size(ub_transform)
 
-#     @variable(optimization_model, x[1:n])
-#     @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
-#     @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
-#     @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
-#     # @show optimization_model
+    # @variable(moi_model, x[1:n])
+    # @constraint(moi_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
+    # @constraint(moi_model, lbs, lb_transform .<= x) # lower bounds
+    # @constraint(moi_model, ubs, x .<= ub_transform) # upper bounds
+    # # @show optimization_model
 
-#     if set_objective
-#         @objective(optimization_model, Max, sum(x))
-#     end 
+    # if set_objective
+    #     @objective(moi_model, Max, sum(x))
+    # end 
     
-#     return optimization_model
-# end
+    # return moi_model
+    moi_model = SCIP.Optimizer()
+    x = MOI.add_variables(moi_model, n)
+    # MOI.add_constraints(moi_model, S_transform * x .== 0) # mass balance
+    S_transform = Float64.(S)
+    for i in 1:n
+        MOI.add_constraints(moi_model, x[i], MOI.LessThan(Float64(ub_transform[i]))) # upper bounds
+        MOI.add_constraints(moi_model, MOI.ScalarAffineFunction([MOI.ScalarAffineTerm(-1.0, x[i])], 0.0), MOI.LessThan(Float64(-lb_transform[i]))) # lower bounds
+    end
+    for i in 1:m
+        MOI.add_constraints(moi_model, MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(S_transform[i,:], x), 0.0), MOI.LessThan(0.0))
+        MOI.add_constraints(moi_model, MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-S_transform[i,:], x), 0.0), MOI.LessThan(0.0))
+    end
+    # print(moi_model)
+    return moi_model
+end
 
 """
 print information on COBREXA model
