@@ -172,7 +172,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         @objective(model, Max, 0)
 
         optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
-        mis_model = dualize(model, optimizer, dual_names = DualNames("dual","dual_costraints"))
+        mis_model = dualize(model, optimizer, dual_names = DualNames("dual","dual_constraints"))
         set_attribute(mis_model, MOI.Silent(), true)
 
         @constraint(mis_model, b' * all_variables(mis_model) == 1)
