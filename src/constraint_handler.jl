@@ -6,12 +6,14 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     ncalls::Int
     internal_rxn_idxs::Vector{Int64} 
     S::Matrix{Int64}
+    binvars
 end
 
 # check if primal solution cnadidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
-    print(ch.o)
-    # @show sol
+    println("CHECK")
+    # print(ch.o)
+    @show sol
     # @show sol[ch.internal_rxn_idxs]
     # feasible = thermo_feasible_mu(ch.internal_rxn_idxs, sol[ch.internal_rxn_idxs], S)
     feasible = false
@@ -22,6 +24,7 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
 end
 
 function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nusefulconss, solinfeasible)
+    println("LP SOL")
     # @assert length(constraints) == 0
     add_cb_cut(ch)
     return SCIP_CONSADDED
@@ -31,6 +34,7 @@ function SCIP.enforce_pseudo_sol(
         ch::ThermoFeasibleConstaintHandler, constraints, nusefulconss,
         solinfeasible, objinfeasible,
     )
+    println("PSEUDO SOL")
     @assert length(constraints) == 0
     add_cb_cut(ch)
     return SCIP_CONSADDED
@@ -38,6 +42,7 @@ end
 
 # add combinatorial Benders cut if solution infeasible
 function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
+    println("BENDERS CUT")
     solution = SCIP.sol_values(ch.o, ch.vars)
     feasible = thermo_feasible_mu(internal_rxn_idxs, solution[internal_rxn_idxs], S)
 
@@ -71,14 +76,16 @@ end
 
 # TODO:lock binary variables of master problem
 function SCIP.lock(ch::ThermoFeasibleConstaintHandler, constraint, locktype, nlockspos, nlocksneg)
+    println("LOCK")
     # z::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, ch.epivar)
     # if z != C_NULL
     #     SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, z, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos, nlocksneg)
     # end
-    # for x in ch.vars
-    #     xi::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, x)
-    #     xi == C_NULL && continue
-    #     SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, xi, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos + nlocksneg, nlockspos + nlocksneg)
-    # end
+    for x in ch.binvars
+        @show x
+        xi::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, x)
+        xi == C_NULL && continue
+        SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, xi, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos + nlocksneg, nlockspos + nlocksneg)
+    end
 end
 

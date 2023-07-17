@@ -33,7 +33,7 @@ end
 """
 build FBA model using MOI interface
 """
-function build_fba_model_moi(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer)
+function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, internal_rxn_idxs; set_objective=false, optimizer=SCIP.Optimizer)
     # # make optimization model
     # optimization_model = Model(optimizer)
     # moi_model = direct_model(optimization_model.moi_backend)
@@ -47,16 +47,12 @@ function build_fba_model_moi(S_transform, lb_transform, ub_transform; set_object
     # @constraint(moi_model, lbs, lb_transform .<= x) # lower bounds
     # @constraint(moi_model, ubs, x .<= ub_transform) # upper bounds
     # # @show optimization_model
-
-    # if set_objective
-    #     @objective(moi_model, Max, sum(x))
-    # end 
     
     # return moi_model
     moi_model = SCIP.Optimizer()
     x = MOI.add_variables(moi_model, n)
     # MOI.add_constraints(moi_model, S_transform * x .== 0) # mass balance
-    S_transform = Float64.(S)
+    S_transform = Float64.(S_transform)
     for i in 1:n
         MOI.add_constraints(moi_model, x[i], MOI.LessThan(Float64(ub_transform[i]))) # upper bounds
         MOI.add_constraints(moi_model, MOI.ScalarAffineFunction([MOI.ScalarAffineTerm(-1.0, x[i])], 0.0), MOI.LessThan(Float64(-lb_transform[i]))) # lower bounds
@@ -65,8 +61,46 @@ function build_fba_model_moi(S_transform, lb_transform, ub_transform; set_object
         MOI.add_constraints(moi_model, MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(S_transform[i,:], x), 0.0), MOI.LessThan(0.0))
         MOI.add_constraints(moi_model, MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-S_transform[i,:], x), 0.0), MOI.LessThan(0.0))
     end
+
+    if set_objective
+        MOI.set(moi_model, MOI.ObjectiveFunction{MOI.ScalarAffineFunction{Float64}}(), 1.0 * x[1])    
+    end 
+
+    # add indicator variables 
+    a = []
+    for i in 1:length(internal_rxn_idxs)
+        var = MOI.add_constrained_variable(moi_model, MOI.ZeroOne())
+        push!(a,var)
+    end 
+    a = [i[1] for i in a]
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        # add indicator 
+        f = MOI.VectorAffineFunction(
+            [    
+                MOI.VectorAffineTerm(1, MOI.ScalarAffineTerm(1.0, a[cidx])),
+                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(1.0, x[ridx])),
+            ],
+            [0.0, 0.0]
+        )
+        s = MOI.Indicator{MOI.ACTIVATE_ON_ONE}(MOI.LessThan(-eps()))
+        MOI.add_constraint(moi_model, f, s)
+        # @constraint(moi_model, a[cidx] => {x[ridx] - eps() >= 0})
+    end
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        # add indicator 
+        f = MOI.VectorAffineFunction(
+            [    
+                MOI.VectorAffineTerm(1, MOI.ScalarAffineTerm(1.0, a[cidx])),
+                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(-1.0, x[ridx])),
+            ],
+            [0.0, 0.0]
+        )
+        s = MOI.Indicator{MOI.ACTIVATE_ON_ONE}(MOI.LessThan(eps()))
+        MOI.add_constraint(moi_model, f, s)
+        # @constraint(moi_model, !a[cidx] => {x[ridx] + eps() <= 0})
+    end
     # print(moi_model)
-    return moi_model
+    return moi_model, a
 end
 
 """
