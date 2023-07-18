@@ -78,7 +78,7 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
         f = MOI.VectorAffineFunction(
             [    
                 MOI.VectorAffineTerm(1, MOI.ScalarAffineTerm(1.0, a[cidx])),
-                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(1.0, x[ridx])),
+                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(-1.0, x[ridx])),
             ],
             [0.0, 0.0]
         )
@@ -91,16 +91,16 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
         f = MOI.VectorAffineFunction(
             [    
                 MOI.VectorAffineTerm(1, MOI.ScalarAffineTerm(1.0, a[cidx])),
-                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(-1.0, x[ridx])),
+                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(1.0, x[ridx])),
             ],
             [0.0, 0.0]
         )
-        s = MOI.Indicator{MOI.ACTIVATE_ON_ONE}(MOI.LessThan(eps()))
+        s = MOI.Indicator{MOI.ACTIVATE_ON_ZERO}(MOI.LessThan(-eps()))
         MOI.add_constraint(moi_model, f, s)
         # @constraint(moi_model, !a[cidx] => {x[ridx] + eps() <= 0})
     end
     # print(moi_model)
-    return moi_model, a
+    return moi_model, a, x
 end
 
 """

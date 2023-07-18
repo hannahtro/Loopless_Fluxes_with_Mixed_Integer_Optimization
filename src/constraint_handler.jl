@@ -7,6 +7,7 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     internal_rxn_idxs::Vector{Int64} 
     S::Matrix{Int64}
     binvars
+    vars
 end
 
 # check if primal solution cnadidate is thermodynamically feasible
@@ -27,7 +28,7 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
     println("LP SOL")
     # @assert length(constraints) == 0
     add_cb_cut(ch)
-    return SCIP_CONSADDED
+    return SCIP.SCIP_CONSADDED
 end
 
 function SCIP.enforce_pseudo_sol(
@@ -37,41 +38,44 @@ function SCIP.enforce_pseudo_sol(
     println("PSEUDO SOL")
     @assert length(constraints) == 0
     add_cb_cut(ch)
-    return SCIP_CONSADDED
+    return SCIP.SCIP_CONSADDED
 end
 
 # add combinatorial Benders cut if solution infeasible
 function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
     println("BENDERS CUT")
-    solution = SCIP.sol_values(ch.o, ch.vars)
+    solution = SCIP.sol_values(ch.o, ch.vars) # TODO: solution of a and x
+    internal_rxn_idxs = ch.internal_rxn_idxs
+    S = ch.S 
+
     feasible = thermo_feasible_mu(internal_rxn_idxs, solution[internal_rxn_idxs], S)
 
-    if !feasible
-        # compute corresponding MIS
-        println("_______________")
-        println("compute MIS")
-        C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
-        if isempty(C)
-            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
-            @assert feasible
-            sub_problem = Model(optimizer)
-            constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, internal_rxn_idxs)
-            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-            @assert termination_sub == MOI.OPTIMAL
-            add_combinatorial_benders_cut(master_problem, solution_a, C)
-            ch.ncalls += 1
-        else 
-            # build sub problem to master solution 
-            sub_problem = Model(optimizer)
-            constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-            println("_______________")
-            println("sub problem")
-            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-            return SCIP.SCIP_FEASIBLE
-        end
-        return SCIP.SCIP_CONSADDED
-    end
-    return SCIP.SCIP_FEASIBLE
+    # if !feasible
+    #     # compute corresponding MIS
+    #     println("_______________")
+    #     println("compute MIS")
+    #     C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
+    #     if isempty(C)
+    #         feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
+    #         @assert feasible
+    #         sub_problem = Model(optimizer)
+    #         constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, internal_rxn_idxs)
+    #         objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+    #         @assert termination_sub == MOI.OPTIMAL
+    #         add_combinatorial_benders_cut(master_problem, solution_a, C)
+    #         ch.ncalls += 1
+    #     else 
+    #         # build sub problem to master solution 
+    #         sub_problem = Model(optimizer)
+    #         constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+    #         println("_______________")
+    #         println("sub problem")
+    #         objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+    #         return SCIP.SCIP_FEASIBLE
+    #     end
+    #     return SCIP.SCIP_CONSADDED
+    # end
+    # return SCIP.SCIP_FEASIBLE
 end
 
 # TODO:lock binary variables of master problem
@@ -81,6 +85,7 @@ function SCIP.lock(ch::ThermoFeasibleConstaintHandler, constraint, locktype, nlo
     # if z != C_NULL
     #     SCIP.@SCIP_CALL SCIP.SCIPaddVarLocksType(ch.o, z, SCIP.SCIP_LOCKTYPE_MODEL, nlockspos, nlocksneg)
     # end
+    print(ch.o)
     for x in ch.binvars
         @show x
         xi::Ptr{SCIP.SCIP_VAR} = SCIP.var(ch.o, x)

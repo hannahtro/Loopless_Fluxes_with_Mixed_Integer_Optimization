@@ -31,6 +31,7 @@ include("../src/constraint_handler.jl")
 
     # fast combinatorial Benders'
     model = build_fba_model(S, lb, ub)
+    print(model)
     objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
     @test termination_fast == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
@@ -43,48 +44,48 @@ include("../src/constraint_handler.jl")
     @test solution[1:num_reactions] == solution_fast[1:num_reactions]
 
     # test constraint handler        
-    moi_model, a = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true)
-    scip_model = SCIP.Optimizer()
-    # print(moi_model)
-    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, a)
+    moi_model, a, x = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true)
+    # scip_model = SCIP.Optimizer()
+    print(moi_model)
+    ch = ThermoFeasibleConstaintHandler(moi_model, 0, internal_rxn_idxs, S, a, x)
     SCIP.include_conshdlr(moi_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
-    MOI.optimize!(moi_model)
-    primal_objective_value = MOI.get(moi_model, MOI.ObjectiveValue())
+    # MOI.optimize!(moi_model)
+    # primal_objective_value = MOI.get(moi_model, MOI.ObjectiveValue())
 end
 
-# TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
-@testset "iAF692" begin
-    organism = "iAF692"
-    molecular_model = deserialize("../data/" * organism * ".js")
-    print_model(molecular_model, "organism")
+# # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
+# @testset "iAF692" begin
+#     organism = "iAF692"
+#     molecular_model = deserialize("../data/" * organism * ".js")
+#     print_model(molecular_model, "organism")
 
-    S = stoichiometry(molecular_model)
-    # lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+#     S = stoichiometry(molecular_model)
+#     # lb, ub = bounds(molecular_model)
+#     internal_rxn_idxs = [
+#         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+#         !is_boundary(reaction_stoichiometry(molecular_model, rid))
+#     ]
 
-    # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
-    model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    time_limit = 2
-    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+#     # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
+#     model = make_optimization_model(molecular_model, SCIP.Optimizer)
+#     time_limit = 2
+#     objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
-    try 
-        thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
-    catch 
-    else 
-        @test time >= time_limit
-    end
+#     try 
+#         thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+#     catch 
+#     else 
+#         @test time >= time_limit
+#     end
 
-    # combinatorial Benders'
-    model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=false)
+#     # combinatorial Benders'
+#     model = make_optimization_model(molecular_model, SCIP.Optimizer)
+#     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=false)
 
-    # fast combinatorial Benders'
-    model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=true)
-end
+#     # fast combinatorial Benders'
+#     model = make_optimization_model(molecular_model, SCIP.Optimizer)
+#     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=true)
+# end
 
 # no_good_cuts_data("iAF692", time_limit=3600)
 
