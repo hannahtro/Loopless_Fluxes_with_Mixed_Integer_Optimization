@@ -13,17 +13,18 @@ end
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
-    # @show ch.binvars
-    # @show ch.vars
-    # @show sol
     solution = SCIP.sol_values(ch.o, ch.vars)
-    # @show solution
+    @show solution
+    @show SCIP.sol_values(ch.o, ch.binvars)
+    @show ch.S * solution
     # @show solution[ch.internal_rxn_idxs]
-    feasible = thermo_feasible_mu(ch.internal_rxn_idxs, solution[ch.internal_rxn_idxs], ch.S)
     # @show thermo_feasible_mu(ch.internal_rxn_idxs, solution[ch.internal_rxn_idxs], ch.S)
+    feasible = thermo_feasible_mu(ch.internal_rxn_idxs, solution[ch.internal_rxn_idxs], ch.S)
+    @show feasible
     if !feasible      
         add_cb_cut(ch)
-        return SCIP.SCIP_CONSADDED
+        # return SCIP.SCIP_CONSADDED
+        return SCIP.SCIP_INFEASIBLE
     end
     return SCIP.SCIP_FEASIBLE
     
@@ -66,8 +67,12 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
         # solution_a = solution_master[num_reactions+1:end]
         C = compute_MIS(solution_master_direction, S_int, [], internal_rxn_idxs, fast=true, time_limit=600, silent=true)
         if isempty(C)
-            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
-            @assert feasible
+            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master_flux[internal_rxn_idxs], S)
+            if !feasible
+                @show solution_master_flux
+                @show solution_master_direction
+                return SCIP.SCIP_INFEASIBLE
+            end
             sub_problem = Model(optimizer)
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_master_direction, internal_rxn_idxs)
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true, time_limit=600)
@@ -79,7 +84,7 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_master_direction, C)
             println("_______________")
             println("sub problem")
-            print(sub_problem)
+            # print(sub_problem)
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true, time_limit=600)
             add_combinatorial_benders_cut_moi(ch.o, solution_master_direction, C, ch.binvars[1:length(internal_rxn_idxs)])
             ch.ncalls += 1

@@ -60,8 +60,13 @@ include("../src/constraint_handler.jl")
     primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
     @show primal_objective_value
     # @show MOI.get(scip_model, MOI.VariablePrimal(), [x,a])
-    @show MOI.get(scip_model, MOI.VariablePrimal(), flux_vars)
-    @show MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
+    solution = MOI.get(scip_model, MOI.VariablePrimal(), flux_vars)
+    @show solution
+    bin_vals = MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
+    @show bin_vals
+    feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+    @test feasible
+    @assert bin_vals[1:length(internal_rxn_idxs)] + bin_vals[length(internal_rxn_idxs)+1:end] == ones(length(internal_rxn_idxs))
 end
 
 # # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found

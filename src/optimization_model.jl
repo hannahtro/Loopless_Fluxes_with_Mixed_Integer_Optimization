@@ -52,6 +52,7 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
 
     # @show optimization_model
     a = build_master_problem_complementary(model, internal_rxn_idxs)
+    print(model)
 
     # print(model)
     o = SCIP.Optimizer()
@@ -73,6 +74,7 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     @assert length(flux_vars) == n
     # @show binary_vars
     # @show flux_vars
+    # print(o)
     return o, binary_vars, flux_vars
 end
 
