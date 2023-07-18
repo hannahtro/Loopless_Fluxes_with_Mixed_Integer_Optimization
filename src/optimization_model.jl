@@ -33,74 +33,47 @@ end
 """
 build FBA model using MOI interface
 """
+# TODO: ensure order of variables after copying
 function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, internal_rxn_idxs; set_objective=false, optimizer=SCIP.Optimizer)
-    # # make optimization model
-    # optimization_model = Model(optimizer)
-    # moi_model = direct_model(optimization_model.moi_backend)
+    # make optimization model
+    optimization_model = Model(optimizer)
+    model = direct_model(optimization_model.moi_backend)
+
     m, n = size(S_transform)
-    # # @show size(S_transform)
-    # # @show size(lb_transform)
-    # # @show size(ub_transform)
 
-    # @variable(moi_model, x[1:n])
-    # @constraint(moi_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
-    # @constraint(moi_model, lbs, lb_transform .<= x) # lower bounds
-    # @constraint(moi_model, ubs, x .<= ub_transform) # upper bounds
-    # # @show optimization_model
+    x = @variable(model, x[1:n])
+    @constraint(model, mb, S_transform * x .== 0) # mass balance
+    @constraint(model, lbs, lb_transform .<= x) # lower bounds
+    @constraint(model, ubs, x .<= ub_transform) # upper bounds
     
-    # return moi_model
-    moi_model = SCIP.Optimizer()
-    x = MOI.add_variables(moi_model, n)
-    # MOI.add_constraints(moi_model, S_transform * x .== 0) # mass balance
-    S_transform = Float64.(S_transform)
-    for i in 1:n
-        MOI.add_constraints(moi_model, x[i], MOI.LessThan(Float64(ub_transform[i]))) # upper bounds
-        MOI.add_constraints(moi_model, MOI.ScalarAffineFunction([MOI.ScalarAffineTerm(-1.0, x[i])], 0.0), MOI.LessThan(Float64(-lb_transform[i]))) # lower bounds
-    end
-    for i in 1:m
-        MOI.add_constraints(moi_model, MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(S_transform[i,:], x), 0.0), MOI.LessThan(0.0))
-        MOI.add_constraints(moi_model, MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-S_transform[i,:], x), 0.0), MOI.LessThan(0.0))
-    end
-
     if set_objective
-        MOI.set(moi_model, MOI.ObjectiveFunction{MOI.ScalarAffineFunction{Float64}}(), 1.0 * x[1])    
+        @objective(model, Max, sum(x))
     end 
 
-    # add indicator variables 
-    a = []
-    for i in 1:length(internal_rxn_idxs)
-        var = MOI.add_constrained_variable(moi_model, MOI.ZeroOne())
-        push!(a,var)
-    end 
-    a = [i[1] for i in a]
-    for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        # add indicator 
-        f = MOI.VectorAffineFunction(
-            [    
-                MOI.VectorAffineTerm(1, MOI.ScalarAffineTerm(1.0, a[cidx])),
-                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(-1.0, x[ridx])),
-            ],
-            [0.0, 0.0]
-        )
-        s = MOI.Indicator{MOI.ACTIVATE_ON_ONE}(MOI.LessThan(-eps()))
-        MOI.add_constraint(moi_model, f, s)
-        # @constraint(moi_model, a[cidx] => {x[ridx] - eps() >= 0})
-    end
-    for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        # add indicator 
-        f = MOI.VectorAffineFunction(
-            [    
-                MOI.VectorAffineTerm(1, MOI.ScalarAffineTerm(1.0, a[cidx])),
-                MOI.VectorAffineTerm(2, MOI.ScalarAffineTerm(1.0, x[ridx])),
-            ],
-            [0.0, 0.0]
-        )
-        s = MOI.Indicator{MOI.ACTIVATE_ON_ZERO}(MOI.LessThan(-eps()))
-        MOI.add_constraint(moi_model, f, s)
-        # @constraint(moi_model, !a[cidx] => {x[ridx] + eps() <= 0})
-    end
-    # print(moi_model)
-    return moi_model, a, x
+    # @show optimization_model
+    a = build_master_problem_complementary(model, internal_rxn_idxs)
+
+    # print(model)
+    o = SCIP.Optimizer()
+    MOI.copy_to(o, model)
+    MOI.set(o, MOI.Silent(), true)
+
+    # print(o)
+    # @show MOI.get(o, MOI.NumberOfVariables())
+    # @show MOI.get(o, MOI.ListOfVariableIndices())
+    # a = [i.index for i in a]
+    # x = [i.index for i in x]
+    # append!(x, a)
+    # x = MOI.get(o,  MOI.ListOfVariableIndices())
+    # @show MOI.get(o, MOI.ListOfConstraintTypesPresent())
+    # @show MOI.get(o, MOI.VariableName(), MOI.VariableIndex(1))
+    # @show MOI.get(o, MOI.ZeroOne())
+    binary_vars = [MOI.VariableIndex(i) for i in 1:2*length(internal_rxn_idxs)]
+    flux_vars = [MOI.VariableIndex(i) for i in 2*length(internal_rxn_idxs)+1:MOI.get(o, MOI.NumberOfVariables())]
+    @assert length(flux_vars) == n
+    # @show binary_vars
+    # @show flux_vars
+    return o, binary_vars, flux_vars
 end
 
 """

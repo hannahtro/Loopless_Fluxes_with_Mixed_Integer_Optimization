@@ -118,6 +118,28 @@ function build_master_problem(master_problem, internal_rxn_idxs)
 end
 
 """
+build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables
+using active_on_one only
+"""
+function build_master_problem_complementary(master_problem, internal_rxn_idxs)
+    set_attribute(master_problem, MOI.Silent(), true)
+    x = master_problem[:x]
+
+    # add indicator variables 
+    a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
+    b = @variable(master_problem, b[1:length(internal_rxn_idxs)], Bin)
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        # add indicator 
+        @constraint(master_problem, a[cidx] => {-x[ridx] + eps() <= 0})
+        @constraint(master_problem, a[cidx] => {b[cidx] <= 1-a[cidx]})
+        @constraint(master_problem, a[cidx] => {1-a[cidx] <= b[cidx]})
+        @constraint(master_problem, b[cidx] => {x[ridx] + eps() <= 0})
+    end
+    append!(a, b)
+    return a
+end
+
+"""
 build sub problem of combinatorial Benders decomposition including the thermodynamic constraints on the indicator variables 
 for a given solution to the master problem and the minimal infeasible subset C
 """

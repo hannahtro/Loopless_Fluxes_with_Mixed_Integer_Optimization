@@ -16,22 +16,27 @@ include("../src/constraint_handler.jl")
     # print(model)
     internal_rxn_idxs = [2,3,4,6,7]
 
+    println("### No good cuts")
     # no good cuts
     objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S)
     @test thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    println("--------------------------------------------------------")
 
+    println("### combinatorial Benders")
     # combinatorial Benders'
-    model = build_fba_model(S, lb, ub)
+    model = build_fba_model(S, lb, ub, set_objective=true)
     objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
+    @show objective_value, solution
     @test termination == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
     @test objective_values == sort(objective_values, rev=true)
     println("--------------------------------------------------------")
 
+    println("### fast combinatorial Benders")
     # fast combinatorial Benders'
-    model = build_fba_model(S, lb, ub)
-    print(model)
+    model = build_fba_model(S, lb, ub, set_objective=true)
+    # print(model)
     objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
     @test termination_fast == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
@@ -42,15 +47,21 @@ include("../src/constraint_handler.jl")
     # @test time >= time_fast
     @test isapprox(objective_value,objective_value_fast)
     @test solution[1:num_reactions] == solution_fast[1:num_reactions]
+    @show objective_value_fast, solution_fast
+    println("--------------------------------------------------------")
 
+    println("### constraint handler")
     # test constraint handler        
-    moi_model, a, x = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true)
-    # scip_model = SCIP.Optimizer()
-    print(moi_model)
-    ch = ThermoFeasibleConstaintHandler(moi_model, 0, internal_rxn_idxs, S, a, x)
-    SCIP.include_conshdlr(moi_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
-    # MOI.optimize!(moi_model)
-    # primal_objective_value = MOI.get(moi_model, MOI.ObjectiveValue())
+    scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true)
+    # print(scip_model)
+    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars)
+    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
+    MOI.optimize!(scip_model)
+    primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
+    @show primal_objective_value
+    # @show MOI.get(scip_model, MOI.VariablePrimal(), [x,a])
+    @show MOI.get(scip_model, MOI.VariablePrimal(), flux_vars)
+    @show MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
 end
 
 # # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
