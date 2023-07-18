@@ -170,7 +170,7 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 end
 
 """
-returns a minimal infeasible subset of reactions for a give soltion and stoichiometric matrix
+returns a minimal infeasible subset of reactions for a given solution and stoichiometric matrix
 """
 # TODO: compute several MISs at once
 function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true, time_limit=1800, silent=true)
@@ -248,6 +248,38 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C)
     else 
         @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
     end
+end 
+
+"""
+adds combinatorial Benders' cut to the master problem, by forcing a different assignment of the indicator variables
+of the reactions in the minimal infeasible subset C using MOI instead of JuMP
+"""
+function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
+    Z = []
+    O = []
+    for idx in C
+        if solution_a[idx] > 0 
+            push!(O,idx)
+        else 
+            push!(Z,idx)
+        end
+    end 
+    @show Z,O
+    if isempty(Z)
+        c = MOI.add_constraint(master_problem, 
+        MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0),
+        MOI.LessThan(Float64(length(C)-1)))
+    elseif isempty(O)
+        @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
+        c = MOI.add_constraint(master_problem, 
+        MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0),
+        MOI.LessThan(Float64(length(C)-1-length(Z))))
+    else 
+        c = MOI.add_constraint(master_problem, 
+        MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0),
+        MOI.LessThan(Float64(length(C)-1-length(Z))))
+    end
+    @show c
 end 
 
 """
