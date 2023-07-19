@@ -279,6 +279,7 @@ end
 """
 compute thermodynamic feasibility for a given cycle without using the nullspace formulation
 """
+# TODO: add tolerance?
 function thermo_feasible_mu(cycle, flux_directions, S)
     thermo_feasible_model = Model(SCIP.Optimizer)
     S_int = S[:, cycle]

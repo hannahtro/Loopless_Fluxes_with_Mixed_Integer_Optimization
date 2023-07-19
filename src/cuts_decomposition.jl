@@ -136,7 +136,7 @@ function build_master_problem_complementary(master_problem, internal_rxn_idxs)
         @constraint(master_problem, b[cidx] == 1-a[cidx])
     end
     append!(a, b)
-    print(master_problem)
+    # print(master_problem)
     return a
 end
 
@@ -154,6 +154,7 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
     # G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
     μ = @variable(sub_problem, μ[1:size(S_int)[1]])
     constraint_list = []
+    solution_a = round.(solution_a, digits=7)
     for (idx,val) in enumerate(solution_a) 
         if val == 0 && (idx in C)
             c = @constraint(sub_problem, (S_int' * μ)[idx] <= -1) #TODO: check loopless fba formulation
@@ -255,15 +256,16 @@ end
 adds combinatorial Benders' cut to the master problem, by forcing a different assignment of the indicator variables
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
-function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
+function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
+    master_problem = ch.o 
     # @show a
-    # @show solution_a
+    @show solution_a
     # print(master_problem)
     no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
     O = []
     for idx in C
-        if solution_a[idx] > 0 
+        if solution_a[idx] > 0.00000001 
             push!(O,idx)
         else 
             push!(Z,idx)
@@ -272,14 +274,11 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
     # @show Z,O
     # @show a[Z], a[O]
     if isempty(Z)
-        c = MOI.add_constraint(master_problem, 
-        MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0),
-        MOI.LessThan(Float64(length(C)-1)))
+        F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0)
+        S = MOI.LessThan(Float64(length(C)-1))
     elseif isempty(O)
-        @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
-        c = MOI.add_constraint(master_problem, 
-        MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0),
-        MOI.LessThan(Float64(length(C)-1-length(Z))))
+        F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0)
+        S = MOI.LessThan(Float64(length(C)-1-length(Z)))
     else 
         # var_names = [MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(master_problem, MOI.NumberOfVariables())]
         # @show var_names
@@ -289,14 +288,26 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
         # @show vcat(a[O], a[Z])
         # @show MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(3))
         # @show vcat(ones(length(O)), -ones(length(Z)))' * vcat(a[O], a[Z])
-        c = MOI.add_constraint(master_problem,
-        MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0),
-        MOI.LessThan(Float64(length(C)-1-length(Z))))
+        F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0)
+        S = MOI.LessThan(Float64(length(C)-1-length(Z)))
     end
+
+    # for i in 5:MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
+    #     @assert !(F == MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(i)) && S == MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(i)))
+    # end
+    # @show ((F,S) in ch.F_S)
+    # @show (F,S)
+    # @show ch.F_S
+    # @assert !((F,S) in ch.F_S)
+    c = MOI.add_constraint(master_problem, F, S)
+    # push!(ch.F_S, (F,S))
+    # @show ch.F_S
+    # @show ((F,S) in ch.F_S)
     # @show c
     # @show MOI.get(master_problem, MOI.ConstraintName(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
     # @show MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
     # @show MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
+    
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     # @show no_constraints_after
     # for cref in MOI.get(master_problem, MOI.ListOfConstraintIndices{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
