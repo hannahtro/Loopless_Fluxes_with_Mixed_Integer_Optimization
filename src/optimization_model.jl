@@ -55,7 +55,7 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     o_inner = SCIP.Optimizer()
     o = MOI.Bridges.full_bridge_optimizer(o_inner, Float64)
     MOI.copy_to(o, model) # adds complementary v variables
-    MOI.set(o, MOI.Silent(), true)
+    MOI.set(o, MOI.Silent(), false)
 
     # print(o)
     # print(o_inner)

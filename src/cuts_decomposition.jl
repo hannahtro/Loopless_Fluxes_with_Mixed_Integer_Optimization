@@ -112,8 +112,8 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] - 0.0001 >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] + 0.0001 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] - 0.0000001 >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] + 0.0000001 <= 0})
     end
 end
 
@@ -324,6 +324,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
     solution_master = round.(solution_master, digits=6)
     solutions = [solution_master]
+    if length(solution_master) == 1
+        @assert !isnan(solution_master) # no solution found
+    end
     solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
     push!(objective_values, objective_value_master)
@@ -339,7 +342,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-    @show C
+    # @show C
 
     # add Benders' cut if subproblem is infeasible
     iter = 1

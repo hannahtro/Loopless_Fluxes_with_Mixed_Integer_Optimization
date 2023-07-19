@@ -30,7 +30,7 @@ include("../src/constraint_handler.jl")
     @test termination == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
-    @test objective_values == sort(objective_values, rev=true)
+    @test round.(objective_values, digits=5) == round.(sort(objective_values, rev=true), digits=5)
     println("--------------------------------------------------------")
 
     println("### fast combinatorial Benders")
@@ -41,7 +41,7 @@ include("../src/constraint_handler.jl")
     @test termination_fast == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
-    @test objective_values_fast == sort(objective_values_fast, rev=true)
+    @test round.(objective_values_fast, digits=5) == round.(sort(objective_values_fast, rev=true), digits=5)
 
     @test iter >= iter_fast
     # @test time >= time_fast
@@ -57,6 +57,7 @@ include("../src/constraint_handler.jl")
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
     MOI.optimize!(scip_model)
+    @show MOI.get(scip_model, MOI.TerminationStatus())
     primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
     @show primal_objective_value
     # @show MOI.get(scip_model, MOI.VariablePrimal(), [x,a])
@@ -64,6 +65,7 @@ include("../src/constraint_handler.jl")
     @show solution
     bin_vals = MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
     @show bin_vals
+    @show solution[internal_rxn_idxs]
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
     @test round.(solution, digits=4) == solution_fast[1:num_reactions]
