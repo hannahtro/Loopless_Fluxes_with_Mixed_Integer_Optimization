@@ -8,15 +8,24 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     S::Matrix{Int64}
     vars    
     binvars
+    solutions
 end
 
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
     solution = SCIP.sol_values(ch.o, ch.vars)
+    push!(ch.solutions, solution)
     @show solution
     @show SCIP.sol_values(ch.o, ch.binvars)
+    m, num_reactions = size(ch.S)
+    complementary_vals = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in length(ch.internal_rxn_idxs)+num_reactions+1:2*length(ch.internal_rxn_idxs)+num_reactions])
+    @show complementary_vals
+    @assert SCIP.sol_values(ch.o, ch.binvars) + complementary_vals == ones(length(ch.internal_rxn_idxs))
+
     @show ch.S * solution
+    @show ch.solutions, solution
+    # @assert !(solution in ch.solutions)
     # @show solution[ch.internal_rxn_idxs]
     # @show thermo_feasible_mu(ch.internal_rxn_idxs, solution[ch.internal_rxn_idxs], ch.S)
     feasible = thermo_feasible_mu(ch.internal_rxn_idxs, solution[ch.internal_rxn_idxs], ch.S)
@@ -59,7 +68,7 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
 
     @show solution_master_flux
     @show solution_master_direction
-    
+
     feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master_flux[internal_rxn_idxs], S)
 
     if !feasible
@@ -92,7 +101,7 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=true, time_limit=600)
             add_combinatorial_benders_cut_moi(ch.o, solution_master_direction, C, ch.binvars[1:length(internal_rxn_idxs)])
             ch.ncalls += 1
-            prit
+            # prit
             return SCIP.SCIP_CONSADDED
         end
     end

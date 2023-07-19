@@ -50,15 +50,15 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
         @objective(model, Max, sum(x))
     end 
 
-    # @show optimization_model
-    a = build_master_problem_complementary(model, internal_rxn_idxs)
-    # print(model)
+    a = build_master_problem(model, internal_rxn_idxs)
 
-    o = SCIP.Optimizer()
-    MOI.copy_to(o, model)
+    o_inner = SCIP.Optimizer()
+    o = MOI.Bridges.full_bridge_optimizer(o_inner, Float64)
+    MOI.copy_to(o, model) # adds complementary v variables
     MOI.set(o, MOI.Silent(), true)
 
     # print(o)
+    # print(o_inner)
     # @show MOI.get(o, MOI.NumberOfVariables())
     # @show MOI.get(o, MOI.ListOfVariableIndices())
     # a = [i.index for i in a]
@@ -66,24 +66,22 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     # append!(x, a)
     # x = MOI.get(o,  MOI.ListOfVariableIndices())
     # @show MOI.get(o, MOI.ListOfConstraintTypesPresent())
-    name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(1))
-    @show name
-    @show MOI.get(o, MOI.VariableIndex, name)
-    name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(length(internal_rxn_idxs)+1))
-    @show name
-    @show MOI.get(o, MOI.VariableIndex, name)
-    name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(2*length(internal_rxn_idxs)+1))
-    @show name
-    @show MOI.get(o, MOI.VariableIndex, name)
+    # name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(1))
+    # @show name
+    # @show MOI.get(o, MOI.VariableIndex, name)
+    # name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(length(internal_rxn_idxs)+1))
+    # @show name
+    # @show MOI.get(o, MOI.VariableIndex, name)
 
+    var_names = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:n+length(internal_rxn_idxs)]
+    @show var_names
     # @show MOI.get(o, MOI.ZeroOne())
-    binary_vars = [MOI.VariableIndex(i) for i in 1:2*length(internal_rxn_idxs)]
-    flux_vars = [MOI.VariableIndex(i) for i in 2*length(internal_rxn_idxs)+1:MOI.get(o, MOI.NumberOfVariables())]
+    binary_vars = [MOI.VariableIndex(i) for i in 1:length(internal_rxn_idxs)]
+    flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:MOI.get(o, MOI.NumberOfVariables())]
     @assert length(flux_vars) == n
-    # @show binary_vars
-    # @show flux_vars
-    # print(o)
-    return o, binary_vars, flux_vars
+    @show binary_vars
+    @show flux_vars
+    return o_inner, binary_vars, flux_vars
 end
 
 """

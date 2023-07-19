@@ -112,8 +112,8 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] - eps() >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] + eps() <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] - 0.0001 >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] + 0.0001 <= 0})
     end
 end
 
@@ -258,7 +258,7 @@ of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
     @show a
     @show solution_a
-    print(master_problem)
+    # print(master_problem)
     no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
     O = []
@@ -281,15 +281,17 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
         MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0),
         MOI.LessThan(Float64(length(C)-1-length(Z))))
     else 
-        # BUG: constraint added on variable b not a
-        @show length(C)-1-length(Z)
-        @show vcat(ones(length(O)), -ones(length(Z)))
-        @show vcat(a[O], a[Z])
-        @show MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(3))
-        @show vcat(ones(length(O)), -ones(length(Z)))' * vcat(a[O], a[Z])
+        # var_names = [MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(master_problem, MOI.NumberOfVariables())]
+        # @show var_names
+        # ATTENTION: constraint added on complementary variable v not a
+        # @show length(C)-1-length(Z)
+        # @show vcat(ones(length(O)), -ones(length(Z)))
+        # @show vcat(a[O], a[Z])
+        # @show MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(3))
+        # @show vcat(ones(length(O)), -ones(length(Z)))' * vcat(a[O], a[Z])
         c = MOI.add_constraint(master_problem,
         MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0),
-        MOI.LessThan(Float64(length(C)-length(Z))))
+        MOI.LessThan(Float64(length(C)-1-length(Z))))
     end
     # @show c
     # @show MOI.get(master_problem, MOI.ConstraintName(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
