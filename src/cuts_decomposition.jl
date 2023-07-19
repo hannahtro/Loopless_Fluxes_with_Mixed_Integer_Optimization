@@ -256,8 +256,8 @@ adds combinatorial Benders' cut to the master problem, by forcing a different as
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
 function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
-    @show a
-    @show solution_a
+    # @show a
+    # @show solution_a
     # print(master_problem)
     no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
@@ -269,8 +269,8 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
             push!(Z,idx)
         end
     end 
-    @show Z,O
-    @show a[Z], a[O]
+    # @show Z,O
+    # @show a[Z], a[O]
     if isempty(Z)
         c = MOI.add_constraint(master_problem, 
         MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0),
@@ -298,11 +298,11 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
     # @show MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
     # @show MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
-    @show no_constraints_after
+    # @show no_constraints_after
     # for cref in MOI.get(master_problem, MOI.ListOfConstraintIndices{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     #     println(io, " & ", MOI.Utilities._to_string(MOI.Utilities.options, master_problem, cref), " \\\\")
     # end
-    print(master_problem)
+    # print(master_problem)
     @assert no_constraints_before < no_constraints_after
 end 
 

@@ -74,13 +74,13 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     # @show MOI.get(o, MOI.VariableIndex, name)
 
     var_names = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:n+length(internal_rxn_idxs)]
-    @show var_names
+    # @show var_names
     # @show MOI.get(o, MOI.ZeroOne())
     binary_vars = [MOI.VariableIndex(i) for i in 1:length(internal_rxn_idxs)]
     flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:MOI.get(o, MOI.NumberOfVariables())]
     @assert length(flux_vars) == n
-    @show binary_vars
-    @show flux_vars
+    # @show binary_vars
+    # @show flux_vars
     return o_inner, binary_vars, flux_vars
 end
 
