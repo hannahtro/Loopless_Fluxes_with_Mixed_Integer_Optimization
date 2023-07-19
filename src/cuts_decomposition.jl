@@ -256,6 +256,10 @@ adds combinatorial Benders' cut to the master problem, by forcing a different as
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
 function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
+    @show a
+    @show solution_a
+    print(master_problem)
+    no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
     O = []
     for idx in C
@@ -266,6 +270,7 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
         end
     end 
     @show Z,O
+    @show a[Z], a[O]
     if isempty(Z)
         c = MOI.add_constraint(master_problem, 
         MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0),
@@ -276,11 +281,27 @@ function add_combinatorial_benders_cut_moi(master_problem, solution_a, C, a)
         MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0),
         MOI.LessThan(Float64(length(C)-1-length(Z))))
     else 
-        c = MOI.add_constraint(master_problem, 
+        # BUG: constraint added on variable b not a
+        @show length(C)-1-length(Z)
+        @show vcat(ones(length(O)), -ones(length(Z)))
+        @show vcat(a[O], a[Z])
+        @show MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(3))
+        @show vcat(ones(length(O)), -ones(length(Z)))' * vcat(a[O], a[Z])
+        c = MOI.add_constraint(master_problem,
         MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0),
-        MOI.LessThan(Float64(length(C)-1-length(Z))))
+        MOI.LessThan(Float64(length(C)-length(Z))))
     end
-    @show c
+    # @show c
+    # @show MOI.get(master_problem, MOI.ConstraintName(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
+    # @show MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
+    # @show MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
+    no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
+    @show no_constraints_after
+    # for cref in MOI.get(master_problem, MOI.ListOfConstraintIndices{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
+    #     println(io, " & ", MOI.Utilities._to_string(MOI.Utilities.options, master_problem, cref), " \\\\")
+    # end
+    print(master_problem)
+    @assert no_constraints_before < no_constraints_after
 end 
 
 """
@@ -316,7 +337,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-    # @show C
+    @show C
 
     # add Benders' cut if subproblem is infeasible
     iter = 1
@@ -344,6 +365,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         println("_______________")
         println("compute MIS")
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
+        @show C
         if isempty(C)
             feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
             @assert feasible

@@ -52,9 +52,8 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
 
     # @show optimization_model
     a = build_master_problem_complementary(model, internal_rxn_idxs)
-    print(model)
-
     # print(model)
+
     o = SCIP.Optimizer()
     MOI.copy_to(o, model)
     MOI.set(o, MOI.Silent(), true)
@@ -67,7 +66,16 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     # append!(x, a)
     # x = MOI.get(o,  MOI.ListOfVariableIndices())
     # @show MOI.get(o, MOI.ListOfConstraintTypesPresent())
-    # @show MOI.get(o, MOI.VariableName(), MOI.VariableIndex(1))
+    name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(1))
+    @show name
+    @show MOI.get(o, MOI.VariableIndex, name)
+    name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(length(internal_rxn_idxs)+1))
+    @show name
+    @show MOI.get(o, MOI.VariableIndex, name)
+    name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(2*length(internal_rxn_idxs)+1))
+    @show name
+    @show MOI.get(o, MOI.VariableIndex, name)
+
     # @show MOI.get(o, MOI.ZeroOne())
     binary_vars = [MOI.VariableIndex(i) for i in 1:2*length(internal_rxn_idxs)]
     flux_vars = [MOI.VariableIndex(i) for i in 2*length(internal_rxn_idxs)+1:MOI.get(o, MOI.NumberOfVariables())]
