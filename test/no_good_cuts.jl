@@ -63,6 +63,7 @@ include("../src/constraint_handler.jl")
     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
     primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
     solution = MOI.get(scip_model, MOI.VariablePrimal(), flux_vars)
+    solution = round.(solution,digits=5)
     @show solution[1:num_reactions]
     bin_vals = MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
