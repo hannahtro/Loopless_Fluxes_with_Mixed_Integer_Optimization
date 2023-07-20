@@ -9,19 +9,23 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     vars    
     binvars
     solutions
+    feasible_solutions
 end
 
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
     solution = SCIP.sol_values(ch.o, ch.vars)
-    # @show solution[ch.internal_rxn_idxs]
+    # solution_master_flux = round.(SCIP.sol_values(ch.o, ch.vars),digits=5)
+
+    @show solution[ch.internal_rxn_idxs]
     # @show SCIP.sol_values(ch.o, ch.binvars)
     feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution[ch.internal_rxn_idxs],digits=5), ch.S)
     @show feasible
     if !feasible      
         return SCIP.SCIP_INFEASIBLE
     end
+    push!(ch.feasible_solutions,solution)
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -38,6 +42,7 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
         add_cb_cut(ch)
         return SCIP.SCIP_CONSADDED
     end 
+    push!(ch.feasible_solutions,solution)
     return SCIP.SCIP_FEASIBLE
 end
 

@@ -1,6 +1,7 @@
 using Test 
 using DataFrames
 using CSV
+using Infiltrator
 
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")
@@ -57,7 +58,7 @@ include("../src/constraint_handler.jl")
     # test constraint handler        
     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true)
     # print(scip_model)
-    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [])
+    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
     MOI.optimize!(scip_model)
     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
@@ -69,6 +70,7 @@ include("../src/constraint_handler.jl")
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
     @test isapprox(primal_objective_value, objective_value_fast, atol=0.001)
+    @show ch.feasible_solutions # TODO: check if solutions respect lbs and ubs
 end
 
 # # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
