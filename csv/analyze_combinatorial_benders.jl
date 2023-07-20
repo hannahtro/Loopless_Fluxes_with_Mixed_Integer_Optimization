@@ -2,7 +2,7 @@ using DataFrames
 using CSV
 using PyPlot
 
-function plot_dual_bound(organism, file_name)
+function plot_dual_bound(organism, file_name; csv=true)
     df = first(CSV.read(organism * "_" * file_name * ".csv", DataFrame),1)
     @show df
 
@@ -25,7 +25,7 @@ function plot_dual_bound(organism, file_name)
     # @show objective_value
     @show isapprox(objective_values[end],0)
     @show length(objective_values)
-    @show objective_values
+    @show objective_values[end]
     @show iter
 
     fig = plt.figure(figsize=(6.5, 3.5))
@@ -41,29 +41,31 @@ function plot_dual_bound(organism, file_name)
     f = matplotlib.ticker.FormatStrFormatter("%1.1f") # Define format of tick labels
     ax.xaxis.set_major_formatter(f) # Set format of tick labels
 
-    file = "../plots/" * organism * "_" * file_name * ".pdf"
-    savefig(file)
+    if csv
+        file = "../plots/" * organism * "_" * file_name * ".pdf"
+        savefig(file)
+    end
 end 
 
 organism = "iAF692"
 file_name = "combinatorial_benders_fast_1800"
-plot_dual_bound(organism, file_name)
+plot_dual_bound(organism, file_name, csv=false)
 
 # organism = "iAF692"
 # file_name = "combinatorial_benders_1800"
 # plot_dual_bound(organism, file_name)
 
-# organism = "iJR904"
-# file_name = "combinatorial_benders_fast_1800"
-# plot_dual_bound(organism, file_name)
+organism = "iJR904"
+file_name = "combinatorial_benders_fast_1800"
+plot_dual_bound(organism, file_name, csv=false)
 
 # organism = "iJR904"
 # file_name = "combinatorial_benders_1800"
 # plot_dual_bound(organism, file_name)
 
-# organism = "iML1515"
-# file_name = "combinatorial_benders_fast_1800"
-# plot_dual_bound(organism, file_name)
+organism = "iML1515"
+file_name = "combinatorial_benders_fast_1800"
+plot_dual_bound(organism, file_name, csv=false)
 
 # organism = "iML1515"
 # file_name = "combinatorial_benders_1800"
