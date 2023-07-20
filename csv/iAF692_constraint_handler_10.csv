@@ -1,0 +1,2 @@
+objective_value,dual_bound,solution,time,termination,time_limit,ncalls
+NaN,NaN,NaN,13.427998,TIME_LIMIT,10,3

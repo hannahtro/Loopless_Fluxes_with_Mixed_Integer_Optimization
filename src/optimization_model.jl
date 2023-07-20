@@ -34,7 +34,7 @@ end
 build FBA model using MOI interface
 """
 # TODO: ensure order of variables after copying
-function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, internal_rxn_idxs; set_objective=false, optimizer=SCIP.Optimizer)
+function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, internal_rxn_idxs; set_objective=false, optimizer=SCIP.Optimizer, time_limit=Inf, objective_func_vars=Nothing, objective_func_coeffs=Nothing, silent=true)
     # make optimization model
     optimization_model = Model(optimizer)
     model = direct_model(optimization_model.moi_backend)
@@ -47,7 +47,13 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     @constraint(model, ubs, x .<= ub_transform) # upper bounds
     
     if set_objective
-        @objective(model, Max, sum(x))
+        if objective_func_vars != Nothing
+            # @show objective_func_coeffs
+            # @show objective_func_vars
+            @objective(model, Max, objective_func_coeffs' * objective_func_vars)        
+        else 
+            @objective(model, Max, sum(x))
+        end
     end 
 
     a = build_master_problem(model, internal_rxn_idxs)
@@ -55,7 +61,14 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     o_inner = SCIP.Optimizer(; presolving_maxrounds=0)
     o = MOI.Bridges.full_bridge_optimizer(o_inner, Float64)
     MOI.copy_to(o, model) # adds complementary v variables
-    MOI.set(o, MOI.Silent(), true)
+    if silent
+        MOI.set(o, MOI.Silent(), true)
+    else 
+        MOI.set(o, MOI.Silent(), false)
+    end
+    if !isinf(time_limit)
+        MOI.set(o, MOI.TimeLimitSec(), time_limit)
+    end
 
     # print(o)
     # print(o_inner)

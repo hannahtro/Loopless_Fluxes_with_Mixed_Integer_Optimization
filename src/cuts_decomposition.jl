@@ -260,72 +260,50 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     m, num_reactions = size(ch.S)
     # @show solution
     solution_a = solution[1:length(ch.internal_rxn_idxs)]
-    @show solution_a
+    # @show solution_a
     solution_flux = solution[length(ch.internal_rxn_idxs)+1:length(ch.internal_rxn_idxs)+num_reactions]
-    @show solution_flux
-    @show ch.S * solution_flux == zeros(m)
+    # @show solution_flux
+    # @show ch.S * solution_flux == zeros(m)
     master_problem = ch.o 
+    solution_a = round.(solution_a, digits=5)
+    @assert !(solution_a in ch.solutions)
+    push!(ch.solutions, solution_a)
+    @show ch.solutions
     # @show a
-    @show solution_a
+    # @show solution_a
     # print(master_problem)
     no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
     O = []
     for idx in C
-        if solution_a[idx] > 0.000001 
+        if solution_a[idx] > 0.00001 
             push!(O,idx)
         else 
             push!(Z,idx)
         end
     end 
-    @show Z,O
+    # @show Z,O
     # @show a[Z], a[O]
     if isempty(Z)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1)-0.0001)
+        S = MOI.LessThan(Float64(length(C)-1)-0.001)
     elseif isempty(O)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.0001)
+        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.001)
     else 
-        # var_names = [MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(master_problem, MOI.NumberOfVariables())]
-        # @show var_names
         # ATTENTION: constraint added on complementary variable v not a
-        # @show length(C)-1-length(Z)
-        # @show vcat(ones(length(O)), -ones(length(Z)))
-        # @show vcat(a[O], a[Z])
-        # @show MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(3))
-        # @show vcat(ones(length(O)), -ones(length(Z)))' * vcat(a[O], a[Z])
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.0001)
+        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.001)
     end
 
-    # for i in 5:MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
-    #     @assert !(F == MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(i)) && S == MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(i)))
-    # end
-    # @show ((F,S) in ch.F_S)
-    @show (F,S)
     coeffs = [i.coefficient for i in F.terms]
     @show coeffs
     @show coeffs' * vcat(solution_a[Z], solution_a[O])
     @show (length(C)-1-length(Z))
     # @infiltrate
-    # @show ch.F_S
-    # @assert !((F,S) in ch.F_S)
     c = MOI.add_constraint(master_problem, F, S)
-    # push!(ch.F_S, (F,S))
-    # @show ch.F_S
-    # @show ((F,S) in ch.F_S)
-    # @show c
-    # @show MOI.get(master_problem, MOI.ConstraintName(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
-    # @show MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
-    # @show MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(15))
-    
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
-    # @show no_constraints_after
-    # for cref in MOI.get(master_problem, MOI.ListOfConstraintIndices{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
-    #     println(io, " & ", MOI.Utilities._to_string(MOI.Utilities.options, master_problem, cref), " \\\\")
-    # end
-    # print(master_problem)
+
     @assert no_constraints_before < no_constraints_after
 end 
 
@@ -365,20 +343,21 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-    # @show C
+    @show solution_a
+    @show C
 
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
-        @show iter
+        # @show iter
         @assert primal_status(sub_problem) == MOI.NO_SOLUTION
         @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
         @assert has_duals(sub_problem)
 
         # add CB cut to MP and solve MP
         add_combinatorial_benders_cut(master_problem, solution_a, C)
-        println("_______________")
-        println("master problem")
+        # println("_______________")
+        # println("master problem")
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
         solution_master = round.(solution_master, digits=5)
         @assert !(solution_master in solutions)
@@ -390,8 +369,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # @show solution_a
 
         # compute corresponding MIS
-        println("_______________")
-        println("compute MIS")
+        # println("_______________")
+        # println("compute MIS")
+        @show solution_a
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
         @show C
         if isempty(C)
@@ -405,12 +385,13 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
             # build sub problem to master solution 
             sub_problem = Model(optimizer)
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-            println("_______________")
-            println("sub problem")
+            # println("_______________")
+            # println("sub problem")
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
             iter += 1
         end
     end
+    @show iter
     end_time = time()
     time_taken = end_time - start_time
     solution = vcat(solution_master, solution_sub)
