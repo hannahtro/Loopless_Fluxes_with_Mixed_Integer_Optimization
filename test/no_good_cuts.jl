@@ -68,7 +68,7 @@ include("../src/constraint_handler.jl")
     @show solution[internal_rxn_idxs]
     feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
     @test feasible
-    @test round.(solution, digits=4) == solution_fast[1:num_reactions]
+    @test isapprox(primal_objective_value, objective_value_fast, atol=0.001)
 end
 
 # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found

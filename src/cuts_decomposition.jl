@@ -256,7 +256,14 @@ end
 adds combinatorial Benders' cut to the master problem, by forcing a different assignment of the indicator variables
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
-function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
+function add_combinatorial_benders_cut_moi(ch, solution, C, a)
+    m, num_reactions = size(ch.S)
+    # @show solution
+    solution_a = solution[1:length(ch.internal_rxn_idxs)]
+    @show solution_a
+    solution_flux = solution[length(ch.internal_rxn_idxs)+1:length(ch.internal_rxn_idxs)+num_reactions]
+    @show solution_flux
+    @show ch.S * solution_flux == zeros(m)
     master_problem = ch.o 
     # @show a
     @show solution_a
@@ -265,20 +272,20 @@ function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
     Z = []
     O = []
     for idx in C
-        if solution_a[idx] > 0.00000001 
+        if solution_a[idx] > 0.000001 
             push!(O,idx)
         else 
             push!(Z,idx)
         end
     end 
-    # @show Z,O
+    @show Z,O
     # @show a[Z], a[O]
     if isempty(Z)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1))
+        S = MOI.LessThan(Float64(length(C)-1)-0.0001)
     elseif isempty(O)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1-length(Z)))
+        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.0001)
     else 
         # var_names = [MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(master_problem, MOI.NumberOfVariables())]
         # @show var_names
@@ -289,14 +296,19 @@ function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
         # @show MOI.get(master_problem, MOI.VariableName(), MOI.VariableIndex(3))
         # @show vcat(ones(length(O)), -ones(length(Z)))' * vcat(a[O], a[Z])
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1-length(Z)))
+        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.0001)
     end
 
     # for i in 5:MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     #     @assert !(F == MOI.get(master_problem, MOI.ConstraintFunction(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(i)) && S == MOI.get(master_problem, MOI.ConstraintSet(), MOI.ConstraintIndex{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}(i)))
     # end
     # @show ((F,S) in ch.F_S)
-    # @show (F,S)
+    @show (F,S)
+    coeffs = [i.coefficient for i in F.terms]
+    @show coeffs
+    @show coeffs' * vcat(solution_a[Z], solution_a[O])
+    @show (length(C)-1-length(Z))
+    # @infiltrate
     # @show ch.F_S
     # @assert !((F,S) in ch.F_S)
     c = MOI.add_constraint(master_problem, F, S)
