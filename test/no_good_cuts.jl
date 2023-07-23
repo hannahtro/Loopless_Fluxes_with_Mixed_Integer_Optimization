@@ -55,8 +55,8 @@ include("../src/constraint_handler.jl")
     println("--------------------------------------------------------")
 
     println("constraint handler")
-    # test constraint handler        
-    scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true)
+    # test constraint handler    
+    scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
     # print(scip_model)
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
@@ -67,10 +67,13 @@ include("../src/constraint_handler.jl")
     solution = round.(solution,digits=5)
     @show solution[1:num_reactions]
     bin_vals = MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
-    feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+    # check for optimal feasible solution
+    feasible_solutions = [sol for (idx,sol) in enumerate(ch.feasible_solutions) if [solution_within_bounds(sol, lb, ub) for sol in ch.feasible_solutions][idx]]
+    optimal_solution_objective_value, optimal_solution_idx  = findmax([eval_objective(model, sol) for sol in feasible_solutions])
+    optimal_solution = feasible_solutions[optimal_solution_idx]
+    feasible = thermo_feasible(internal_rxn_idxs, optimal_solution, S)
     @test feasible
-    @test isapprox(primal_objective_value, objective_value_fast, atol=0.001)
-    @show ch.feasible_solutions # TODO: check if solutions respect lbs and ubs
+    @test isapprox(optimal_solution_objective_value, objective_value_fast, atol=0.001)
 end
 
 # # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
