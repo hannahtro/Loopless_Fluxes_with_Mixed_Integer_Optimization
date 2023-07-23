@@ -140,13 +140,15 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     result_status = MOI.get(scip_model, MOI.PrimalStatus())
     @show status, result_status
     if result_status != MOI.NO_SOLUTION
-        primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
+        primal_objective_value, solution = check_solutions(ch, lb, ub)
+        # primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
+        # TODO: get correct dual bound
         dual_objective_value = MOI.get(scip_model, MOI.ObjectiveBound())
         if !mute
             println("objective value : ", round(primal_objective_value, digits=2))
             println("")
         end
-        solution = MOI.get(scip_model, MOI.VariablePrimal(), vcat(ch.vars, ch.binvars))
+        # solution = MOI.get(scip_model, MOI.VariablePrimal(), vcat(ch.vars, ch.binvars))
     else 
         primal_objective_value = NaN
         dual_objective_value = NaN
