@@ -168,3 +168,39 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
         CSV.write(file_name, df, append=false, writeheader=true)
     end
 end
+
+"""
+analyze model with constraint handler after solve
+"""
+function check_solutions(ch, lb, ub)
+    # check for optimal feasible solution
+    feasible_solutions = [sol for (idx,sol) in enumerate(ch.feasible_solutions) if [solution_within_bounds(sol, lb, ub) for sol in ch.feasible_solutions][idx]]
+    optimal_solution_objective_value, optimal_solution_idx  = findmax([eval_objective(ch, sol) for sol in feasible_solutions])
+    optimal_solution = feasible_solutions[optimal_solution_idx]
+    feasible = thermo_feasible(ch.internal_rxn_idxs, optimal_solution, ch.S)
+    @assert feasible
+    return optimal_solution_objective_value, optimal_solution
+end 
+
+"""
+check whether a solution respects the upper and lower bounds of a reaction
+"""
+function solution_within_bounds(solution, lb, ub)
+    for (idx,sol) in enumerate(solution)
+        if sol < lb[idx] || sol > ub[idx]
+            return false
+        end
+    end
+    return true
+end
+
+"""
+compute the objective value for a solution
+"""
+function eval_objective(ch, solution)
+    f = MOI.get(ch.o, MOI.ObjectiveFunction{MOI.ScalarAffineFunction{Float64}}())
+    coeffs = [i.coefficient for i in f.terms]
+    var_idxs = [i.variable.value for i in f.terms]
+    # @show coeffs, var_idxs
+    return coeffs' * solution[var_idxs .- length(ch.binvars)]
+end

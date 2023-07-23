@@ -62,15 +62,7 @@ include("../src/constraint_handler.jl")
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
     MOI.optimize!(scip_model)
     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
-    primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
-    solution = MOI.get(scip_model, MOI.VariablePrimal(), flux_vars)
-    solution = round.(solution,digits=5)
-    @show solution[1:num_reactions]
-    bin_vals = MOI.get(scip_model, MOI.VariablePrimal(), bin_vars)
-    # check for optimal feasible solution
-    feasible_solutions = [sol for (idx,sol) in enumerate(ch.feasible_solutions) if [solution_within_bounds(sol, lb, ub) for sol in ch.feasible_solutions][idx]]
-    optimal_solution_objective_value, optimal_solution_idx  = findmax([eval_objective(model, sol) for sol in feasible_solutions])
-    optimal_solution = feasible_solutions[optimal_solution_idx]
+    optimal_solution_objective_value, optimal_solution = check_solutions(ch, lb, ub)
     feasible = thermo_feasible(internal_rxn_idxs, optimal_solution, S)
     @test feasible
     @test isapprox(optimal_solution_objective_value, objective_value_fast, atol=0.001)
