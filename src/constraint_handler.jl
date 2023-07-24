@@ -32,6 +32,9 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
     # check if solution is feasible
     @show is_feasible(ch, solution, solution_direction)
     push!(ch.feasible_solutions, solution)
+    entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
+    @show entire_solution
+    add_solution(ch.o, entire_solution)
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -252,4 +255,41 @@ function eval_objective(ch, solution)
     var_idxs = [i.variable.value for i in f.terms]
     # @show coeffs, var_idxs
     return coeffs' * solution[var_idxs .- length(ch.binvars)]
+end
+
+"""
+add solution to SCIP optimizer
+"""
+function add_solution(model, solution)
+    println("ADD SOLUTION")
+    solution = round.(solution, digits=5)
+    @infiltrate
+    @show solution
+    vars = SCIP.SCIPgetVars(model)
+    nvars = MOI.get(model, MOI.NumberOfVariables()) 
+    # nvars = SCIP.SCIPgetNOrigVars(model)
+    var_vec = unsafe_wrap(Array, vars, nvars)
+    print(model)
+    # TODO: segmentation fault!! 
+    sol = SCIP.create_empty_scipsol(model, solution)
+    SCIPgetVars != MOI.NumberOfVariables
+    for var in var_vec
+        SCIP.@SCIP_CALL SCIP.SCIPsetSolVal(
+            model,
+            sol,
+            var,
+            0.0, 
+        )
+    end
+    stored = Ref{SCIP.SCIP_Bool}(SCIP.FALSE)
+    SCIP.@SCIP_CALL SCIP.SCIPtrySolFree(
+        model,
+        Ref(sol),
+        SCIP.FALSE,
+        SCIP.FALSE,
+        SCIP.TRUE,
+        SCIP.TRUE,
+        SCIP.TRUE,
+        stored,
+    )
 end

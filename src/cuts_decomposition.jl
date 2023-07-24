@@ -269,7 +269,7 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     solution_a = round.(solution_a, digits=5)
     @assert !(solution_a in ch.solutions)
     push!(ch.solutions, solution_a)
-    @show ch.solutions
+    # @show ch.solutions
     # @show a
     # @show solution_a
     # print(master_problem)

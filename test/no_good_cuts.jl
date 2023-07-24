@@ -56,12 +56,13 @@ include("../src/constraint_handler.jl")
 
     println("constraint handler")
     # test constraint handler    
-    scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
+    scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=false)
     # print(scip_model)
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, lb, ub, flux_vars, bin_vars, [], [], [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
     MOI.optimize!(scip_model)
     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
+    @show MOI.get(scip_model, MOI.ObjectiveValue())
     optimal_solution_objective_value, optimal_solution = check_solutions(ch, lb, ub)
     feasible = thermo_feasible(internal_rxn_idxs, optimal_solution, S)
     @test feasible
