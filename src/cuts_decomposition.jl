@@ -303,8 +303,8 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     # @show (length(C)-1-length(Z))
     # @infiltrate
     c = MOI.add_constraint(master_problem, F, S)
+    push!(ch.cuts, c)
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
-
     @assert no_constraints_before < no_constraints_after
 end 
 

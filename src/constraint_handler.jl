@@ -6,16 +6,20 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     ncalls::Int
     internal_rxn_idxs::Vector{Int64} 
     S::Matrix{Float64}
+    lb
+    ub
     vars    
     binvars
-    solutions
     feasible_solutions
+    solutions
+    cuts
 end
 
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
     solution = SCIP.sol_values(ch.o, ch.vars)
+    solution_direction = SCIP.sol_values(ch.o, ch.binvars)
     # solution_master_flux = round.(SCIP.sol_values(ch.o, ch.vars),digits=5)
 
     @show solution[ch.internal_rxn_idxs]
@@ -26,21 +30,15 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
         return SCIP.SCIP_INFEASIBLE
     end
     # check if solution is feasible
-    @infiltrate
-    model_temp = Model(SCIP.Optimizer)
-    MOI.copy_to(model_temp, ch.o)
-    cont_vars = Dict(VariableRef(model_temp, ch.vars[i])  => solution[i] for i in 1:length(ch.vars))
-    bin_vars = Dict(VariableRef(model_temp, ch.binvars[i]) => SCIP.sol_values(ch.o, ch.binvars)[i] for i in 1:length(ch.binvars))
-    point = merge(cont_vars, bin_vars)
-    @show primal_feasibility_report(model_temp, point, skip_missing=true)
+    @show is_feasible(ch, solution, solution_direction)
     push!(ch.feasible_solutions, solution)
-    @show ch.S * solution
     return SCIP.SCIP_FEASIBLE
 end
 
 function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nusefulconss, solinfeasible)
     println("LP SOL")
     solution = SCIP.sol_values(ch.o, ch.vars)
+    solution_direction = SCIP.sol_values(ch.o, ch.binvars)
     @show solution
     feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution[ch.internal_rxn_idxs],digits=5), ch.S)
     # @show solution[ch.internal_rxn_idxs]
@@ -51,8 +49,8 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
         add_cb_cut(ch)
         return SCIP.SCIP_CONSADDED
     end 
+    @show is_feasible(ch, solution, solution_direction)
     push!(ch.feasible_solutions,solution)
-    @show ch.S * solution
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -200,6 +198,45 @@ check whether a solution respects the upper and lower bounds of a reaction
 function solution_within_bounds(solution, lb, ub)
     for (idx,sol) in enumerate(solution)
         if sol < lb[idx] || sol > ub[idx]
+            return false
+        end
+    end
+    return true
+end
+
+"""
+check whether solution is feasible, within a tolerance
+"""
+# TODO: add tolerance to different checks
+function is_feasible(ch, solution_flux, solution_direction; tol=0.00001)
+    # check steady state assumption 
+    steady_state = ch.S * solution_flux
+    # @show steady_state
+    for s in steady_state 
+        if !isapprox(s, 0, atol=tol) 
+            println("solution does not respect steady state assumption")
+            return false
+        end
+    end
+    # check bounds 
+    if !solution_within_bounds(solution_flux, ch.lb, ch.ub)
+        println("solution does not respect reaction bounds")
+        return false
+    end
+    # check thermo feasiblity 
+    feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution_flux[ch.internal_rxn_idxs],digits=5), ch.S)
+    if !feasible 
+        println("solution is not thermodynamically feasible")
+        return false 
+    end
+    # check Benders' cuts 
+    for cut in ch.cuts
+        upper = MOI.get(ch.o, MOI.ConstraintSet(), cut).upper
+        func = MOI.get(ch.o, MOI.ConstraintFunction(), cut)
+        var_indices = [term.variable.value for term in func.terms]
+        coefficients = [term.coefficient for term in func.terms]
+        if !(coefficients' * solution_direction[var_indices] + func.constant <= upper)
+            println("solution does not respect Benders' cut")
             return false
         end
     end
