@@ -219,7 +219,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
             C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
         end
 
-        print(mis_model)
+        # print(mis_model)
         # # λ'Aμ ≥ λ'b should be violated
         # # λ solution to sub problem, A constructed in fast MIS search, 
         # # μ flux values of master problem, b constructed in fast MIS search
@@ -298,9 +298,9 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     end
 
     coeffs = [i.coefficient for i in F.terms]
-    @show coeffs
-    @show coeffs' * vcat(solution_a[Z], solution_a[O])
-    @show (length(C)-1-length(Z))
+    # @show coeffs
+    # @show coeffs' * vcat(solution_a[Z], solution_a[O])
+    # @show (length(C)-1-length(Z))
     # @infiltrate
     c = MOI.add_constraint(master_problem, F, S)
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())

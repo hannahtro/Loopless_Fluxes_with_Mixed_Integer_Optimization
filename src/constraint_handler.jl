@@ -25,7 +25,16 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
     if !feasible      
         return SCIP.SCIP_INFEASIBLE
     end
-    push!(ch.feasible_solutions,solution)
+    # check if solution is feasible
+    @infiltrate
+    model_temp = Model(SCIP.Optimizer)
+    MOI.copy_to(model_temp, ch.o)
+    cont_vars = Dict(VariableRef(model_temp, ch.vars[i])  => solution[i] for i in 1:length(ch.vars))
+    bin_vars = Dict(VariableRef(model_temp, ch.binvars[i]) => SCIP.sol_values(ch.o, ch.binvars)[i] for i in 1:length(ch.binvars))
+    point = merge(cont_vars, bin_vars)
+    @show primal_feasibility_report(model_temp, point, skip_missing=true)
+    push!(ch.feasible_solutions, solution)
+    @show ch.S * solution
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -43,6 +52,7 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
         return SCIP.SCIP_CONSADDED
     end 
     push!(ch.feasible_solutions,solution)
+    @show ch.S * solution
     return SCIP.SCIP_FEASIBLE
 end
 
