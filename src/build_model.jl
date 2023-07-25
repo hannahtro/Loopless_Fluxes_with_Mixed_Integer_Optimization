@@ -12,8 +12,14 @@ optimizer = SCIP.Optimizer
 molecular_model = deserialize("../data/" * organism * ".js")
 # print_model(molecular_model, organism)
 
+S = stoichiometry(molecular_model)
+internal_rxn_idxs = [
+    ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+    !is_boundary(reaction_stoichiometry(molecular_model, rid))
+]
+
 model = make_optimization_model(molecular_model, optimizer)
-# add_loopless_constraints(molecular_model, model)
+add_loopless_constraints_mu(model, S, internal_rxn_idxs)
 
 # print(model)
 
