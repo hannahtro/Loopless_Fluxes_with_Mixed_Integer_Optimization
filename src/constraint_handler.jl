@@ -18,7 +18,7 @@ end
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
-    # get_scip_solutions(ch.o)
+    get_scip_solutions(ch.o)
     entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
     @show entire_solution
 
@@ -33,6 +33,7 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
         return SCIP.SCIP_INFEASIBLE
     end
     # # check if solution is feasible
+    @show is_feasible(ch, solution, solution_direction)
     # if is_feasible(ch, solution, solution_direction)
     #     push!(ch.feasible_solutions, solution)
     #     entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
@@ -56,7 +57,7 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
         add_cb_cut(ch)
         return SCIP.SCIP_CONSADDED
     end 
-    if is_feasible(ch, solution, solution_direction)
+    if is_feasible(ch, solution, solution_direction, tol=0.001)
         push!(ch.feasible_solutions,solution)
         entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
         @show entire_solution

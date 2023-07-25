@@ -70,6 +70,8 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
         MOI.set(o, MOI.TimeLimitSec(), time_limit)
     end
 
+    @show MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
+    MOI.set(o, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
     # print(o)
     # print(o_inner)
     # @show MOI.get(o, MOI.NumberOfVariables())
