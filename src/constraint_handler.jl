@@ -18,23 +18,27 @@ end
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
+    # get_scip_solutions(ch.o)
+    entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
+    @show entire_solution
+
     solution = SCIP.sol_values(ch.o, ch.vars)
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
     # solution_master_flux = round.(SCIP.sol_values(ch.o, ch.vars),digits=5)
-
     @show solution[ch.internal_rxn_idxs]
-    # @show SCIP.sol_values(ch.o, ch.binvars)
+
     feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution[ch.internal_rxn_idxs],digits=5), ch.S)
     @show feasible
     if !feasible      
         return SCIP.SCIP_INFEASIBLE
     end
-    # check if solution is feasible
-    @show is_feasible(ch, solution, solution_direction)
-    push!(ch.feasible_solutions, solution)
-    entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
-    @show entire_solution
-    add_solution(ch.o, entire_solution)
+    # # check if solution is feasible
+    # if is_feasible(ch, solution, solution_direction)
+    #     push!(ch.feasible_solutions, solution)
+    #     entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
+    #     @show entire_solution
+    #     add_solution(ch.o, entire_solution)
+    # end
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -52,8 +56,13 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
         add_cb_cut(ch)
         return SCIP.SCIP_CONSADDED
     end 
-    @show is_feasible(ch, solution, solution_direction)
-    push!(ch.feasible_solutions,solution)
+    if is_feasible(ch, solution, solution_direction)
+        push!(ch.feasible_solutions,solution)
+        entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
+        @show entire_solution
+        @show length(entire_solution)
+        add_solution(ch.o, entire_solution)
+    end
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -198,9 +207,9 @@ end
 """
 check whether a solution respects the upper and lower bounds of a reaction
 """
-function solution_within_bounds(solution, lb, ub)
+function solution_within_bounds(solution, lb, ub; tol=0.00001)
     for (idx,sol) in enumerate(solution)
-        if sol < lb[idx] || sol > ub[idx]
+        if sol < lb[idx] - tol || sol > ub[idx] + tol
             return false
         end
     end
@@ -222,7 +231,7 @@ function is_feasible(ch, solution_flux, solution_direction; tol=0.00001)
         end
     end
     # check bounds 
-    if !solution_within_bounds(solution_flux, ch.lb, ch.ub)
+    if !solution_within_bounds(solution_flux, ch.lb, ch.ub, tol=tol)
         println("solution does not respect reaction bounds")
         return false
     end
@@ -260,36 +269,65 @@ end
 """
 add solution to SCIP optimizer
 """
+# BUG: variable order does not match the order of SCIP's stored solutions
 function add_solution(model, solution)
     println("ADD SOLUTION")
-    solution = round.(solution, digits=5)
-    @infiltrate
-    @show solution
-    vars = SCIP.SCIPgetVars(model)
-    nvars = MOI.get(model, MOI.NumberOfVariables()) 
-    # nvars = SCIP.SCIPgetNOrigVars(model)
-    var_vec = unsafe_wrap(Array, vars, nvars)
-    print(model)
-    # TODO: segmentation fault!! 
-    sol = SCIP.create_empty_scipsol(model, solution)
-    SCIPgetVars != MOI.NumberOfVariables
-    for var in var_vec
-        SCIP.@SCIP_CALL SCIP.SCIPsetSolVal(
+    @show SCIP.SCIPgetStage(model)
+    if SCIP.SCIPgetStage(model) != SCIP.LibSCIP.SCIP_STAGE_SOLVED
+        # @infiltrate
+        get_scip_solutions(model)
+
+        solution = round.(solution, digits=5)
+        @show solution
+
+        # build solution
+        vars = SCIP.SCIPgetOrigVars(model)
+        nvars = MOI.get(model, MOI.NumberOfVariables()) 
+        # nvars = SCIP.SCIPgetNOrigVars(model)
+        var_vec = unsafe_wrap(Array, vars, nvars)
+        sol = SCIP.create_empty_scipsol(model.inner.scip[], C_NULL)
+
+        # ATTENTION: SCIPgetVars != MOI.NumberOfVariables
+        for (idx, var) in enumerate(var_vec)
+            SCIP.@SCIP_CALL SCIP.SCIPsetSolVal(
+                model,
+                sol,
+                var,
+                solution[idx], 
+            )
+        end
+
+        # submit solution
+        stored = Ref{SCIP.SCIP_Bool}(SCIP.FALSE)
+        SCIP.@SCIP_CALL SCIP.SCIPtrySolFree(
             model,
-            sol,
-            var,
-            0.0, 
+            Ref(sol),
+            SCIP.FALSE,
+            SCIP.FALSE,
+            SCIP.FALSE,
+            SCIP.FALSE,
+            SCIP.FALSE,
+            stored,
         )
+        @show stored[] # 0x00000001
+        get_scip_solutions(model)
     end
-    stored = Ref{SCIP.SCIP_Bool}(SCIP.FALSE)
-    SCIP.@SCIP_CALL SCIP.SCIPtrySolFree(
-        model,
-        Ref(sol),
-        SCIP.FALSE,
-        SCIP.FALSE,
-        SCIP.TRUE,
-        SCIP.TRUE,
-        SCIP.TRUE,
-        stored,
-    )
+end
+
+"""
+show all scip solutions
+"""
+function get_scip_solutions(o::SCIP.Optimizer)
+    vars = [MOI.VariableIndex(i) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
+    sols_vec =
+        unsafe_wrap(Vector{Ptr{Cvoid}}, SCIP.LibSCIP.SCIPgetSols(o), SCIP.LibSCIP.SCIPgetNSols(o))
+    solutions = []
+    if isempty(sols_vec)
+        println("no solutions stored")
+    else 
+        solutions = [SCIP.sol_values(o, vars, sol) for sol in sols_vec]
+        solutions = [round.(sol, digits=5) for sol in solutions]
+    end
+    @show solutions
+    return solutions
 end
