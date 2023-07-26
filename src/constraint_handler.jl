@@ -32,37 +32,37 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
     if !feasible      
         return SCIP.SCIP_INFEASIBLE
     end
-    # # check if solution is feasible
-    @show is_feasible(ch, solution, solution_direction)
-    # if is_feasible(ch, solution, solution_direction)
-    #     push!(ch.feasible_solutions, solution)
-    #     entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
-    #     @show entire_solution
-    #     add_solution(ch.o, entire_solution)
-    # end
+    # check if solution is feasible
+    if is_feasible(ch, solution, solution_direction)
+        @warn("feasible solution not added by SCIP") 
+    end 
     return SCIP.SCIP_FEASIBLE
 end
 
 function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nusefulconss, solinfeasible)
     println("LP SOL")
     solution = SCIP.sol_values(ch.o, ch.vars)
+    @show solution[ch.internal_rxn_idxs]
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
     @show solution
     feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution[ch.internal_rxn_idxs],digits=5), ch.S)
-    # @show solution[ch.internal_rxn_idxs]
     # @assert length(constraints) == 0
     @show feasible
     # @show MOI.get(ch.o, MOI.ObjectiveFunction{MOI.ScalarAffineFunction{Float64}}())
     if !feasible      
+        # @infiltrate
+        # retcode = SCIP.SCIPwriteTransProblem(ch.o, "scip.lp", C_NULL, SCIP.FALSE)
         add_cb_cut(ch)
+        # retcode = SCIP.SCIPwriteTransProblem(ch.o, "scip_cut_added.lp", C_NULL, SCIP.FALSE)
         return SCIP.SCIP_CONSADDED
     end 
     if is_feasible(ch, solution, solution_direction, tol=0.001)
         push!(ch.feasible_solutions,solution)
         entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
         @show entire_solution
-        @show length(entire_solution)
-        add_solution(ch.o, entire_solution)
+        @warn("feasible solution not added by SCIP") 
+        # @show length(entire_solution)
+        # add_solution(ch.o, entire_solution)
     end
     return SCIP.SCIP_FEASIBLE
 end
@@ -253,7 +253,57 @@ function is_feasible(ch, solution_flux, solution_direction; tol=0.00001)
             return false
         end
     end
+    # check indicator variables
+    solution_flux_internal_rxns = solution_flux[ch.internal_rxn_idxs]
+    @show solution_flux_internal_rxns, solution_direction
+    for (idx, a) in enumerate(solution_direction)
+        if isapprox(a, 1, atol=tol)
+            if solution_flux_internal_rxns[idx] < 0 - tol
+                println("solution does not respect indicator constraint")
+                return false 
+            end 
+        elseif isapprox(a, 0, atol=tol)
+            if solution_flux_internal_rxns[idx] > 0 + tol
+                println("solution does not respect indicator constraint")
+                return false 
+            end 
+        end 
+    end
     return true
+end
+
+"""
+check whether solution is feasible in SCIP directly
+"""
+function is_feasible_scip(model, solution)
+    # build solution
+    vars = SCIP.SCIPgetOrigVars(model)
+    nvars = MOI.get(model, MOI.NumberOfVariables()) 
+    # nvars = SCIP.SCIPgetNOrigVars(model)
+    var_vec = unsafe_wrap(Array, vars, nvars)
+    sol = SCIP.create_empty_scipsol(model.inner.scip[], C_NULL)
+
+    # ATTENTION: SCIPgetVars != MOI.NumberOfVariables
+    for (idx, var) in enumerate(var_vec)
+        SCIP.@SCIP_CALL SCIP.SCIPsetSolVal(
+            model,
+            sol,
+            var,
+            solution[idx], 
+        )
+    end
+    @infiltrate
+
+    # WARNING: calls SCIP.check again and leads to infinity loop
+    feasible = Ref{SCIP.SCIP_Bool}(SCIP.TRUE)
+    SCIP.SCIPcheckSolOrig(
+        model, 
+        sol, 
+        feasible,
+        SCIP.TRUE, 
+        SCIP.TRUE,
+    )
+    @show feasible[]
 end
 
 """
@@ -303,7 +353,7 @@ function add_solution(model, solution)
         SCIP.@SCIP_CALL SCIP.SCIPtrySolFree(
             model,
             Ref(sol),
-            SCIP.FALSE,
+            SCIP.TRUE,
             SCIP.FALSE,
             SCIP.FALSE,
             SCIP.FALSE,

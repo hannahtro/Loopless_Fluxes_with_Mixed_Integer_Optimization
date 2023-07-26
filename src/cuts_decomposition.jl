@@ -258,6 +258,7 @@ adds combinatorial Benders' cut to the master problem, by forcing a different as
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
 function add_combinatorial_benders_cut_moi(ch, solution, C, a)
+    @show a
     m, num_reactions = size(ch.S)
     # @show solution
     solution_a = solution[1:length(ch.internal_rxn_idxs)]
@@ -284,7 +285,7 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
         end
     end 
     # @show Z,O
-    # @show a[Z], a[O]
+    @show a[Z], a[O]
     if isempty(Z)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0)
         S = MOI.LessThan(Float64(length(C)-1)-0.001)
@@ -298,7 +299,7 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     end
 
     coeffs = [i.coefficient for i in F.terms]
-    # @show coeffs
+    @show coeffs
     # @show coeffs' * vcat(solution_a[Z], solution_a[O])
     # @show (length(C)-1-length(Z))
     # @infiltrate

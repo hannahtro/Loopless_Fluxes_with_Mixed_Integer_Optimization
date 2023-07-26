@@ -72,8 +72,9 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
 
     @show MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
     MOI.set(o, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
+    # print(model)
     # print(o)
-    # print(o_inner)
+    # print(o_inner)     
     # @show MOI.get(o, MOI.NumberOfVariables())
     # @show MOI.get(o, MOI.ListOfVariableIndices())
     # a = [i.index for i in a]
@@ -86,13 +87,16 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     # @show MOI.get(o, MOI.VariableIndex, name)
     # name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(length(internal_rxn_idxs)+1))
     # @show name
-    # @show MOI.get(o, MOI.VariableIndex, name)
-
+    var_names = [MOI.get(o, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
+    @show var_names
+    var_names_inner = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o_inner, MOI.NumberOfVariables())]
+    @show var_names_inner
     var_names = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:n+length(internal_rxn_idxs)]
-    # @show var_names
+    @show var_names
+    
     # @show MOI.get(o, MOI.ZeroOne())
     binary_vars = [MOI.VariableIndex(i) for i in 1:length(internal_rxn_idxs)]
-    flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:MOI.get(o, MOI.NumberOfVariables())]
+    flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:length(internal_rxn_idxs)+n]
     @assert length(flux_vars) == n
     # @show binary_vars
     # @show flux_vars
