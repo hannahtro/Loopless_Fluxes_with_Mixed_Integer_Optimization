@@ -112,8 +112,8 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] - 0.0000001 >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] + 0.0000001 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] + 0.0000001 >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] - 0.0000001 <= 0})
     end
 end
 
@@ -154,7 +154,7 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
     # G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
     μ = @variable(sub_problem, μ[1:size(S_int)[1]])
     constraint_list = []
-    solution_a = round.(solution_a, digits=7)
+    solution_a = round.(solution_a, digits=5)
     for (idx,val) in enumerate(solution_a) 
         if val == 0 && (idx in C)
             c = @constraint(sub_problem, (S_int' * μ)[idx] <= -1) #TODO: check loopless fba formulation
@@ -188,7 +188,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
                 A'[idx,:] = - A'[idx,:] # update rows
             end
         end
-        b = [1 for i in 1:length(internal_rxn_idxs)]
+        b = [1 - 0.00001 for i in 1:length(internal_rxn_idxs)]
 
         model = Model(HiGHS.Optimizer)
         μ = @variable(model, μ[1:size(S_int)[1]])
@@ -258,6 +258,7 @@ adds combinatorial Benders' cut to the master problem, by forcing a different as
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
 function add_combinatorial_benders_cut_moi(ch, solution, C, a)
+    # @infiltrate
     @show a
     m, num_reactions = size(ch.S)
     # @show solution
@@ -270,6 +271,12 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     solution_a = round.(solution_a, digits=5)
     @assert !(solution_a in ch.solutions)
     push!(ch.solutions, solution_a)
+    SCIP.SCIPwriteTransProblem(
+        ch.o,
+        "trans_problem.lp",
+        C_NULL,
+        SCIP.TRUE
+    )
     # @show ch.solutions
     # @show a
     # @show solution_a
@@ -307,6 +314,12 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     push!(ch.cuts, c)
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     @assert no_constraints_before < no_constraints_after
+    SCIP.SCIPwriteTransProblem(
+        ch.o,
+        "trans_problem_cut_added.lp",
+        C_NULL,
+        SCIP.TRUE
+    )
 end 
 
 """

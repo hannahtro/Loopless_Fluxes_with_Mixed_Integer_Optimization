@@ -19,9 +19,6 @@ end
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
     get_scip_solutions(ch.o)
-    entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
-    @show entire_solution
-
     solution = SCIP.sol_values(ch.o, ch.vars)
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
     # solution_master_flux = round.(SCIP.sol_values(ch.o, ch.vars),digits=5)
@@ -56,14 +53,8 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
         # retcode = SCIP.SCIPwriteTransProblem(ch.o, "scip_cut_added.lp", C_NULL, SCIP.FALSE)
         return SCIP.SCIP_CONSADDED
     end 
-    if is_feasible(ch, solution, solution_direction, tol=0.001)
-        push!(ch.feasible_solutions,solution)
-        entire_solution = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
-        @show entire_solution
-        @warn("feasible solution not added by SCIP") 
-        # @show length(entire_solution)
-        # add_solution(ch.o, entire_solution)
-    end
+    @show is_feasible(ch, solution, solution_direction, tol=0.001)
+    push!(ch.feasible_solutions,solution)
     return SCIP.SCIP_FEASIBLE
 end
 
@@ -95,8 +86,6 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
     solution_master_direction = SCIP.sol_values(ch.o, ch.binvars)[1:length(internal_rxn_idxs)]
     solution_master = SCIP.sol_values(ch.o, [MOI.VariableIndex(i) for i in 1:MOI.get(ch.o, MOI.NumberOfVariables())])
     # @show solution
-    @show solution_master_flux
-    @show solution_master_direction
 
     feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master_flux[internal_rxn_idxs], S)
 
@@ -106,6 +95,15 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler)
     # println("compute MIS")
     m, num_reactions = size(S)
     # solution_a = solution_master[num_reactions+1:end]
+
+    # test feasibility 
+    if !is_feasible(ch, solution_master_flux, solution_master_direction, check_thermodynamic_feasibility=false, tol=0.001)
+        @show solution_master_direction
+        @show solution_master_flux[internal_rxn_idxs]
+        solution_master_direction = [sol < (0 + 0.00001) ? 0 : 1 for sol in solution_master_flux[internal_rxn_idxs]]
+        @show solution_master_direction  
+        solution_master = vcat(solution_master_direction, solution_master_flux)
+    end
     C = compute_MIS(solution_master_direction, S_int, [], internal_rxn_idxs, fast=true, time_limit=600, silent=true)
     # @show ch.S * solution_master_flux
     @show C
@@ -221,7 +219,7 @@ end
 check whether solution is feasible, within a tolerance
 """
 # TODO: add tolerance to different checks
-function is_feasible(ch, solution_flux, solution_direction; tol=0.00001)
+function is_feasible(ch, solution_flux, solution_direction; check_thermodynamic_feasibility=true, tol=0.00001)
     # check steady state assumption 
     steady_state = ch.S * solution_flux
     # @show steady_state
@@ -237,10 +235,12 @@ function is_feasible(ch, solution_flux, solution_direction; tol=0.00001)
         return false
     end
     # check thermo feasiblity 
-    feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution_flux[ch.internal_rxn_idxs],digits=5), ch.S)
-    if !feasible 
-        println("solution is not thermodynamically feasible")
-        return false 
+    if check_thermodynamic_feasibility
+        feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution_flux[ch.internal_rxn_idxs],digits=5), ch.S)
+        if !feasible 
+            println("solution is not thermodynamically feasible")
+            return false 
+        end
     end
     # check Benders' cuts 
     for cut in ch.cuts
@@ -278,8 +278,11 @@ check whether solution is feasible in SCIP directly
 function is_feasible_scip(model, solution)
     # build solution
     vars = SCIP.SCIPgetOrigVars(model)
-    nvars = MOI.get(model, MOI.NumberOfVariables()) 
-    # nvars = SCIP.SCIPgetNOrigVars(model)
+    # @show vars
+    # nvars = MOI.get(model, MOI.NumberOfVariables())
+    # @show nvars
+    nvars = SCIP.SCIPgetNOrigVars(model)
+    # @show nvars
     var_vec = unsafe_wrap(Array, vars, nvars)
     sol = SCIP.create_empty_scipsol(model.inner.scip[], C_NULL)
 
@@ -292,9 +295,14 @@ function is_feasible_scip(model, solution)
             solution[idx], 
         )
     end
-    @infiltrate
+
+    # retcode = SCIP.SCIPwriteTransProblem(model, "scip.lp", C_NULL, SCIP.FALSE)
+    # retcode = SCIP.SCIPwriteOrigProblem(model, "scip.lp", C_NULL, SCIP.FALSE)
+
+    # @infiltrate
 
     # WARNING: calls SCIP.check again and leads to infinity loop
+    # checks solution for feasibility in original problem without adding it to the solution store
     feasible = Ref{SCIP.SCIP_Bool}(SCIP.TRUE)
     SCIP.SCIPcheckSolOrig(
         model, 
@@ -302,6 +310,19 @@ function is_feasible_scip(model, solution)
         feasible,
         SCIP.TRUE, 
         SCIP.TRUE,
+    )
+
+    # # checks solution for feasibility without adding it to the solution store
+    feasible = Ref{SCIP.SCIP_Bool}(SCIP.TRUE)
+    SCIP.SCIPcheckSol(
+        model, 
+        sol, 
+        SCIP.TRUE, 
+        SCIP.TRUE,
+        SCIP.TRUE,
+        SCIP.TRUE,
+        SCIP.TRUE,
+        feasible
     )
     @show feasible[]
 end

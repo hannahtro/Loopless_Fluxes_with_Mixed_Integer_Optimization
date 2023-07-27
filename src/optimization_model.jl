@@ -74,7 +74,8 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     MOI.set(o, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
     # print(model)
     # print(o)
-    # print(o_inner)     
+    # print(o_inner) 
+
     # @show MOI.get(o, MOI.NumberOfVariables())
     # @show MOI.get(o, MOI.ListOfVariableIndices())
     # a = [i.index for i in a]
@@ -87,19 +88,41 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     # @show MOI.get(o, MOI.VariableIndex, name)
     # name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(length(internal_rxn_idxs)+1))
     # @show name
-    var_names = [MOI.get(o, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
-    @show var_names
-    var_names_inner = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o_inner, MOI.NumberOfVariables())]
-    @show var_names_inner
-    var_names = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:n+length(internal_rxn_idxs)]
-    @show var_names
+    # var_names = [MOI.get(o, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
+    # @show var_names
+    # var_names_inner = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o_inner, MOI.NumberOfVariables())]
+    # @show var_names_inner
+    # var_names = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:n+length(internal_rxn_idxs)]
+    # @show var_names
     
     # @show MOI.get(o, MOI.ZeroOne())
     binary_vars = [MOI.VariableIndex(i) for i in 1:length(internal_rxn_idxs)]
     flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:length(internal_rxn_idxs)+n]
     @assert length(flux_vars) == n
-    # @show binary_vars
-    # @show flux_vars
+    @show binary_vars
+    @show flux_vars
+
+    # SCIP.SCIPwriteOrigProblem(
+    #     o_inner,
+    #     "original_problem.lp",
+    #     C_NULL,
+    #     SCIP.TRUE
+    # )
+
+    # print(o_inner)
+
+    @show SCIP.SCIPgetOrigVars(o_inner)
+    @show SCIP.SCIPgetNOrigVars(o_inner)
+    # SEGMENTATION FAULT
+    # f = open("test", "w")
+    # SCIP.SCIPwriteVarsList(
+    #     o_inner,
+    #     f.handle,
+    #     SCIP.SCIPgetOrigVars(o_inner),
+    #     SCIP.SCIPgetNOrigVars(o_inner),
+    #     SCIP.TRUE,
+    #     44
+    # )
     return o_inner, binary_vars, flux_vars
 end
 

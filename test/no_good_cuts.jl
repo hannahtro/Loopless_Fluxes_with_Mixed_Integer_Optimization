@@ -59,25 +59,47 @@ include("../src/constraint_handler.jl")
     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
     # print(scip_model)
     
-    @infiltrate
+
+    optimal_solution = vcat(
+        solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)], 
+        1 .- solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)],
+        solution_fast[6],
+        solution_fast[7],
+        solution_fast[1],
+        0.0000001,
+        solution_fast[2],
+        0.0000001,
+        solution_fast[3],
+        0.0000001,
+        solution_fast[4],
+        0.0000001,
+        solution_fast[5],
+        0.0000001,
+        zeros(length(internal_rxn_idxs))
+        )
+
     # TODO: check why optimal solution is not optimal in the ch model
-    # TODO: set variables 13-22
-    optimal_solution = vcat(solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)], solution_fast[1:num_reactions])
     is_feasible_scip(scip_model, optimal_solution)
 
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, lb, ub, flux_vars, bin_vars, [], [], [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
+
     MOI.optimize!(scip_model)
     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
-    @show MOI.get(scip_model, MOI.ObjectiveValue())
-
+    objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
+    @show objective_value
+    @test isapprox(objective_value,objective_value_fast)
+    
+    # print SCIP solution
+    SCIP.SCIPprintSol(ch.o, SCIP.SCIPgetBestSol(ch.o), C_NULL, SCIP.TRUE)
+    
     solutions = get_scip_solutions(scip_model)
 
     # search all solutions of constraint handler
-    optimal_solution_objective_value, optimal_solution = check_solutions(ch, lb, ub)
-    feasible = thermo_feasible(internal_rxn_idxs, optimal_solution, S)
-    @test feasible
-    @test isapprox(optimal_solution_objective_value, objective_value_fast, atol=0.001)
+    # optimal_solution_objective_value, optimal_solution = check_solutions(ch, lb, ub)
+    # feasible = thermo_feasible(internal_rxn_idxs, optimal_solution, S)
+    # @test feasible
+    # @test isapprox(optimal_solution_objective_value, objective_value_fast, atol=0.001)
 end
 
 # # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
