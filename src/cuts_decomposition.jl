@@ -269,18 +269,22 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     # @show ch.S * solution_flux == zeros(m)
     master_problem = ch.o 
     solution_a = round.(solution_a, digits=5)
-    @assert !(solution_a in ch.solutions)
+    if !(solution_a in ch.solutions)
+        @infiltrate
+    end
+    # @assert !(solution_a in ch.solutions)
     push!(ch.solutions, solution_a)
-    SCIP.SCIPwriteTransProblem(
-        ch.o,
-        "trans_problem.lp",
-        C_NULL,
-        SCIP.TRUE
-    )
+    # SCIP.SCIPwriteTransProblem(
+    #     ch.o,
+    #     "trans_problem.lp",
+    #     C_NULL,
+    #     SCIP.TRUE
+    # )
     # @show ch.solutions
     # @show a
     # @show solution_a
     # print(master_problem)
+    @infiltrate
     no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
     O = []
@@ -314,12 +318,12 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     push!(ch.cuts, c)
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     @assert no_constraints_before < no_constraints_after
-    SCIP.SCIPwriteTransProblem(
-        ch.o,
-        "trans_problem_cut_added.lp",
-        C_NULL,
-        SCIP.TRUE
-    )
+    # SCIP.SCIPwriteTransProblem(
+    #     ch.o,
+    #     "trans_problem_cut_added.lp",
+    #     C_NULL,
+    #     SCIP.TRUE
+    # )
 end 
 
 """

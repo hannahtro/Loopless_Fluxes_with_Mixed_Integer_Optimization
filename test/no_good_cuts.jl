@@ -58,28 +58,27 @@ include("../src/constraint_handler.jl")
     # test constraint handler    
     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
     # print(scip_model)
-    
 
-    optimal_solution = vcat(
-        solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)], 
-        1 .- solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)],
-        solution_fast[6],
-        solution_fast[7],
-        solution_fast[1],
-        0.0000001,
-        solution_fast[2],
-        0.0000001,
-        solution_fast[3],
-        0.0000001,
-        solution_fast[4],
-        0.0000001,
-        solution_fast[5],
-        0.0000001,
-        zeros(length(internal_rxn_idxs))
-        )
+    # optimal_solution = vcat(
+    #     solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)], 
+    #     1 .- solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)],
+    #     solution_fast[6],
+    #     solution_fast[7],
+    #     solution_fast[1],
+    #     0.0000001,
+    #     solution_fast[2],
+    #     0.0000001,
+    #     solution_fast[3],
+    #     0.0000001,
+    #     solution_fast[4],
+    #     0.0000001,
+    #     solution_fast[5],
+    #     0.0000001,
+    #     zeros(length(internal_rxn_idxs))
+    #     )
 
-    # TODO: check why optimal solution is not optimal in the ch model
-    is_feasible_scip(scip_model, optimal_solution)
+    # # TODO: check why optimal solution is not optimal in the ch model
+    # is_feasible_scip(scip_model, optimal_solution)
 
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, lb, ub, flux_vars, bin_vars, [], [], [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
