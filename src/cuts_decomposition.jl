@@ -112,8 +112,9 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] + 0.0000001 >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] - 0.0000001 <= 0})
+        # TODO: check tolerance
+        @constraint(master_problem, a[cidx] => {x[ridx] + 0.000001 >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] - 0.000001 <= 0})
     end
 end
 
@@ -145,29 +146,32 @@ build sub problem of combinatorial Benders decomposition including the thermodyn
 for a given solution to the master problem and the minimal infeasible subset C
 """
 function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-    # @show solution_a
+    @show solution_a
     # @show C
     set_attribute(sub_problem, MOI.Silent(), true)
     set_objective_sense(sub_problem, MAX_SENSE)
     S_int = Array(S[:, internal_rxn_idxs])
 
-    # G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
+    G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
     μ = @variable(sub_problem, μ[1:size(S_int)[1]])
     constraint_list = []
     solution_a = round.(solution_a, digits=5)
     for (idx,val) in enumerate(solution_a) 
         if val == 0 && (idx in C)
-            c = @constraint(sub_problem, (S_int' * μ)[idx] <= -1) #TODO: check loopless fba formulation
+            c = @constraint(sub_problem, 1 <= G[idx] <= 1000)    
             push!(constraint_list,c)
         elseif val == 1 && (idx in C)
-            c = @constraint(sub_problem, (S_int' * μ)[idx] >= 1)      
+            c = @constraint(sub_problem, -1000 <= G[idx] <= -1)    
             push!(constraint_list,c)
         else
             @assert (idx in C) == false
         end
     end
-    # c_matrix = @constraint(sub_problem, G .== S_int' * μ)
+    @show length(constraint_list) 
 
+    c_matrix = @constraint(sub_problem, G .== S_int' * μ)
+
+    # print(sub_problem)
     return constraint_list #, c_matrix
 end
 
@@ -184,11 +188,11 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
     else 
         A = deepcopy(S_int)
         for (idx,a) in enumerate(solution_a)
-            if a == 0
+            if isapprox(a, 0, atol=0.000001)
                 A'[idx,:] = - A'[idx,:] # update rows
             end
         end
-        b = [1 - 0.00001 for i in 1:length(internal_rxn_idxs)]
+        b = [1 for i in 1:length(internal_rxn_idxs)]
 
         model = Model(HiGHS.Optimizer)
         μ = @variable(model, μ[1:size(S_int)[1]])
@@ -237,7 +241,7 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C)
     Z = []
     O = []
     for idx in C
-        if solution_a[idx] > 0.00001 
+        if solution_a[idx] > 0.000001 
             push!(O,idx)
         else 
             push!(Z,idx)
@@ -364,7 +368,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
     # @show solution_a
     # @show C
-
+    @show termination_sub
+    @show solution_sub
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
@@ -407,6 +412,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
             # println("_______________")
             # println("sub problem")
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+            @show termination_sub
+            @show solution_sub
             iter += 1
         end
     end

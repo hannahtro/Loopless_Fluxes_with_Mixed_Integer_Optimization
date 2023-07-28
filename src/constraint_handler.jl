@@ -23,12 +23,22 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
     S_int = ch.S[:, ch.internal_rxn_idxs]
     # build sub problem to master solution 
     # C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
-    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs)
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=false)
+    @show C
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
     @show termination_sub
+    @show solution_sub
+    @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+    @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
+    if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+        @assert termination_sub == MOI.OPTIMAL
+    end 
+
+    # @show S_int' * solution_sub
+
     # @show solution_direction
     if termination_sub == MOI.OPTIMAL 
         return SCIP.SCIP_FEASIBLE
@@ -46,19 +56,27 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
     # @infiltrate
     @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
     @show solution_direction
-    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs)
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=false)
+    @show C
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-    # if isempty(C)
-    #     @infiltrate
-    #     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
-    #        sub_problem = Model(optimizer)
-    #     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
-    #     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-    #     @assert termination_sub == MOI.OPTIMAL
-    # end
+    @show termination_sub
+    @show solution_sub
+    @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+    @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
+    if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+        @assert termination_sub == MOI.OPTIMAL
+    end 
+    # @show S_int' * solution_sub
+    if isempty(C)
+        optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
+        sub_problem = Model(optimizer)
+        build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
+        objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
+        @assert termination_sub == MOI.OPTIMAL
+    end
     if termination_sub == MOI.OPTIMAL 
         return SCIP.SCIP_FEASIBLE
     else 
@@ -192,7 +210,7 @@ end
 check whether solution is feasible, within a tolerance
 """
 # TODO: add tolerance to different checks
-function is_feasible(ch, solution_flux, solution_direction; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.00001)
+function is_feasible(ch, solution_flux, solution_direction; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.000001)
     # check steady state assumption 
     if check_steady_state
         steady_state = ch.S * solution_flux

@@ -258,9 +258,9 @@ function thermo_feasible(cycle, flux_directions, S)
     # add G variables for each reaction in cycle
     # @show cycle
     for (idx,cycle) in enumerate(cycle)
-        if flux_directions[idx] > 0
+        if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, -1000 <= G[idx] <= -1)
-        elseif flux_directions[idx] < 0
+        elseif isapprox(flux_directions[idx], 1, atol=0.0001)
             @constraint(thermo_feasible_model, 1 <= G[idx] <= 1000)
         end
     end
@@ -287,11 +287,10 @@ function thermo_feasible_mu(cycle, flux_directions, S)
     μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
 
     # add G variables for each reaction in cycle
-    # @show cycle
     for (idx,cycle) in enumerate(cycle)
-        if flux_directions[idx] > 0
+        if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, -1000 <= G[idx] <= -1)
-        elseif flux_directions[idx] < 0
+        elseif isapprox(flux_directions[idx], 1, atol=0.0001)
             @constraint(thermo_feasible_model, 1 <= G[idx] <= 1000)
         end
     end
@@ -302,6 +301,10 @@ function thermo_feasible_mu(cycle, flux_directions, S)
     # print(thermo_feasible_model)
 
     _, _, solution, _, status = optimize_model(thermo_feasible_model)
+    if status == MOI.OPTIMAL
+        @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
+        @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
+    end
     # @show solution, N_int' * solution
     return status == MOI.OPTIMAL
 end
