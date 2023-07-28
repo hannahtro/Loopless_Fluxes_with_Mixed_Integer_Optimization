@@ -257,20 +257,21 @@ end
 adds combinatorial Benders' cut to the master problem, by forcing a different assignment of the indicator variables
 of the reactions in the minimal infeasible subset C using MOI instead of JuMP
 """
-function add_combinatorial_benders_cut_moi(ch, solution, C, a)
+function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
     # @infiltrate
-    @show a
-    m, num_reactions = size(ch.S)
+    # @show a
+    # m, num_reactions = size(ch.S)
     # @show solution
-    solution_a = solution[1:length(ch.internal_rxn_idxs)]
-    # @show solution_a
-    solution_flux = solution[length(ch.internal_rxn_idxs)+1:length(ch.internal_rxn_idxs)+num_reactions]
+    # solution_a = solution[1:length(ch.internal_rxn_idxs)]
+    @show solution_a
+    # solution_flux = solution[length(ch.internal_rxn_idxs)+1:length(ch.internal_rxn_idxs)+num_reactions]
     # @show solution_flux
     # @show ch.S * solution_flux == zeros(m)
     master_problem = ch.o 
     solution_a = round.(solution_a, digits=5)
     if !(solution_a in ch.solutions)
-        @infiltrate
+        println("solution already found")
+        # @infiltrate
     end
     # @assert !(solution_a in ch.solutions)
     push!(ch.solutions, solution_a)
@@ -284,7 +285,6 @@ function add_combinatorial_benders_cut_moi(ch, solution, C, a)
     # @show a
     # @show solution_a
     # print(master_problem)
-    @infiltrate
     no_constraints_before = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     Z = []
     O = []
