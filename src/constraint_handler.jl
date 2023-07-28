@@ -18,12 +18,18 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
     println("CHECK")
     # check sub problem for binary variables
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
+    @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
+    @show solution_direction
+    S_int = ch.S[:, ch.internal_rxn_idxs]
     # build sub problem to master solution 
-    C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
+    # C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs)
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
+    @show termination_sub
+    # @show solution_direction
     if termination_sub == MOI.OPTIMAL 
         return SCIP.SCIP_FEASIBLE
     else 
@@ -35,17 +41,29 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
     println("LP SOL")
     # check sub problem for binary variables and add CB cut to master problem
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
+    S_int = ch.S[:, ch.internal_rxn_idxs]
     # build sub problem to master solution 
-    C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
+    # @infiltrate
+    @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
+    @show solution_direction
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs)
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
+    # if isempty(C)
+    #     @infiltrate
+    #     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
+    #        sub_problem = Model(optimizer)
+    #     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
+    #     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
+    #     @assert termination_sub == MOI.OPTIMAL
+    # end
     if termination_sub == MOI.OPTIMAL 
         return SCIP.SCIP_FEASIBLE
     else 
-        add_cb_cut(ch, solution_direction)
-        return SCIP.SCIP_CONSADDED
+        SCIP_status = add_cb_cut(ch, solution_direction, C)
+        return SCIP_status
     end
 
 end
@@ -68,11 +86,11 @@ end
 # end
 
 # add combinatorial Benders cut if solution infeasible
-function add_cb_cut(ch::ThermoFeasibleConstaintHandler, solution_direction)
+function add_cb_cut(ch::ThermoFeasibleConstaintHandler, solution_direction, C)
     println("BENDERS CUT")
-    C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
     add_combinatorial_benders_cut_moi(ch, solution_direction, C, ch.binvars[1:length(ch.internal_rxn_idxs)])
     ch.ncalls += 1
+    return SCIP.SCIP_CONSADDED
 end
 
 # lock binary variables of master problem
@@ -105,7 +123,7 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, time_limit=time_limit, objective_func_vars=objective_func_vars, objective_func_coeffs=objective_func.terms.vals, silent=silent)
     # print(scip_model)
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [], [])
-    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
+    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-7000000)
     MOI.optimize!(scip_model)
 
     status = MOI.get(scip_model, MOI.TerminationStatus())
