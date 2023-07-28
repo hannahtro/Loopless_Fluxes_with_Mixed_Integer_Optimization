@@ -237,7 +237,7 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C)
     Z = []
     O = []
     for idx in C
-        if solution_a[idx] > 0 
+        if solution_a[idx] > 0.00001 
             push!(O,idx)
         else 
             push!(Z,idx)
@@ -263,7 +263,7 @@ function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
     # m, num_reactions = size(ch.S)
     # @show solution
     # solution_a = solution[1:length(ch.internal_rxn_idxs)]
-    @show solution_a
+    # @show solution_a
     # solution_flux = solution[length(ch.internal_rxn_idxs)+1:length(ch.internal_rxn_idxs)+num_reactions]
     # @show solution_flux
     # @show ch.S * solution_flux == zeros(m)
@@ -296,21 +296,21 @@ function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
         end
     end 
     # @show Z,O
-    @show a[Z], a[O]
+    # @show a[Z], a[O]
     if isempty(Z)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(ones(length(O)), a[O]), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1)-0.001)
+        S = MOI.LessThan(Float64(length(C)-1))
     elseif isempty(O)
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(-ones(length(Z)), a[Z]), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.001)
+        S = MOI.LessThan(Float64(length(C)-1-length(Z)))
     else 
         # ATTENTION: constraint added on complementary variable v not a
         F = MOI.ScalarAffineFunction(MOI.ScalarAffineTerm.(vcat(ones(length(O)), -ones(length(Z))), vcat(a[O], a[Z])), 0.0)
-        S = MOI.LessThan(Float64(length(C)-1-length(Z))-0.001)
+        S = MOI.LessThan(Float64(length(C)-1-length(Z)))
     end
 
     coeffs = [i.coefficient for i in F.terms]
-    @show coeffs
+    # @show coeffs
     # @show coeffs' * vcat(solution_a[Z], solution_a[O])
     # @show (length(C)-1-length(Z))
     # @infiltrate
@@ -362,8 +362,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-    @show solution_a
-    @show C
+    # @show solution_a
+    # @show C
 
     # add Benders' cut if subproblem is infeasible
     iter = 1
@@ -390,9 +390,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         # compute corresponding MIS
         # println("_______________")
         # println("compute MIS")
-        @show solution_a
+        # @show solution_a
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
-        @show C
+        # @show C
         if isempty(C)
             feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
             @assert feasible

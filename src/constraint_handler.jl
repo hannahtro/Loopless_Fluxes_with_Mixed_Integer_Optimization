@@ -6,8 +6,6 @@ mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandle
     ncalls::Int
     internal_rxn_idxs::Vector{Int64} 
     S::Matrix{Float64}
-    lb
-    ub
     vars    
     binvars
     feasible_solutions
@@ -92,6 +90,7 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     # print_model(molecular_model, "organism")
 
     S = stoichiometry(molecular_model)
+    m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
@@ -105,7 +104,7 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
 
     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, time_limit=time_limit, objective_func_vars=objective_func_vars, objective_func_coeffs=objective_func.terms.vals, silent=silent)
     # print(scip_model)
-    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [])
+    ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [], [])
     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch")
     MOI.optimize!(scip_model)
 
@@ -114,8 +113,9 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     result_status = MOI.get(scip_model, MOI.PrimalStatus())
     @show status, result_status
     if result_status != MOI.NO_SOLUTION
-        primal_objective_value, solution = check_solutions(ch, lb, ub)
-        # primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
+        primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
+        solution = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
+        
         # TODO: get correct dual bound
         dual_objective_value = MOI.get(scip_model, MOI.ObjectiveBound())
         if !mute

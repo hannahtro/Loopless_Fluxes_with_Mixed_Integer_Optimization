@@ -48,8 +48,6 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     
     if set_objective
         if objective_func_vars != Nothing
-            # @show objective_func_coeffs
-            # @show objective_func_vars
             @objective(model, Max, objective_func_coeffs' * objective_func_vars)        
         else 
             @objective(model, Max, sum(x))
@@ -72,22 +70,11 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
 
     @show MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
     MOI.set(o, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
-    # print(model)
-    # print(o)
-    # print(o_inner) 
 
     # @show MOI.get(o, MOI.NumberOfVariables())
     # @show MOI.get(o, MOI.ListOfVariableIndices())
-    # a = [i.index for i in a]
-    # x = [i.index for i in x]
-    # append!(x, a)
     # x = MOI.get(o,  MOI.ListOfVariableIndices())
     # @show MOI.get(o, MOI.ListOfConstraintTypesPresent())
-    # name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(1))
-    # @show name
-    # @show MOI.get(o, MOI.VariableIndex, name)
-    # name = MOI.get(o, MOI.VariableName(), MOI.VariableIndex(length(internal_rxn_idxs)+1))
-    # @show name
     # var_names = [MOI.get(o, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
     # @show var_names
     # var_names_inner = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o_inner, MOI.NumberOfVariables())]
@@ -99,8 +86,8 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     binary_vars = [MOI.VariableIndex(i) for i in 1:length(internal_rxn_idxs)]
     flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:length(internal_rxn_idxs)+n]
     @assert length(flux_vars) == n
-    @show binary_vars
-    @show flux_vars
+    # @show binary_vars
+    # @show flux_vars
 
     # SCIP.SCIPwriteOrigProblem(
     #     o_inner,
@@ -108,12 +95,8 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
     #     C_NULL,
     #     SCIP.TRUE
     # )
-
-    # print(o_inner)
-
-    @show SCIP.SCIPgetOrigVars(o_inner)
-    @show SCIP.SCIPgetNOrigVars(o_inner)
-    # SEGMENTATION FAULT
+    # @show SCIP.SCIPgetOrigVars(o_inner)
+    # @show SCIP.SCIPgetNOrigVars(o_inner)
     # f = open("test", "w")
     # SCIP.SCIPwriteVarsList(
     #     o_inner,
