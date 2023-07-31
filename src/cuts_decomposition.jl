@@ -16,8 +16,8 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] - eps() >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] + eps() <= 0})
+        @constraint(model, a[cidx] => {x[ridx] + 0.000001 >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] - 0.000001 <= 0})
     end
     # @objective(model, Max, 0)
 
@@ -26,13 +26,13 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
 
     objective_value, dual_bound, solution, _, termination = optimize_model(model)
 
+    solution_a = solution[num_reactions+1:end]
     push!(dual_bounds, dual_bound)
     solutions = [round.(solution, digits=5)]
     cuts = []
 
     iter = 1
-    while !thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S) && time()-start_time < time_limit
-        solution_a = solution[num_reactions+1:end]
+    while !thermo_feasible_mu(internal_rxn_idxs, solution_a, S) && time()-start_time < time_limit
         @assert round.(solution_a) == solution_a
 
         Z = []
@@ -390,14 +390,14 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         push!(dual_bounds, dual_bound_master)
         push!(objective_values, objective_value_master)
         solution_a = solution_master[num_reactions+1:end]
-        # @show solution_a
+        @show solution_master
 
         # compute corresponding MIS
         # println("_______________")
         # println("compute MIS")
         # @show solution_a
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
-        # @show C
+        @show C
         if isempty(C)
             feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
             @assert feasible

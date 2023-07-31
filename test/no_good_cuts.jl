@@ -19,22 +19,34 @@ include("../src/constraint_handler.jl")
     model = build_fba_model(S, lb, ub, set_objective=true)
     # print(model)
     internal_rxn_idxs = [2,3,4,6,7]
+    println("--------------------------------------------------------")
 
     println("no good cuts")
     # no good cuts
     objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S)
-    @test thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    # BUG: found solution should not be thermodynamically feasible
+    @show objective_value, solution
+    # @show solution[internal_rxn_idxs]
+    # flux_directions = [dir > 0.0001 ? 1 : 0 for dir in solution[internal_rxn_idxs]]
+    # @show flux_directions
+    # @test thermo_feasible_mu(internal_rxn_idxs, flux_directions, S)
+    flux_directions = solution[num_reactions+1:end]
+    @show flux_directions
+    @test thermo_feasible_mu(internal_rxn_idxs, flux_directions, S)
     println("--------------------------------------------------------")
 
     println("combinatorial Benders")
     # combinatorial Benders'
     model = build_fba_model(S, lb, ub, set_objective=true)
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
-    @show objective_value, solution
-    @test termination == MOI.OPTIMAL 
-    feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+    objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, time_cb, termination_cb, iter_cb = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
+    @show objective_value_cb, solution_cb
+    @test termination_cb == MOI.OPTIMAL 
+    feasible = thermo_feasible(internal_rxn_idxs, solution_cb[internal_rxn_idxs], S)
     @test feasible
-    @test round.(objective_values, digits=5) == round.(sort(objective_values, rev=true), digits=5)
+    @show objective_value, objective_value_cb
+    @test round.(objective_values_cb, digits=5) == round.(sort(objective_values_cb, rev=true), digits=5)
+    # @test isapprox(objective_value, objective_value_cb, atol=0.0001)
+
     println("--------------------------------------------------------")
 
     println("fast combinatorial Benders")
@@ -43,14 +55,14 @@ include("../src/constraint_handler.jl")
     # print(model)
     objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
     @test termination_fast == MOI.OPTIMAL 
-    feasible = thermo_feasible(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+    feasible = thermo_feasible(internal_rxn_idxs, solution_fast[internal_rxn_idxs], S)
     @test feasible
     @test round.(objective_values_fast, digits=5) == round.(sort(objective_values_fast, rev=true), digits=5)
 
-    @test iter >= iter_fast
+    @test iter_cb >= iter_fast
     # @test time >= time_fast
-    @test isapprox(objective_value,objective_value_fast)
-    @test solution[1:num_reactions] == solution_fast[1:num_reactions]
+    @test isapprox(objective_value_cb, objective_value_fast)
+    @test solution_cb[1:num_reactions] == solution_fast[1:num_reactions]
     @show objective_value_fast, solution_fast
     println("--------------------------------------------------------")
 
@@ -64,11 +76,13 @@ include("../src/constraint_handler.jl")
 
     MOI.optimize!(scip_model)
     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
-    objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
-    solution = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
-    @show objective_value
-    @show solution 
-    @test isapprox(objective_value,objective_value_fast)
+    objective_value_ch = MOI.get(scip_model, MOI.ObjectiveValue())
+    solution_ch = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
+    @show objective_value_ch
+    @show solution_ch 
+    feasible = thermo_feasible(internal_rxn_idxs, solution_ch[internal_rxn_idxs], S)
+    @test feasible
+    @test isapprox(objective_value_ch,objective_value_fast)
     
     # print SCIP solution
     # SCIP.SCIPprintSol(ch.o, SCIP.SCIPgetBestSol(ch.o), C_NULL, SCIP.TRUE)

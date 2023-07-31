@@ -23,7 +23,7 @@ function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{
     S_int = ch.S[:, ch.internal_rxn_idxs]
     # build sub problem to master solution 
     # C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
-    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=false)
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
     @show C
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
@@ -56,7 +56,7 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
     # @infiltrate
     @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
     @show solution_direction
-    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=false)
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
     @show C
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
