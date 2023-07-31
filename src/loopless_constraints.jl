@@ -254,6 +254,10 @@ compute thermodynamic feasibility for a given cycle using the nullspace formulat
     where the flux direction is captured by binary values
 """
 function thermo_feasible(cycle, flux_directions, S)
+    # warning if flux_directions not integral
+    if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
+        @warn "flux directions should be binary"
+    end
     thermo_feasible_model = Model(SCIP.Optimizer)
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
 

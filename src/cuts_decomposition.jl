@@ -146,7 +146,7 @@ build sub problem of combinatorial Benders decomposition including the thermodyn
 for a given solution to the master problem and the minimal infeasible subset C
 """
 function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
-    @show solution_a
+    # @show solution_a
     # @show C
     set_attribute(sub_problem, MOI.Silent(), true)
     set_objective_sense(sub_problem, MAX_SENSE)
@@ -164,10 +164,13 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
             c = @constraint(sub_problem, -1000 <= G[idx] <= -1)    
             push!(constraint_list,c)
         else
-            @assert (idx in C) == false
+            # @assert (idx in C) == false
+            if (idx in C) == true
+                @warn "variable " * string(idx) * " does not have binary value"
+            end
         end
     end
-    @show length(constraint_list) 
+    # @show length(constraint_list) 
 
     c_matrix = @constraint(sub_problem, G .== S_int' * μ)
 
@@ -273,10 +276,8 @@ function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
     # @show ch.S * solution_flux == zeros(m)
     master_problem = ch.o 
     solution_a = round.(solution_a, digits=5)
-    if !(solution_a in ch.solutions)
-        println("solution already found")
-        # @infiltrate
-    end
+    @assert !(solution_a in ch.solutions)
+
     # @assert !(solution_a in ch.solutions)
     push!(ch.solutions, solution_a)
     # SCIP.SCIPwriteTransProblem(
@@ -368,8 +369,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
     # @show solution_a
     # @show C
-    @show termination_sub
-    @show solution_sub
+    # @show termination_sub
+    # @show solution_sub
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
@@ -390,14 +391,14 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         push!(dual_bounds, dual_bound_master)
         push!(objective_values, objective_value_master)
         solution_a = solution_master[num_reactions+1:end]
-        @show solution_master
+        # @show solution_master
 
         # compute corresponding MIS
         # println("_______________")
         # println("compute MIS")
         # @show solution_a
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
-        @show C
+        # @show C
         if isempty(C)
             feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
             @assert feasible
@@ -412,8 +413,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
             # println("_______________")
             # println("sub problem")
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-            @show termination_sub
-            @show solution_sub
+            # @show termination_sub
+            # @show solution_sub
             iter += 1
         end
     end

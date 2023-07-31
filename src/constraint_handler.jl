@@ -16,30 +16,24 @@ end
 # check if primal solution candidate is thermodynamically feasible
 function SCIP.check(ch::ThermoFeasibleConstaintHandler, constraints::Vector{Ptr{SCIP.SCIP_CONS}}, sol::Ptr{SCIP.SCIP_SOL}, checkintegrality::Bool, checklprows::Bool, printreason::Bool, completely::Bool; tol=1e-6)
     println("CHECK")
-    # check sub problem for binary variables
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
-    @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
-    @show solution_direction
+    # @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
+    # @show solution_direction
     S_int = ch.S[:, ch.internal_rxn_idxs]
+
     # build sub problem to master solution 
-    # C = compute_MIS(solution_direction, (ch.S[:, ch.internal_rxn_idxs]), [], ch.internal_rxn_idxs)
     C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
-    @show C
+    # @show C
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-    @show termination_sub
-    @show solution_sub
-    @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
-    @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
+    # @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+    # @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
     if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
         @assert termination_sub == MOI.OPTIMAL
     end 
 
-    # @show S_int' * solution_sub
-
-    # @show solution_direction
     if termination_sub == MOI.OPTIMAL 
         return SCIP.SCIP_FEASIBLE
     else 
@@ -49,41 +43,43 @@ end
 
 function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nusefulconss, solinfeasible)
     println("LP SOL")
-    # check sub problem for binary variables and add CB cut to master problem
+
     solution_direction = SCIP.sol_values(ch.o, ch.binvars)
     S_int = ch.S[:, ch.internal_rxn_idxs]
-    # build sub problem to master solution 
-    # @infiltrate
-    @show SCIP.sol_values(ch.o, vcat(ch.vars))[ch.internal_rxn_idxs]
-    @show solution_direction
-    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
-    @show C
-    optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
-    sub_problem = Model(optimizer)
-    build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
-    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-    @show termination_sub
-    @show solution_sub
-    @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
-    @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
-    if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
-        @assert termination_sub == MOI.OPTIMAL
-    end 
-    # @show S_int' * solution_sub
-    if isempty(C)
+
+    # check sub problem for binary variables and add CB cut to master problem
+    if sum([(i != 1 || 1 != 0) ? 0 : 1 for i in solution_direction]) != 0
+        @warn "flux directions should be binary"
+        return SCIP.SCIP_INFEASIBLE
+    else
+        # build sub problem to master solution 
+        C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
         optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
         sub_problem = Model(optimizer)
-        build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
+        build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
         objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-        @assert termination_sub == MOI.OPTIMAL
-    end
-    if termination_sub == MOI.OPTIMAL 
-        return SCIP.SCIP_FEASIBLE
-    else 
-        SCIP_status = add_cb_cut(ch, solution_direction, C)
-        return SCIP_status
-    end
+        # @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+        # @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
 
+        if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+            @assert termination_sub == MOI.OPTIMAL
+        end 
+
+        if isempty(C)
+            optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
+            sub_problem = Model(optimizer)
+            build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
+            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
+            @assert termination_sub == MOI.OPTIMAL
+        end
+
+        if termination_sub == MOI.OPTIMAL 
+            return SCIP.SCIP_FEASIBLE
+        else 
+            SCIP_status = add_cb_cut(ch, solution_direction, C)
+            return SCIP_status
+        end
+    end
 end
 
 # function SCIP.enforce_pseudo_sol(
@@ -141,16 +137,24 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, time_limit=time_limit, objective_func_vars=objective_func_vars, objective_func_coeffs=objective_func.terms.vals, silent=silent)
     # print(scip_model)
     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [], [])
-    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-7000000)
+    SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-7000000, check_priority=-7000000)
     MOI.optimize!(scip_model)
 
     status = MOI.get(scip_model, MOI.TerminationStatus())
     time = MOI.get(scip_model, MOI.SolveTimeSec())
     result_status = MOI.get(scip_model, MOI.PrimalStatus())
     @show status, result_status
+
     if result_status != MOI.NO_SOLUTION
         primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
         solution = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
+        # test thermofeasibility
+        solution_direction = solution[1:length(internal_rxn_idxs)]
+        solution_flux = solution[length(internal_rxn_idxs)+1:end]
+        @assert sum([(i != 1 || 1 !=0) ? 0 : 1 for i in solution_direction]) == 0
+        nonzero_flux_idxs = [idx for (idx,i) in enumerate(solution_flux[internal_rxn_idxs]) if !isapprox(0, i, atol=0.001)]
+        @assert thermo_feasible_mu(internal_rxn_idxs[nonzero_flux_idxs], solution_direction[nonzero_flux_idxs], S)
+        # @assert is_feasible(ch, solution_flux, solution_direction, lb, ub, tol=0.0001)
         
         # TODO: get correct dual bound
         dual_objective_value = MOI.get(scip_model, MOI.ObjectiveBound())
@@ -210,7 +214,7 @@ end
 check whether solution is feasible, within a tolerance
 """
 # TODO: add tolerance to different checks
-function is_feasible(ch, solution_flux, solution_direction; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.000001)
+function is_feasible(ch, solution_flux, solution_direction, lb, ub; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.000001)
     # check steady state assumption 
     if check_steady_state
         steady_state = ch.S * solution_flux
@@ -224,7 +228,7 @@ function is_feasible(ch, solution_flux, solution_direction; check_steady_state=t
     end
     # check bounds 
     if check_bounds
-        if !solution_within_bounds(solution_flux, ch.lb, ch.ub, tol=tol)
+        if !solution_within_bounds(solution_flux, lb, ub, tol=tol)
             println("solution does not respect reaction bounds")
             return false
         end
