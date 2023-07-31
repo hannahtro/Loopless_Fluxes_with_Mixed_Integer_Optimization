@@ -248,8 +248,10 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
     return num_blocked_cycles
 end
 
+
 """
-compute thermodynamic feasibility for a given cycle using the nullspace formulation
+compute thermodynamic feasibility for a given cycle using the nullspace formulation,
+    where the flux direction is captured by binary values
 """
 function thermo_feasible(cycle, flux_directions, S)
     thermo_feasible_model = Model(SCIP.Optimizer)
@@ -277,7 +279,8 @@ function thermo_feasible(cycle, flux_directions, S)
 end
 
 """
-compute thermodynamic feasibility for a given cycle without using the nullspace formulation
+compute thermodynamic feasibility for a given cycle without using the nullspace formulation,
+    where the flux direction is captured by binary values
 """
 # TODO: add tolerance?
 function thermo_feasible_mu(cycle, flux_directions, S)
@@ -301,10 +304,10 @@ function thermo_feasible_mu(cycle, flux_directions, S)
     # print(thermo_feasible_model)
 
     _, _, solution, _, status = optimize_model(thermo_feasible_model)
-    if status == MOI.OPTIMAL
-        @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
-        @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
-    end
+    # if status == MOI.OPTIMAL
+    #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
+    #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
+    # end
     # @show solution, N_int' * solution
     return status == MOI.OPTIMAL
 end
