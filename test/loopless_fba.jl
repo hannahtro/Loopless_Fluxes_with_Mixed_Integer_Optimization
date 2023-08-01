@@ -138,3 +138,36 @@ end
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=100, nullspace_formulation=false)
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=200, nullspace_formulation=false)
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500, nullspace_formulation=false)
+
+
+organism = "iAF692"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "iJR904"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "iML1515"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "e_coli_core"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "iNF517"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "iSB619"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "iNJ661"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
+organism = "iCN900"
+loopless_fba_data(organism, time_limit=600)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)

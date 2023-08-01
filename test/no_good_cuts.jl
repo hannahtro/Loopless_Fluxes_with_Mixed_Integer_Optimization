@@ -154,3 +154,52 @@ println("--------------------------------------------------------")
 
 # constraint_handler_data("iAF692", csv=true, silent=false)
 # combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=true)
+
+
+organism = "iAF692"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "iJR904"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "iML1515"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "e_coli_core"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "iNF517"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "iSB619"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "iNJ661"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
+
+organism = "iCN900"
+no_good_cuts_data(organism, time_limit=600)
+combinatorial_benders_data(organism, time_limit=600, fast=false)
+combinatorial_benders_data(organism, time_limit=600, fast=true)
+constraint_handler_data(organism, time_limit=600)
