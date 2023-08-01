@@ -1,7 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
-using SCIP, JuMP, Tulip
+using SCIP, JuMP
 using LinearAlgebra
-using Boscia, FrankWolfe
 using DataFrames, CSV
 
 include("optimization_model.jl")

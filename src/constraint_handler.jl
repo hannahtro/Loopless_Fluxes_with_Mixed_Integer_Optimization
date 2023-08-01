@@ -48,37 +48,37 @@ function SCIP.enforce_lp_sol(ch::ThermoFeasibleConstaintHandler, constraints, nu
     S_int = ch.S[:, ch.internal_rxn_idxs]
 
     # check sub problem for binary variables and add CB cut to master problem
-    if sum([(i != 1 || 1 != 0) ? 0 : 1 for i in solution_direction]) != 0
-        @warn "flux directions should be binary"
-        return SCIP.SCIP_INFEASIBLE
-    else
-        # build sub problem to master solution 
-        C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
+    @assert sum([(i != 1 || 1 != 0) ? 0 : 1 for i in solution_direction]) == 0
+    #     @warn "flux directions should be binary"
+    #     # TODO: not necessarily infeasible
+    #     return SCIP.SCIP_INFEASIBLE
+    # else
+    # build sub problem to master solution 
+    C = compute_MIS(solution_direction, S_int, [], ch.internal_rxn_idxs, fast=true)
+    optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
+    sub_problem = Model(optimizer)
+    build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
+    objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
+    # @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+    # @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
+
+    if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
+        @assert termination_sub == MOI.OPTIMAL
+    end 
+
+    if isempty(C)
         optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
         sub_problem = Model(optimizer)
-        build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, C)
+        build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
         objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-        # @show thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
-        # @show thermo_feasible(ch.internal_rxn_idxs, solution_direction, ch.S)
+        @assert termination_sub == MOI.OPTIMAL
+    end
 
-        if thermo_feasible_mu(ch.internal_rxn_idxs, solution_direction, ch.S)
-            @assert termination_sub == MOI.OPTIMAL
-        end 
-
-        if isempty(C)
-            optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
-            sub_problem = Model(optimizer)
-            build_sub_problem(sub_problem, ch.internal_rxn_idxs, ch.S, solution_direction, ch.internal_rxn_idxs)
-            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem)
-            @assert termination_sub == MOI.OPTIMAL
-        end
-
-        if termination_sub == MOI.OPTIMAL 
-            return SCIP.SCIP_FEASIBLE
-        else 
-            SCIP_status = add_cb_cut(ch, solution_direction, C)
-            return SCIP_status
-        end
+    if termination_sub == MOI.OPTIMAL 
+        return SCIP.SCIP_FEASIBLE
+    else 
+        SCIP_status = add_cb_cut(ch, solution_direction, C)
+        return SCIP_status
     end
 end
 
@@ -104,7 +104,8 @@ function add_cb_cut(ch::ThermoFeasibleConstaintHandler, solution_direction, C)
     println("BENDERS CUT")
     add_combinatorial_benders_cut_moi(ch, solution_direction, C, ch.binvars[1:length(ch.internal_rxn_idxs)])
     ch.ncalls += 1
-    return SCIP.SCIP_CONSADDED
+    # TODO: try SCIP_SEPARATED
+    return SCIP.SCIP_SEPARATED # SCIP.SCIP_CONSADDED
 end
 
 # lock binary variables of master problem

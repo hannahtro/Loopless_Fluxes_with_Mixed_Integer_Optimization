@@ -53,11 +53,11 @@ function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, 
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
 
-    @infiltrate
+    # TODO: set time limit
     loopless_flux = flux_balance_analysis(
         molecular_model,
         optimizer,
-        modifications = [add_loopless_constraints()]
+        modifications = [add_loopless_constraints(), change_optimizer_attribute(time_limit_sec, time_limit)]
     )
 
     model = loopless_flux.result
