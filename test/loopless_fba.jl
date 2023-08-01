@@ -140,34 +140,28 @@ end
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500, nullspace_formulation=false)
 
 
-organism = "iAF692"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
-organism = "iJR904"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+for organism in organisms
+    type = "thermo_feasible_fba"
+    try 
+        loopless_fba_data(organism, time_limit=600)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
 
-organism = "iML1515"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-
-organism = "e_coli_core"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-
-organism = "iNF517"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-
-organism = "iSB619"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-
-organism = "iNJ661"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-
-organism = "iCN900"
-loopless_fba_data(organism, time_limit=600)
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+    type = "thermo_feasible_fba_nullspace"
+    try 
+        loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
+end
