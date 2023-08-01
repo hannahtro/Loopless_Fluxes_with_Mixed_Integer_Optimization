@@ -131,8 +131,8 @@ function build_master_problem_complementary(master_problem, internal_rxn_idxs)
     b = @variable(master_problem, b[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {-x[ridx] + eps() <= 0})
-        @constraint(master_problem, b[cidx] => {x[ridx] + eps() <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] + 0.000001 >= 0})
+        @constraint(master_problem, b[cidx] => {x[ridx] - 0.000001 <= 0})
         # complementary indicator variable
         @constraint(master_problem, b[cidx] == 1-a[cidx])
     end

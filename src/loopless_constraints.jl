@@ -98,7 +98,7 @@ function add_loopless_constraints_mu_reduced(model, S, internal_rxn_idxs::Vector
     # @show internal_rxn_idxs[1:10]
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
-        @constraint(model, x[ridx] <= 1000 * a[cidx])﻿
+        @constraint(model, x[ridx] <= 1000 * a[cidx])
 
         @constraint(
             model,
@@ -130,8 +130,8 @@ function add_loopless_indicator_constraints(molecular_model, model)
 
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] - eps() >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] + eps() <= 0})
+        @constraint(model, a[cidx] => {x[ridx] - 0.000001 >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] + 0.000001 <= 0})
 
         @constraint(model, a[cidx] => {-1000 <= G[cidx] <= -1})
         @constraint(model, !a[cidx] => {1 <= G[cidx] <= 1000})
@@ -158,8 +158,8 @@ function add_loopless_indicator_constraints_mu(molecular_model, model)
 
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] - eps() >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] + eps() <= 0})
+        @constraint(model, a[cidx] => {x[ridx] - 0.000001 >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] + 0.000001 <= 0})
 
         @constraint(model, a[cidx] => {-1000 <= G[cidx] <= -1})
         @constraint(model, !a[cidx] => {1 <= G[cidx] <= 1000})
