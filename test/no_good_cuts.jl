@@ -191,15 +191,15 @@ for organism in organisms
         end
     end
     
-    type = "ch"
-    try 
-        constraint_handler_data(organism, time_limit=600)
-    catch e 
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
+#    type = "ch"
+#    try 
+#        constraint_handler_data(organism, time_limit=600)
+#    catch e 
+#        println(e)
+#        file = organism * "_" * type
+#        open(file * ".txt","a") do io
+#            println(io, e)
+#        end
+#    end
 end
 
