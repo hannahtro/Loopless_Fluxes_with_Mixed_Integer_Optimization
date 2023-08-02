@@ -1,2 +1,2 @@
 objective_value,dual_bounds,solution,time,termination,time_limit,thermo_feasible,iter
-NaN,Any[],NaN,0.0070569515228271484,INFEASIBLE,600,false,0
+NaN,Any[],NaN,0.03977799415588379,INFEASIBLE,600,false,0

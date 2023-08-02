@@ -16,8 +16,8 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] - 0.000001 >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] + 0.000001 <= 0})
+        @constraint(model, a[cidx] => {x[ridx] - 1e-4 >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] + 1e-4 <= 0})
     end
     # @objective(model, Max, 0)
 
@@ -25,6 +25,12 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     dual_bounds = []
 
     objective_value, dual_bound, solution, _, termination = optimize_model(model)
+
+    if termination != MOI.OPTIMAL
+        end_time = time()
+        time_taken = end_time - start_time
+        return objective_value, dual_bounds, solution, time_taken, termination, 0
+    end
 
     solution_a = solution[num_reactions+1:end]
     push!(dual_bounds, dual_bound)
@@ -34,12 +40,12 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     iter = 1
     while !thermo_feasible_mu(internal_rxn_idxs, solution_a, S) && time()-start_time < time_limit
         @show iter
-        @assert isapprox(round.(solution_a), solution_a, atol=0.000001 )
+        @assert isapprox(round.(solution_a), solution_a, atol=1e-4)
 
         Z = []
         O = []
         for (idx, ridx) in enumerate(internal_rxn_idxs)
-            if solution_a[idx] > 0.000001  
+            if solution_a[idx] > 1e-4 
                 push!(O,idx)
             else 
                 push!(Z,idx)
@@ -127,8 +133,8 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
         # TODO: check tolerance
-        @constraint(master_problem, a[cidx] => {x[ridx] - 0.000001 >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] + 0.000001 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] - 1e-4 >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] + 1e-4 <= 0})
     end
 end
 
@@ -145,8 +151,8 @@ function build_master_problem_complementary(master_problem, internal_rxn_idxs)
     b = @variable(master_problem, b[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] - 0.000001 >= 0})
-        @constraint(master_problem, b[cidx] => {x[ridx] + 0.000001 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] - 1e-4 >= 0})
+        @constraint(master_problem, b[cidx] => {x[ridx] + 1e-4 <= 0})
         # complementary indicator variable
         @constraint(master_problem, b[cidx] == 1-a[cidx])
     end
