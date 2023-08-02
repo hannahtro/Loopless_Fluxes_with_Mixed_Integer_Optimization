@@ -353,6 +353,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     solutions = [solution_master]
     if length(solution_master) == 1
         @assert !isnan(solution_master) # no solution found
+        end_time = time()
+        time_taken = end_time - start_time
+        return NaN, NaN, NaN, NaN, time_taken, termination_master, iter
     end
     solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
@@ -388,7 +391,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
         solution_master = round.(solution_master, digits=5)
         @assert !(solution_master in solutions)
-        @assert termination_master == MOI.OPTIMAL
+        if termination_master != MOI.OPTIMAL
+            end_time = time()
+            time_taken = end_time - start_time
+            return NaN, NaN, NaN, NaN, time_taken, termination_master, iter
+        end
         push!(solutions, solution_master)
         push!(dual_bounds, dual_bound_master)
         push!(objective_values, objective_value_master)

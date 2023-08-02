@@ -141,7 +141,7 @@ end
     # @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.TIME_LIMIT
 end
 
-constraint_handler_data("iAF692", time_limit=600)
+# constraint_handler_data("iAF692", time_limit=600)
 # no_good_cuts_data("iAF692", time_limit=3600)
 
 println("--------------------------------------------------------")
@@ -150,57 +150,56 @@ println("--------------------------------------------------------")
 # combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)
 # #combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=true, silent=false)
 # combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=false, silent=false)
-# #combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)
+# combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)
 
 # constraint_handler_data("iAF692", csv=true, silent=false)
 # combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=true)
 
+organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
-# organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
+for organism in organisms
+    type = "no_good_cut"
+    try 
+        no_good_cuts_data(organism, time_limit=600)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
 
-# for organism in organisms
-#     type = "no_good_cut"
-#     try 
-#         no_good_cuts_data(organism, time_limit=600)
-#     catch e 
-#         println(e)
-#         file = organism * "_" * type
-#         open(file * ".txt","a") do io
-#             println(io, e)
-#         end
-#     end
+    type = "cb"
+    try 
+        combinatorial_benders_data(organism, time_limit=600, fast=false)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
 
-#     type = "cb"
-#     try 
-#         combinatorial_benders_data(organism, time_limit=600, fast=false)
-#     catch e 
-#         println(e)
-#         file = organism * "_" * type
-#         open(file * ".txt","a") do io
-#             println(io, e)
-#         end
-#     end
-
-#     type = "cb_fast"
-#     try 
-#         combinatorial_benders_data(organism, time_limit=600, fast=true)
-#     catch e 
-#         println(e)
-#         file = organism * "_" * type
-#         open(file * ".txt","a") do io
-#             println(io, e)
-#         end
-#     end
+    type = "cb_fast"
+    try 
+        combinatorial_benders_data(organism, time_limit=600, fast=true)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
     
-#     type = "ch"
-#     try 
-#         constraint_handler_data(organism, time_limit=600)
-#     catch e 
-#         println(e)
-#         file = organism * "_" * type
-#         open(file * ".txt","a") do io
-#             println(io, e)
-#         end
-#     end
-# end
+    type = "ch"
+    try 
+        constraint_handler_data(organism, time_limit=600)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
+end
 

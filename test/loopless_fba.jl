@@ -165,3 +165,7 @@ for organism in organisms
         end
     end
 end
+
+# organism = "iSB619"
+# loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+
