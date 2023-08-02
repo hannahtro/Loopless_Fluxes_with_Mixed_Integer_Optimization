@@ -33,28 +33,36 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
 
     iter = 1
     while !thermo_feasible_mu(internal_rxn_idxs, solution_a, S) && time()-start_time < time_limit
-        @assert round.(solution_a) == solution_a
+        @show iter
+        @assert isapprox(round.(solution_a), solution_a, atol=0.000001 )
 
         Z = []
         O = []
         for (idx, ridx) in enumerate(internal_rxn_idxs)
-            if solution_a[idx] > 0 
+            if solution_a[idx] > 0.000001  
                 push!(O,idx)
             else 
                 push!(Z,idx)
             end
         end 
 
-        cut = @constraint(model, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(internal_rxn_idxs)-1)
+        cut = @constraint(model, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(internal_rxn_idxs) - 1)
         @assert !(cut in cuts)
         push!(cuts,[cut])
 
         objective_value, dual_bound, solution, _, termination = optimize_model(model)
+        
+        if termination != MOI.OPTIMAL
+            end_time = time()
+            time_taken = end_time - start_time
+            return objective_value, dual_bounds, solution, time_taken, termination, iter
+        end
+
         solution = round.(solution, digits=5)
         solution_a = solution[num_reactions+1:end]
 
-        @assert solutions[end][num_reactions+1:end] != solution_a
-        @assert sum(solution_a[O]) + sum([1-solution_a[i] for i in Z]) <= length(internal_rxn_idxs)-1
+        @assert solutions[end][num_reactions+1:end] != solution_a # ensures that solutions differ
+        @assert sum(solution_a[O]) + sum([1-solution_a[i] for i in Z]) <= length(internal_rxn_idxs) - 1
         @assert !(solution in solutions)
         push!(solutions,solution)
         push!(dual_bounds, dual_bound)
@@ -84,7 +92,11 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     model = build_fba_model(S, lb, ub)
     objective_value, dual_bounds, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
-    thermo_feasible = thermo_feasible_mu(internal_rxn_idxs, solution[num_reactions+1:end], S)
+    if termination == MOI.OPTIMAL
+        thermo_feasible = thermo_feasible_mu(internal_rxn_idxs, solution[num_reactions+1:end], S)
+    else 
+        thermo_feasible = false
+    end
 
     df = DataFrame(
         objective_value=objective_value, 
@@ -352,10 +364,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     solution_master = round.(solution_master, digits=6)
     solutions = [solution_master]
     if length(solution_master) == 1
-        @assert !isnan(solution_master) # no solution found
-        end_time = time()
-        time_taken = end_time - start_time
-        return NaN, NaN, NaN, NaN, time_taken, termination_master, iter
+        if isnan(solution_master) # no solution found
+            end_time = time()
+            time_taken = end_time - start_time
+            return NaN, NaN, NaN, NaN, time_taken, termination_master, iter
+        end
     end
     solution_a = solution_master[num_reactions+1:end]
     push!(dual_bounds, dual_bound_master)
@@ -409,7 +422,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         C = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent)
         # @show C
         if isempty(C)
-            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_master[internal_rxn_idxs], S)
+            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
             @assert feasible
             sub_problem = Model(optimizer)
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, internal_rxn_idxs)
@@ -434,7 +447,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     # @show termination_sub
 
     if termination_sub == MOI.OPTIMAL
-        feasible = thermo_feasible_mu(internal_rxn_idxs, solution[internal_rxn_idxs], S)
+        feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
         @assert feasible
     end 
 

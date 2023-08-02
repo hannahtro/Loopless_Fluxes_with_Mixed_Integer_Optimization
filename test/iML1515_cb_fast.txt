@@ -1,1 +1,0 @@
-AssertionError("!(isnan(solution_master))")
