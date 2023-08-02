@@ -1,1 +1,0 @@
-ErrorException("SCIP's solving was interrupted, but not by a user-given limit!")

@@ -73,6 +73,8 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     print_model(model, "organism")
 
     S = stoichiometry(model)
+    m, num_reactions = size(S)
+
     lb, ub = bounds(model)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(model)) if
@@ -82,7 +84,7 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     model = build_fba_model(S, lb, ub)
     objective_value, dual_bounds, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
-    thermo_feasible = thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    thermo_feasible = thermo_feasible_mu(internal_rxn_idxs, solution[num_reactions+1:end], S)
 
     df = DataFrame(
         objective_value=objective_value, 

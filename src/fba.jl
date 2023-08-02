@@ -17,13 +17,15 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba")
     set_attribute(model, MOI.Silent(), true)
 
     # FBA
-    objective_fba, _, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
+    objective_fba, dual_bound, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
 
     df = DataFrame(
-        objective_fba=objective_fba, 
-        vars_fba=vars_fba, 
-        time_fba=time_fba, 
-        termination_fba=termination_fba)
+        objective_value=objective_fba, 
+        dual_bound=dual_bound,
+        solution=[vars_fba], 
+        time=time_fba, 
+        termination=termination_fba,
+        time_limit=time_limit)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
 

@@ -48,7 +48,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     df = DataFrame(
         objective_value=objective_loopless_fba, 
         dual_bound=dual_bound,
-        solution=vars_loopless_fba, 
+        solution=[vars_loopless_fba], 
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
         nodes=nodes,

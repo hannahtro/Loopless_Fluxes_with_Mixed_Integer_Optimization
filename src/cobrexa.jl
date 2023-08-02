@@ -30,7 +30,7 @@ function fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true
     df = DataFrame(
         objective_value=primal_objective_value, 
         dual_bound=dual_objective_value,
-        solution=solution, 
+        solution=[solution], 
         time=solved_time, 
         termination=status,
         time_limit=time_limit)
@@ -82,7 +82,7 @@ function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, 
     df = DataFrame(
         objective_value=primal_objective_value, 
         dual_bound=dual_objective_value,
-        solution=solution, 
+        solution=[solution], 
         time=solved_time, 
         termination=status,
         nodes=nodes,
