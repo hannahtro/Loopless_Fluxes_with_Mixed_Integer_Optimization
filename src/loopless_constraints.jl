@@ -169,6 +169,31 @@ function add_loopless_indicator_constraints_mu(molecular_model, model)
 end
 
 """
+add loopless FBA constraints using bilinear constraints
+"""
+function add_loopless_bilinear_constraints(molecular_model, model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+
+    S_int = Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])
+
+    x = model[:x]
+    G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+    μ = @variable(model, μ[1:size(stoichiometry(molecular_model))[1]])
+    a = @variable(model, a[1:length(internal_rxn_idxs)])
+
+    for (cidx, ridx) in enumerate(internal_rxn_idxs)
+        # add indicator 
+        @constraint(model, a[cidx] => {x[ridx] == 0})
+        @constraint(model, !a[cidx] => {G[cidx] * x[ridx] <= -0.000001})
+    end
+
+    @constraint(model, G' .== μ' * S_int)
+end
+
+"""
 add constraints to block detected cycles in loopless FBA model
 using Boolean expresssions
 """

@@ -68,6 +68,63 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
 end
 
 """
+compute dual gap with time limit of loopless FBA
+"""
+function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type="loopless_bilinear_fba", csv=true)
+    # build model
+    optimizer = SCIP.Optimizer
+    molecular_model = deserialize("../data/" * organism * ".js")
+    # print_model(molecular_model, organism)
+
+    model = make_optimization_model(molecular_model, optimizer)
+    # S = stoichiometry(molecular_model)
+    # xl, xu = bounds(molecular_model)
+    # model = build_fba_model(S, xl, xu)
+    # x = model[:x]
+    # @objective(model, MAX_SENSE, objective(molecular_model)' * x)
+
+    # @show model
+    # open("../csv/model_cobrexa_" * organism * ".lp", "w") do f
+    #     print(f, model)
+    # end
+
+    add_loopless_bilinear_constraints(molecular_model, model)
+
+    # @show model
+    # open("../csv/model_vector_" * organism * ".lp", "w") do f
+    #     print(f, model)
+    # end
+
+    objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+        optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
+
+    nodes = MOI.get(model, MOI.NodeCount())
+    if termination_loopless_fba == MOI.OPTIMAL
+        S = stoichiometry(molecular_model)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
+        @assert steady_state == ones(size(S)[1])
+    end
+
+    # @show nodes
+    df = DataFrame(
+        objective_value=objective_loopless_fba, 
+        dual_bound=dual_bound,
+        solution=[vars_loopless_fba], 
+        time=time_loopless_fba, 
+        termination=termination_loopless_fba,
+        nodes=nodes,
+        time_limit=time_limit
+    )
+    
+    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+
+    if csv
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
+    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
+end
+
+"""
 compute dual gap with time limit of loopless FBA with blocked cycles
 """
 function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=false, reduced=false, csv=true)

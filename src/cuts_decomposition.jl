@@ -16,8 +16,8 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] + 0.000001 >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] - 0.000001 <= 0})
+        @constraint(model, a[cidx] => {x[ridx] - 0.000001 >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] + 0.000001 <= 0})
     end
     # @objective(model, Max, 0)
 
@@ -115,8 +115,8 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
         # TODO: check tolerance
-        @constraint(master_problem, a[cidx] => {x[ridx] + 0.000001 >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] - 0.000001 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] - 0.000001 >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] + 0.000001 <= 0})
     end
 end
 
@@ -133,8 +133,8 @@ function build_master_problem_complementary(master_problem, internal_rxn_idxs)
     b = @variable(master_problem, b[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] + 0.000001 >= 0})
-        @constraint(master_problem, b[cidx] => {x[ridx] - 0.000001 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] - 0.000001 >= 0})
+        @constraint(master_problem, b[cidx] => {x[ridx] + 0.000001 <= 0})
         # complementary indicator variable
         @constraint(master_problem, b[cidx] == 1-a[cidx])
     end

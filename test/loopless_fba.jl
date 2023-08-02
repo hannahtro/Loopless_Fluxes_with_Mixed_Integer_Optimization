@@ -138,34 +138,34 @@ end
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=100, nullspace_formulation=false)
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=200, nullspace_formulation=false)
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500, nullspace_formulation=false)
+  
+# organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
+# for organism in organisms
+#     type = "thermo_feasible_fba"
+#     try 
+#         loopless_fba_data(organism, time_limit=600)
+#     catch e 
+#         println(e)
+#         file = organism * "_" * type
+#         open(file * ".txt","a") do io
+#             println(io, e)
+#         end
+#     end
 
-organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
+#     type = "thermo_feasible_fba_nullspace"
+#     try 
+#         loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+#     catch e 
+#         println(e)
+#         file = organism * "_" * type
+#         open(file * ".txt","a") do io
+#             println(io, e)
+#         end
+#     end
+# end
 
-for organism in organisms
-    type = "thermo_feasible_fba"
-    try 
-        loopless_fba_data(organism, time_limit=600)
-    catch e 
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
-
-    type = "thermo_feasible_fba_nullspace"
-    try 
-        loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-    catch e 
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
-end
-
-# organism = "iSB619"
+organism = "iAF692"
 # loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
+loopless_fba_bilinear_data(organism; time_limit=600, silent=false, type="loopless_bilinear_fba", csv=true)
 
