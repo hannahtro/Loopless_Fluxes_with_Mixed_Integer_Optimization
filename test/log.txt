@@ -1,0 +1,17 @@
+--------------------------------------------------------
+TEST SIMPLE MODEL
+--------------------------------------------------------
+(m, num_reactions) = (4, 7)
+objective_value = 80.0
+objective_value = 80.0
+Test Summary: | Pass  Total  Time
+simple model  |    4      4  6.7s
+organism = "iNJ661"
+type = "thermo_feasible_fba"
+WARNING: Dual bound -0.0466497 is larger than the objective of the primal solution -0.0466845. The solution might not be optimal.
+WARNING: Dual bound 0.0525105 is smaller than the objective of the primal solution 0.052518. The solution might not be optimal.
+type = "thermo_feasible_fba_nullspace"
+WARNING: Dual bound 0.0525105 is smaller than the objective of the primal solution 0.052528. The solution might not be optimal.
+organism = "iCN900"
+type = "thermo_feasible_fba"
+type = "thermo_feasible_fba_nullspace"

@@ -140,10 +140,12 @@ end
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500, nullspace_formulation=false)
 
 
-organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
+organisms = ["iNJ661", "iCN900"]
 
 for organism in organisms
+    @show organism
     type = "thermo_feasible_fba"
+    @show type
     try 
         loopless_fba_data(organism, time_limit=600)
     catch e 
@@ -155,6 +157,7 @@ for organism in organisms
     end
 
     type = "thermo_feasible_fba_nullspace"
+    @show type
     try 
         loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
     catch e 
