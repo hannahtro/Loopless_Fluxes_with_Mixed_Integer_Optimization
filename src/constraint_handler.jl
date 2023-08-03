@@ -393,7 +393,7 @@ end
 """
 show all scip solutions
 """
-function get_scip_solutions(o::SCIP.Optimizer)
+function get_scip_solutions(o::SCIP.Optimizer; number=Inf)
     vars = [MOI.VariableIndex(i) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
     sols_vec =
         unsafe_wrap(Vector{Ptr{Cvoid}}, SCIP.LibSCIP.SCIPgetSols(o), SCIP.LibSCIP.SCIPgetNSols(o))
@@ -404,6 +404,9 @@ function get_scip_solutions(o::SCIP.Optimizer)
         solutions = [SCIP.sol_values(o, vars, sol) for sol in sols_vec]
         solutions = [round.(sol, digits=5) for sol in solutions]
     end
-    @show solutions
+    
+    if !isinf(number)
+        return solutions[1]
+    end
     return solutions
 end

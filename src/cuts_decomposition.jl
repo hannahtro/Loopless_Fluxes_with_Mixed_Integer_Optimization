@@ -264,7 +264,7 @@ end
 adds combinatorial Benders' cut to the master problem, by forcing a different assignment of the indicator variables
 of the reactions in the minimal infeasible subset C
 """
-function add_combinatorial_benders_cut(master_problem, solution_a, C)
+function add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
     a = master_problem[:a]
     Z = []
     O = []
@@ -277,12 +277,13 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C)
     end 
     # @show Z,O
     if isempty(Z)
-        @constraint(master_problem, sum(a[O]) <= length(C)-1)
+        c = @constraint(master_problem, sum(a[O]) <= length(C)-1)
     elseif isempty(O)
-        @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
+        c = @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
     else 
-        @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
+        c = @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
     end
+    push!(cuts, c)
 end 
 
 """
@@ -348,6 +349,7 @@ function add_combinatorial_benders_cut_moi(ch, solution_a, C, a)
     push!(ch.cuts, c)
     no_constraints_after = MOI.get(master_problem, MOI.NumberOfConstraints{MOI.ScalarAffineFunction{Float64}, MOI.LessThan{Float64}}())
     @assert no_constraints_before < no_constraints_after
+
     # SCIP.SCIPwriteTransProblem(
     #     ch.o,
     #     "trans_problem_cut_added.lp",
@@ -360,13 +362,15 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=Inf, fast=true, time_limit=1800, silent=true)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true)
     @show fast
+
     _, num_reactions = size(S)
 
     start_time = time()
     dual_bounds = []
     objective_values = []
+    cuts = []
 
     # solve master problem
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
@@ -410,7 +414,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
         @assert has_duals(sub_problem)
 
         # add CB cut to MP and solve MP
-        add_combinatorial_benders_cut(master_problem, solution_a, C)
+        add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
+
+        # test if optimal solution is still feasible
+        is_feasible(master_problem.moi_backend.optimizer.model, solution_master[1:num_reactions], solution_a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001)
+
         # println("_______________")
         # println("master problem")
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
@@ -478,7 +486,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     print_model(molecular_model, "organism")
 
     S = stoichiometry(molecular_model)
-    # lb, ub = bounds(molecular_model)
+    lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -489,7 +497,12 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if !isinf(time_limit)
         set_time_limit_sec(master_problem, time_limit)
     end    
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
+
+    # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
+    # open("iAF692_optimal_solution", "a") do io
+    #     println(io, optimal_solution)
+    # end
 
     @show termination
     @show objective_value
@@ -511,4 +524,77 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if csv
         CSV.write(file_name, df, append=false, writeheader=true)
     end
+end
+
+"""
+check whether solution is feasible, within a tolerance
+"""
+# TODO: add tolerance to different checks
+function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.000001)
+    m, num_reactions = size(S)
+    # check steady state assumption 
+    if check_steady_state
+        steady_state = S * solution_flux
+        # @show steady_state
+        for s in steady_state 
+            if !isapprox(s, 0, atol=tol) 
+                println("solution does not respect steady state assumption")
+                return false
+            end
+        end
+    end
+    # check bounds 
+    if check_bounds
+        if !solution_within_bounds(solution_flux, lb, ub, tol=tol)
+            println("solution does not respect reaction bounds")
+            return false
+        end
+    end
+    # check thermo feasiblity 
+    if check_thermodynamic_feasibility
+        feasible = thermo_feasible_mu(internal_rxn_idxs, round.(solution_flux[internal_rxn_idxs],digits=5), S)
+        if !feasible 
+            println("solution is not thermodynamically feasible")
+            return false 
+        end
+    end
+    # check Benders' cuts 
+    @infiltrate
+    # TODO: o is no longer JuMP model, mapping might change internally
+    if check_cuts
+        for cut in cuts
+            @show cut, cut.index
+            upper = MOI.get(o, MOI.ConstraintSet(), cut.index).upper
+            @show upper
+            func = MOI.get(o, MOI.ConstraintFunction(), cut.index)
+            @show func
+            var_indices = [term.variable.value for term in func.terms]
+            @show var_indices
+            coefficients = [term.coefficient for term in func.terms]
+            @show coefficients
+            if !(coefficients' * solution_direction[var_indices] + func.constant <= upper)
+                println("solution does not respect Benders' cut")
+                return false
+            end
+        end
+    end
+    # check indicator variables
+    if check_indicator
+        solution_flux_internal_rxns = solution_flux[internal_rxn_idxs]
+        @show solution_flux_internal_rxns, solution_direction
+        for (idx, a) in enumerate(solution_direction)
+            if isapprox(a, 1, atol=tol)
+                if solution_flux_internal_rxns[idx] < 0 - tol
+                    println("solution does not respect indicator constraint")
+                    return false 
+                end 
+            elseif isapprox(a, 0, atol=tol)
+                if solution_flux_internal_rxns[idx] > 0 + tol
+                    println("solution does not respect indicator constraint")
+                    return false 
+                end 
+            end 
+        end
+    end
+    return true
 end
