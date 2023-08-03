@@ -16,8 +16,8 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] - 1e-4 >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] + 1e-4 <= 0})
+        @constraint(model, a[cidx] => {x[ridx] >= 0})
+        @constraint(model, !a[cidx] => {x[ridx] <= 0})
     end
     # @objective(model, Max, 0)
 
@@ -125,6 +125,9 @@ end
 build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables
 """
 function build_master_problem(master_problem, internal_rxn_idxs)
+    # open("../csv/master_problem.lp", "w") do f
+    #     print(f, master_problem)
+    # end
     set_attribute(master_problem, MOI.Silent(), true)
     x = master_problem[:x]
 
@@ -132,10 +135,12 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        # TODO: check tolerance
-        @constraint(master_problem, a[cidx] => {x[ridx] - 1e-4 >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] + 1e-4 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
+        @constraint(master_problem, !a[cidx] => {x[ridx] <= 0.0000001})
     end
+    # open("../csv/master_problem_with_binaries.lp", "w") do f
+    #     print(f, master_problem)
+    # end
 end
 
 """
@@ -151,8 +156,8 @@ function build_master_problem_complementary(master_problem, internal_rxn_idxs)
     b = @variable(master_problem, b[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] - 1e-4 >= 0})
-        @constraint(master_problem, b[cidx] => {x[ridx] + 1e-4 <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] >= 0})
+        @constraint(master_problem, b[cidx] => {x[ridx] <= 0})
         # complementary indicator variable
         @constraint(master_problem, b[cidx] == 1-a[cidx])
     end
@@ -165,7 +170,7 @@ end
 build sub problem of combinatorial Benders decomposition including the thermodynamic constraints on the indicator variables 
 for a given solution to the master problem and the minimal infeasible subset C
 """
-function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
+function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C; tol=0.0000001)
     # @show solution_a
     # @show C
     set_attribute(sub_problem, MOI.Silent(), true)
@@ -175,12 +180,12 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
     G = @variable(sub_problem, G[1:length(internal_rxn_idxs)])
     μ = @variable(sub_problem, μ[1:size(S_int)[1]])
     constraint_list = []
-    solution_a = round.(solution_a, digits=5)
+    solution_a = round.(solution_a, digits=6)
     for (idx,val) in enumerate(solution_a) 
-        if val == 0 && (idx in C)
+        if isapprox(val, 0, atol=tol) && (idx in C)
             c = @constraint(sub_problem, 1 <= G[idx] <= 1000)    
             push!(constraint_list,c)
-        elseif val == 1 && (idx in C)
+        elseif isapprox(val, 1, atol=tol) && (idx in C)
             c = @constraint(sub_problem, -1000 <= G[idx] <= -1)    
             push!(constraint_list,c)
         else
@@ -364,16 +369,17 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     objective_values = []
 
     # solve master problem
+    # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
     build_master_problem(master_problem, internal_rxn_idxs)   
     @show objective_function(master_problem)
-    objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem)
+    objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
     solution_master = round.(solution_master, digits=6)
     solutions = [solution_master]
     if length(solution_master) == 1
         if isnan(solution_master) # no solution found
             end_time = time()
             time_taken = end_time - start_time
-            return NaN, NaN, NaN, NaN, time_taken, termination_master, iter
+            return NaN, NaN, NaN, NaN, time_taken, termination_master, 0
         end
     end
     solution_a = solution_master[num_reactions+1:end]
@@ -398,7 +404,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
-        # @show iter
+        @show iter
         @assert primal_status(sub_problem) == MOI.NO_SOLUTION
         @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
         @assert has_duals(sub_problem)
@@ -431,12 +437,18 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
             feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
             @assert feasible
             sub_problem = Model(optimizer)
+            if !isinf(time_limit)
+                set_time_limit_sec(sub_problem, time_limit)
+            end              
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, internal_rxn_idxs)
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
             @assert termination_sub == MOI.OPTIMAL
         else 
             # build sub problem to master solution 
             sub_problem = Model(optimizer)
+            if !isinf(time_limit)
+                set_time_limit_sec(sub_problem, time_limit)
+            end 
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C)
             # println("_______________")
             # println("sub problem")
@@ -460,7 +472,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S; max_iter=In
     return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true)
+function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer)
     @show fast
     molecular_model = deserialize("../data/" * organism * ".js")
     print_model(molecular_model, "organism")
@@ -473,9 +485,11 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     ]
 
     # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
-    master_problem = make_optimization_model(molecular_model, SCIP.Optimizer)
-   
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent)
+    master_problem = make_optimization_model(molecular_model, optimizer)
+    if !isinf(time_limit)
+        set_time_limit_sec(master_problem, time_limit)
+    end    
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
 
     @show termination
     @show objective_value

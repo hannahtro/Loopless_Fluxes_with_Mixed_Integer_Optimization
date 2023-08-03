@@ -9,7 +9,7 @@ using Boscia, FrankWolfe
 """
 build FBA model
 """
-function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer)
+function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer, time_limit=1800)
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
@@ -26,6 +26,10 @@ function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=
     if set_objective
         @objective(optimization_model, Max, sum(x))
     end 
+
+    if !isinf(time_limit)
+        set_time_limit_sec(optimization_model, time_limit)
+    end
     
     return optimization_model
 end

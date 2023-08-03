@@ -2,6 +2,7 @@ using Test
 using DataFrames
 using CSV
 using Infiltrator
+using GLPK
 
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")
@@ -64,23 +65,23 @@ include("../src/constraint_handler.jl")
 #     @show objective_value_fast, solution_fast
 #     println("--------------------------------------------------------")
 
-#     println("constraint handler")
-#     # test constraint handler    
-#     scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
-#     # print(scip_model)
+#     # println("constraint handler")
+#     # # test constraint handler    
+#     # scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
+#     # # print(scip_model)
 
-#     ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [], [])
-#     SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-99999999, check_priority=-99999999)
+#     # ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [], [])
+#     # SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-99999999, check_priority=-99999999)
 
-#     MOI.optimize!(scip_model)
-#     @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
-#     objective_value_ch = MOI.get(scip_model, MOI.ObjectiveValue())
-#     solution_ch = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
-#     @show objective_value_ch
-#     @show solution_ch 
-#     feasible = thermo_feasible(internal_rxn_idxs, solution_ch[internal_rxn_idxs], S)
-#     @test feasible
-#     @test isapprox(objective_value_ch,objective_value_fast)
+#     # MOI.optimize!(scip_model)
+#     # @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.OPTIMAL
+#     # objective_value_ch = MOI.get(scip_model, MOI.ObjectiveValue())
+#     # solution_ch = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
+#     # @show objective_value_ch
+#     # @show solution_ch 
+#     # feasible = thermo_feasible(internal_rxn_idxs, solution_ch[internal_rxn_idxs], S)
+#     # @test feasible
+#     # @test isapprox(objective_value_ch,objective_value_fast)
     
 #     # print SCIP solution
 #     # SCIP.SCIPprintSol(ch.o, SCIP.SCIPgetBestSol(ch.o), C_NULL, SCIP.TRUE)
@@ -153,9 +154,10 @@ println("--------------------------------------------------------")
 # combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)
 
 # constraint_handler_data("iAF692", csv=true, silent=false)
-combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=true)
+# combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=true)
 
-# organism = "e_coli_core"
+organism = "iAF692"
+combinatorial_benders_data(organism, time_limit=600, csv=true, fast=false, silent=true)
 # no_good_cuts_data(organism, time_limit=600)
 
 # organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]

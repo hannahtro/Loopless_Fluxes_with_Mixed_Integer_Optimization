@@ -166,6 +166,5 @@ end
 # end
 
 organism = "iAF692"
-# loopless_fba_data(organism, time_limit=600, nullspace_formulation=true)
-loopless_fba_bilinear_data(organism; time_limit=600, silent=false, type="loopless_bilinear_fba", csv=true)
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=false)
 
