@@ -139,9 +139,12 @@ end
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=200, nullspace_formulation=false)
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500, nullspace_formulation=false)
   
-# organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
+organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
-# for organism in organisms
+for organism in organisms
+    loopless_relaxed_fba_data(organism, time_limit=1, nullspace_formulation=false, csv=false, save_lp=true)
+    loopless_relaxed_fba_data(organism, time_limit=1, nullspace_formulation=true, csv=false, save_lp=true)
+
 #     type = "thermo_feasible_fba"
 #     try 
 #         loopless_fba_data(organism, time_limit=600)
@@ -163,8 +166,8 @@ end
 #             println(io, e)
 #         end
 #     end
-# end
+end
 
-organism = "iAF692"
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=false)
+# organism = "iAF692"
+# loopless_relaxed_fba_data(organism, time_limit=1, nullspace_formulation=false, csv=false, save_lp=true)
 

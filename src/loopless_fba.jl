@@ -70,6 +70,60 @@ end
 """
 compute dual gap with time limit of loopless FBA
 """
+function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba_relaxed", csv=true, save_lp=false)
+    # build model
+    optimizer = SCIP.Optimizer
+    molecular_model = deserialize("../data/" * organism * ".js")
+    # print_model(molecular_model, organism)
+
+    model = make_optimization_model(molecular_model, optimizer)
+    S = stoichiometry(molecular_model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+
+    add_relaxed_loopless_constraints(model, S, internal_rxn_idxs, nullspace_formulation=nullspace_formulation)
+
+    if nullspace_formulation
+        type = type * "_nullspace"
+    end
+
+    if save_lp 
+        write_to_file(model, "../csv/models/" * type * "_" * organism * ".lp")
+    end 
+
+    objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+        optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
+
+    nodes = MOI.get(model, MOI.NodeCount())
+    if termination_loopless_fba == MOI.OPTIMAL
+        S = stoichiometry(molecular_model)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
+        @assert steady_state == ones(size(S)[1])
+    end
+
+    # @show nodes
+    df = DataFrame(
+        objective_value=objective_loopless_fba, 
+        dual_bound=dual_bound,
+        solution=[vars_loopless_fba], 
+        time=time_loopless_fba, 
+        termination=termination_loopless_fba,
+        nodes=nodes,
+        time_limit=time_limit, 
+        nullspace_formulation=nullspace_formulation)
+
+    if csv
+        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
+    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
+end
+
+"""
+compute dual gap with time limit of loopless FBA with indicator for bilinear constraints
+"""
 function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type="loopless_bilinear_fba", csv=true)
     # build model
     optimizer = SCIP.Optimizer

@@ -84,6 +84,26 @@ function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64})
 end
 
 """
+add relaxed loopless FBA constraints
+"""
+function add_relaxed_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64}; nullspace_formulation=false)
+    # @show length(internal_rxn_idxs)
+    x = model[:x]
+    if nullspace_formulation
+        N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
+        G = @variable(model, G[1:length(internal_rxn_idxs)])
+
+        @constraint(model, N_int' * G .== 0)
+    else 
+        S_int = Array(S[:, internal_rxn_idxs])
+        G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+        μ = @variable(model, μ[1:size(S)[1]])
+
+        @constraint(model, G' .== μ' * S_int)
+    end
+end
+
+"""
 add loopless FBA constraints witout nullspace formulation using less decision variables,
 as G is defined by mu and S_int, we do not need G explicitly
 """
