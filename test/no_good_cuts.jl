@@ -156,7 +156,7 @@ println("--------------------------------------------------------")
 
 organism = "iAF692"
 # combinatorial_benders_data(organism, time_limit=600, csv=true, fast=false, silent=false)
-combinatorial_benders_data(organism, time_limit=600, csv=true, fast=true, silent=false)
+combinatorial_benders_data(organism, time_limit=600, csv=true, fast=true, silent=true)
 
 # no_good_cuts_data(organism, time_limit=600)
 

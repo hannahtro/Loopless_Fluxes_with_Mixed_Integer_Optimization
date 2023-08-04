@@ -136,8 +136,8 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] >= 0})
-        @constraint(master_problem, !a[cidx] => {x[ridx] <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
+        @constraint(master_problem, !a[cidx] => {x[ridx] <= 0.0000001})
     end
     # open("../csv/master_problem_with_binaries.lp", "w") do f
     #     print(f, master_problem)
@@ -374,20 +374,20 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     objective_values = []
     cuts = []
 
-    optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
-    @assert length(optimal_solution) == 2558
+    # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
+    # @assert length(optimal_solution) == 2558
     # solve master problem
-    # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
     build_master_problem(master_problem, internal_rxn_idxs)   
-    @show objective_function(master_problem)
+    # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     # solution_master = round.(solution_master, digits=6)
     solutions = [round.(solution_master, digits=5)]
     if length(solution_master) == 1
         if isnan(solution_master) # no solution found
+            @warn "master problem cannot be solved prior to adding any cuts"
             end_time = time()
             time_taken = end_time - start_time
-            return NaN, NaN, NaN, NaN, time_taken, termination_master, 0
+            return NaN, NaN, NaN, NaN, time_taken, termination_master, 0, cuts
         end
     end
     solution_a = solution_master[num_reactions+1:end]
@@ -421,13 +421,14 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
 
         # test if optimal solution is still feasible
-        @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001, check_thermodynamic_feasibility=false)
+        # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001, check_thermodynamic_feasibility=false)
 
         # println("_______________")
         # println("master problem")
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
         @assert !(round.(solution_master, digits=5) in solutions)
         if termination_master != MOI.OPTIMAL
+            @warn "master problem cannot be solved"
             end_time = time()
             time_taken = end_time - start_time
             return NaN, NaN, NaN, NaN, time_taken, termination_master, iter, cuts
@@ -501,6 +502,9 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if !isinf(time_limit)
         set_time_limit_sec(master_problem, time_limit)
     end    
+    @show MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"))
+    # MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-9)
+
     objective_value, objective_values, dual_bounds, solution, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
 
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
@@ -517,7 +521,8 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if termination == MOI.OPTIMAL
         solution_flux = solution[1:num_reactions]
         solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
-        @assert is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001)
+        @assert is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001)
+        # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     end
     df = DataFrame(
         objective_value=objective_value, 
@@ -549,8 +554,9 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     if check_steady_state
         steady_state = S * solution_flux
         # @show steady_state
-        for s in steady_state 
+        for (idx, s) in enumerate(steady_state) 
             if !isapprox(s, 0, atol=tol) 
+                @show idx, s
                 println("solution does not respect steady state assumption")
                 return false
             end
@@ -600,11 +606,13 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
         for (idx, a) in enumerate(solution_direction)
             if isapprox(a, 1, atol=tol)
                 if solution_flux_internal_rxns[idx] < 0 - tol
+                    # @show solution_flux_internal_rxns[idx]
                     println("solution does not respect indicator constraint")
                     return false 
                 end 
             elseif isapprox(a, 0, atol=tol)
                 if solution_flux_internal_rxns[idx] > 0 + tol
+                    # @show solution_flux_internal_rxns[idx]
                     println("solution does not respect indicator constraint")
                     return false 
                 end 
