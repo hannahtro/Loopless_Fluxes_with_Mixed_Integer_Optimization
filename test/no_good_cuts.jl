@@ -86,7 +86,6 @@ include("../src/constraint_handler.jl")
 #     # SCIP.SCIPprintSol(ch.o, SCIP.SCIPgetBestSol(ch.o), C_NULL, SCIP.TRUE)
 # end
 
-# # TODO: no good cuts approach does not terminate in 200 iterations: verify that solution is eventually found
 # @testset "iAF692" begin
 #     println("")
 #     println("--------------------------------------------------------")

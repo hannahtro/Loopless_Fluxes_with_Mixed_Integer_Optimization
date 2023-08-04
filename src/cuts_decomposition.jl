@@ -424,13 +424,13 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
 
         # println("_______________")
         # println("master problem")
-        objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
+        objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
         solution_master = round.(solution_master, digits=5)
         @assert !(solution_master in solutions)
         if termination_master != MOI.OPTIMAL
             end_time = time()
             time_taken = end_time - start_time
-            return NaN, NaN, NaN, NaN, time_taken, termination_master, iter
+            return NaN, NaN, NaN, NaN, time_taken, termination_master, iter, cuts
         end
         push!(solutions, solution_master)
         push!(dual_bounds, dual_bound_master)
@@ -571,17 +571,17 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     # check Benders' cuts 
     if check_cuts
         for (O, Z, length_C) in cuts
-            @show O, Z, length_C
+            # @show O, Z, length_C
             if isempty(Z)
-                @show sum(solution_direction[O]), length_C-1
+                # @show sum(solution_direction[O]), length_C-1
                 feasible = sum(solution_direction[O]) <= length_C-1
             elseif isempty(O)
-                @show sum([1-solution_direction[i] for i in Z]), length_C-1
+                # @show sum([1-solution_direction[i] for i in Z]), length_C-1
                 feasible = sum([1-solution_direction[i] for i in Z]) <= length_C-1
             else 
-                @show sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]), length_C-1
-                @show solution_direction[O]
-                @show solution_direction[Z]
+                # @show sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]), length_C-1
+                # @show solution_direction[O]
+                # @show solution_direction[Z]
                 feasible = sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]) <= length_C-1
             end
             if !feasible 
