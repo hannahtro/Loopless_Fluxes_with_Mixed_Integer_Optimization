@@ -2,7 +2,6 @@ using Test
 using DataFrames
 using CSV
 using Infiltrator
-using GLPK
 
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")

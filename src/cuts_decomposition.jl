@@ -283,7 +283,7 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
     else 
         c = @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
     end
-    push!(cuts, c)
+    push!(cuts, (O, Z, length(C)))
 end 
 
 """
@@ -376,7 +376,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
     build_master_problem(master_problem, internal_rxn_idxs)   
     @show objective_function(master_problem)
-    objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
+    objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     solution_master = round.(solution_master, digits=6)
     solutions = [solution_master]
     if length(solution_master) == 1
@@ -417,7 +417,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
 
         # test if optimal solution is still feasible
-        is_feasible(master_problem.moi_backend.optimizer.model, solution_master[1:num_reactions], solution_a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001)
+        # is_feasible(master_problem.moi_backend.optimizer.model, solution_master[1:num_reactions], solution_a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001, check_thermodynamic_feasibility=false)
 
         # println("_______________")
         # println("master problem")
@@ -477,7 +477,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         @assert feasible
     end 
 
-    return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter
+    return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter, cuts
 end
 
 function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer)
@@ -486,6 +486,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     print_model(molecular_model, "organism")
 
     S = stoichiometry(molecular_model)
+    m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
@@ -497,7 +498,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if !isinf(time_limit)
         set_time_limit_sec(master_problem, time_limit)
     end    
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
 
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
     # open("iAF692_optimal_solution", "a") do io
@@ -506,6 +507,12 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
 
     @show termination
     @show objective_value
+    @show length(solution), num_reactions, length(internal_rxn_idxs)
+    solution_flux = solution[1:num_reactions]
+    @show length(solution_flux)
+    solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
+    @show length(solution_direction)
+    @assert is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001, check_thermodynamic_feasibility=false)
     df = DataFrame(
         objective_value=objective_value, 
         dual_bounds=[dual_bounds],
@@ -552,27 +559,29 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     end
     # check thermo feasiblity 
     if check_thermodynamic_feasibility
-        feasible = thermo_feasible_mu(internal_rxn_idxs, round.(solution_flux[internal_rxn_idxs],digits=5), S)
+        feasible = thermo_feasible_mu(internal_rxn_idxs, round.(solution_direction, digits=5), S)
         if !feasible 
             println("solution is not thermodynamically feasible")
             return false 
         end
     end
     # check Benders' cuts 
-    @infiltrate
-    # TODO: o is no longer JuMP model, mapping might change internally
     if check_cuts
-        for cut in cuts
-            @show cut, cut.index
-            upper = MOI.get(o, MOI.ConstraintSet(), cut.index).upper
-            @show upper
-            func = MOI.get(o, MOI.ConstraintFunction(), cut.index)
-            @show func
-            var_indices = [term.variable.value for term in func.terms]
-            @show var_indices
-            coefficients = [term.coefficient for term in func.terms]
-            @show coefficients
-            if !(coefficients' * solution_direction[var_indices] + func.constant <= upper)
+        for (O, Z, length_C) in cuts
+            @show O, Z, length_C
+            if isempty(Z)
+                @show sum(solution_direction[O]), length_C-1
+                feasible = sum(solution_direction[O]) <= length_C-1
+            elseif isempty(O)
+                @show sum([1-solution_direction[i] for i in Z]), length_C-1
+                feasible = sum([1-solution_direction[i] for i in Z]) <= length_C-1
+            else 
+                @show sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]), length_C-1
+                @show solution_direction[O]
+                @show solution_direction[Z]
+                feasible = sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]) <= length_C-1
+            end
+            if !feasible 
                 println("solution does not respect Benders' cut")
                 return false
             end
@@ -581,7 +590,7 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     # check indicator variables
     if check_indicator
         solution_flux_internal_rxns = solution_flux[internal_rxn_idxs]
-        @show solution_flux_internal_rxns, solution_direction
+        # @show solution_flux_internal_rxns, solution_direction
         for (idx, a) in enumerate(solution_direction)
             if isapprox(a, 1, atol=tol)
                 if solution_flux_internal_rxns[idx] < 0 - tol
