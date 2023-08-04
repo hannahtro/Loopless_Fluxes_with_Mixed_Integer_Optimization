@@ -5,7 +5,7 @@ using DataFrames, CSV
 
 include("optimization_model.jl")
 
-function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba")
+function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, csv=true)
     # build model
     optimizer = SCIP.Optimizer
 
@@ -15,6 +15,12 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba")
     model = make_optimization_model(molecular_model, optimizer)
     @show model
     set_attribute(model, MOI.Silent(), true)
+
+    if save_lp
+        open("../csv/models/fba_model_" * organism * ".lp", "w") do f
+            print(f, model)
+        end
+    end
 
     # FBA
     objective_fba, dual_bound, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
@@ -29,10 +35,12 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba")
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
 
-    if !isfile(file_name)
-        CSV.write(file_name, df, append=true, writeheader=true)
-    else 
-        CSV.write(file_name, df, append=true)    
+    if csv 
+        if !isfile(file_name)
+            CSV.write(file_name, df, append=true, writeheader=true)
+        else 
+            CSV.write(file_name, df, append=true)    
+        end
     end
 
     # # loopless FBA
