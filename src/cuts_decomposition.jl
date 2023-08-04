@@ -17,8 +17,8 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(model, a[cidx] => {x[ridx] >= 0})
-        @constraint(model, !a[cidx] => {x[ridx] <= 0})
+        @constraint(model, a[cidx] => {x[ridx] >= -0.0000001})
+        @constraint(model, !a[cidx] => {x[ridx] <= 0.0000001})
     end
     # @objective(model, Max, 0)
 
@@ -136,12 +136,13 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
-        @constraint(master_problem, !a[cidx] => {x[ridx] <= 0.0000001})
+        @constraint(master_problem, a[cidx] => {x[ridx] >= 0})
+        @constraint(master_problem, !a[cidx] => {x[ridx] <= 0})
     end
     # open("../csv/master_problem_with_binaries.lp", "w") do f
     #     print(f, master_problem)
     # end
+    write_to_file(master_problem, "../csv/models/cb_master_iAF692.lp")
 end
 
 """
