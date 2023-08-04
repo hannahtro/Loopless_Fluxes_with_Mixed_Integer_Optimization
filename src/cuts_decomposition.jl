@@ -507,12 +507,12 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
 
     @show termination
     @show objective_value
-    @show length(solution), num_reactions, length(internal_rxn_idxs)
-    solution_flux = solution[1:num_reactions]
-    @show length(solution_flux)
-    solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
-    @show length(solution_direction)
-    @assert is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001, check_thermodynamic_feasibility=false)
+    # test feasibiliy
+    if termination == MOI.OPTIMAL
+        solution_flux = solution[1:num_reactions]
+        solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
+        @assert is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001)
+    end
     df = DataFrame(
         objective_value=objective_value, 
         dual_bounds=[dual_bounds],
