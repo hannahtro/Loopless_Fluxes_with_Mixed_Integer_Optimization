@@ -2,6 +2,7 @@ using Dates
 using HiGHS
 using Dualization 
 
+include("utils.jl")
 include("optimization_model.jl")
 include("loopless_constraints.jl")
 
@@ -372,6 +373,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     objective_values = []
     cuts = []
 
+    optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
+    @assert length(optimal_solution) == 2558
     # solve master problem
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=false)
     build_master_problem(master_problem, internal_rxn_idxs)   
@@ -417,7 +420,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
 
         # test if optimal solution is still feasible
-        # is_feasible(master_problem.moi_backend.optimizer.model, solution_master[1:num_reactions], solution_a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001, check_thermodynamic_feasibility=false)
+        @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.0001, check_thermodynamic_feasibility=false)
 
         # println("_______________")
         # println("master problem")
