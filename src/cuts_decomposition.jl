@@ -43,33 +43,39 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
         @show iter
         @assert isapprox(round.(solution_a), solution_a, atol=1e-4)
 
-        Z = []
-        O = []
-        for (idx, ridx) in enumerate(internal_rxn_idxs)
-            if solution_a[idx] > 1e-4 
-                push!(O,idx)
-            else 
-                push!(Z,idx)
-            end
-        end 
+        C = [i for i in 1:length(internal_rxn_idxs)]
+        add_combinatorial_benders_cut(model, solution_a, C, cuts)
+        # Z = []
+        # O = []
+        # for (idx, ridx) in enumerate(internal_rxn_idxs)
+        #     if solution_a[idx] > 1e-4 
+        #         push!(O, idx)
+        #     else 
+        #         push!(Z, idx)
+        #     end
+        # end 
 
-        cut = @constraint(model, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(internal_rxn_idxs) - 1)
-        @assert !(cut in cuts)
-        push!(cuts,[cut])
+        # cut = @constraint(model, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(internal_rxn_idxs) - 1)
+        # @assert !(cut in cuts)
+        # push!(cuts,[cut])
 
-        objective_value, dual_bound, solution, _, termination = optimize_model(model)
+        objective_value, dual_bound, solution, _, termination = optimize_model(model, time_limit=time_limit)
         
         if termination != MOI.OPTIMAL
+            if termination == MOI.TIME_LIMIT
+                @warn "master problem cannot be solved"
+            end
             end_time = time()
             time_taken = end_time - start_time
-            return objective_value, dual_bounds, solution, time_taken, termination, iter
+            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
+            return objective_value, dual_bounds, solution, time_taken, termination, iter, feasible
         end
 
         solution = round.(solution, digits=5)
         solution_a = solution[num_reactions+1:end]
 
         @assert solutions[end][num_reactions+1:end] != solution_a # ensures that solutions differ
-        @assert sum(solution_a[O]) + sum([1-solution_a[i] for i in Z]) <= length(internal_rxn_idxs) - 1
+        # @assert sum(solution_a[O]) + sum([1-solution_a[i] for i in Z]) <= length(internal_rxn_idxs) - 1
         @assert !(solution in solutions)
         push!(solutions,solution)
         push!(dual_bounds, dual_bound)
@@ -79,8 +85,11 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     end_time = time()
     time_taken = end_time - start_time
     # @show time_taken
-
-    return objective_value, dual_bounds, solution, time_taken, termination, iter
+    feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
+    if time_taken < time_limit
+        @assert feasible
+    end
+    return objective_value, dual_bounds, solution, time_taken, termination, iter, feasible
 end
 
 function no_good_cuts_data(organism; time_limit=1800, csv=true)
@@ -97,7 +106,8 @@ function no_good_cuts_data(organism; time_limit=1800, csv=true)
     ]
 
     model = build_fba_model(S, lb, ub)
-    objective_value, dual_bounds, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+    objective_value, dual_bounds, solution, time, termination, iter, thermo_feasible = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+    @show thermo_feasible
 
     if termination == MOI.OPTIMAL
         thermo_feasible = thermo_feasible_mu(internal_rxn_idxs, solution[num_reactions+1:end], S)
@@ -142,7 +152,7 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     # open("../csv/master_problem_with_binaries.lp", "w") do f
     #     print(f, master_problem)
     # end
-    write_to_file(master_problem, "../csv/models/cb_master_iAF692.lp")
+    write_to_file(master_problem, "../csv/models/cb_master_iAF692.mps")
 end
 
 """
@@ -158,8 +168,8 @@ function build_master_problem_complementary(master_problem, internal_rxn_idxs)
     b = @variable(master_problem, b[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
         # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] >= 0})
-        @constraint(master_problem, b[cidx] => {x[ridx] <= 0})
+        @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
+        @constraint(master_problem, b[cidx] => {x[ridx] <= 0.0000001})
         # complementary indicator variable
         @constraint(master_problem, b[cidx] == 1-a[cidx])
     end
@@ -264,7 +274,9 @@ end
 
 """
 adds combinatorial Benders' cut to the master problem, by forcing a different assignment of the indicator variables
-of the reactions in the minimal infeasible subset C
+of the reactions in the minimal infeasible subset C.
+
+C contains indices of internal reactions in 1:length(internal_rxn_idxs)
 """
 function add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
     a = master_problem[:a]
@@ -272,9 +284,9 @@ function add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
     O = []
     for idx in C
         if solution_a[idx] > 0.000001 
-            push!(O,idx)
+            push!(O, idx)
         else 
-            push!(Z,idx)
+            push!(Z, idx)
         end
     end 
     # @show Z,O
@@ -375,8 +387,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     cuts = []
 
     # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
-    # @assert length(optimal_solution) == 2558
     # solve master problem
+    # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     build_master_problem(master_problem, internal_rxn_idxs)   
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
@@ -421,7 +433,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
 
         # test if optimal solution is still feasible
-        # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001, check_thermodynamic_feasibility=false)
+        # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_thermodynamic_feasibility=false)
 
         # println("_______________")
         # println("master problem")
@@ -429,6 +441,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         @assert !(round.(solution_master, digits=5) in solutions)
         if termination_master != MOI.OPTIMAL
             @warn "master problem cannot be solved"
+            @show termination_master
             end_time = time()
             time_taken = end_time - start_time
             return NaN, NaN, NaN, NaN, time_taken, termination_master, iter, cuts
@@ -502,8 +515,9 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if !isinf(time_limit)
         set_time_limit_sec(master_problem, time_limit)
     end    
+    # MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
     @show MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"))
-    # MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-9)
+    # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
     objective_value, objective_values, dual_bounds, solution, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit)
 
@@ -515,7 +529,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
         end
     end
 
-    @show termination
+    @show termination # sub problem => thermodynamic feasibility
     @show objective_value
     # test feasibiliy
     if termination == MOI.OPTIMAL
@@ -606,13 +620,13 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
         for (idx, a) in enumerate(solution_direction)
             if isapprox(a, 1, atol=tol)
                 if solution_flux_internal_rxns[idx] < 0 - tol
-                    # @show solution_flux_internal_rxns[idx]
+                    @show solution_flux_internal_rxns[idx]
                     println("solution does not respect indicator constraint")
                     return false 
                 end 
             elseif isapprox(a, 0, atol=tol)
                 if solution_flux_internal_rxns[idx] > 0 + tol
-                    # @show solution_flux_internal_rxns[idx]
+                    @show solution_flux_internal_rxns[idx]
                     println("solution does not respect indicator constraint")
                     return false 
                 end 

@@ -36,7 +36,7 @@ include("../src/constraint_handler.jl")
 #     println("combinatorial Benders")
 #     # combinatorial Benders'
 #     model = build_fba_model(S, lb, ub, set_objective=true)
-#     objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, time_cb, termination_cb, iter_cb = combinatorial_benders(model, internal_rxn_idxs, S, fast=false)
+#     objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, time_cb, termination_cb, iter_cb = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=false)
 #     @show objective_value_cb, solution_cb
 #     @test termination_cb == MOI.OPTIMAL 
 #     feasible = thermo_feasible(internal_rxn_idxs, solution_cb[internal_rxn_idxs], S)
@@ -51,7 +51,7 @@ include("../src/constraint_handler.jl")
 #     # fast combinatorial Benders'
 #     model = build_fba_model(S, lb, ub, set_objective=true)
 #     # print(model)
-#     objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, fast=true)
+#     objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
 #     @test termination_fast == MOI.OPTIMAL 
 #     feasible = thermo_feasible(internal_rxn_idxs, solution_fast[internal_rxn_idxs], S)
 #     @test feasible
@@ -60,7 +60,7 @@ include("../src/constraint_handler.jl")
 #     @test iter_cb >= iter_fast
 #     # @test time >= time_fast
 #     @test isapprox(objective_value_cb, objective_value_fast)
-#     @test solution_cb[1:num_reactions] == solution_fast[1:num_reactions]
+#     @test isapprox(solution_cb[1:num_reactions], solution_fast[1:num_reactions], atol=0.00001)
 #     @show objective_value_fast, solution_fast
 #     println("--------------------------------------------------------")
 
@@ -117,13 +117,13 @@ include("../src/constraint_handler.jl")
 #     println("combinatorial Benders")
 #     # combinatorial Benders'
 #     model = make_optimization_model(molecular_model, SCIP.Optimizer)
-#     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=false)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=false)
 #     println("--------------------------------------------------------")
 
 #     println("fast combinatorial Benders")
 #     # fast combinatorial Benders'
 #     model = make_optimization_model(molecular_model, SCIP.Optimizer)
-#     combinatorial_benders(model, internal_rxn_idxs, S, max_iter=5, fast=true)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true)
 #     println("--------------------------------------------------------")
     
 #     println("constraint handler")
@@ -154,11 +154,15 @@ println("--------------------------------------------------------")
 # constraint_handler_data("iAF692", csv=true, silent=false)
 # combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=true)
 
-organism = "iAF692"
+# organism = "iAF692"
 # combinatorial_benders_data(organism, time_limit=600, csv=true, fast=false, silent=false)
-combinatorial_benders_data(organism, time_limit=600, csv=true, fast=true, silent=true)
+# combinatorial_benders_data(organism, time_limit=600, csv=false, fast=true, silent=false)
+# no_good_cuts_data(organism, time_limit=60)
 
-# no_good_cuts_data(organism, time_limit=600)
+organism = "iJR904"
+# combinatorial_benders_data(organism, time_limit=600, csv=true, fast=false, silent=true)
+combinatorial_benders_data(organism, time_limit=600, csv=true, fast=true, silent=true)
+# no_good_cuts_data(organism, time_limit=60)
 
 # organisms = ["iAF692", "iJR904", "iML1515", "e_coli_core", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
