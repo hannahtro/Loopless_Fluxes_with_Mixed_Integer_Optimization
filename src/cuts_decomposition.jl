@@ -536,9 +536,13 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if termination == MOI.OPTIMAL
         solution_flux = solution[1:num_reactions]
         solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
-        @assert is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001)
+        thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001)
+        @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
+    else 
+        thermo_feasible = false 
     end
+
     df = DataFrame(
         objective_value=objective_value, 
         dual_bounds=[dual_bounds],
@@ -547,6 +551,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
         time=time, 
         termination=termination,
         time_limit=time_limit, 
+        thermo_feasible=thermo_feasible,
         iter=iter)
 
     type = "combinatorial_benders"
