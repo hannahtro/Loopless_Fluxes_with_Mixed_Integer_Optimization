@@ -1,803 +1,4190 @@
-organism = "e_coli_core"
-presolving:
-(round 1, fast)       37 del vars, 223 del conss, 0 add conss, 127 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       45 del vars, 224 del conss, 0 add conss, 133 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       45 del vars, 224 del conss, 0 add conss, 133 chg bounds, 3 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) running MILP presolver
-   (0.0s) MILP presolver (3 rounds): 3 aggregations, 0 fixings, 0 bound changes
-(round 4, medium)     48 del vars, 224 del conss, 0 add conss, 133 chg bounds, 3 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       48 del vars, 227 del conss, 0 add conss, 133 chg bounds, 3 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 6, exhaustive) 48 del vars, 232 del conss, 0 add conss, 133 chg bounds, 3 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 2/212 (0.9%) nonzeros canceled - in total 2 canceled nonzeros, 4 changed coefficients, 0 added nonzeros
-(round 7, exhaustive) 48 del vars, 232 del conss, 0 add conss, 133 chg bounds, 3 chg sides, 4 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 2/210 (1.0%) nonzeros canceled - in total 4 canceled nonzeros, 8 changed coefficients, 0 added nonzeros
-(round 8, exhaustive) 48 del vars, 232 del conss, 0 add conss, 133 chg bounds, 3 chg sides, 8 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) no symmetry present
-presolving (9 rounds: 9 fast, 5 medium, 4 exhaustive):
- 48 deleted vars, 232 deleted constraints, 0 added constraints, 133 tightened bounds, 0 added holes, 3 changed sides, 8 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 47 variables (0 bin, 0 int, 0 impl, 47 cont) and 30 constraints
-     30 constraints of type <linear>
-Presolving Time: 0.00
+--------------------------------------------------------
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-* 0.0s|     1 |     0 |    39 |     - |    LP  |   0 |  47 |  30 |  30 |   0 |  0 |   0 |   0 | 8.739215e-01 | 8.739215e-01 |   0.00%| unknown
-  0.0s|     1 |     0 |    39 |     - |  1505k |   0 |  47 |  30 |  30 |   0 |  0 |   0 |   0 | 8.739215e-01 | 8.739215e-01 |   0.00%| unknown
+organism
+----------------------------------
+number of metabolites : 72
+number of reactions : 95
+number of genes : 137
+objective function: Dict("BIOMASS_Ecoli_core_w_GAM" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.01
-Solving Nodes      : 1
-Primal Bound       : +8.73921506968430e-01 (1 solutions)
-Dual Bound         : +8.73921506968430e-01
-Gap                : 0.00 %
-presolving:
-(round 1, fast)       38 del vars, 283 del conss, 0 add conss, 278 chg bounds, 0 chg sides, 2 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 2, fast)       41 del vars, 283 del conss, 0 add conss, 283 chg bounds, 0 chg sides, 4 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 3, fast)       41 del vars, 284 del conss, 0 add conss, 283 chg bounds, 2 chg sides, 4 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 4, fast)       41 del vars, 284 del conss, 0 add conss, 333 chg bounds, 2 chg sides, 4 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 5, fast)       66 del vars, 334 del conss, 0 add conss, 333 chg bounds, 2 chg sides, 29 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 6, fast)       87 del vars, 351 del conss, 0 add conss, 333 chg bounds, 2 chg sides, 29 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 7, fast)       88 del vars, 351 del conss, 0 add conss, 333 chg bounds, 2 chg sides, 29 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 8, fast)       88 del vars, 351 del conss, 0 add conss, 333 chg bounds, 3 chg sides, 29 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-   (0.0s) running MILP presolver
-   (0.0s) MILP presolver (20 rounds): 27 aggregations, 1 fixings, 6 bound changes
-(round 9, medium)     116 del vars, 575 del conss, 123 add conss, 339 chg bounds, 3 chg sides, 29 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
-(round 10, fast)       116 del vars, 575 del conss, 123 add conss, 342 chg bounds, 3 chg sides, 29 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
-(round 11, fast)       116 del vars, 575 del conss, 123 add conss, 342 chg bounds, 5 chg sides, 31 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
-(round 12, exhaustive) 116 del vars, 576 del conss, 123 add conss, 342 chg bounds, 5 chg sides, 31 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
-(round 13, exhaustive) 116 del vars, 576 del conss, 123 add conss, 342 chg bounds, 5 chg sides, 31 chg coeffs, 73 upgd conss, 16 impls, 0 clqs
-   (0.0s) probing cycle finished: starting next cycle
-(round 14, exhaustive) 116 del vars, 576 del conss, 123 add conss, 342 chg bounds, 5 chg sides, 60 chg coeffs, 73 upgd conss, 220 impls, 2 clqs
-(round 15, fast)       116 del vars, 584 del conss, 130 add conss, 348 chg bounds, 5 chg sides, 60 chg coeffs, 73 upgd conss, 220 impls, 2 clqs
-(round 16, exhaustive) 116 del vars, 584 del conss, 130 add conss, 348 chg bounds, 5 chg sides, 60 chg coeffs, 75 upgd conss, 220 impls, 2 clqs
-   (0.0s) probing cycle finished: starting next cycle
-   (0.0s) symmetry computation started: requiring (bin +, int -, cont +), (fixed: bin -, int +, cont -)
-   (0.0s) symmetry computation finished: 5 generators found (max: 1500, log10 of symmetry group size: 1.7)
-(round 17, exhaustive) 116 del vars, 584 del conss, 134 add conss, 348 chg bounds, 5 chg sides, 60 chg coeffs, 75 upgd conss, 224 impls, 3 clqs
-presolving (18 rounds: 18 fast, 7 medium, 6 exhaustive):
- 116 deleted vars, 584 deleted constraints, 134 added constraints, 348 tightened bounds, 0 added holes, 5 changed sides, 60 changed coefficients
- 224 implications, 3 cliques
-presolved problem has 129 variables (51 bin, 0 int, 0 impl, 78 cont) and 125 constraints
-     68 constraints of type <varbound>
-     53 constraints of type <linear>
-      4 constraints of type <orbitope>
-Presolving Time: 0.01
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+iter = 157
+iter = 158
+iter = 159
+iter = 160
+iter = 161
+iter = 162
+iter = 163
+iter = 164
+iter = 165
+iter = 166
+iter = 167
+iter = 168
+iter = 169
+iter = 170
+iter = 171
+iter = 172
+iter = 173
+iter = 174
+iter = 175
+iter = 176
+iter = 177
+iter = 178
+iter = 179
+iter = 180
+iter = 181
+iter = 182
+iter = 183
+iter = 184
+iter = 185
+iter = 186
+iter = 187
+iter = 188
+iter = 189
+iter = 190
+iter = 191
+iter = 192
+iter = 193
+iter = 194
+iter = 195
+iter = 196
+iter = 197
+iter = 198
+iter = 199
+iter = 200
+iter = 201
+iter = 202
+iter = 203
+iter = 204
+iter = 205
+iter = 206
+iter = 207
+iter = 208
+iter = 209
+iter = 210
+iter = 211
+iter = 212
+iter = 213
+iter = 214
+iter = 215
+iter = 216
+iter = 217
+iter = 218
+iter = 219
+iter = 220
+iter = 221
+iter = 222
+iter = 223
+iter = 224
+iter = 225
+iter = 226
+iter = 227
+iter = 228
+iter = 229
+iter = 230
+iter = 231
+iter = 232
+iter = 233
+iter = 234
+iter = 235
+iter = 236
+iter = 237
+iter = 238
+iter = 239
+iter = 240
+iter = 241
+iter = 242
+iter = 243
+iter = 244
+iter = 245
+iter = 246
+iter = 247
+iter = 248
+iter = 249
+iter = 250
+iter = 251
+iter = 252
+iter = 253
+iter = 254
+iter = 255
+iter = 256
+iter = 257
+iter = 258
+iter = 259
+iter = 260
+iter = 261
+iter = 262
+iter = 263
+iter = 264
+iter = 265
+iter = 266
+iter = 267
+iter = 268
+iter = 269
+iter = 270
+iter = 271
+iter = 272
+iter = 273
+iter = 274
+iter = 275
+iter = 276
+iter = 277
+iter = 278
+iter = 279
+iter = 280
+iter = 281
+iter = 282
+iter = 283
+iter = 284
+iter = 285
+iter = 286
+iter = 287
+iter = 288
+iter = 289
+iter = 290
+iter = 291
+iter = 292
+iter = 293
+iter = 294
+iter = 295
+iter = 296
+iter = 297
+iter = 298
+iter = 299
+iter = 300
+iter = 301
+iter = 302
+iter = 303
+iter = 304
+iter = 305
+iter = 306
+iter = 307
+iter = 308
+iter = 309
+iter = 310
+iter = 311
+iter = 312
+iter = 313
+iter = 314
+iter = 315
+iter = 316
+iter = 317
+iter = 318
+iter = 319
+iter = 320
+iter = 321
+iter = 322
+iter = 323
+iter = 324
+iter = 325
+iter = 326
+iter = 327
+iter = 328
+iter = 329
+iter = 330
+iter = 331
+iter = 332
+iter = 333
+iter = 334
+iter = 335
+iter = 336
+iter = 337
+iter = 338
+iter = 339
+iter = 340
+iter = 341
+iter = 342
+iter = 343
+iter = 344
+iter = 345
+iter = 346
+iter = 347
+iter = 348
+iter = 349
+iter = 350
+iter = 351
+iter = 352
+iter = 353
+iter = 354
+iter = 355
+iter = 356
+iter = 357
+iter = 358
+iter = 359
+iter = 360
+iter = 361
+iter = 362
+iter = 363
+iter = 364
+iter = 365
+iter = 366
+iter = 367
+iter = 368
+iter = 369
+iter = 370
+iter = 371
+iter = 372
+iter = 373
+iter = 374
+iter = 375
+iter = 376
+iter = 377
+iter = 378
+iter = 379
+iter = 380
+iter = 381
+iter = 382
+iter = 383
+iter = 384
+iter = 385
+iter = 386
+iter = 387
+iter = 388
+iter = 389
+iter = 390
+iter = 391
+iter = 392
+iter = 393
+iter = 394
+iter = 395
+iter = 396
+iter = 397
+iter = 398
+iter = 399
+iter = 400
+iter = 401
+iter = 402
+iter = 403
+iter = 404
+iter = 405
+iter = 406
+iter = 407
+iter = 408
+iter = 409
+iter = 410
+iter = 411
+iter = 412
+iter = 413
+iter = 414
+iter = 415
+iter = 416
+iter = 417
+iter = 418
+iter = 419
+iter = 420
+iter = 421
+iter = 422
+iter = 423
+iter = 424
+iter = 425
+iter = 426
+iter = 427
+iter = 428
+iter = 429
+iter = 430
+iter = 431
+iter = 432
+iter = 433
+iter = 434
+iter = 435
+iter = 436
+iter = 437
+iter = 438
+iter = 439
+iter = 440
+iter = 441
+iter = 442
+iter = 443
+iter = 444
+iter = 445
+iter = 446
+iter = 447
+iter = 448
+iter = 449
+iter = 450
+iter = 451
+iter = 452
+iter = 453
+iter = 454
+iter = 455
+iter = 456
+iter = 457
+iter = 458
+iter = 459
+iter = 460
+iter = 461
+iter = 462
+iter = 463
+iter = 464
+iter = 465
+iter = 466
+iter = 467
+iter = 468
+iter = 469
+iter = 470
+iter = 471
+iter = 472
+iter = 473
+iter = 474
+iter = 475
+iter = 476
+iter = 477
+iter = 478
+iter = 479
+iter = 480
+iter = 481
+iter = 482
+iter = 483
+iter = 484
+iter = 485
+iter = 486
+iter = 487
+iter = 488
+iter = 489
+iter = 490
+iter = 491
+iter = 492
+iter = 493
+iter = 494
+iter = 495
+iter = 496
+iter = 497
+iter = 498
+iter = 499
+iter = 500
+iter = 501
+iter = 502
+iter = 503
+iter = 504
+iter = 505
+iter = 506
+iter = 507
+iter = 508
+iter = 509
+iter = 510
+iter = 511
+iter = 512
+iter = 513
+iter = 514
+iter = 515
+iter = 516
+iter = 517
+iter = 518
+iter = 519
+iter = 520
+iter = 521
+iter = 522
+iter = 523
+iter = 524
+iter = 525
+iter = 526
+iter = 527
+iter = 528
+iter = 529
+iter = 530
+iter = 531
+iter = 532
+iter = 533
+iter = 534
+iter = 535
+iter = 536
+iter = 537
+iter = 538
+iter = 539
+iter = 540
+iter = 541
+iter = 542
+iter = 543
+iter = 544
+iter = 545
+iter = 546
+iter = 547
+iter = 548
+iter = 549
+iter = 550
+iter = 551
+iter = 552
+iter = 553
+iter = 554
+iter = 555
+iter = 556
+iter = 557
+iter = 558
+iter = 559
+iter = 560
+iter = 561
+iter = 562
+iter = 563
+iter = 564
+iter = 565
+iter = 566
+iter = 567
+iter = 568
+iter = 569
+iter = 570
+iter = 571
+iter = 572
+iter = 573
+iter = 574
+iter = 575
+iter = 576
+iter = 577
+iter = 578
+iter = 579
+iter = 580
+iter = 581
+iter = 582
+iter = 583
+iter = 584
+iter = 585
+iter = 586
+iter = 587
+iter = 588
+iter = 589
+iter = 590
+iter = 591
+iter = 592
+iter = 593
+iter = 594
+iter = 595
+iter = 596
+iter = 597
+iter = 598
+iter = 599
+iter = 600
+iter = 601
+iter = 602
+iter = 603
+iter = 604
+iter = 605
+iter = 606
+iter = 607
+iter = 608
+iter = 609
+iter = 610
+iter = 611
+iter = 612
+iter = 613
+iter = 614
+iter = 615
+iter = 616
+iter = 617
+iter = 618
+iter = 619
+iter = 620
+iter = 621
+iter = 622
+iter = 623
+iter = 624
+iter = 625
+iter = 626
+iter = 627
+iter = 628
+iter = 629
+iter = 630
+iter = 631
+iter = 632
+iter = 633
+iter = 634
+iter = 635
+iter = 636
+iter = 637
+iter = 638
+iter = 639
+iter = 640
+iter = 641
+iter = 642
+iter = 643
+iter = 644
+iter = 645
+iter = 646
+iter = 647
+iter = 648
+iter = 649
+iter = 650
+iter = 651
+iter = 652
+iter = 653
+iter = 654
+iter = 655
+iter = 656
+iter = 657
+iter = 658
+iter = 659
+iter = 660
+iter = 661
+iter = 662
+iter = 663
+iter = 664
+iter = 665
+iter = 666
+iter = 667
+iter = 668
+iter = 669
+iter = 670
+iter = 671
+iter = 672
+iter = 673
+iter = 674
+iter = 675
+iter = 676
+iter = 677
+iter = 678
+iter = 679
+iter = 680
+iter = 681
+iter = 682
+iter = 683
+iter = 684
+iter = 685
+iter = 686
+iter = 687
+iter = 688
+iter = 689
+iter = 690
+iter = 691
+iter = 692
+iter = 693
+iter = 694
+iter = 695
+iter = 696
+iter = 697
+iter = 698
+iter = 699
+iter = 700
+iter = 701
+iter = 702
+iter = 703
+iter = 704
+iter = 705
+iter = 706
+iter = 707
+iter = 708
+iter = 709
+iter = 710
+iter = 711
+iter = 712
+iter = 713
+iter = 714
+iter = 715
+iter = 716
+iter = 717
+iter = 718
+iter = 719
+iter = 720
+iter = 721
+iter = 722
+iter = 723
+iter = 724
+iter = 725
+iter = 726
+iter = 727
+iter = 728
+iter = 729
+iter = 730
+iter = 731
+iter = 732
+iter = 733
+iter = 734
+iter = 735
+iter = 736
+iter = 737
+iter = 738
+iter = 739
+iter = 740
+iter = 741
+iter = 742
+iter = 743
+iter = 744
+iter = 745
+iter = 746
+iter = 747
+iter = 748
+iter = 749
+iter = 750
+iter = 751
+iter = 752
+iter = 753
+iter = 754
+iter = 755
+iter = 756
+iter = 757
+iter = 758
+iter = 759
+iter = 760
+iter = 761
+iter = 762
+iter = 763
+iter = 764
+iter = 765
+iter = 766
+iter = 767
+iter = 768
+iter = 769
+iter = 770
+iter = 771
+iter = 772
+iter = 773
+iter = 774
+iter = 775
+iter = 776
+iter = 777
+iter = 778
+iter = 779
+iter = 780
+iter = 781
+iter = 782
+iter = 783
+iter = 784
+iter = 785
+iter = 786
+iter = 787
+iter = 788
+iter = 789
+iter = 790
+iter = 791
+iter = 792
+iter = 793
+iter = 794
+iter = 795
+iter = 796
+iter = 797
+iter = 798
+iter = 799
+iter = 800
+iter = 801
+iter = 802
+iter = 803
+iter = 804
+iter = 805
+iter = 806
+iter = 807
+iter = 808
+iter = 809
+iter = 810
+iter = 811
+iter = 812
+iter = 813
+iter = 814
+iter = 815
+iter = 816
+iter = 817
+iter = 818
+iter = 819
+iter = 820
+iter = 821
+iter = 822
+iter = 823
+iter = 824
+iter = 825
+iter = 826
+iter = 827
+iter = 828
+iter = 829
+iter = 830
+iter = 831
+iter = 832
+iter = 833
+iter = 834
+iter = 835
+iter = 836
+iter = 837
+iter = 838
+iter = 839
+iter = 840
+iter = 841
+iter = 842
+iter = 843
+iter = 844
+iter = 845
+iter = 846
+iter = 847
+iter = 848
+iter = 849
+iter = 850
+iter = 851
+iter = 852
+iter = 853
+iter = 854
+iter = 855
+iter = 856
+iter = 857
+iter = 858
+iter = 859
+iter = 860
+iter = 861
+iter = 862
+iter = 863
+iter = 864
+iter = 865
+iter = 866
+iter = 867
+iter = 868
+iter = 869
+iter = 870
+iter = 871
+iter = 872
+iter = 873
+iter = 874
+iter = 875
+iter = 876
+iter = 877
+iter = 878
+iter = 879
+thermo_feasible = true
+fast = false
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   141 |     - |  4884k |   0 | 129 | 127 | 121 |   0 |  0 |   2 |   0 | 8.739215e-01 |      --      |    Inf | unknown
-o 0.0s|     1 |     0 |   248 |     - |feaspump|   0 | 129 | 128 | 121 |   0 |  0 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   248 |     - |  4924k |   0 | 129 | 128 | 121 |   0 |  0 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   272 |     - |  5177k |   0 | 129 | 128 | 124 |   3 |  1 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   273 |     - |  5190k |   0 | 129 | 128 | 125 |   4 |  2 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   274 |     - |  5280k |   0 | 129 | 128 | 126 |   5 |  3 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   276 |     - |  5293k |   0 | 129 | 128 | 127 |   6 |  4 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   282 |     - |  5306k |   0 | 129 | 128 | 129 |   8 |  5 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   288 |     - |  5334k |   0 | 129 | 128 | 131 |  10 |  6 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   290 |     - |  5414k |   0 | 129 | 128 | 133 |  12 |  7 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   291 |     - |  5428k |   0 | 129 | 128 | 134 |  13 |  8 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   293 |     - |  5446k |   0 | 129 | 128 | 136 |  15 |  9 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   298 |     - |  5461k |   0 | 129 | 128 | 137 |  16 | 10 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   302 |     - |  5475k |   0 | 129 | 128 | 138 |  17 | 11 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   302 |     - |  5476k |   0 | 129 | 128 | 138 |  17 | 11 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   304 |     - |  5490k |   0 | 129 | 128 | 140 |  19 | 12 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   306 |     - |  5512k |   0 | 129 | 128 | 141 |  20 | 13 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   307 |     - |  5527k |   0 | 129 | 128 | 142 |  21 | 14 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   308 |     - |  5542k |   0 | 129 | 128 | 143 |  22 | 16 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   310 |     - |  5563k |   0 | 129 | 128 | 137 |  24 | 17 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   311 |     - |  5563k |   0 | 129 | 128 | 138 |  25 | 18 |   3 |   0 | 8.739215e-01 | 0.000000e+00 |    Inf | unknown
-r 0.0s|     1 |     0 |   321 |     - |intshift|   0 | 129 | 128 | 138 |  25 | 20 |   3 |   0 | 8.739215e-01 | 8.657156e-01 |   0.95%| unknown
-L 0.1s|     1 |     0 |   328 |     - |    rens|   0 | 129 | 129 | 138 |  25 | 20 |  12 |   0 | 8.739215e-01 | 8.739215e-01 |   0.00%| unknown
-  0.1s|     1 |     0 |   328 |     - |  5566k |   0 | 129 | 129 | 138 |  25 | 20 |  12 |   0 | 8.739215e-01 | 8.739215e-01 |   0.00%| unknown
+organism
+----------------------------------
+number of metabolites : 72
+number of reactions : 95
+number of genes : 137
+objective function: Dict("BIOMASS_Ecoli_core_w_GAM" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.05
-Solving Nodes      : 1
-Primal Bound       : +8.73921506968430e-01 (3 solutions)
-Dual Bound         : +8.73921506968430e-01
-Gap                : 0.00 %
-organism = "iNF517"
-presolving:
-(round 1, fast)       414 del vars, 1909 del conss, 0 add conss, 1020 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       504 del vars, 1991 del conss, 0 add conss, 1151 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       519 del vars, 2006 del conss, 0 add conss, 1189 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       522 del vars, 2010 del conss, 0 add conss, 1196 chg bounds, 6 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       523 del vars, 2011 del conss, 0 add conss, 1197 chg bounds, 6 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) running MILP presolver
-   (0.0s) MILP presolver (7 rounds): 24 aggregations, 12 fixings, 4 bound changes
-(round 6, medium)     559 del vars, 2011 del conss, 0 add conss, 1201 chg bounds, 6 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 7, fast)       559 del vars, 2040 del conss, 0 add conss, 1204 chg bounds, 6 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 8, exhaustive) 559 del vars, 2043 del conss, 0 add conss, 1204 chg bounds, 6 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 9, exhaustive) 560 del vars, 2043 del conss, 0 add conss, 1204 chg bounds, 6 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 75/1086 (6.9%) nonzeros canceled - in total 75 canceled nonzeros, 84 changed coefficients, 0 added nonzeros
-(round 10, exhaustive) 560 del vars, 2043 del conss, 0 add conss, 1204 chg bounds, 6 chg sides, 84 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 11, fast)       564 del vars, 2047 del conss, 0 add conss, 1217 chg bounds, 6 chg sides, 84 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 12, fast)       566 del vars, 2049 del conss, 0 add conss, 1219 chg bounds, 6 chg sides, 84 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 6/966 (0.6%) nonzeros canceled - in total 81 canceled nonzeros, 95 changed coefficients, 0 added nonzeros
-(round 13, exhaustive) 566 del vars, 2049 del conss, 0 add conss, 1219 chg bounds, 6 chg sides, 95 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 14, exhaustive) 566 del vars, 2049 del conss, 0 add conss, 1219 chg bounds, 6 chg sides, 183 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 15, fast)       566 del vars, 2049 del conss, 0 add conss, 1222 chg bounds, 6 chg sides, 183 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 16, fast)       567 del vars, 2049 del conss, 0 add conss, 1222 chg bounds, 6 chg sides, 183 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) symmetry computation finished: 2 generators found (max: 1500, log10 of symmetry group size: 0.6)
-   (0.0s) no symmetry on binary variables present.
-(round 17, exhaustive) 567 del vars, 2049 del conss, 2 add conss, 1222 chg bounds, 6 chg sides, 183 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (18 rounds: 18 fast, 8 medium, 7 exhaustive):
- 567 deleted vars, 2049 deleted constraints, 2 added constraints, 1222 tightened bounds, 0 added holes, 6 changed sides, 183 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 187 variables (0 bin, 0 int, 0 impl, 187 cont) and 111 constraints
-    111 constraints of type <linear>
-Presolving Time: 0.02
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+WARNING: Dual bound 0.873853 is smaller than the objective of the primal solution 0.873922. The solution might not be optimal.
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+iter = 157
+iter = 158
+iter = 159
+iter = 160
+iter = 161
+iter = 162
+iter = 163
+iter = 164
+iter = 165
+iter = 166
+iter = 167
+iter = 168
+iter = 169
+iter = 170
+iter = 171
+iter = 172
+iter = 173
+iter = 174
+iter = 175
+iter = 176
+iter = 177
+iter = 178
+iter = 179
+iter = 180
+iter = 181
+iter = 182
+iter = 183
+iter = 184
+iter = 185
+iter = 186
+iter = 187
+iter = 188
+iter = 189
+iter = 190
+iter = 191
+iter = 192
+iter = 193
+iter = 194
+iter = 195
+iter = 196
+iter = 197
+iter = 198
+iter = 199
+iter = 200
+iter = 201
+iter = 202
+iter = 203
+iter = 204
+iter = 205
+iter = 206
+iter = 207
+iter = 208
+iter = 209
+iter = 210
+iter = 211
+iter = 212
+iter = 213
+iter = 214
+iter = 215
+iter = 216
+iter = 217
+iter = 218
+iter = 219
+iter = 220
+iter = 221
+iter = 222
+iter = 223
+iter = 224
+iter = 225
+iter = 226
+iter = 227
+iter = 228
+iter = 229
+iter = 230
+iter = 231
+iter = 232
+iter = 233
+iter = 234
+iter = 235
+iter = 236
+iter = 237
+iter = 238
+iter = 239
+iter = 240
+iter = 241
+iter = 242
+iter = 243
+iter = 244
+iter = 245
+iter = 246
+iter = 247
+iter = 248
+iter = 249
+iter = 250
+iter = 251
+iter = 252
+iter = 253
+iter = 254
+iter = 255
+iter = 256
+iter = 257
+iter = 258
+iter = 259
+iter = 260
+iter = 261
+iter = 262
+iter = 263
+iter = 264
+iter = 265
+iter = 266
+iter = 267
+iter = 268
+iter = 269
+iter = 270
+iter = 271
+iter = 272
+iter = 273
+iter = 274
+iter = 275
+iter = 276
+iter = 277
+iter = 278
+iter = 279
+iter = 280
+iter = 281
+iter = 282
+iter = 283
+iter = 284
+iter = 285
+iter = 286
+iter = 287
+iter = 288
+iter = 289
+iter = 290
+iter = 291
+iter = 292
+iter = 293
+iter = 294
+iter = 295
+iter = 296
+iter = 297
+iter = 298
+iter = 299
+iter = 300
+iter = 301
+iter = 302
+iter = 303
+iter = 304
+iter = 305
+iter = 306
+iter = 307
+iter = 308
+iter = 309
+iter = 310
+iter = 311
+iter = 312
+iter = 313
+iter = 314
+iter = 315
+iter = 316
+iter = 317
+iter = 318
+iter = 319
+iter = 320
+iter = 321
+iter = 322
+iter = 323
+iter = 324
+iter = 325
+iter = 326
+iter = 327
+iter = 328
+iter = 329
+iter = 330
+iter = 331
+iter = 332
+iter = 333
+iter = 334
+iter = 335
+iter = 336
+iter = 337
+iter = 338
+iter = 339
+iter = 340
+iter = 341
+iter = 342
+iter = 343
+iter = 344
+iter = 345
+iter = 346
+iter = 347
+iter = 348
+iter = 349
+iter = 350
+iter = 351
+iter = 352
+iter = 353
+iter = 354
+iter = 355
+iter = 356
+iter = 357
+iter = 358
+iter = 359
+iter = 360
+iter = 361
+iter = 362
+iter = 363
+iter = 364
+iter = 365
+iter = 366
+iter = 367
+iter = 368
+iter = 369
+iter = 370
+iter = 371
+iter = 372
+iter = 373
+iter = 374
+iter = 375
+iter = 376
+iter = 377
+iter = 378
+iter = 379
+iter = 380
+iter = 381
+iter = 382
+iter = 383
+iter = 384
+iter = 385
+iter = 386
+iter = 387
+iter = 388
+iter = 389
+iter = 390
+iter = 391
+iter = 392
+iter = 393
+iter = 394
+iter = 395
+iter = 396
+iter = 397
+iter = 398
+iter = 399
+iter = 400
+iter = 401
+iter = 402
+iter = 403
+iter = 404
+iter = 405
+iter = 406
+iter = 407
+iter = 408
+iter = 409
+iter = 410
+iter = 411
+iter = 412
+iter = 413
+iter = 414
+iter = 415
+iter = 416
+iter = 417
+iter = 418
+iter = 419
+iter = 420
+iter = 421
+iter = 422
+iter = 423
+iter = 424
+iter = 425
+iter = 426
+iter = 427
+iter = 428
+iter = 429
+iter = 430
+iter = 431
+iter = 432
+iter = 433
+iter = 434
+iter = 435
+iter = 436
+iter = 437
+iter = 438
+iter = 439
+iter = 440
+iter = 441
+iter = 442
+iter = 443
+iter = 444
+iter = 445
+iter = 446
+iter = 447
+iter = 448
+iter = 449
+iter = 450
+iter = 451
+iter = 452
+iter = 453
+iter = 454
+iter = 455
+iter = 456
+iter = 457
+iter = 458
+iter = 459
+iter = 460
+iter = 461
+iter = 462
+iter = 463
+iter = 464
+iter = 465
+iter = 466
+iter = 467
+iter = 468
+iter = 469
+iter = 470
+iter = 471
+iter = 472
+iter = 473
+iter = 474
+iter = 475
+iter = 476
+iter = 477
+iter = 478
+iter = 479
+iter = 480
+iter = 481
+iter = 482
+iter = 483
+iter = 484
+iter = 485
+iter = 486
+iter = 487
+iter = 488
+iter = 489
+iter = 490
+iter = 491
+iter = 492
+iter = 493
+iter = 494
+iter = 495
+iter = 496
+iter = 497
+iter = 498
+iter = 499
+iter = 500
+iter = 501
+iter = 502
+iter = 503
+iter = 504
+iter = 505
+iter = 506
+iter = 507
+iter = 508
+iter = 509
+iter = 510
+iter = 511
+iter = 512
+iter = 513
+iter = 514
+iter = 515
+iter = 516
+iter = 517
+iter = 518
+iter = 519
+iter = 520
+iter = 521
+iter = 522
+iter = 523
+iter = 524
+iter = 525
+iter = 526
+iter = 527
+iter = 528
+iter = 529
+iter = 530
+iter = 531
+iter = 532
+iter = 533
+iter = 534
+iter = 535
+iter = 536
+iter = 537
+iter = 538
+iter = 539
+iter = 540
+iter = 541
+iter = 542
+iter = 543
+iter = 544
+iter = 545
+iter = 546
+iter = 547
+iter = 548
+iter = 549
+iter = 550
+iter = 551
+iter = 552
+iter = 553
+iter = 554
+iter = 555
+iter = 556
+iter = 557
+iter = 558
+iter = 559
+iter = 560
+iter = 561
+iter = 562
+iter = 563
+iter = 564
+iter = 565
+iter = 566
+iter = 567
+iter = 568
+iter = 569
+iter = 570
+iter = 571
+iter = 572
+iter = 573
+iter = 574
+iter = 575
+iter = 576
+iter = 577
+iter = 578
+iter = 579
+iter = 580
+iter = 581
+iter = 582
+iter = 583
+iter = 584
+iter = 585
+iter = 586
+iter = 587
+iter = 588
+iter = 589
+iter = 590
+iter = 591
+iter = 592
+iter = 593
+iter = 594
+iter = 595
+iter = 596
+iter = 597
+iter = 598
+iter = 599
+iter = 600
+iter = 601
+iter = 602
+iter = 603
+iter = 604
+iter = 605
+iter = 606
+iter = 607
+iter = 608
+iter = 609
+iter = 610
+iter = 611
+iter = 612
+iter = 613
+iter = 614
+iter = 615
+iter = 616
+iter = 617
+iter = 618
+iter = 619
+iter = 620
+iter = 621
+iter = 622
+iter = 623
+iter = 624
+iter = 625
+iter = 626
+iter = 627
+iter = 628
+iter = 629
+iter = 630
+iter = 631
+iter = 632
+iter = 633
+iter = 634
+iter = 635
+iter = 636
+iter = 637
+iter = 638
+iter = 639
+iter = 640
+iter = 641
+iter = 642
+iter = 643
+iter = 644
+iter = 645
+iter = 646
+iter = 647
+iter = 648
+iter = 649
+iter = 650
+iter = 651
+iter = 652
+iter = 653
+iter = 654
+iter = 655
+iter = 656
+iter = 657
+iter = 658
+iter = 659
+iter = 660
+iter = 661
+iter = 662
+iter = 663
+iter = 664
+iter = 665
+iter = 666
+iter = 667
+iter = 668
+iter = 669
+iter = 670
+iter = 671
+iter = 672
+iter = 673
+iter = 674
+iter = 675
+iter = 676
+iter = 677
+iter = 678
+iter = 679
+iter = 680
+iter = 681
+iter = 682
+iter = 683
+iter = 684
+iter = 685
+iter = 686
+iter = 687
+iter = 688
+iter = 689
+iter = 690
+iter = 691
+iter = 692
+iter = 693
+iter = 694
+iter = 695
+iter = 696
+iter = 697
+iter = 698
+iter = 699
+iter = 700
+iter = 701
+iter = 702
+iter = 703
+iter = 704
+iter = 705
+iter = 706
+iter = 707
+iter = 708
+iter = 709
+iter = 710
+iter = 711
+iter = 712
+iter = 713
+iter = 714
+iter = 715
+iter = 716
+iter = 717
+iter = 718
+iter = 719
+iter = 720
+iter = 721
+iter = 722
+iter = 723
+iter = 724
+iter = 725
+iter = 726
+iter = 727
+iter = 728
+iter = 729
+iter = 730
+iter = 731
+iter = 732
+iter = 733
+iter = 734
+iter = 735
+iter = 736
+iter = 737
+iter = 738
+iter = 739
+iter = 740
+iter = 741
+iter = 742
+iter = 743
+iter = 744
+iter = 745
+iter = 746
+iter = 747
+iter = 748
+iter = 749
+iter = 750
+iter = 751
+iter = 752
+iter = 753
+iter = 754
+iter = 755
+iter = 756
+iter = 757
+iter = 758
+iter = 759
+iter = 760
+iter = 761
+iter = 762
+iter = 763
+iter = 764
+iter = 765
+iter = 766
+iter = 767
+iter = 768
+iter = 769
+iter = 770
+iter = 771
+iter = 772
+iter = 773
+iter = 774
+iter = 775
+iter = 776
+iter = 777
+iter = 778
+iter = 779
+iter = 780
+iter = 781
+iter = 782
+iter = 783
+iter = 784
+iter = 785
+iter = 786
+iter = 787
+iter = 788
+iter = 789
+iter = 790
+iter = 791
+iter = 792
+iter = 793
+iter = 794
+iter = 795
+iter = 796
+iter = 797
+iter = 798
+iter = 799
+iter = 800
+iter = 801
+iter = 802
+iter = 803
+iter = 804
+iter = 805
+iter = 806
+iter = 807
+iter = 808
+iter = 809
+iter = 810
+iter = 811
+iter = 812
+iter = 813
+iter = 814
+iter = 815
+iter = 816
+iter = 817
+iter = 818
+iter = 819
+iter = 820
+iter = 821
+iter = 822
+iter = 823
+iter = 824
+iter = 825
+iter = 826
+iter = 827
+iter = 828
+iter = 829
+iter = 830
+iter = 831
+iter = 832
+iter = 833
+iter = 834
+iter = 835
+iter = 836
+iter = 837
+iter = 838
+iter = 839
+iter = 840
+iter = 841
+iter = 842
+iter = 843
+iter = 844
+iter = 845
+iter = 846
+iter = 847
+iter = 848
+iter = 849
+iter = 850
+iter = 851
+iter = 852
+iter = 853
+iter = 854
+iter = 855
+iter = 856
+iter = 857
+iter = 858
+iter = 859
+iter = 860
+iter = 861
+iter = 862
+iter = 863
+iter = 864
+iter = 865
+iter = 866
+iter = 867
+iter = 868
+iter = 869
+iter = 870
+iter = 871
+iter = 872
+iter = 873
+iter = 874
+iter = 875
+iter = 876
+iter = 877
+iter = 878
+iter = 879
+iter = 880
+iter = 881
+iter = 882
+iter = 883
+iter = 884
+iter = 885
+iter = 886
+iter = 887
+iter = 888
+iter = 889
+iter = 890
+iter = 891
+iter = 892
+iter = 893
+iter = 894
+iter = 895
+iter = 896
+iter = 897
+iter = 898
+iter = 899
+iter = 900
+iter = 901
+iter = 902
+iter = 903
+iter = 904
+iter = 905
+iter = 906
+iter = 907
+iter = 908
+iter = 909
+iter = 910
+iter = 911
+iter = 912
+iter = 913
+iter = 914
+iter = 915
+iter = 916
+iter = 917
+iter = 918
+iter = 919
+iter = 920
+iter = 921
+iter = 922
+iter = 923
+iter = 924
+iter = 925
+iter = 926
+iter = 927
+iter = 928
+iter = 929
+iter = 930
+iter = 931
+iter = 932
+iter = 933
+iter = 934
+iter = 935
+iter = 936
+iter = 937
+iter = 938
+iter = 939
+iter = 940
+iter = 941
+iter = 942
+iter = 943
+iter = 944
+iter = 945
+iter = 946
+iter = 947
+iter = 948
+iter = 949
+iter = 950
+iter = 951
+iter = 952
+iter = 953
+iter = 954
+iter = 955
+iter = 956
+iter = 957
+iter = 958
+iter = 959
+iter = 960
+iter = 961
+iter = 962
+iter = 963
+iter = 964
+iter = 965
+iter = 966
+iter = 967
+iter = 968
+iter = 969
+iter = 970
+iter = 971
+iter = 972
+iter = 973
+iter = 974
+iter = 975
+iter = 976
+iter = 977
+iter = 978
+iter = 979
+iter = 980
+iter = 981
+iter = 982
+iter = 983
+iter = 984
+iter = 985
+iter = 986
+iter = 987
+iter = 988
+iter = 989
+iter = 990
+iter = 991
+iter = 992
+iter = 993
+iter = 994
+iter = 995
+iter = 996
+iter = 997
+iter = 998
+iter = 999
+iter = 1000
+iter = 1001
+iter = 1002
+iter = 1003
+iter = 1004
+iter = 1005
+iter = 1006
+iter = 1007
+iter = 1008
+iter = 1009
+iter = 1010
+iter = 1011
+iter = 1012
+iter = 1013
+iter = 1014
+iter = 1015
+iter = 1016
+iter = 1017
+iter = 1018
+iter = 1019
+iter = 1020
+iter = 1021
+iter = 1022
+iter = 1023
+iter = 1024
+iter = 1025
+iter = 1026
+iter = 1027
+iter = 1028
+iter = 1029
+iter = 1030
+iter = 1031
+iter = 1032
+iter = 1033
+iter = 1034
+iter = 1035
+iter = 1036
+iter = 1037
+iter = 1038
+iter = 1039
+iter = 1040
+iter = 1041
+iter = 1042
+iter = 1043
+iter = 1044
+iter = 1045
+iter = 1046
+iter = 1047
+iter = 1048
+iter = 1049
+iter = 1050
+iter = 1051
+iter = 1052
+iter = 1053
+iter = 1054
+iter = 1055
+iter = 1056
+iter = 1057
+iter = 1058
+iter = 1059
+iter = 1060
+iter = 1061
+iter = 1062
+iter = 1063
+iter = 1064
+iter = 1065
+iter = 1066
+iter = 1067
+iter = 1068
+iter = 1069
+iter = 1070
+iter = 1071
+iter = 1072
+iter = 1073
+iter = 1074
+iter = 1075
+iter = 1076
+iter = 1077
+iter = 1078
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.8739215069684305
+fast = true
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.0s|     1 |     0 |   213 |     - |  9205k |   0 | 187 | 111 | 109 |   0 |  0 |   0 |   0 | 4.263506e-02 |      --      |    Inf | unknown
-  0.0s|     1 |     0 |   213 |     - |  9205k |   0 | 187 | 111 | 109 |   0 |  0 |   0 |   0 | 4.263506e-02 |      --      |    Inf | unknown
-  0.0s|     1 |     0 |   214 |     - |  9205k |   0 | 187 | 111 | 110 |   1 |  1 |   0 |   0 | 4.263506e-02 |      --      |    Inf | unknown
-  0.0s|     1 |     0 |   214 |     - |  9205k |   0 | 187 | 111 | 110 |   1 |  3 |   0 |   0 | 4.263506e-02 |      --      |    Inf | unknown
-* 0.0s|     1 |     0 |   214 |     - |    LP  |   0 | 187 | 111 | 110 |   1 |  5 |   0 |   0 | 4.263506e-02 | 4.263506e-02 |   0.00%| unknown
+organism
+----------------------------------
+number of metabolites : 72
+number of reactions : 95
+number of genes : 137
+objective function: Dict("BIOMASS_Ecoli_core_w_GAM" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.03
-Solving Nodes      : 1
-Primal Bound       : +4.26350598758061e-02 (1 solutions)
-Dual Bound         : +4.26350598758061e-02
-Gap                : 0.00 %
-presolving:
-(round 1, fast)       420 del vars, 2638 del conss, 0 add conss, 2324 chg bounds, 4 chg sides, 31 chg coeffs, 0 upgd conss, 30 impls, 0 clqs
-(round 2, fast)       518 del vars, 2804 del conss, 0 add conss, 2467 chg bounds, 8 chg sides, 157 chg coeffs, 0 upgd conss, 37 impls, 0 clqs
-(round 3, fast)       530 del vars, 2827 del conss, 0 add conss, 2505 chg bounds, 15 chg sides, 231 chg coeffs, 0 upgd conss, 38 impls, 0 clqs
-(round 4, fast)       533 del vars, 2834 del conss, 0 add conss, 2518 chg bounds, 19 chg sides, 274 chg coeffs, 0 upgd conss, 39 impls, 0 clqs
-(round 5, fast)       534 del vars, 2835 del conss, 0 add conss, 2519 chg bounds, 20 chg sides, 313 chg coeffs, 0 upgd conss, 40 impls, 0 clqs
-   (0.0s) running MILP presolver
-   (0.3s) MILP presolver (10 rounds): 463 aggregations, 393 fixings, 13 bound changes
-(round 6, medium)     1390 del vars, 2835 del conss, 0 add conss, 2532 chg bounds, 20 chg sides, 314 chg coeffs, 0 upgd conss, 40 impls, 0 clqs
-(round 7, fast)       1392 del vars, 3932 del conss, 0 add conss, 2532 chg bounds, 24 chg sides, 332 chg coeffs, 0 upgd conss, 50 impls, 0 clqs
-(round 8, fast)       1393 del vars, 3932 del conss, 0 add conss, 2532 chg bounds, 25 chg sides, 332 chg coeffs, 0 upgd conss, 50 impls, 0 clqs
-(round 9, exhaustive) 1393 del vars, 4208 del conss, 0 add conss, 2532 chg bounds, 25 chg sides, 332 chg coeffs, 0 upgd conss, 50 impls, 0 clqs
-(round 10, exhaustive) 1393 del vars, 4208 del conss, 0 add conss, 2532 chg bounds, 25 chg sides, 332 chg coeffs, 389 upgd conss, 50 impls, 0 clqs
-(round 11, exhaustive) 1393 del vars, 4208 del conss, 0 add conss, 2532 chg bounds, 25 chg sides, 332 chg coeffs, 396 upgd conss, 690 impls, 0 clqs
-   (0.4s) sparsify finished: 1045/20433 (5.1%) nonzeros canceled - in total 1045 canceled nonzeros, 18313 changed coefficients, 0 added nonzeros
-(round 12, exhaustive) 1393 del vars, 4208 del conss, 0 add conss, 2532 chg bounds, 25 chg sides, 18645 chg coeffs, 396 upgd conss, 697 impls, 0 clqs
-(round 13, fast)       1396 del vars, 4210 del conss, 0 add conss, 2541 chg bounds, 25 chg sides, 18646 chg coeffs, 396 upgd conss, 697 impls, 0 clqs
-(round 14, fast)       1396 del vars, 4211 del conss, 0 add conss, 2555 chg bounds, 25 chg sides, 18656 chg coeffs, 396 upgd conss, 697 impls, 0 clqs
-(round 15, fast)       1396 del vars, 4211 del conss, 0 add conss, 2555 chg bounds, 25 chg sides, 18675 chg coeffs, 396 upgd conss, 697 impls, 0 clqs
-(round 16, exhaustive) 1396 del vars, 4211 del conss, 0 add conss, 2555 chg bounds, 25 chg sides, 18675 chg coeffs, 397 upgd conss, 697 impls, 0 clqs
-   (0.4s) sparsify finished: 539/19373 (2.8%) nonzeros canceled - in total 1584 canceled nonzeros, 35564 changed coefficients, 0 added nonzeros
-(round 17, exhaustive) 1396 del vars, 4211 del conss, 0 add conss, 2555 chg bounds, 25 chg sides, 35926 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-(round 18, fast)       1397 del vars, 4212 del conss, 0 add conss, 2556 chg bounds, 25 chg sides, 35926 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-(round 19, fast)       1398 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 25 chg sides, 35926 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-(round 20, fast)       1398 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 35931 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.5s) sparsify finished: 380/18814 (2.0%) nonzeros canceled - in total 1964 canceled nonzeros, 52056 changed coefficients, 0 added nonzeros
-(round 21, exhaustive) 1398 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 52423 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-(round 22, fast)       1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 52423 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.5s) sparsify finished: 392/18433 (2.1%) nonzeros canceled - in total 2356 canceled nonzeros, 68599 changed coefficients, 0 added nonzeros
-(round 23, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 68966 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.6s) sparsify finished: 753/18041 (4.2%) nonzeros canceled - in total 3109 canceled nonzeros, 84538 changed coefficients, 0 added nonzeros
-(round 24, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 84905 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.6s) sparsify finished: 394/17288 (2.3%) nonzeros canceled - in total 3503 canceled nonzeros, 99525 changed coefficients, 0 added nonzeros
-(round 25, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 99892 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.7s) sparsify finished: 384/16894 (2.3%) nonzeros canceled - in total 3887 canceled nonzeros, 114309 changed coefficients, 0 added nonzeros
-(round 26, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 114676 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.7s) sparsify finished: 304/16510 (1.8%) nonzeros canceled - in total 4191 canceled nonzeros, 128527 changed coefficients, 0 added nonzeros
-(round 27, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 128894 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.7s) sparsify finished: 304/16206 (1.9%) nonzeros canceled - in total 4495 canceled nonzeros, 142622 changed coefficients, 0 added nonzeros
-(round 28, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 142989 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.8s) sparsify finished: 233/15902 (1.5%) nonzeros canceled - in total 4728 canceled nonzeros, 156410 changed coefficients, 0 added nonzeros
-(round 29, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 156777 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.8s) sparsify finished: 222/15669 (1.4%) nonzeros canceled - in total 4950 canceled nonzeros, 169434 changed coefficients, 0 added nonzeros
-(round 30, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 169801 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.9s) sparsify finished: 227/15447 (1.5%) nonzeros canceled - in total 5177 canceled nonzeros, 182588 changed coefficients, 0 added nonzeros
-(round 31, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 182955 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (0.9s) sparsify finished: 227/15220 (1.5%) nonzeros canceled - in total 5404 canceled nonzeros, 196029 changed coefficients, 0 added nonzeros
-(round 32, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 196396 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.0s) sparsify finished: 624/14993 (4.2%) nonzeros canceled - in total 6028 canceled nonzeros, 207051 changed coefficients, 0 added nonzeros
-(round 33, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 207418 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.0s) sparsify finished: 331/14369 (2.3%) nonzeros canceled - in total 6359 canceled nonzeros, 216970 changed coefficients, 0 added nonzeros
-(round 34, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 217337 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.0s) sparsify finished: 255/14038 (1.8%) nonzeros canceled - in total 6614 canceled nonzeros, 226550 changed coefficients, 0 added nonzeros
-(round 35, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 226917 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.1s) sparsify finished: 270/13783 (2.0%) nonzeros canceled - in total 6884 canceled nonzeros, 236496 changed coefficients, 0 added nonzeros
-(round 36, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 236863 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.1s) sparsify finished: 267/13513 (2.0%) nonzeros canceled - in total 7151 canceled nonzeros, 248000 changed coefficients, 0 added nonzeros
-(round 37, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 248367 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.2s) sparsify finished: 192/13246 (1.4%) nonzeros canceled - in total 7343 canceled nonzeros, 257024 changed coefficients, 0 added nonzeros
-(round 38, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 257391 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.2s) sparsify finished: 195/13054 (1.5%) nonzeros canceled - in total 7538 canceled nonzeros, 265994 changed coefficients, 0 added nonzeros
-(round 39, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 266361 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.3s) sparsify finished: 206/12859 (1.6%) nonzeros canceled - in total 7744 canceled nonzeros, 275315 changed coefficients, 0 added nonzeros
-(round 40, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 275682 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.3s) sparsify finished: 190/12653 (1.5%) nonzeros canceled - in total 7934 canceled nonzeros, 283769 changed coefficients, 0 added nonzeros
-(round 41, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 284136 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.3s) sparsify finished: 194/12463 (1.6%) nonzeros canceled - in total 8128 canceled nonzeros, 292286 changed coefficients, 0 added nonzeros
-(round 42, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 292653 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.4s) sparsify finished: 294/12269 (2.4%) nonzeros canceled - in total 8422 canceled nonzeros, 303482 changed coefficients, 0 added nonzeros
-(round 43, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 303849 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.4s) sparsify finished: 270/11975 (2.3%) nonzeros canceled - in total 8692 canceled nonzeros, 314061 changed coefficients, 0 added nonzeros
-(round 44, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 314428 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.5s) sparsify finished: 174/11705 (1.5%) nonzeros canceled - in total 8866 canceled nonzeros, 321149 changed coefficients, 0 added nonzeros
-(round 45, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 321516 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.5s) sparsify finished: 358/11531 (3.1%) nonzeros canceled - in total 9224 canceled nonzeros, 329587 changed coefficients, 0 added nonzeros
-(round 46, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 329954 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.5s) sparsify finished: 228/11173 (2.0%) nonzeros canceled - in total 9452 canceled nonzeros, 336913 changed coefficients, 0 added nonzeros
-(round 47, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 337280 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.6s) sparsify finished: 171/10945 (1.6%) nonzeros canceled - in total 9623 canceled nonzeros, 343079 changed coefficients, 0 added nonzeros
-(round 48, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 343446 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.6s) sparsify finished: 164/10774 (1.5%) nonzeros canceled - in total 9787 canceled nonzeros, 348854 changed coefficients, 0 added nonzeros
-(round 49, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 349221 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.7s) sparsify finished: 310/10610 (2.9%) nonzeros canceled - in total 10097 canceled nonzeros, 356208 changed coefficients, 0 added nonzeros
-(round 50, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 356575 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.7s) sparsify finished: 189/10300 (1.8%) nonzeros canceled - in total 10286 canceled nonzeros, 362455 changed coefficients, 0 added nonzeros
-(round 51, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 362822 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.7s) sparsify finished: 164/10111 (1.6%) nonzeros canceled - in total 10450 canceled nonzeros, 367711 changed coefficients, 0 added nonzeros
-(round 52, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 368078 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.8s) sparsify finished: 217/9947 (2.2%) nonzeros canceled - in total 10667 canceled nonzeros, 374826 changed coefficients, 0 added nonzeros
-(round 53, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 375193 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.8s) sparsify finished: 256/9730 (2.6%) nonzeros canceled - in total 10923 canceled nonzeros, 383440 changed coefficients, 0 added nonzeros
-(round 54, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 383807 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.9s) sparsify finished: 289/9474 (3.1%) nonzeros canceled - in total 11212 canceled nonzeros, 394290 changed coefficients, 0 added nonzeros
-(round 55, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 394657 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (1.9s) sparsify finished: 216/9185 (2.4%) nonzeros canceled - in total 11428 canceled nonzeros, 401316 changed coefficients, 0 added nonzeros
-(round 56, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 401683 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.0s) sparsify finished: 126/8969 (1.4%) nonzeros canceled - in total 11554 canceled nonzeros, 405990 changed coefficients, 0 added nonzeros
-(round 57, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 406357 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.0s) sparsify finished: 222/8843 (2.5%) nonzeros canceled - in total 11776 canceled nonzeros, 413760 changed coefficients, 0 added nonzeros
-(round 58, exhaustive) 1399 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 414127 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-(round 59, fast)       1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 414127 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.0s) sparsify finished: 191/8620 (2.2%) nonzeros canceled - in total 11967 canceled nonzeros, 420606 changed coefficients, 0 added nonzeros
-(round 60, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 420973 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.1s) sparsify finished: 161/8429 (1.9%) nonzeros canceled - in total 12128 canceled nonzeros, 426422 changed coefficients, 0 added nonzeros
-(round 61, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 426789 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.1s) sparsify finished: 101/8268 (1.2%) nonzeros canceled - in total 12229 canceled nonzeros, 430140 changed coefficients, 0 added nonzeros
-(round 62, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 430507 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.2s) sparsify finished: 142/8167 (1.7%) nonzeros canceled - in total 12371 canceled nonzeros, 435252 changed coefficients, 0 added nonzeros
-(round 63, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 435619 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.2s) sparsify finished: 130/8025 (1.6%) nonzeros canceled - in total 12501 canceled nonzeros, 439802 changed coefficients, 0 added nonzeros
-(round 64, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 440169 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.2s) sparsify finished: 144/7895 (1.8%) nonzeros canceled - in total 12645 canceled nonzeros, 444698 changed coefficients, 0 added nonzeros
-(round 65, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 445065 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.3s) sparsify finished: 136/7751 (1.8%) nonzeros canceled - in total 12781 canceled nonzeros, 449186 changed coefficients, 0 added nonzeros
-(round 66, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 449553 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.3s) sparsify finished: 134/7615 (1.8%) nonzeros canceled - in total 12915 canceled nonzeros, 453476 changed coefficients, 0 added nonzeros
-(round 67, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 453843 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.3s) sparsify finished: 128/7481 (1.7%) nonzeros canceled - in total 13043 canceled nonzeros, 457444 changed coefficients, 0 added nonzeros
-(round 68, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 457811 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.4s) sparsify finished: 132/7353 (1.8%) nonzeros canceled - in total 13175 canceled nonzeros, 461406 changed coefficients, 0 added nonzeros
-(round 69, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 461773 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.4s) sparsify finished: 132/7221 (1.8%) nonzeros canceled - in total 13307 canceled nonzeros, 465234 changed coefficients, 0 added nonzeros
-(round 70, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 465601 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.4s) sparsify finished: 115/7089 (1.6%) nonzeros canceled - in total 13422 canceled nonzeros, 468435 changed coefficients, 0 added nonzeros
-(round 71, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 468802 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.5s) sparsify finished: 180/6974 (2.6%) nonzeros canceled - in total 13602 canceled nonzeros, 472275 changed coefficients, 0 added nonzeros
-(round 72, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 472642 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.5s) sparsify finished: 91/6794 (1.3%) nonzeros canceled - in total 13693 canceled nonzeros, 474582 changed coefficients, 0 added nonzeros
-(round 73, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 474949 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.5s) sparsify finished: 136/6703 (2.0%) nonzeros canceled - in total 13829 canceled nonzeros, 477054 changed coefficients, 0 added nonzeros
-(round 74, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 477421 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.6s) sparsify finished: 97/6567 (1.5%) nonzeros canceled - in total 13926 canceled nonzeros, 479301 changed coefficients, 0 added nonzeros
-(round 75, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 479668 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.6s) sparsify finished: 115/6470 (1.8%) nonzeros canceled - in total 14041 canceled nonzeros, 481870 changed coefficients, 0 added nonzeros
-(round 76, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 482237 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.6s) sparsify finished: 142/6355 (2.2%) nonzeros canceled - in total 14183 canceled nonzeros, 484852 changed coefficients, 0 added nonzeros
-(round 77, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 485219 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.6s) sparsify finished: 114/6213 (1.8%) nonzeros canceled - in total 14297 canceled nonzeros, 487135 changed coefficients, 0 added nonzeros
-(round 78, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 487502 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.6s) sparsify finished: 120/6099 (2.0%) nonzeros canceled - in total 14417 canceled nonzeros, 489430 changed coefficients, 0 added nonzeros
-(round 79, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 489797 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.7s) sparsify finished: 123/5979 (2.1%) nonzeros canceled - in total 14540 canceled nonzeros, 491638 changed coefficients, 0 added nonzeros
-(round 80, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 492005 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.7s) sparsify finished: 114/5856 (1.9%) nonzeros canceled - in total 14654 canceled nonzeros, 493620 changed coefficients, 0 added nonzeros
-(round 81, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 493987 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.7s) sparsify finished: 27/5742 (0.5%) nonzeros canceled - in total 14681 canceled nonzeros, 494149 changed coefficients, 0 added nonzeros
-(round 82, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 494516 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.7s) sparsify aborted: 18/5715 (0.3%) nonzeros canceled - in total 14699 canceled nonzeros, 494486 changed coefficients, 0 added nonzeros
-(round 83, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 494853 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.7s) sparsify finished: 22/5697 (0.4%) nonzeros canceled - in total 14721 canceled nonzeros, 494839 changed coefficients, 0 added nonzeros
-(round 84, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2559 chg bounds, 27 chg sides, 495206 chg coeffs, 397 upgd conss, 698 impls, 0 clqs
-   (2.8s) probing cycle finished: starting next cycle
-(round 85, exhaustive) 1400 del vars, 4213 del conss, 0 add conss, 2560 chg bounds, 27 chg sides, 497312 chg coeffs, 397 upgd conss, 1415 impls, 16 clqs
-(round 86, fast)       1400 del vars, 4285 del conss, 72 add conss, 2566 chg bounds, 28 chg sides, 497315 chg coeffs, 397 upgd conss, 1415 impls, 16 clqs
-   (2.8s) probing: 51/245 (20.8%) - 0 fixings, 0 aggregations, 733 implications, 1 bound changes
-   (2.8s) probing aborted: 50/50 successive totally useless probings
-(round 87, exhaustive) 1400 del vars, 4285 del conss, 72 add conss, 2566 chg bounds, 28 chg sides, 497319 chg coeffs, 397 upgd conss, 1415 impls, 16 clqs
-(round 88, fast)       1400 del vars, 4286 del conss, 73 add conss, 2566 chg bounds, 28 chg sides, 497319 chg coeffs, 397 upgd conss, 1415 impls, 16 clqs
-   (2.8s) symmetry computation started: requiring (bin +, int -, cont +), (fixed: bin -, int +, cont -)
-   (2.9s) symmetry computation finished: 35 generators found (max: 1500, log10 of symmetry group size: 13.7)
-(round 89, exhaustive) 1400 del vars, 4286 del conss, 95 add conss, 2566 chg bounds, 28 chg sides, 497319 chg coeffs, 397 upgd conss, 1415 impls, 16 clqs
-presolving (90 rounds: 90 fast, 73 medium, 72 exhaustive):
- 1400 deleted vars, 4286 deleted constraints, 95 added constraints, 2566 tightened bounds, 0 added holes, 28 changed sides, 497319 changed coefficients
- 1415 implications, 16 cliques
-presolved problem has 652 variables (245 bin, 0 int, 0 impl, 407 cont) and 641 constraints
-    324 constraints of type <varbound>
-    295 constraints of type <linear>
-     22 constraints of type <orbitope>
-Presolving Time: 2.85
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+MIS problem not feasible
+iter = 1
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.8739215069684303
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  2.9s|     1 |     0 |  1925 |     - |    59M |   0 | 652 | 642 | 619 |   0 |  0 |   1 |   0 | 4.263506e-02 |      --      |    Inf | unknown
-  3.2s|     1 |     0 |  6989 |     - |    59M |   0 | 652 | 643 | 619 |   0 |  0 |   2 |   0 | 4.263506e-02 |      --      |    Inf | unknown
-  3.3s|     1 |     0 |  8975 |     - |    60M |   0 | 652 | 644 | 623 |   4 |  1 |   3 |   0 | 4.263461e-02 |      --      |    Inf | unknown
-  3.5s|     1 |     0 | 11589 |     - |    60M |   0 | 652 | 645 | 627 |   8 |  2 |   4 |   0 | 4.263461e-02 |      --      |    Inf | unknown
-  3.5s|     1 |     0 | 12085 |     - |    60M |   0 | 652 | 645 | 628 |   9 |  3 |   4 |   0 | 4.263461e-02 |      --      |    Inf | unknown
-  3.6s|     1 |     0 | 12426 |     - |    60M |   0 | 652 | 645 | 632 |  13 |  4 |   4 |   0 | 4.263461e-02 |      --      |    Inf | unknown
-  3.7s|     1 |     0 | 12492 |     - |    60M |   0 | 652 | 646 | 636 |  17 |  5 |   5 |   0 | 4.263461e-02 |      --      |    Inf | unknown
-  3.7s|     1 |     0 | 12948 |     - |    60M |   0 | 652 | 647 | 645 |  26 |  6 |   6 |   0 | 4.263461e-02 |      --      |    Inf | unknown
-(node 1) unresolved numerical troubles in LP 33 -- using pseudo solution instead (loop 1)
-  3.9s|     1 |     2 | 15154 |     - |    60M |   0 | 652 | 647 | 651 |  32 |  7 |   6 |   0 | 4.263461e-02 |      --      |    Inf | unknown
- 12.4s|   100 |    97 |202981 |1900.8 |    61M |  28 | 652 | 660 | 657 |  44 |  1 |  34 |   0 | 4.263461e-02 |      --      |    Inf |   7.81%
- 18.9s|   200 |   178 |348142 |1675.1 |    62M |  34 | 652 | 689 | 657 |  46 |  0 |  63 |   0 | 4.263461e-02 |      --      |    Inf |   7.81%
- 25.3s|   300 |   265 |494495 |1604.3 |    62M |  37 | 652 | 693 | 656 |  51 |  0 |  72 |   0 | 4.263461e-02 |      --      |    Inf |   7.81%
- 30.4s|   400 |   339 |604766 |1478.6 |    62M |  51 | 652 | 708 | 657 |  65 |  0 |  89 |   0 | 4.263461e-02 |      --      |    Inf |   7.81%
-d30.6s|   408 |   160 |609763 |1461.8 |veclendi|  53 | 652 | 708 | 657 |   0 |  1 |  89 |   0 | 4.263461e-02 | 0.000000e+00 |    Inf |  19.84%
- 34.6s|   500 |   214 |703026 |1379.2 |    62M |  73 | 652 | 705 | 657 |  71 |  1 | 102 |   0 | 4.263461e-02 | 0.000000e+00 |    Inf |  21.52%
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
- 38.5s|   600 |   293 |800391 |1311.5 |    62M | 103 | 652 | 717 | 657 |  85 |  1 | 116 |   0 | 4.263461e-02 | 0.000000e+00 |    Inf |  21.52%
- 40.1s|   700 |   373 |839847 |1180.3 |    63M | 144 | 652 | 720 | 660 |  91 |  1 | 126 |   0 | 4.263461e-02 | 0.000000e+00 |    Inf |  21.52%
-r40.1s|   716 |     0 |839888 |1154.0 |randroun| 160 | 652 | 718 | 664 |  95 |  1 | 126 |   0 | 4.263461e-02 | 4.263461e-02 |   0.00%| 100.00%
+organism
+----------------------------------
+number of metabolites : 628
+number of reactions : 690
+number of genes : 692
+objective function: Dict("BIOMASS_Mb_30" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 40.09
-Solving Nodes      : 716
-Primal Bound       : +4.26346054434023e-02 (2 solutions)
-Dual Bound         : +4.26346054434023e-02
-Gap                : 0.00 %
-  [linear] <>:  +0.416650651<G[8]>[C] (-1) -0.227342337<G[9]>[C] (+499.396446) -0.423620287<G[15]>[C] (-1) -0.0362214989<G[16]>[C] (+1) +0.227342337<G[26]>[C] (+1000) +0.0359103506<G[27]>[C] (+1000) +0.0618143433<G[28]>[C] (-1000) -0.0432363639<G[29]>[C] (-290.243858) -0.0618143433<G[36]>[C] (-1) -0.0359103506<G[37]>[C] (+999.658567) +0.0618143433<G[40]>[C] (+1) +0.00502349791<G[42]>[C] (+1.13662842) -0.0178551612<G[47]>[C] (+1) +0.0362214989<G[48]>[C] (-1) +0.227342337<G[50]>[C] (-1) +0.0208952403<G[51]>[C] (-1000) +0.0208952403<G[54]>[C] (+806.246691) +0.0282458775<G[57]>[C] (-352.403922) +0.00385455475<G[59]>[C] (+1) -0.00621942068<G[63]>[C] (-1) +0.00281560341<G[67]>[C] (-61.3311122) +0.0159375383<G[68]>[C] (+1000) +0.00707805374<G[69]>[C] (+1) +0.00683667313<G[70]>[C] (-1000) +0.00322349899<G[73]>[C] (-1) +0.00707805374<G[74]>[C] (+1) -0.0124901892<G[80]>[C] (-1000) +0.0052684574<G[82]>[C] (-1.60460992) -0.0224237544<G[83]>[C] (+1) -0.00707805374<G[88]>[C] (+1) -0.00707805374<G[89]>[C] (+1) +0.0362214989<G[91]>[C] (-1000) -0.0125300973<G[92]>[C] (-1) +0.423620287<G[93]>[C] (-193.970488) +0.0173280192<G[96]>[C] (+1000) -0.00526822955<G[98]>[C] (+2.87122555) +0.0173280192<G[101]>[C] (-304.89761) -0.00758348878<G[112]>[C] (+1000) +0.0635286276<G[113]>[C] (-1) +0.00333673779<G[116]>[C] (-1) +0.0242169322<G[120]>[C] (+1) -0.0292404301<G[121]>[C] (+407.224164) -0.416650651<G[123]>[C] (-1.11748476) -0.00353581438<G[137]>[C] (-694.283417) +0.0164548473<G[139]>[C] (+1) +0.00378963963<G[140]>[C] (+1000) -0.0216448009<G[142]>[C] (-1000) -0.0202064389<G[144]>[C] (+1000) -0.00707805374<G[147]>[C] (-1) +0.00870232504<G[148]>[C] (-301.970144) -0.022422691<G[149]>[C] (-1) +0.00261996522<G[152]>[C] (-1) -0.0155389982<G[154]>[C] (-1) +0.0163382099<G[155]>[C] (-290.878294) -0.0282458775<G[156]>[C] (+1) -0.0224237544<G[162]>[C] (+1) -0.0209568263<G[163]>[C] (-1) +0.0256259123<G[166]>[C] (-1) +0.00333673779<G[169]>[C] (-1) +0.0362214989<G[177]>[C] (-339.345032) +0.032303394<G[178]>[C] (+1) -0.019849115<G[182]>[C] (+714.337045) -0.00418168629<G[186]>[C] (+1) +0.00418168629<G[192]>[C] (+1.23890985) -0.032303394<G[193]>[C] (-190.520943) -0.00389276298<G[196]>[C] (-1) -0.00192936012<G[200]>[C] (-1000) -0.0263165174<G[201]>[C] (-1000) -0.010961725<G[203]>[C] (+1) -0.00183809795<G[208]>[C] (-1) -0.0191895911<G[210]>[C] (+1) -0.0213400145<G[211]>[C] (+1) +0.00758348878<G[216]>[C] (-1000) +0.00414808377<G[219]>[C] (-303.827334) -0.0293185908<G[220]>[C] (-1000) -0.0292404301<G[221]>[C] (-0.999999983) +0.0191895911<G[223]>[C] (+303.621277) +0.0142770834<G[224]>[C] (-1) +0.0362214989<G[225]>[C] (-1) -0.00172042697<G[226]>[C] (-1.10868985) +0.0153944426<G[228]>[C] (+695.635006) -0.00389276298<G[229]>[C] (-1) -0.00518120879<G[230]>[C] (-293.327609) +0.00389276298<G[242]>[C] (+45.9027793) +0.0153944426<G[243]>[C] (-1) -0.0154235473<G[245]>[C] (-1) +0.0154235473<G[246]>[C] (+1) +0.0285985435<G[248]>[C] (+590.037803) +0.0285985435<G[249]>[C] (-1) -0.0780945172<G[253]>[C] (-985.351626) -0.0463603134<G[254]>[C] (-1) -0.0463603134<G[255]>[C] (-1) -0.0463603134<G[256]>[C] (+290.808666) +0.0362214989<G[259]>[C] (-1) +0.00707805374<G[263]>[C] (-1) +0.032303394<G[265]>[C] (+1) -0.030490638<G[277]>[C] (+1) -0.0125300973<G[288]>[C] (+1) -0.000249110794<G[289]>[C] (+981.144142) -0.0675407581<G[290]>[C] (+1000) -0.0675407581<G[293]>[C] (-1) +0.0237422945<G[294]>[C] (+999.151353) +0.00378963963<G[304]>[C] (+1000) -0.000249110794<G[305]>[C] (+1000) -0.000776924863<G[306]>[C] (-1) -0.00378963963<G[311]>[C] (+1000) +0.0563718949<G[317]>[C] (+1) +0.0159375383<G[322]>[C] (+1000) +0.0141915487<G[323]>[C] (+2.05326331) +0.0129086029<G[324]>[C] (-1.93126913) +0.00226636309<G[326]>[C] (-1) -0.00744521387<G[328]>[C] (+1) -0.000309055155<G[329]>[C] (-1000) +0.0161018369<G[330]>[C] (-1000) -0.00431128962<G[331]>[C] (-2.74495248) -0.0176736403<G[332]>[C] (-645.116456) +0.00172042697<G[334]>[C] (-1) -0.0675407581<G[335]>[C] (+1000) +0.000776924863<G[343]>[C] (-1.12635398) -0.00518120879<G[354]>[C] (+1) +0.00518120879<G[355]>[C] (+1000) +0.0163382099<G[356]>[C] (+1) +0.0202064389<G[371]>[C] (+1.49001918) -0.0125300973<G[374]>[C] (-1) -0.0563718949<G[376]>[C] (-192.4477) +0.0252327775<G[380]>[C] (-1) +0.0105731279<G[387]>[C] (+1.21924459) +0.0170869127<G[388]>[C] (+1) -0.0366997744<G[390]>[C] (-305.075039) -0.000249110794<G[391]>[C] (+1000) +0.0159375383<G[393]>[C] (-1) +0.0159375383<G[394]>[C] (-1000) +0.0227531912<G[395]>[C] (-998.415444) -0.0362214989<G[398]>[C] (-1000) -0.0362214989<G[399]>[C] (-1) -0.0290208698<G[400]>[C] (-1) +0.0159375383<G[403]>[C] (+1) +0.0362214989<G[406]>[C] (-1000) +0.0159375383<G[407]>[C] (-1000) -0.0251585945<G[411]>[C] (-291.217592) +0.0139156868<G[412]>[C] (-285.547969) +0.106159741<G[413]>[C] (-1000) -0.00389276298<G[417]>[C] (+1) -0.00987577028<G[418]>[C] (-714.520394) +0.0170869127<G[419]>[C] (-388.019491) +0.00573086093<G[420]>[C] (+1) -0.0125300973<G[422]>[C] (-1) +0.0406363395<G[424]>[C] (+1) -0.00389276298<G[426]>[C] (-1) -0.00389276298<G[428]>[C] (-1) +0.00183809795<G[429]>[C] (+1) -0.00518120879<G[432]>[C] (-1) +0.00707069284<G[438]>[C] (-1) -0.0125300973<G[444]>[C] (-1) -0.0864634351<G[445]>[C] (-578.91478) +0.00270217637<G[447]>[C] (-1) +0.00240865304<G[451]>[C] (+288.162836) -0.00389276298<G[454]>[C] (+1000) +0.0095388495<G[455]>[C] (-1.00000001) +0.00905352751<G[459]>[C] (-1) +0.00573086093<G[460]>[C] (+1) -0.0618143433<G[461]>[C] (-706.118696) -0.00680104016<G[468]>[C] (-714.210069) -0.00385455475<G[470]>[C] (+4.87883006) +0.0192002554<G[474]>[C] (-1) -0.0034425199<G[481]>[C] (-696.684202) -0.00339415323<G[482]>[C] (-696.260546) +0.0246562014<G[483]>[C] (-1000) +9.61453593e-05<G[488]>[C] (-1.14412582) -9.61453593e-05<G[489]>[C] (-1) -0.0406363395<G[490]>[C] (-191.953056) +0.00389276298<G[494]>[C] (+557.413135) +0.000216622097<G[495]>[C] (+1) -0.0216448009<G[496]>[C] (-1000) -0.0130438823<G[498]>[C] (+947.29477) -0.000249110794<G[499]>[C] (-1000) +0.00268891753<G[502]>[C] (+1) -0.00744521387<G[503]>[C] (-1000) +0.0134818716<G[504]>[C] (+997.548256) +0.00389276298<G[506]>[C] (-1) +0.0197348369<G[507]>[C] (-2.25387825) +0.00744521387<G[508]>[C] (-1) -0.0290513574<G[510]>[C] (+1.00000001) +1.56634073e-05<G[512]>[C] (-999.297347) -0.0161018369<G[513]>[C] (-1) -0.0106526699<G[514]>[C] (-51.9062418) +0.0273756618<G[516]>[C] (-1) -0.00378963963<G[517]>[C] (+717.09558) +0.00429227567<G[518]>[C] (-294.245504) -0.00660939332<G[519]>[C] (+704.15252) -0.0164167993<G[524]>[C] (+1) +0.00831726632<G[525]>[C] (+704.773741) -0.00143836194<G[529]>[C] (+1000) +7.49751877e-05<G[534]>[C] (+1000) +0.00957085953<G[538]>[C] (-1) -0.00957085953<G[539]>[C] (-999.579469) -0.0216828444<G[543]>[C] (-1.10136154) -0.0191895911<G[544]>[C] (-1) -0.00389276298<G[547]>[C] (+1) -1.56634073e-05<G[548]>[C] (-1000.00003) -0.0618143433<G[552]>[C] (-1) -8.55863128e-06<G[553]>[C] (+1000) -0.0207634384<G[557]>[C] (-1) +8.55863128e-06<G[558]>[C] (+999.818784) +0.00385455475<G[560]>[C] (+1) -0.00378963963<G[561]>[C] (+1000) +0.00322349899<G[564]>[C] (-1) +0.000249110794<G[568]>[C] (-1) -0.000216622097<G[569]>[C] (+1.02982916) -0.000249110794<G[571]>[C] (-1000) -0.00831726632<G[572]>[C] (-1) -0.000249110794<G[573]>[C] (-1000) +0.00389276298<G[574]>[C] (-1) -0.0213400145<G[575]>[C] (+1000) -0.00389276298<G[578]>[C] (-1000) +0.0170087049<G[579]>[C] (+3.06531899) +0.0209568263<G[589]>[C] (-2.97703921) +0.0209568263<G[590]>[C] (+1) -0.0167776679<G[604]>[C] (-1) -0.0107775192<G[607]>[C] (-0.999999993) -0.0457068199<G[608]>[C] (-1.58446357) +0.0127348272<G[609]>[C] (+997.892994) -0.00881955122<G[611]>[C] (+1) -0.0275298369<G[613]>[C] (+5.08946079) +0.0159404071<G[615]>[C] (-2.96271843) +0.0234297349<G[617]>[C] (+1) +6.14340796e-05<G[619]>[C] (-2.14668152) +0.00408920226<G[620]>[C] (-3.4766844) -0.0218379339<G[623]>[C] (-1) +0.0111157284<G[624]>[C] (+1) -0.0151669776<G[627]>[C] (-1195.93245) +0.00758348878<G[629]>[C] (-1000) +0.019849115<G[630]>[C] (+1000) -7.49751877e-05<G[631]>[C] (+999.854035) +0.00573086093<G[647]>[C] (+1) +0.00758348878<G[648]>[C] (-297.664422) == 0;
-;
-violation: left hand side is violated by 14.5345644821007
-best solution is not feasible in original problem
-organism = "iNJ661"
-feasible solution found by trivial heuristic after 0.0 seconds, objective value 0.000000e+00
-presolving:
-(round 1, fast)       495 del vars, 2547 del conss, 0 add conss, 1312 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       583 del vars, 2603 del conss, 0 add conss, 1485 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       605 del vars, 2624 del conss, 0 add conss, 1552 chg bounds, 11 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       612 del vars, 2631 del conss, 0 add conss, 1575 chg bounds, 11 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       613 del vars, 2632 del conss, 0 add conss, 1578 chg bounds, 11 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) running MILP presolver
-   (0.0s) MILP presolver (8 rounds): 62 aggregations, 18 fixings, 0 bound changes
-(round 6, medium)     693 del vars, 2632 del conss, 0 add conss, 1578 chg bounds, 11 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 7, fast)       693 del vars, 2700 del conss, 0 add conss, 1592 chg bounds, 12 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 8, exhaustive) 693 del vars, 2705 del conss, 0 add conss, 1592 chg bounds, 12 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 131/1921 (6.8%) nonzeros canceled - in total 131 canceled nonzeros, 151 changed coefficients, 0 added nonzeros
-(round 9, exhaustive) 693 del vars, 2705 del conss, 0 add conss, 1592 chg bounds, 12 chg sides, 151 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 10, fast)       700 del vars, 2712 del conss, 0 add conss, 1600 chg bounds, 12 chg sides, 151 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 11, fast)       705 del vars, 2716 del conss, 0 add conss, 1604 chg bounds, 12 chg sides, 151 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 12, fast)       705 del vars, 2716 del conss, 0 add conss, 1607 chg bounds, 12 chg sides, 151 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify aborted: 3/1706 (0.2%) nonzeros canceled - in total 134 canceled nonzeros, 155 changed coefficients, 0 added nonzeros
-(round 13, exhaustive) 705 del vars, 2716 del conss, 0 add conss, 1607 chg bounds, 12 chg sides, 155 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 14, exhaustive) 705 del vars, 2716 del conss, 0 add conss, 1607 chg bounds, 12 chg sides, 172 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) symmetry computation finished: 10 generators found (max: 1500, log10 of symmetry group size: 3.9)
-   (0.0s) no symmetry on binary variables present.
-(round 15, exhaustive) 705 del vars, 2716 del conss, 16 add conss, 1609 chg bounds, 12 chg sides, 172 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (16 rounds: 16 fast, 7 medium, 6 exhaustive):
- 705 deleted vars, 2716 deleted constraints, 16 added constraints, 1609 tightened bounds, 0 added holes, 12 changed sides, 172 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 320 variables (0 bin, 0 int, 0 impl, 320 cont) and 175 constraints
-    175 constraints of type <linear>
-Presolving Time: 0.03
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+iter = 157
+iter = 158
+iter = 159
+iter = 160
+iter = 161
+iter = 162
+iter = 163
+iter = 164
+iter = 165
+iter = 166
+iter = 167
+iter = 168
+iter = 169
+iter = 170
+iter = 171
+iter = 172
+iter = 173
+iter = 174
+iter = 175
+iter = 176
+iter = 177
+iter = 178
+iter = 179
+iter = 180
+iter = 181
+iter = 182
+iter = 183
+iter = 184
+iter = 185
+iter = 186
+thermo_feasible = false
+fast = false
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-t 0.0s|     1 |     0 |     0 |     - | trivial|   0 | 320 | 175 |   0 |   0 |  0 |   0 |   0 | 5.128205e+01 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   313 |     - |    14M |   0 | 320 | 175 | 159 |   0 |  0 |   0 |   0 | 5.254980e-02 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   313 |     - |    14M |   0 | 320 | 175 | 159 |   0 |  0 |   0 |   0 | 5.254980e-02 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   314 |     - |    14M |   0 | 320 | 175 | 160 |   1 |  1 |   0 |   0 | 5.254980e-02 | 0.000000e+00 |    Inf | unknown
-  0.0s|     1 |     0 |   314 |     - |    14M |   0 | 320 | 175 | 160 |   1 |  3 |   0 |   0 | 5.254980e-02 | 0.000000e+00 |    Inf | unknown
-* 0.0s|     1 |     0 |   314 |     - |    LP  |   0 | 320 | 175 | 160 |   1 |  5 |   0 |   0 | 5.254980e-02 | 5.254980e-02 |   0.00%| unknown
+organism
+----------------------------------
+number of metabolites : 628
+number of reactions : 690
+number of genes : 692
+objective function: Dict("BIOMASS_Mb_30" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.05
-Solving Nodes      : 1
-Primal Bound       : +5.25498010085010e-02 (3 solutions)
-Dual Bound         : +5.25498010085010e-02
-Gap                : 0.00 %
-presolving:
-(round 1, fast)       495 del vars, 3502 del conss, 0 add conss, 3828 chg bounds, 1 chg sides, 47 chg coeffs, 0 upgd conss, 50 impls, 0 clqs
-(round 2, fast)       572 del vars, 3642 del conss, 0 add conss, 4018 chg bounds, 14 chg sides, 237 chg coeffs, 0 upgd conss, 59 impls, 0 clqs
-(round 3, fast)       590 del vars, 3675 del conss, 0 add conss, 4083 chg bounds, 29 chg sides, 334 chg coeffs, 0 upgd conss, 60 impls, 0 clqs
-(round 4, fast)       594 del vars, 3680 del conss, 0 add conss, 4095 chg bounds, 30 chg sides, 350 chg coeffs, 0 upgd conss, 61 impls, 0 clqs
-(round 5, fast)       595 del vars, 3681 del conss, 0 add conss, 4097 chg bounds, 32 chg sides, 352 chg coeffs, 0 upgd conss, 64 impls, 0 clqs
-(round 6, fast)       595 del vars, 3681 del conss, 0 add conss, 5061 chg bounds, 32 chg sides, 352 chg coeffs, 0 upgd conss, 64 impls, 0 clqs
-(round 7, fast)       1077 del vars, 4649 del conss, 0 add conss, 5061 chg bounds, 43 chg sides, 833 chg coeffs, 0 upgd conss, 75 impls, 0 clqs
-(round 8, fast)       1544 del vars, 4940 del conss, 0 add conss, 5061 chg bounds, 43 chg sides, 833 chg coeffs, 0 upgd conss, 75 impls, 0 clqs
-(round 9, fast)       1553 del vars, 4940 del conss, 0 add conss, 5061 chg bounds, 44 chg sides, 833 chg coeffs, 0 upgd conss, 75 impls, 0 clqs
-(round 10, fast)       1553 del vars, 4940 del conss, 0 add conss, 5061 chg bounds, 51 chg sides, 833 chg coeffs, 0 upgd conss, 75 impls, 0 clqs
-   (0.1s) running MILP presolver
-   (2.4s) MILP presolver (15 rounds): 122 aggregations, 14 fixings, 28 bound changes
-(round 11, medium)     1689 del vars, 4940 del conss, 0 add conss, 5089 chg bounds, 51 chg sides, 833 chg coeffs, 0 upgd conss, 75 impls, 0 clqs
-(round 12, fast)       1690 del vars, 5096 del conss, 0 add conss, 5089 chg bounds, 62 chg sides, 868 chg coeffs, 0 upgd conss, 83 impls, 0 clqs
-(round 13, exhaustive) 1690 del vars, 5622 del conss, 0 add conss, 5089 chg bounds, 62 chg sides, 868 chg coeffs, 0 upgd conss, 83 impls, 0 clqs
-(round 14, exhaustive) 1690 del vars, 5622 del conss, 0 add conss, 5089 chg bounds, 62 chg sides, 868 chg coeffs, 793 upgd conss, 83 impls, 0 clqs
-(round 15, exhaustive) 1690 del vars, 5622 del conss, 0 add conss, 5089 chg bounds, 62 chg sides, 868 chg coeffs, 798 upgd conss, 1355 impls, 0 clqs
-   (2.6s) sparsify finished: 2355/81880 (2.9%) nonzeros canceled - in total 2355 canceled nonzeros, 77859 changed coefficients, 0 added nonzeros
-(round 16, exhaustive) 1690 del vars, 5622 del conss, 0 add conss, 5089 chg bounds, 62 chg sides, 78727 chg coeffs, 798 upgd conss, 1360 impls, 0 clqs
-(round 17, fast)       1695 del vars, 5627 del conss, 0 add conss, 5098 chg bounds, 62 chg sides, 78727 chg coeffs, 798 upgd conss, 1360 impls, 0 clqs
-(round 18, fast)       1698 del vars, 5629 del conss, 0 add conss, 5101 chg bounds, 63 chg sides, 78734 chg coeffs, 798 upgd conss, 1390 impls, 0 clqs
-(round 19, fast)       1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 78736 chg coeffs, 798 upgd conss, 1390 impls, 0 clqs
-(round 20, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 78736 chg coeffs, 800 upgd conss, 1390 impls, 0 clqs
-   (2.7s) sparsify finished: 1708/79433 (2.2%) nonzeros canceled - in total 4063 canceled nonzeros, 153351 changed coefficients, 0 added nonzeros
-(round 21, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 154228 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (2.8s) sparsify finished: 3376/77725 (4.3%) nonzeros canceled - in total 7439 canceled nonzeros, 227134 changed coefficients, 0 added nonzeros
-(round 22, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 228011 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.0s) sparsify finished: 1199/74349 (1.6%) nonzeros canceled - in total 8638 canceled nonzeros, 297126 changed coefficients, 0 added nonzeros
-(round 23, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 298003 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.1s) sparsify finished: 1017/73150 (1.4%) nonzeros canceled - in total 9655 canceled nonzeros, 366323 changed coefficients, 0 added nonzeros
-(round 24, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 367200 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.2s) sparsify finished: 674/72133 (0.9%) nonzeros canceled - in total 10329 canceled nonzeros, 433697 changed coefficients, 0 added nonzeros
-(round 25, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 434574 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.4s) sparsify finished: 525/71459 (0.7%) nonzeros canceled - in total 10854 canceled nonzeros, 502394 changed coefficients, 0 added nonzeros
-(round 26, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 503271 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.5s) sparsify finished: 668/70934 (0.9%) nonzeros canceled - in total 11522 canceled nonzeros, 568980 changed coefficients, 0 added nonzeros
-(round 27, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 569857 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.6s) sparsify finished: 512/70266 (0.7%) nonzeros canceled - in total 12034 canceled nonzeros, 634508 changed coefficients, 0 added nonzeros
-(round 28, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 635385 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.8s) sparsify finished: 502/69754 (0.7%) nonzeros canceled - in total 12536 canceled nonzeros, 699911 changed coefficients, 0 added nonzeros
-(round 29, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 700788 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (3.9s) sparsify finished: 343/69252 (0.5%) nonzeros canceled - in total 12879 canceled nonzeros, 764815 changed coefficients, 0 added nonzeros
-(round 30, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 765692 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.0s) sparsify finished: 347/68909 (0.5%) nonzeros canceled - in total 13226 canceled nonzeros, 830526 changed coefficients, 0 added nonzeros
-(round 31, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 831403 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.1s) sparsify finished: 492/68562 (0.7%) nonzeros canceled - in total 13718 canceled nonzeros, 894746 changed coefficients, 0 added nonzeros
-(round 32, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 895623 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.3s) sparsify finished: 351/68070 (0.5%) nonzeros canceled - in total 14069 canceled nonzeros, 958097 changed coefficients, 0 added nonzeros
-(round 33, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 958974 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.4s) sparsify finished: 338/67719 (0.5%) nonzeros canceled - in total 14407 canceled nonzeros, 1021472 changed coefficients, 0 added nonzeros
-(round 34, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1022349 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.5s) sparsify finished: 334/67381 (0.5%) nonzeros canceled - in total 14741 canceled nonzeros, 1083763 changed coefficients, 0 added nonzeros
-(round 35, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1084640 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.7s) sparsify finished: 318/67047 (0.5%) nonzeros canceled - in total 15059 canceled nonzeros, 1142756 changed coefficients, 0 added nonzeros
-(round 36, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1143633 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.8s) sparsify finished: 482/66729 (0.7%) nonzeros canceled - in total 15541 canceled nonzeros, 1205117 changed coefficients, 0 added nonzeros
-(round 37, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1205994 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (4.9s) sparsify finished: 364/66247 (0.5%) nonzeros canceled - in total 15905 canceled nonzeros, 1267005 changed coefficients, 0 added nonzeros
-(round 38, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1267882 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.0s) sparsify finished: 336/65883 (0.5%) nonzeros canceled - in total 16241 canceled nonzeros, 1328157 changed coefficients, 0 added nonzeros
-(round 39, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1329034 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.2s) sparsify finished: 630/65547 (1.0%) nonzeros canceled - in total 16871 canceled nonzeros, 1392255 changed coefficients, 0 added nonzeros
-(round 40, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1393132 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.3s) sparsify finished: 546/64917 (0.8%) nonzeros canceled - in total 17417 canceled nonzeros, 1454253 changed coefficients, 0 added nonzeros
-(round 41, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1455130 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.4s) sparsify finished: 350/64371 (0.5%) nonzeros canceled - in total 17767 canceled nonzeros, 1511791 changed coefficients, 0 added nonzeros
-(round 42, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1512668 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.5s) sparsify finished: 744/64021 (1.2%) nonzeros canceled - in total 18511 canceled nonzeros, 1572512 changed coefficients, 0 added nonzeros
-(round 43, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1573389 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.7s) sparsify finished: 438/63277 (0.7%) nonzeros canceled - in total 18949 canceled nonzeros, 1631084 changed coefficients, 0 added nonzeros
-(round 44, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1631961 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.8s) sparsify finished: 334/62839 (0.5%) nonzeros canceled - in total 19283 canceled nonzeros, 1688524 changed coefficients, 0 added nonzeros
-(round 45, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1689401 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (5.9s) sparsify finished: 658/62505 (1.1%) nonzeros canceled - in total 19941 canceled nonzeros, 1745286 changed coefficients, 0 added nonzeros
-(round 46, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1746163 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (6.0s) sparsify aborted: 29/61847 (0.0%) nonzeros canceled - in total 19970 canceled nonzeros, 1749060 changed coefficients, 0 added nonzeros
-(round 47, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1749937 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (6.1s) sparsify aborted: 23/61818 (0.0%) nonzeros canceled - in total 19993 canceled nonzeros, 1751807 changed coefficients, 0 added nonzeros
-(round 48, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1752684 chg coeffs, 800 upgd conss, 1392 impls, 0 clqs
-   (6.2s) probing cycle finished: starting next cycle
-(round 49, exhaustive) 1698 del vars, 5633 del conss, 0 add conss, 5101 chg bounds, 65 chg sides, 1765785 chg coeffs, 800 upgd conss, 2873 impls, 0 clqs
-(round 50, fast)       1698 del vars, 5701 del conss, 68 add conss, 5101 chg bounds, 65 chg sides, 1765785 chg coeffs, 800 upgd conss, 2873 impls, 0 clqs
-   (6.5s) symmetry computation started: requiring (bin +, int -, cont +), (fixed: bin -, int +, cont -)
-   (6.5s) symmetry computation finished: 55 generators found (max: 1500, log10 of symmetry group size: 20.9)
-(round 51, exhaustive) 1698 del vars, 5701 del conss, 105 add conss, 5101 chg bounds, 65 chg sides, 1765785 chg coeffs, 800 upgd conss, 2873 impls, 0 clqs
-presolving (52 rounds: 52 fast, 37 medium, 36 exhaustive):
- 1698 deleted vars, 5701 deleted constraints, 105 added constraints, 5101 tightened bounds, 0 added holes, 65 changed sides, 1765785 changed coefficients
- 2873 implications, 0 cliques
-presolved problem has 1203 variables (466 bin, 0 int, 0 impl, 737 cont) and 1202 constraints
-    728 constraints of type <varbound>
-    437 constraints of type <linear>
-     37 constraints of type <orbitope>
-Presolving Time: 6.54
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:443
+termination_master = MathOptInterface.INFEASIBLE
+termination = MathOptInterface.INFEASIBLE
+objective_value = NaN
+fast = true
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  8.5s|     1 |     0 | 17548 |     - |   186M |   0 |1203 |1209 |1165 |   0 |  0 |   7 |   0 | 5.254980e-02 |      --      |    Inf | unknown
-o 9.2s|     1 |     0 | 21492 |     - |feaspump|   0 |1203 |1209 |1165 |   0 |  0 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
-  9.2s|     1 |     0 | 21492 |     - |   186M |   0 |1203 |1209 |1165 |   0 |  0 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
-  9.9s|     1 |     0 | 21600 |     - |   187M |   0 |1203 |1209 |1167 |   2 |  1 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 10.7s|     1 |     0 | 21605 |     - |   187M |   0 |1203 |1209 |1168 |   3 |  2 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 11.4s|     1 |     0 | 21636 |     - |   187M |   0 |1203 |1209 |1170 |   5 |  3 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 12.3s|     1 |     0 | 21678 |     - |   187M |   0 |1203 |1209 |1174 |   9 |  4 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 13.1s|     1 |     0 | 21704 |     - |   188M |   0 |1203 |1209 |1177 |  12 |  5 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 14.0s|     1 |     0 | 21707 |     - |   188M |   0 |1203 |1209 |1179 |  14 |  6 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 14.8s|     1 |     0 | 21711 |     - |   188M |   0 |1203 |1209 |1182 |  17 |  7 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 15.7s|     1 |     0 | 21716 |     - |   188M |   0 |1203 |1209 |1185 |  20 |  8 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 16.7s|     1 |     0 | 21955 |     - |   188M |   0 |1203 |1209 |1190 |  25 |  9 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 17.6s|     1 |     0 | 22026 |     - |   188M |   0 |1203 |1209 |1195 |  30 | 10 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 18.4s|     1 |     0 | 22130 |     - |   189M |   0 |1203 |1209 |1196 |  31 | 11 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 18.4s|     1 |     0 | 22130 |     - |   189M |   0 |1203 |1209 |1196 |  31 | 11 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
- 19.2s|     1 |     0 | 22257 |     - |   189M |   0 |1203 |1209 |1197 |  32 | 12 |   7 |   0 | 5.254980e-02 |-1.447896e-12 |    Inf | unknown
- 20.1s|     1 |     0 | 22272 |     - |   189M |   0 |1203 |1209 |1202 |  37 | 13 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 20.9s|     1 |     0 | 22594 |     - |   189M |   0 |1203 |1209 |1198 |  40 | 14 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 21.8s|     1 |     0 | 22759 |     - |   189M |   0 |1203 |1209 |1201 |  43 | 15 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 22.6s|     1 |     0 | 22849 |     - |   189M |   0 |1203 |1209 |1204 |  46 | 16 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 23.4s|     1 |     0 | 23028 |     - |   189M |   0 |1203 |1209 |1206 |  48 | 17 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 24.2s|     1 |     0 | 23233 |     - |   189M |   0 |1203 |1209 |1209 |  51 | 18 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 25.0s|     1 |     0 | 23235 |     - |   190M |   0 |1203 |1209 |1197 |  53 | 19 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 25.7s|     1 |     0 | 23246 |     - |   190M |   0 |1203 |1209 |1202 |  58 | 20 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 26.4s|     1 |     0 | 23256 |     - |   190M |   0 |1203 |1209 |1206 |  62 | 21 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 27.1s|     1 |     0 | 23263 |     - |   190M |   0 |1203 |1209 |1209 |  65 | 22 |   7 |   0 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 29.0s|     1 |     0 | 24385 |     - |   190M |   0 |1203 |1203 |1209 |  65 | 22 |   7 |  28 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 29.6s|     1 |     0 | 24392 |     - |   190M |   0 |1203 |1203 |1212 |  68 | 23 |   7 |  28 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 29.6s|     1 |     0 | 24405 |     - |   190M |   0 |1203 |1203 |1215 |  71 | 24 |   7 |  28 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 30.1s|     1 |     0 | 24471 |     - |   190M |   0 |1203 |1198 |1215 |  71 | 24 |   7 |  41 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
- 30.6s|     1 |     0 | 24508 |     - |   190M |   0 |1203 |1198 |1219 |  75 | 25 |   7 |  41 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 30.6s|     1 |     0 | 24521 |     - |   190M |   0 |1203 |1198 |1222 |  78 | 26 |   7 |  41 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 30.9s|     1 |     0 | 24619 |     - |   190M |   0 |1203 |1192 |1222 |  78 | 26 |   7 |  49 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 31.4s|     1 |     0 | 24629 |     - |   190M |   0 |1203 |1192 |1225 |  81 | 27 |   7 |  49 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 31.4s|     1 |     0 | 24635 |     - |   190M |   0 |1203 |1192 |1229 |  85 | 28 |   7 |  49 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 32.2s|     1 |     0 | 24687 |     - |   190M |   0 |1203 |1184 |1192 |  85 | 28 |   7 |  70 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 32.8s|     1 |     0 | 24757 |     - |   190M |   0 |1203 |1184 |1196 |  89 | 29 |   7 |  70 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 32.8s|     1 |     0 | 24801 |     - |   190M |   0 |1203 |1184 |1199 |  92 | 30 |   7 |  70 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 33.5s|     1 |     0 | 24827 |     - |   190M |   0 |1203 |1180 |1199 |  92 | 30 |   7 |  92 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 34.0s|     1 |     0 | 24832 |     - |   190M |   0 |1203 |1180 |1202 |  95 | 31 |   7 |  92 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 34.0s|     1 |     0 | 24835 |     - |   190M |   0 |1203 |1180 |1191 |  98 | 32 |   7 |  92 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 34.6s|     1 |     0 | 25059 |     - |   190M |   0 |1203 |1175 |1191 |  98 | 32 |   7 | 110 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 35.1s|     1 |     0 | 25077 |     - |   190M |   0 |1203 |1175 |1194 | 101 | 33 |   7 | 110 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 35.1s|     1 |     0 | 25078 |     - |   190M |   0 |1203 |1175 |1195 | 102 | 34 |   7 | 110 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
- 35.6s|     1 |     2 | 25116 |     - |   190M |   0 |1203 |1175 |1195 | 102 | 34 |   7 | 123 | 5.251054e-02 |-1.447896e-12 |    Inf | unknown
-(run 1, node 1) restarting after 22 global fixings of integer variables
+organism
+----------------------------------
+number of metabolites : 628
+number of reactions : 690
+number of genes : 692
+objective function: Dict("BIOMASS_Mb_30" => 1.0)
 
-(restart) converted 30 cuts from the global cut pool into linear constraints
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+MIS problem not feasible
+iter = 19
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.02678072808615149
 
-presolving:
-(round 1, fast)       22 del vars, 4 del conss, 0 add conss, 1 chg bounds, 6 chg sides, 54 chg coeffs, 0 upgd conss, 2873 impls, 0 clqs
-(round 2, exhaustive) 22 del vars, 8 del conss, 0 add conss, 1 chg bounds, 6 chg sides, 54 chg coeffs, 0 upgd conss, 2873 impls, 0 clqs
-(round 3, fast)       23 del vars, 9 del conss, 0 add conss, 1 chg bounds, 6 chg sides, 54 chg coeffs, 0 upgd conss, 2875 impls, 0 clqs
-(round 4, exhaustive) 23 del vars, 9 del conss, 0 add conss, 1 chg bounds, 6 chg sides, 54 chg coeffs, 19 upgd conss, 2875 impls, 0 clqs
-(round 5, medium)     23 del vars, 13 del conss, 0 add conss, 1 chg bounds, 6 chg sides, 54 chg coeffs, 19 upgd conss, 2875 impls, 0 clqs
-presolving (6 rounds: 6 fast, 4 medium, 3 exhaustive):
- 23 deleted vars, 13 deleted constraints, 0 added constraints, 1 tightened bounds, 0 added holes, 6 changed sides, 54 changed coefficients
- 2875 implications, 0 cliques
-presolved problem has 1180 variables (444 bin, 0 int, 0 impl, 736 cont) and 1192 constraints
-    709 constraints of type <varbound>
-    446 constraints of type <linear>
-     37 constraints of type <orbitope>
-Presolving Time: 6.56
+organism
+----------------------------------
+number of metabolites : 761
+number of reactions : 1075
+number of genes : 904
+objective function: Dict("BIOMASS_Ecoli" => 1.0)
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
- 37.0s|     1 |     0 | 35752 |     - |   190M |   0 |1180 |1192 |1153 |   0 |  0 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 38.2s|     1 |     0 | 35968 |     - |   190M |   0 |1180 |1192 |1166 |  13 |  1 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 39.3s|     1 |     0 | 36094 |     - |   190M |   0 |1180 |1192 |1176 |  23 |  2 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 40.7s|     1 |     0 | 36876 |     - |   191M |   0 |1180 |1192 |1186 |  33 |  3 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 41.8s|     1 |     0 | 37033 |     - |   191M |   0 |1180 |1192 |1191 |  38 |  4 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 43.0s|     1 |     0 | 37070 |     - |   192M |   0 |1180 |1192 |1204 |  51 |  5 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 44.2s|     1 |     0 | 37102 |     - |   192M |   0 |1180 |1192 |1215 |  62 |  6 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 45.3s|     1 |     0 | 37140 |     - |   192M |   0 |1180 |1192 |1222 |  69 |  7 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 46.4s|     1 |     0 | 37211 |     - |   193M |   0 |1180 |1192 |1231 |  78 |  8 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 47.5s|     1 |     0 | 37273 |     - |   193M |   0 |1180 |1192 |1250 |  97 |  9 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 48.6s|     1 |     0 | 37307 |     - |   193M |   0 |1180 |1192 |1265 | 112 | 10 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 49.6s|     1 |     0 | 37329 |     - |   193M |   0 |1180 |1192 |1277 | 124 | 11 |   7 | 123 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 51.5s|     1 |     0 | 38151 |     - |   193M |   0 |1180 |1185 |1277 | 124 | 11 |   7 | 145 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 52.2s|     1 |     0 | 38184 |     - |   193M |   0 |1180 |1185 |1281 | 128 | 12 |   7 | 145 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 52.2s|     1 |     0 | 38207 |     - |   193M |   0 |1180 |1185 |1242 | 132 | 13 |   7 | 145 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
- 52.8s|     1 |     0 | 38248 |     - |   193M |   0 |1180 |1182 |1242 | 132 | 13 |   7 | 158 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 53.5s|     1 |     0 | 38270 |     - |   193M |   0 |1180 |1182 |1246 | 136 | 14 |   7 | 158 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 53.5s|     1 |     0 | 38287 |     - |   193M |   0 |1180 |1182 |1249 | 139 | 15 |   7 | 158 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 54.4s|     1 |     0 | 38305 |     - |   193M |   0 |1180 |1180 |1249 | 139 | 15 |   7 | 178 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 55.1s|     1 |     0 | 38325 |     - |   193M |   0 |1180 |1180 |1233 | 142 | 16 |   7 | 178 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 55.1s|     1 |     0 | 38398 |     - |   193M |   0 |1180 |1180 |1234 | 143 | 17 |   7 | 178 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 55.3s|     1 |     0 | 38432 |     - |   193M |   0 |1180 |1171 |1234 | 143 | 17 |   7 | 185 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 55.8s|     1 |     0 | 38434 |     - |   193M |   0 |1180 |1171 |1235 | 144 | 18 |   7 | 185 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 56.5s|     1 |     0 | 38440 |     - |   193M |   0 |1180 |1170 |1235 | 144 | 19 |   7 | 206 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
- 57.4s|     1 |     2 | 38441 |     - |   194M |   0 |1180 |1169 |1235 | 144 | 21 |   7 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf | unknown
-o66.0s|    64 |    59 | 54267 | 476.5 |rootsold|  10 |1180 |1161 |1158 | 231 |  2 |  12 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   5.73%
- 68.1s|   100 |    95 | 57992 | 342.2 |   197M |  13 |1180 |1166 |1147 | 288 |  1 |  17 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   5.73%
- 76.8s|   200 |   183 | 81355 | 287.9 |   200M |  19 |1180 |1163 |1156 | 523 |  1 |  28 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   6.24%
- 85.2s|   300 |   261 | 95791 | 240.1 |   200M |  20 |1180 |1166 |1142 | 657 |  1 |  37 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   7.15%
- 93.2s|   400 |   325 |103981 | 200.5 |   200M |  33 |1180 |1165 |1146 | 718 |  0 |  42 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   7.15%
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  101s|   500 |   395 |122538 | 197.5 |   201M |  33 |1180 |1164 |1145 | 859 |  1 |  45 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   7.36%
-  107s|   600 |   465 |136362 | 187.7 |   201M |  33 |1180 |1166 |1147 |1050 |  0 |  50 | 219 | 5.251054e-02 | 0.000000e+00 |    Inf |   7.55%
-d 112s|   628 |   457 |148009 | 197.8 |veclendi|  33 |1180 |1156 |1147 |   0 |  1 |  54 | 219 | 5.251054e-02 | 2.245182e-02 | 133.88%|   8.34%
-  116s|   700 |   511 |158369 | 192.3 |   201M |  33 |1180 |1166 |1153 |1162 |  1 |  72 | 219 | 5.251054e-02 | 2.245182e-02 | 133.88%|   8.41%
-  119s|   800 |   595 |164174 | 175.5 |   202M |  40 |1180 |1196 |1156 |1185 |  2 | 103 | 219 | 5.251054e-02 | 2.245182e-02 | 133.88%|   8.41%
-  122s|   900 |   667 |172566 | 165.3 |   202M |  40 |1180 |1215 |1154 |1226 |  1 | 135 | 219 | 5.251054e-02 | 2.245182e-02 | 133.88%|   8.56%
-o 128s|   952 |   695 |185063 | 169.4 |objpscos|  40 |1180 |1233 |1154 |1226 |  1 | 155 | 219 | 5.251054e-02 | 2.310006e-02 | 127.32%|   8.71%
-  135s|  1000 |   713 |209497 | 185.7 |   202M |  40 |1180 |1242 |1153 |1229 |  0 | 164 | 219 | 5.251054e-02 | 2.310006e-02 | 127.32%|   8.99%
-L 141s|  1064 |   753 |234862 | 198.4 |    alns|  40 |1180 |1211 |1145 |1250 |  2 | 180 | 219 | 5.251054e-02 | 2.339417e-02 | 124.46%|   9.02%
-L 144s|  1091 |   772 |239915 | 198.1 |    alns|  40 |1180 |1197 |1161 |1259 |  2 | 188 | 219 | 5.251054e-02 | 2.368533e-02 | 121.70%|   9.02%
-  144s|  1100 |   777 |240069 | 196.6 |   202M |  40 |1180 |1197 |1153 |1259 |  0 | 188 | 219 | 5.251054e-02 | 2.368533e-02 | 121.70%|   9.03%
-L 153s|  1136 |   754 |251171 | 200.2 |    alns|  40 |1180 |1189 |1153 |1261 |  0 | 197 | 219 | 5.251054e-02 | 3.407287e-02 |  54.11%|   9.03%
-L 153s|  1136 |   645 |251171 | 200.2 |    alns|  40 |1180 |1189 |1153 |1261 |  0 | 197 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%|   9.69%
-  157s|  1200 |   681 |253575 | 191.5 |   202M |  41 |1180 |1197 |1153 |1279 |  1 | 206 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%|   9.69%
-  160s|  1300 |   769 |258449 | 180.5 |   202M |  52 |1180 |1211 |1155 |1310 |  1 | 228 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%|   9.69%
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  166s|  1400 |   844 |285247 | 186.8 |   203M |  56 |1180 |1228 |1156 |1329 |  1 | 249 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%|   9.83%
-Restart triggered after 50 consecutive estimations that the remaining tree will be large
-(run 2, node 1437) performing user restart
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+thermo_feasible = false
+fast = false
 
-(restart) converted 11 cuts from the global cut pool into linear constraints
+organism
+----------------------------------
+number of metabolites : 761
+number of reactions : 1075
+number of genes : 904
+objective function: Dict("BIOMASS_Ecoli" => 1.0)
 
-presolving:
-(round 1, fast)       58 del vars, 25 del conss, 0 add conss, 96 chg bounds, 55 chg sides, 229 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 2, fast)       62 del vars, 25 del conss, 0 add conss, 133 chg bounds, 68 chg sides, 281 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 3, fast)       62 del vars, 25 del conss, 0 add conss, 164 chg bounds, 79 chg sides, 318 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 4, fast)       62 del vars, 25 del conss, 0 add conss, 191 chg bounds, 90 chg sides, 349 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 5, fast)       62 del vars, 25 del conss, 0 add conss, 222 chg bounds, 101 chg sides, 376 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 6, fast)       62 del vars, 25 del conss, 0 add conss, 249 chg bounds, 112 chg sides, 407 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 7, fast)       62 del vars, 25 del conss, 0 add conss, 272 chg bounds, 123 chg sides, 434 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 8, fast)       62 del vars, 25 del conss, 0 add conss, 275 chg bounds, 129 chg sides, 452 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 9, fast)       62 del vars, 25 del conss, 0 add conss, 277 chg bounds, 132 chg sides, 456 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 10, fast)       62 del vars, 25 del conss, 0 add conss, 277 chg bounds, 134 chg sides, 461 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 11, medium)     62 del vars, 32 del conss, 0 add conss, 277 chg bounds, 134 chg sides, 461 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 12, exhaustive) 62 del vars, 34 del conss, 0 add conss, 277 chg bounds, 135 chg sides, 461 chg coeffs, 0 upgd conss, 2881 impls, 10 clqs
-(round 13, exhaustive) 62 del vars, 34 del conss, 0 add conss, 277 chg bounds, 135 chg sides, 461 chg coeffs, 2 upgd conss, 2881 impls, 10 clqs
-presolving (14 rounds: 14 fast, 4 medium, 3 exhaustive):
- 62 deleted vars, 34 deleted constraints, 0 added constraints, 277 tightened bounds, 0 added holes, 135 changed sides, 461 changed coefficients
- 2881 implications, 10 cliques
-presolved problem has 1118 variables (386 bin, 0 int, 0 impl, 732 cont) and 1204 constraints
-    612 constraints of type <varbound>
-      9 constraints of type <setppc>
-    479 constraints of type <linear>
-     30 constraints of type <orbitope>
-     10 constraints of type <logicor>
-     64 constraints of type <bounddisjunction>
-Presolving Time: 6.59
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.9219481726402547
+fast = true
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  167s|     1 |     0 |295471 |     - |   203M |   0 |1118 |1204 |1029 |   0 |  0 | 250 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  168s|     1 |     0 |295683 |     - |   203M |   0 |1118 |1204 |1059 |  30 |  1 | 250 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  169s|     1 |     0 |295710 |     - |   203M |   0 |1118 |1204 |1070 |  41 |  2 | 250 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  170s|     1 |     0 |295765 |     - |   203M |   0 |1118 |1204 |1074 |  45 |  3 | 250 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  171s|     1 |     0 |295818 |     - |   203M |   0 |1118 |1204 |1081 |  52 |  4 | 250 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  172s|     1 |     0 |295918 |     - |   203M |   0 |1118 |1204 |1087 |  60 |  5 | 250 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  173s|     1 |     0 |295955 |     - |   205M |   0 |1118 |1205 |1092 |  65 |  6 | 251 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  174s|     1 |     0 |295979 |     - |   205M |   0 |1118 |1206 |1096 |  69 |  7 | 252 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  175s|     1 |     0 |295991 |     - |   205M |   0 |1118 |1207 |1101 |  74 |  8 | 253 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  176s|     1 |     0 |295992 |     - |   205M |   0 |1118 |1207 |1102 |  75 |  9 | 253 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  177s|     1 |     0 |295992 |     - |   205M |   0 |1118 |1188 |1102 |  75 | 11 | 253 | 219 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  179s|     1 |     0 |296148 |     - |   205M |   0 |1118 |1188 |1102 |  75 | 13 | 253 | 228 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  180s|     1 |     0 |296155 |     - |   205M |   0 |1118 |1180 |1102 |  75 | 15 | 253 | 229 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  181s|     1 |     0 |296160 |     - |   205M |   0 |1118 |1180 |1103 |  76 | 16 | 254 | 229 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  181s|     1 |     0 |296263 |     - |   205M |   0 |1118 |1176 |1103 |  76 | 17 | 256 | 232 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  181s|     1 |     0 |296264 |     - |   205M |   0 |1118 |1176 |1104 |  77 | 18 | 257 | 232 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  182s|     1 |     0 |296296 |     - |   205M |   0 |1118 |1174 |1104 |  77 | 19 | 259 | 241 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  182s|     1 |     0 |296296 |     - |   205M |   0 |1118 |1174 |1099 |  77 | 20 | 259 | 241 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  182s|     1 |     0 |296296 |     - |   205M |   0 |1118 |1173 |1099 |  77 | 21 | 259 | 241 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-  183s|     1 |     2 |296296 |     - |   205M |   0 |1118 |1173 |1099 |  77 | 23 | 259 | 241 | 5.251054e-02 | 4.449995e-02 |  18.00%| unknown
-d 184s|    19 |    20 |298460 | 182.3 |veclendi|  11 |1118 |1173 |1032 |   0 |  1 | 264 | 241 | 5.251054e-02 | 4.569803e-02 |  14.91%| unknown
-  188s|   100 |    93 |310288 | 180.4 |   206M |  21 |1118 |1182 |1031 | 162 |  1 | 275 | 241 | 5.251054e-02 | 4.569803e-02 |  14.91%| unknown
-  191s|   200 |   179 |317369 | 173.7 |   206M |  34 |1118 |1184 |1031 | 169 |  1 | 285 | 241 | 5.251054e-02 | 4.569803e-02 |  14.91%| unknown
-  195s|   300 |   271 |343416 | 178.7 |   206M |  45 |1118 |1188 |1031 | 205 |  1 | 292 | 241 | 5.251054e-02 | 4.569803e-02 |  14.91%| unknown
-  196s|   400 |   363 |344386 | 169.5 |   207M |  60 |1118 |1188 |1031 | 206 |  1 | 292 | 241 | 5.251054e-02 | 4.569803e-02 |  14.91%| unknown
-d 199s|   484 |   372 |350107 | 165.1 |guideddi|  69 |1118 |1187 |1031 |   0 |  1 | 305 | 283 | 5.251054e-02 | 4.745243e-02 |  10.66%| unknown
-  199s|   500 |   382 |350190 | 163.7 |   207M |  69 |1118 |1187 |1031 | 206 |  1 | 305 | 283 | 5.251054e-02 | 4.745243e-02 |  10.66%| unknown
-d 207s|   572 |   365 |363398 | 164.4 |guideddi|  69 |1118 |1186 |1031 |   0 |  1 | 327 | 489 | 5.251054e-02 | 5.210924e-02 |   0.77%| unknown
-  208s|   600 |   381 |367959 | 164.4 |   207M |  69 |1118 |1188 |1031 | 212 |  1 | 329 | 489 | 5.251054e-02 | 5.210924e-02 |   0.77%| unknown
-* 209s|   617 |   387 |368227 | 163.2 |strongbr|  70 |1118 |1193 |1035 | 216 |  1 | 334 | 507 | 5.251054e-02 | 5.213729e-02 |   0.72%| unknown
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-* 209s|   623 |   384 |368270 | 162.7 |    LP  |  70 |1118 |1192 |1035 | 216 |  2 | 334 | 512 | 5.251054e-02 | 5.214973e-02 |   0.69%| unknown
-* 211s|   696 |   423 |369509 | 157.7 |    LP  |  84 |1118 |1201 |1032 | 223 |  1 | 345 | 560 | 5.251054e-02 | 5.215302e-02 |   0.69%| unknown
-  211s|   700 |   427 |369520 | 157.5 |   207M |  84 |1118 |1201 |1032 | 223 |  1 | 345 | 561 | 5.251054e-02 | 5.215302e-02 |   0.69%| unknown
-* 211s|   702 |   418 |369533 | 157.3 |    LP  |  84 |1118 |1201 |1032 | 223 |  2 | 345 | 563 | 5.251054e-02 | 5.216546e-02 |   0.66%| unknown
-* 211s|   710 |   423 |369566 | 156.7 |    LP  |  84 |1118 |1201 |1032 | 223 |  1 | 345 | 565 | 5.251054e-02 | 5.217279e-02 |   0.65%| unknown
-* 212s|   728 |   350 |370285 | 155.8 |    LP  |  84 |1118 |1202 |1032 | 231 |  1 | 348 | 578 | 5.251054e-02 | 5.218524e-02 |   0.62%| unknown
-d 213s|   769 |   182 |371555 | 153.5 |guideddi|  84 |1118 |1206 |1033 |   0 |  1 | 357 | 578 | 5.251054e-02 | 5.247602e-02 |   0.07%| unknown
-  214s|   800 |   191 |381010 | 155.6 |   208M |  84 |1118 |1208 |1031 | 245 |  1 | 359 | 578 | 5.251054e-02 | 5.247602e-02 |   0.07%| unknown
-  216s|   900 |   209 |386617 | 151.3 |   208M |  84 |1118 |1213 |1031 | 308 |  0 | 372 | 578 | 5.251054e-02 | 5.247602e-02 |   0.07%| unknown
-  223s|  1000 |   274 |409694 | 154.6 |   208M |  84 |1118 |1215 |1034 | 338 |  1 | 383 | 578 | 5.251054e-02 | 5.247602e-02 |   0.07%|   4.17%
-  225s|  1100 |   308 |417269 | 151.5 |   208M |  84 |1118 |1227 |   0 | 338 |  0 | 396 | 581 | 5.251054e-02 | 5.247602e-02 |   0.07%|   4.17%
-  226s|  1200 |   332 |421732 | 147.4 |   208M |  84 |1118 |1230 |1034 | 340 |  1 | 400 | 581 | 5.251054e-02 | 5.247602e-02 |   0.07%|   4.17%
-WARNING: Dual bound 0.0525105 is smaller than the objective of the primal solution 0.052528. The solution might not be optimal.
-* 229s|  1284 |     0 |437983 | 148.8 |    LP  | 116 |1118 |1241 |1035 | 341 |  1 | 411 | 581 | 5.252798e-02 | 5.252798e-02 |   0.00%| 100.00%
+organism
+----------------------------------
+number of metabolites : 761
+number of reactions : 1075
+number of genes : 904
+objective function: Dict("BIOMASS_Ecoli" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 228.89
-Solving Nodes      : 1284 (total of 2722 nodes in 3 runs)
-Primal Bound       : +5.25279767087755e-02 (25 solutions)
-Dual Bound         : +5.25279767087755e-02
-Gap                : 0.00 %
-organism = "iCN900"
-feasible solution found by trivial heuristic after 0.0 seconds, objective value 0.000000e+00
-presolving:
-(round 1, fast)       578 del vars, 2987 del conss, 0 add conss, 1612 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 2, fast)       732 del vars, 3065 del conss, 0 add conss, 1791 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 3, fast)       765 del vars, 3088 del conss, 0 add conss, 1849 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 4, fast)       794 del vars, 3102 del conss, 0 add conss, 1904 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 5, fast)       799 del vars, 3107 del conss, 0 add conss, 1914 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) running MILP presolver
-   (0.0s) MILP presolver (10 rounds): 59 aggregations, 15 fixings, 0 bound changes
-(round 6, medium)     873 del vars, 3107 del conss, 0 add conss, 1915 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 7, fast)       873 del vars, 3167 del conss, 0 add conss, 1931 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 8, fast)       874 del vars, 3168 del conss, 0 add conss, 1934 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 9, exhaustive) 874 del vars, 3172 del conss, 0 add conss, 1934 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 10, exhaustive) 876 del vars, 3172 del conss, 0 add conss, 1934 chg bounds, 5 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 213/2055 (10.4%) nonzeros canceled - in total 213 canceled nonzeros, 245 changed coefficients, 0 added nonzeros
-(round 11, exhaustive) 876 del vars, 3172 del conss, 0 add conss, 1934 chg bounds, 5 chg sides, 245 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 12, fast)       880 del vars, 3175 del conss, 0 add conss, 1948 chg bounds, 5 chg sides, 245 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 13, fast)       880 del vars, 3175 del conss, 0 add conss, 1964 chg bounds, 6 chg sides, 245 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 14, exhaustive) 880 del vars, 3175 del conss, 0 add conss, 1967 chg bounds, 6 chg sides, 245 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 20/1820 (1.1%) nonzeros canceled - in total 233 canceled nonzeros, 279 changed coefficients, 0 added nonzeros
-(round 15, exhaustive) 880 del vars, 3175 del conss, 0 add conss, 1967 chg bounds, 6 chg sides, 279 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) sparsify finished: 2/1800 (0.1%) nonzeros canceled - in total 235 canceled nonzeros, 282 changed coefficients, 0 added nonzeros
-(round 16, exhaustive) 880 del vars, 3175 del conss, 0 add conss, 1967 chg bounds, 6 chg sides, 282 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 17, exhaustive) 880 del vars, 3175 del conss, 0 add conss, 1967 chg bounds, 6 chg sides, 304 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 18, fast)       880 del vars, 3175 del conss, 0 add conss, 1968 chg bounds, 7 chg sides, 304 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-(round 19, exhaustive) 880 del vars, 3175 del conss, 0 add conss, 1968 chg bounds, 7 chg sides, 310 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-   (0.0s) symmetry computation started: requiring (bin +, int +, cont +), (fixed: bin -, int -, cont -)
-   (0.0s) symmetry computation finished: 8 generators found (max: 1500, log10 of symmetry group size: 2.9)
-   (0.0s) no symmetry on binary variables present.
-(round 20, exhaustive) 880 del vars, 3175 del conss, 11 add conss, 1968 chg bounds, 7 chg sides, 310 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
-presolving (21 rounds: 21 fast, 11 medium, 10 exhaustive):
- 880 deleted vars, 3175 deleted constraints, 11 added constraints, 1968 tightened bounds, 0 added holes, 7 changed sides, 310 changed coefficients
- 0 implications, 0 cliques
-presolved problem has 349 variables (0 bin, 0 int, 0 impl, 349 cont) and 181 constraints
-    181 constraints of type <linear>
-Presolving Time: 0.04
-transformed 1/1 original solutions to the transformed problem space
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+MIS problem not feasible
+iter = 16
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9219481902621829
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
-  0.1s|     1 |     0 |   304 |     - |    14M |   0 | 349 | 181 | 170 |   0 |  0 |   0 |   0 | 0.000000e+00 | 0.000000e+00 |   0.00%| unknown
+organism
+----------------------------------
+number of metabolites : 1877
+number of reactions : 2712
+number of genes : 1516
+objective function: Dict("BIOMASS_Ec_iML1515_core_75p37M" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 0.05
-Solving Nodes      : 1
-Primal Bound       : +0.00000000000000e+00 (1 solutions)
-Dual Bound         : +0.00000000000000e+00
-Gap                : 0.00 %
-presolving:
-(round 1, fast)       578 del vars, 4194 del conss, 0 add conss, 3806 chg bounds, 0 chg sides, 14 chg coeffs, 0 upgd conss, 57 impls, 0 clqs
-(round 2, fast)       714 del vars, 4427 del conss, 0 add conss, 3982 chg bounds, 11 chg sides, 106 chg coeffs, 0 upgd conss, 59 impls, 0 clqs
-(round 3, fast)       749 del vars, 4500 del conss, 0 add conss, 4049 chg bounds, 21 chg sides, 176 chg coeffs, 0 upgd conss, 59 impls, 0 clqs
-(round 4, fast)       782 del vars, 4559 del conss, 0 add conss, 4103 chg bounds, 27 chg sides, 209 chg coeffs, 0 upgd conss, 60 impls, 0 clqs
-(round 5, fast)       786 del vars, 4572 del conss, 0 add conss, 4111 chg bounds, 27 chg sides, 211 chg coeffs, 0 upgd conss, 61 impls, 0 clqs
-(round 6, fast)       788 del vars, 4574 del conss, 0 add conss, 4111 chg bounds, 28 chg sides, 212 chg coeffs, 0 upgd conss, 62 impls, 0 clqs
-(round 7, fast)       788 del vars, 4574 del conss, 0 add conss, 4893 chg bounds, 28 chg sides, 212 chg coeffs, 0 upgd conss, 62 impls, 0 clqs
-(round 8, fast)       1179 del vars, 5356 del conss, 0 add conss, 4893 chg bounds, 43 chg sides, 603 chg coeffs, 0 upgd conss, 77 impls, 0 clqs
-(round 9, fast)       1561 del vars, 5512 del conss, 0 add conss, 4893 chg bounds, 43 chg sides, 603 chg coeffs, 0 upgd conss, 77 impls, 0 clqs
-(round 10, fast)       1568 del vars, 5512 del conss, 0 add conss, 4893 chg bounds, 43 chg sides, 603 chg coeffs, 0 upgd conss, 77 impls, 0 clqs
-(round 11, fast)       1568 del vars, 5512 del conss, 0 add conss, 4893 chg bounds, 45 chg sides, 603 chg coeffs, 0 upgd conss, 77 impls, 0 clqs
-   (0.2s) running MILP presolver
-   (8.5s) MILP presolver (13 rounds): 91 aggregations, 8 fixings, 20 bound changes
-(round 12, medium)     1667 del vars, 5512 del conss, 0 add conss, 4913 chg bounds, 45 chg sides, 603 chg coeffs, 0 upgd conss, 77 impls, 0 clqs
-(round 13, fast)       1667 del vars, 5622 del conss, 0 add conss, 4913 chg bounds, 48 chg sides, 633 chg coeffs, 0 upgd conss, 89 impls, 0 clqs
-(round 14, exhaustive) 1667 del vars, 6357 del conss, 0 add conss, 4913 chg bounds, 48 chg sides, 633 chg coeffs, 0 upgd conss, 89 impls, 0 clqs
-(round 15, exhaustive) 1667 del vars, 6357 del conss, 0 add conss, 4913 chg bounds, 48 chg sides, 633 chg coeffs, 1137 upgd conss, 89 impls, 0 clqs
-   (8.8s) sparsify finished: 11240/193119 (5.8%) nonzeros canceled - in total 11240 canceled nonzeros, 188042 changed coefficients, 0 added nonzeros
-(round 16, exhaustive) 1667 del vars, 6357 del conss, 0 add conss, 4913 chg bounds, 48 chg sides, 188675 chg coeffs, 1137 upgd conss, 1910 impls, 0 clqs
-(round 17, fast)       1669 del vars, 6359 del conss, 0 add conss, 4923 chg bounds, 48 chg sides, 188679 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (9.1s) sparsify finished: 2935/181606 (1.6%) nonzeros canceled - in total 14175 canceled nonzeros, 364567 changed coefficients, 0 added nonzeros
-(round 18, exhaustive) 1669 del vars, 6359 del conss, 0 add conss, 4925 chg bounds, 48 chg sides, 365215 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (9.3s) sparsify finished: 1059/178671 (0.6%) nonzeros canceled - in total 15234 canceled nonzeros, 537492 changed coefficients, 0 added nonzeros
-(round 19, exhaustive) 1669 del vars, 6359 del conss, 0 add conss, 4926 chg bounds, 48 chg sides, 538140 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (9.6s) sparsify finished: 797/177612 (0.4%) nonzeros canceled - in total 16031 canceled nonzeros, 710009 changed coefficients, 0 added nonzeros
-(round 20, exhaustive) 1669 del vars, 6359 del conss, 0 add conss, 4926 chg bounds, 48 chg sides, 710657 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (9.8s) sparsify finished: 527/176815 (0.3%) nonzeros canceled - in total 16558 canceled nonzeros, 880436 changed coefficients, 0 added nonzeros
-(round 21, exhaustive) 1669 del vars, 6359 del conss, 0 add conss, 4926 chg bounds, 48 chg sides, 881084 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (10.1s) sparsify finished: 526/176288 (0.3%) nonzeros canceled - in total 17084 canceled nonzeros, 1050334 changed coefficients, 0 added nonzeros
-(round 22, exhaustive) 1669 del vars, 6359 del conss, 0 add conss, 4926 chg bounds, 48 chg sides, 1050982 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (10.3s) sparsify aborted: 6/175762 (0.0%) nonzeros canceled - in total 17090 canceled nonzeros, 1052272 changed coefficients, 0 added nonzeros
-(round 23, exhaustive) 1669 del vars, 6359 del conss, 0 add conss, 4926 chg bounds, 48 chg sides, 1052920 chg coeffs, 1137 upgd conss, 1912 impls, 0 clqs
-   (10.4s) probing: 105/711 (14.8%) - 0 fixings, 1 aggregations, 3 implications, 0 bound changes
-   (10.4s) probing aborted: 50/50 successive totally useless probings
-(round 24, exhaustive) 1670 del vars, 6359 del conss, 0 add conss, 4926 chg bounds, 48 chg sides, 1076152 chg coeffs, 1137 upgd conss, 1915 impls, 0 clqs
-(round 25, fast)       1670 del vars, 6431 del conss, 72 add conss, 4926 chg bounds, 48 chg sides, 1076152 chg coeffs, 1137 upgd conss, 1915 impls, 0 clqs
-   (10.8s) probing: 110/711 (15.5%) - 0 fixings, 1 aggregations, 3 implications, 0 bound changes
-   (10.8s) probing aborted: 50/50 successive totally useless probings
-(round 26, exhaustive) 1670 del vars, 6432 del conss, 72 add conss, 4926 chg bounds, 48 chg sides, 1076419 chg coeffs, 1137 upgd conss, 1915 impls, 0 clqs
-(round 27, fast)       1670 del vars, 6433 del conss, 73 add conss, 4926 chg bounds, 48 chg sides, 1076419 chg coeffs, 1137 upgd conss, 1915 impls, 0 clqs
-   (11.3s) symmetry computation started: requiring (bin +, int -, cont +), (fixed: bin -, int +, cont -)
-   (11.7s) symmetry computation finished: 109 generators found (max: 1500, log10 of symmetry group size: 53.6)
-(round 28, exhaustive) 1670 del vars, 6433 del conss, 129 add conss, 4926 chg bounds, 48 chg sides, 1076419 chg coeffs, 1137 upgd conss, 1915 impls, 0 clqs
-presolving (29 rounds: 29 fast, 14 medium, 13 exhaustive):
- 1670 deleted vars, 6433 deleted constraints, 129 added constraints, 4926 tightened bounds, 0 added holes, 48 changed sides, 1076419 changed coefficients
- 1915 implications, 0 cliques
-presolved problem has 1753 variables (710 bin, 0 int, 0 impl, 1043 cont) and 1694 constraints
-   1063 constraints of type <varbound>
-    575 constraints of type <linear>
-     56 constraints of type <orbitope>
-Presolving Time: 11.66
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+thermo_feasible = false
+fast = false
 
- time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
- 27.2s|     1 |     0 | 53136 |     - |   284M |   0 |1753 |1701 |1638 |   0 |  0 |   7 |   0 |-2.442491e-15 |      --      |    Inf | unknown
-o27.7s|     1 |     0 | 53596 |     - |feaspump|   0 |1753 |1701 |1631 |   0 |  0 |   7 |   0 | 0.000000e+00 | 0.000000e+00 |   0.00%| unknown
- 27.7s|     1 |     0 | 53596 |     - |   285M |   0 |1753 |1701 |1631 |   0 |  0 |   7 |   0 | 0.000000e+00 | 0.000000e+00 |   0.00%| unknown
- 27.7s|     1 |     0 | 53596 |     - |   285M |   0 |1753 |1701 |1631 |   0 |  0 |   7 |   0 | 0.000000e+00 | 0.000000e+00 |   0.00%| unknown
+organism
+----------------------------------
+number of metabolites : 1877
+number of reactions : 2712
+number of genes : 1516
+objective function: Dict("BIOMASS_Ec_iML1515_core_75p37M" => 1.0)
 
-SCIP Status        : problem is solved [optimal solution found]
-Solving Time (sec) : 27.69
-Solving Nodes      : 1
-Primal Bound       : +0.00000000000000e+00 (1 solutions)
-Dual Bound         : +0.00000000000000e+00
-Gap                : 0.00 %
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.8769972319260818
+fast = true
+
+organism
+----------------------------------
+number of metabolites : 1877
+number of reactions : 2712
+number of genes : 1516
+objective function: Dict("BIOMASS_Ec_iML1515_core_75p37M" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+MIS problem not feasible
+iter = 30
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.8769972902247439
+
+organism
+----------------------------------
+number of metabolites : 650
+number of reactions : 754
+number of genes : 516
+objective function: Dict("BIOMASS_LLA" => 1.0)
+
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+iter = 157
+iter = 158
+iter = 159
+iter = 160
+iter = 161
+iter = 162
+iter = 163
+iter = 164
+iter = 165
+iter = 166
+iter = 167
+iter = 168
+iter = 169
+thermo_feasible = false
+fast = false
+
+organism
+----------------------------------
+number of metabolites : 650
+number of reactions : 754
+number of genes : 516
+objective function: Dict("BIOMASS_LLA" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+iter = 157
+iter = 158
+iter = 159
+iter = 160
+iter = 161
+iter = 162
+iter = 163
+iter = 164
+iter = 165
+iter = 166
+iter = 167
+iter = 168
+iter = 169
+iter = 170
+iter = 171
+iter = 172
+iter = 173
+iter = 174
+iter = 175
+iter = 176
+iter = 177
+iter = 178
+iter = 179
+iter = 180
+iter = 181
+iter = 182
+iter = 183
+iter = 184
+iter = 185
+iter = 186
+iter = 187
+iter = 188
+iter = 189
+iter = 190
+iter = 191
+iter = 192
+iter = 193
+iter = 194
+iter = 195
+iter = 196
+iter = 197
+iter = 198
+iter = 199
+iter = 200
+iter = 201
+iter = 202
+iter = 203
+iter = 204
+iter = 205
+iter = 206
+iter = 207
+iter = 208
+iter = 209
+iter = 210
+iter = 211
+iter = 212
+iter = 213
+iter = 214
+iter = 215
+iter = 216
+iter = 217
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.04263505987545225
+fast = true
+
+organism
+----------------------------------
+number of metabolites : 650
+number of reactions : 754
+number of genes : 516
+objective function: Dict("BIOMASS_LLA" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+MIS problem not feasible
+iter = 32
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.0426350598756946
+
+organism
+----------------------------------
+number of metabolites : 655
+number of reactions : 743
+number of genes : 619
+objective function: Dict("BIOMASS_SA_8a" => 1.0)
+
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+thermo_feasible = false
+fast = false
+
+organism
+----------------------------------
+number of metabolites : 655
+number of reactions : 743
+number of genes : 619
+objective function: Dict("BIOMASS_SA_8a" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+┌ Warning: variable 483 does not have binary value
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:206
+┌ Warning: variable 565 does not have binary value
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:206
+iter = 1
+┌ Warning: variable 483 does not have binary value
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:206
+┌ Warning: variable 565 does not have binary value
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:206
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+iter = 147
+iter = 148
+iter = 149
+iter = 150
+iter = 151
+iter = 152
+iter = 153
+iter = 154
+iter = 155
+iter = 156
+iter = 157
+iter = 158
+iter = 159
+iter = 160
+iter = 161
+iter = 162
+iter = 163
+iter = 164
+iter = 165
+iter = 166
+iter = 167
+iter = 168
+iter = 169
+iter = 170
+iter = 171
+iter = 172
+iter = 173
+iter = 174
+iter = 175
+iter = 176
+iter = 177
+iter = 178
+iter = 179
+iter = 180
+iter = 181
+iter = 182
+iter = 183
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.15805029160277653
+fast = true
+
+organism
+----------------------------------
+number of metabolites : 655
+number of reactions : 743
+number of genes : 619
+objective function: Dict("BIOMASS_SA_8a" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+MIS problem not feasible
+AssertionError("feasible")
+
+organism
+----------------------------------
+number of metabolites : 825
+number of reactions : 1025
+number of genes : 661
+objective function: Dict("BIOMASS_Mtb_9_60atp" => 1.0)
+
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+thermo_feasible = false
+fast = false
+
+organism
+----------------------------------
+number of metabolites : 825
+number of reactions : 1025
+number of genes : 661
+objective function: Dict("BIOMASS_Mtb_9_60atp" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+┌ Warning: variable 55 does not have binary value
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:206
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+iter = 100
+iter = 101
+iter = 102
+iter = 103
+iter = 104
+iter = 105
+iter = 106
+iter = 107
+iter = 108
+iter = 109
+iter = 110
+iter = 111
+iter = 112
+iter = 113
+iter = 114
+iter = 115
+iter = 116
+iter = 117
+iter = 118
+iter = 119
+iter = 120
+iter = 121
+iter = 122
+iter = 123
+iter = 124
+iter = 125
+iter = 126
+iter = 127
+iter = 128
+iter = 129
+iter = 130
+iter = 131
+iter = 132
+iter = 133
+iter = 134
+iter = 135
+iter = 136
+iter = 137
+iter = 138
+iter = 139
+iter = 140
+iter = 141
+iter = 142
+iter = 143
+iter = 144
+iter = 145
+iter = 146
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.052549801010143546
+fast = true
+
+organism
+----------------------------------
+number of metabolites : 825
+number of reactions : 1025
+number of genes : 661
+objective function: Dict("BIOMASS_Mtb_9_60atp" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+MIS problem not feasible
+iter = 41
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.0525498010085004
+
+organism
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+objective function: Dict("BIOMASS__5" => 1.0)
+
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+iter = 96
+iter = 97
+iter = 98
+iter = 99
+thermo_feasible = false
+fast = false
+
+organism
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+objective function: Dict("BIOMASS__5" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+iter = 26
+iter = 27
+iter = 28
+iter = 29
+iter = 30
+iter = 31
+iter = 32
+iter = 33
+iter = 34
+iter = 35
+iter = 36
+iter = 37
+iter = 38
+iter = 39
+iter = 40
+iter = 41
+iter = 42
+iter = 43
+iter = 44
+iter = 45
+iter = 46
+iter = 47
+iter = 48
+iter = 49
+iter = 50
+iter = 51
+iter = 52
+iter = 53
+iter = 54
+iter = 55
+iter = 56
+iter = 57
+iter = 58
+iter = 59
+iter = 60
+iter = 61
+iter = 62
+iter = 63
+iter = 64
+iter = 65
+iter = 66
+iter = 67
+iter = 68
+iter = 69
+iter = 70
+iter = 71
+iter = 72
+iter = 73
+iter = 74
+iter = 75
+iter = 76
+iter = 77
+iter = 78
+iter = 79
+iter = 80
+iter = 81
+iter = 82
+iter = 83
+iter = 84
+iter = 85
+iter = 86
+iter = 87
+iter = 88
+iter = 89
+iter = 90
+iter = 91
+iter = 92
+iter = 93
+iter = 94
+iter = 95
+termination = MathOptInterface.INFEASIBLE
+objective_value = 4.127075657765421e-8
+fast = true
+
+organism
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+objective function: Dict("BIOMASS__5" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+MIS problem not feasible
+iter = 5
+termination = MathOptInterface.OPTIMAL
+objective_value = 1.0e-7
