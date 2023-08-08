@@ -13,6 +13,7 @@ function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
     x = model[:x]
     m, num_reactions = size(S)
 
+    # TODO: replace by build master problem
     # add indicator variables 
     a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
