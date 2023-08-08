@@ -390,6 +390,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     cuts = []
 
     # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
+    # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
     # solve master problem
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     build_master_problem(master_problem, internal_rxn_idxs)   
@@ -436,13 +437,14 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
 
         # test if optimal solution is still feasible
-        # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_thermodynamic_feasibility=false)
+        # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001, check_thermodynamic_feasibility=false)
 
         # println("_______________")
         # println("master problem")
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
-        @assert !(round.(solution_master, digits=5) in solutions)
+        @assert !(round.(solution_master, digits=6) in solutions)
         if termination_master != MOI.OPTIMAL
+            @infiltrate
             @warn "master problem cannot be solved"
             @show termination_master
             end_time = time()
@@ -500,7 +502,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter, cuts
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false)
+function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6)
     @show fast
     molecular_model = deserialize("../data/" * organism * ".js")
     print_model(molecular_model, "organism")
@@ -518,7 +520,7 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
     if !isinf(time_limit)
         set_time_limit_sec(master_problem, time_limit)
     end    
-    # MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
+    MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), scip_tol)
     @show MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"))
     # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
@@ -554,7 +556,8 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
         termination=termination,
         time_limit=time_limit, 
         thermo_feasible=thermo_feasible,
-        iter=iter)
+        iter=iter,
+        scip_tol=scip_tol)
 
     type = "combinatorial_benders"
     if fast

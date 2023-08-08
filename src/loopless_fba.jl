@@ -40,7 +40,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     nodes = MOI.get(model, MOI.NodeCount())
     if termination_loopless_fba == MOI.OPTIMAL
         S = stoichiometry(molecular_model)
-        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]], 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
     end
 

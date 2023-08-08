@@ -1,0 +1,2 @@
+objective_value,dual_bound,solution,time,termination,nodes,time_limit,nullspace_formulation
+NaN,NaN,NaN,0.675304,INFEASIBLE,1,1800,false
