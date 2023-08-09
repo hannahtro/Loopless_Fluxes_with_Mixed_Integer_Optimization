@@ -64,7 +64,7 @@ function compare_blocked_cycles(;file_names, organism)
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-function compare_loopless_formulation(; file_names, organisms=["iAF692","iJR904","iML1515"])
+function compare_loopless_formulation_blocked_cycles(; file_names, organisms=["iAF692","iJR904","iML1515"])
     df = DataFrame(organism = String[], type = String[], objective_value = Float64[], dual_bound = Float64[], termination = String[], time_limit= Int64[], time = Float64[], nodes = Int64[])
 
     for organism in organisms
@@ -96,7 +96,144 @@ function compare_loopless_formulation(; file_names, organisms=["iAF692","iJR904"
     CSV.write(file_name, df, append=false, writeheader=true)
 end
 
-compare_loopless_formulation(file_names=["loopless_fba_1800", "loopless_fba_nullspace_1800", "loopless_indicator_fba_1800"])
+"""
+compare ll-FBA, no good cuts and fast combinatorial Benders
+"""
+function loopless_fba_vs_cb(organisms; cuts=true)
+    df = DataFrame(
+        organism = String[], 
+        time_limit= Int64[],
+        termination_ll_fba_cobrexa = String[], 
+        objective_value_ll_fba_cobrexa = Float64[], 
+        time_ll_fba_cobrexa = Float64[], 
+        termination_ll_fba_nullspace = String[], 
+        objective_value_ll_fba_nullspace = Float64[], 
+        time_ll_fba_nullspace = Float64[], 
+        termination_ll_fba = String[], 
+        objective_value_ll_fba = Float64[], 
+        time_ll_fba = Float64[], 
+        termination_no_good_cuts = String[], 
+        objective_value_no_good_cuts = Float64[], 
+        time_no_good_cuts = Float64[], 
+        termination_cb = String[], 
+        objective_value_cb = Float64[], 
+        time_cb = Float64[], 
+    )
+    
+    for organism in organisms
+        @show organism
+        dict_organism = Dict{Symbol, Any}()
+        dict_organism[:organism] = organism
+
+        # read cobrexa data
+        df_temp = first(CSV.read(organism * "/server/" * organism * "_cobrexa_loopless_fba_1800.csv", DataFrame),1)
+        dict_organism[:termination_ll_fba_cobrexa] = df_temp[!, [:termination][1]][1]
+        dict_organism[:objective_value_ll_fba_cobrexa] = df_temp[!, [:objective_value][1]][1]
+        dict_organism[:time_ll_fba_cobrexa] = df_temp[!, [:time][1]][1]
+
+        # read ll-FBA data
+        df_temp = first(CSV.read(organism * "/server/" * organism * "_loopless_fba_nullspace_1800.csv", DataFrame),1)
+        dict_organism[:time_limit] = df_temp[!, [:time_limit][1]][1]
+        dict_organism[:termination_ll_fba_nullspace] = df_temp[!, [:termination][1]][1]
+        dict_organism[:objective_value_ll_fba_nullspace] = df_temp[!, [:objective_value][1]][1]
+        dict_organism[:time_ll_fba_nullspace] = df_temp[!, [:time][1]][1]
+
+        # read ll-FBA without nullspace formulation data
+        df_temp = first(CSV.read(organism * "/server/" * organism * "_loopless_fba_1800.csv", DataFrame),1)
+        dict_organism[:termination_ll_fba] = df_temp[!, [:termination][1]][1]
+        dict_organism[:objective_value_ll_fba] = df_temp[!, [:objective_value][1]][1]
+        dict_organism[:time_ll_fba] = df_temp[!, [:time][1]][1]
+
+        # read no good cuts data 
+        if organism == "iAF692"
+            df_temp = first(CSV.read(organism * "/server/" * organism * "_combinatorial_benders_1800_1e-5.csv", DataFrame),1)
+        else 
+            df_temp = first(CSV.read(organism * "/server/" * organism * "_combinatorial_benders_1800.csv", DataFrame),1)
+        end
+        # set termination status to TIME_LIMIT, INFEASIBLE, OPTIMAL
+        if df_temp[!, [:termination][1]][1] == "INFEASIBLE"
+            if df_temp[!, [:time][1]][1] >=  df_temp[!, [:time_limit][1]][1]
+                dict_organism[:termination_no_good_cuts] = "TIME_LIMIT"
+            else 
+                dict_organism[:termination_no_good_cuts] = "INFEASIBLE"
+            end
+        elseif df_temp[!, [:thermo_feasible][1]][1] == true
+            dict_organism[:termination_no_good_cuts] = "OPTIMAL"
+        end
+        dict_organism[:objective_value_no_good_cuts] = df_temp[!, [:objective_value][1]][1]
+        dict_organism[:time_no_good_cuts] = df_temp[!, [:time][1]][1]
+
+        # read fast CB data
+        df_temp = first(CSV.read(organism * "/server/" * organism * "_combinatorial_benders_fast_1800.csv", DataFrame),1)
+        if df_temp[!, [:termination][1]][1] == "INFEASIBLE"
+            if df_temp[!, [:time][1]][1] >=  df_temp[!, [:time_limit][1]][1]
+                dict_organism[:termination_cb] = "TIME_LIMIT"
+            else 
+                dict_organism[:termination_cb] = "INFEASIBLE"
+            end
+        elseif df_temp[!, [:thermo_feasible][1]][1] == true
+            dict_organism[:termination_cb] = "OPTIMAL"
+        end
+        dict_organism[:objective_value_cb] = df_temp[!, [:objective_value][1]][1]
+        dict_organism[:time_cb] = df_temp[!, [:time][1]][1]
+
+        push!(df, dict_organism)
+    end
+    
+    # round objective value, cut time above time limit and convert to int
+    for row in eachrow(df)
+        if row.time_ll_fba > 1800
+            row.time_ll_fba = 1800
+        end
+        if row.time_ll_fba_cobrexa > 1800
+            row.time_ll_fba_cobrexa = 1800
+        end
+        if row.time_ll_fba_nullspace > 1800
+            row.time_ll_fba_nullspace = 1800
+        end
+        if row.time_no_good_cuts > 1800
+            row.time_no_good_cuts = 1800
+        end
+        if row.time_cb > 1800
+            row.time_cb = 1800
+        end
+    end
+
+    df[!, :objective_value_ll_fba_cobrexa] = round.(df[!, :objective_value_ll_fba_cobrexa], digits=3)
+    df[!, :objective_value_ll_fba] = round.(df[!, :objective_value_ll_fba], digits=3)
+    df[!, :objective_value_ll_fba_nullspace] = round.(df[!, :objective_value_ll_fba_nullspace], digits=3)
+    df[!, :objective_value_no_good_cuts] = round.(df[!, :objective_value_no_good_cuts], digits=3)
+    df[!, :objective_value_cb] = round.(df[!, :objective_value_cb], digits=3)
+    df[!, :time_ll_fba_cobrexa] = round.(df[!, :time_ll_fba_cobrexa], digits=0)
+    df[!, :time_ll_fba_cobrexa] = Int.(df[!, :time_ll_fba_cobrexa])
+    df[!, :time_ll_fba] = round.(df[!, :time_ll_fba], digits=0)
+    df[!, :time_ll_fba] = Int.(df[!, :time_ll_fba])
+    df[!, :time_ll_fba_nullspace] = round.(df[!, :time_ll_fba_nullspace], digits=0)
+    df[!, :time_ll_fba_nullspace] = Int.(df[!, :time_ll_fba_nullspace])
+    df[!, :time_no_good_cuts] = round.(df[!, :time_no_good_cuts], digits=0)
+    df[!, :time_no_good_cuts] = Int.(df[!, :time_no_good_cuts])
+    df[!, :time_cb] = round.(df[!, :time_cb], digits=0)
+    df[!, :time_cb] = Int.(df[!, :time_cb])
+
+    @show df[!, [:objective_value_ll_fba_nullspace, :objective_value_ll_fba, :objective_value_no_good_cuts, :objective_value_cb]]
+    @show df[!, [:termination_ll_fba_nullspace, :termination_ll_fba, :termination_no_good_cuts, :termination_cb]]
+    @show df[!, [:time_ll_fba_nullspace, :time_ll_fba, :time_no_good_cuts, :time_cb]]
+    
+    if cuts 
+        file_name = "comparison_ll_fba_vs_cb.csv"
+        CSV.write(file_name, df, append=false, writeheader=true)
+    else 
+        df = df[!, [:time_ll_fba, :objective_value_ll_fba, :termination_ll_fba, :time_ll_fba_nullspace, :objective_value_ll_fba_nullspace, :termination_ll_fba_nullspace, :time_ll_fba_cobrexa, :objective_value_ll_fba_cobrexa, :termination_ll_fba_cobrexa]]
+        file_name = "comparison_ll_fba.csv"
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
+end
+
+organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
+loopless_fba_vs_cb(organisms, cuts=false)
+
+
+# compare_loopless_formulation(file_names=["loopless_fba_1800", "loopless_fba_nullspace_1800", "loopless_indicator_fba_1800"])
 
 # organism = "iAF692"
 # file_names = [

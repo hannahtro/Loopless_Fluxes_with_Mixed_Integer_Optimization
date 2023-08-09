@@ -272,6 +272,7 @@ end
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
+    @show num_blocked_cycles
 end
 
 
