@@ -1,8 +1,80 @@
-organism = "iAF692"
-organism = "iJR904"
-organism = "e_coli_core"
-organism = "iNF517"
-organism = "iSB619"
-organism = "iNJ661"
-WARNING: Dual bound 0.0525105 is smaller than the objective of the primal solution 0.052528. The solution might not be optimal.
-organism = "iCN900"
+
+iAF692
+----------------------------------
+number of metabolites : 628
+number of reactions : 690
+number of genes : 692
+objective function: Dict("BIOMASS_Mb_30" => 1.0)
+
+objective function : x[442]
+thermo_feasible = false
+
+iJR904
+----------------------------------
+number of metabolites : 761
+number of reactions : 1075
+number of genes : 904
+objective function: Dict("BIOMASS_Ecoli" => 1.0)
+
+objective function : x[269]
+thermo_feasible = true
+
+iML1515
+----------------------------------
+number of metabolites : 1877
+number of reactions : 2712
+number of genes : 1516
+objective function: Dict("BIOMASS_Ec_iML1515_core_75p37M" => 1.0)
+
+objective function : x[2669]
+thermo_feasible = false
+
+e_coli_core
+----------------------------------
+number of metabolites : 72
+number of reactions : 95
+number of genes : 137
+objective function: Dict("BIOMASS_Ecoli_core_w_GAM" => 1.0)
+
+objective function : x[25]
+thermo_feasible = true
+
+iNF517
+----------------------------------
+number of metabolites : 650
+number of reactions : 754
+number of genes : 516
+objective function: Dict("BIOMASS_LLA" => 1.0)
+
+objective function : x[19]
+thermo_feasible = false
+
+iSB619
+----------------------------------
+number of metabolites : 655
+number of reactions : 743
+number of genes : 619
+objective function: Dict("BIOMASS_SA_8a" => 1.0)
+
+objective function : x[596]
+thermo_feasible = false
+
+iNJ661
+----------------------------------
+number of metabolites : 825
+number of reactions : 1025
+number of genes : 661
+objective function: Dict("BIOMASS_Mtb_9_60atp" => 1.0)
+
+objective function : x[319]
+thermo_feasible = false
+
+iCN900
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+objective function: Dict("BIOMASS__5" => 1.0)
+
+objective function : x[721]
+thermo_feasible = true
