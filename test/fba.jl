@@ -18,7 +18,7 @@ organisms = [
     "iSF_1195",
     "iS_1188",
     "iSbBS512_1146"
-    ]
+]
 
 for organism in organisms
     get_fba_data(organism, save_lp=false, csv=true)
