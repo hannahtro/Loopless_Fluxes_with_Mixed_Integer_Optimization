@@ -118,8 +118,8 @@ end
 # # iJR904_loopless_fba_blocked_100_1800_500_same_objective
 # loopless_fba_blocked_data(organism, time_limit=1800, ceiling=500, nullspace_formulation=false)
 
-organism = "iSB619"
-loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
+# organism = "iSB619"
+# loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
 # loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true)
 
 # loopless_indicator_fba_data(organism, time_limit=1800, nullspace_formulation=false)

@@ -4,16 +4,18 @@ using LinearAlgebra
 using DataFrames, CSV
 
 include("optimization_model.jl")
+include("loopless_constraints.jl")
 
 function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, csv=true)
     # build model
     optimizer = SCIP.Optimizer
 
     molecular_model = deserialize("../data/" * organism * ".js")
-    print_model(molecular_model)
+    S = stoichiometry(molecular_model)
+    print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
-    @show model
+    # @show model
     set_attribute(model, MOI.Silent(), true)
 
     if save_lp
@@ -23,13 +25,20 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     # FBA
     objective_fba, dual_bound, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
 
+    # test feasibility, filter non-zero fluxes, set binaries accordingly
+    non_zero_flux_indices = [idx for (idx, val) in enumerate(vars_fba) if !isapprox(val, 0, atol=1e-6)]
+    non_zero_flux_directions = [vars_fba[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+    thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+    @show thermo_feasible
+
     df = DataFrame(
         objective_value=objective_fba, 
         dual_bound=dual_bound,
         solution=[vars_fba], 
         time=time_fba, 
         termination=termination_fba,
-        time_limit=time_limit)
+        time_limit=time_limit,
+        thermo_feasible=thermo_feasible)
 
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
 

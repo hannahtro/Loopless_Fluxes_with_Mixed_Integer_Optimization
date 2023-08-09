@@ -16,7 +16,8 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
-    # S = stoichiometry(molecular_model)
+    S = stoichiometry(molecular_model)
+    m, num_reactions = size(S)
     # xl, xu = bounds(molecular_model)
     # model = build_fba_model(S, xl, xu)
     # x = model[:x]
@@ -40,8 +41,14 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     nodes = MOI.get(model, MOI.NodeCount())
     if termination_loopless_fba == MOI.OPTIMAL
         S = stoichiometry(molecular_model)
-        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]], 0, atol=0.0001)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
+        # test feasibility, filter non-zero fluxes, set binaries accordingly
+        solution = vars_loopless_fba[1:num_reactions]
+        non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
+        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+        thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+        @assert thermo_feasible
     end
 
     # @show nodes
@@ -53,7 +60,8 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         termination=termination_loopless_fba,
         nodes=nodes,
         time_limit=time_limit, 
-        nullspace_formulation=nullspace_formulation)
+        nullspace_formulation=nullspace_formulation,
+        thermo_feasible=thermo_feasible)
 
     if nullspace_formulation
         type = type * "_nullspace"
