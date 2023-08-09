@@ -1,25 +1,26 @@
 include("../src/fba.jl")
 
-organism = "iAF692"
-get_fba_data(organism, save_lp=false, csv=true)
+organisms = [
+    "iAF692", 
+    "iJR904", 
+    "iML1515", 
+    "e_coli_core",
+    "iNF517",
+    "iSB619",
+    "iNJ661",
+    "iCN900",
+    "iAF1260",
+    "iEK1008",
+    "iJO1366",
+    "iMM904",
+    "iSDY_1059",
+    "iSFV_1184",
+    "iSF_1195",
+    "iS_1188",
+    "iSbBS512_1146"
+    ]
 
-organism = "iJR904"
-get_fba_data(organism, save_lp=false, csv=true)
+for organism in organisms
+    get_fba_data(organism, save_lp=false, csv=true)
+end 
 
-organism = "iML1515"
-get_fba_data(organism, save_lp=false, csv=true)
-
-organism = "e_coli_core"
-get_fba_data(organism, save_lp=false, csv=true)
-
-organism = "iNF517"
-get_fba_data(organism, save_lp=false, csv=true)
-
-organism = "iSB619"
-get_fba_data(organism, save_lp=false, csv=true)
-
-organism = "iNJ661"
-get_fba_data(organism, save_lp=false, csv=true)
-
-organism = "iCN900"
-get_fba_data(organism, save_lp=false, csv=true)
