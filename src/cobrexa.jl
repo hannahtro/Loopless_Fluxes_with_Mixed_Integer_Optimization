@@ -57,7 +57,7 @@ function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, 
     loopless_flux = flux_balance_analysis(
         molecular_model,
         optimizer,
-        modifications = [add_loopless_constraints()]#, change_optimizer_attribute(time_limit_sec, time_limit)]
+        modifications = [add_loopless_constraints(), modify_optimizer_attribute(MOI.Silent(), true), modify_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
     )
 
     model = loopless_flux.result
