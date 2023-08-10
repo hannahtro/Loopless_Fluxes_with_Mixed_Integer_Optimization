@@ -34,7 +34,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     dict = Dict{Symbol, Any}()
     dict[:objective_value] = objective_fba
     dict[:dual_bound] = dual_bound
-    dict[:solution] = [vars_fba] 
+    dict[:solution] = vars_fba
     dict[:time] = time_fba
     dict[:termination] = termination_fba
     dict[:time_limit] = time_limit

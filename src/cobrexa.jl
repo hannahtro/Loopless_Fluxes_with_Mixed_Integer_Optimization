@@ -48,7 +48,7 @@ function fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true
 end 
 
 # loopless FBA data
-function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, csv=true)
+function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, json=true)
     # build model
     molecular_model = deserialize("../data/" * organism * ".js")
     # print_model(molecular_model, organism)
@@ -79,23 +79,21 @@ function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, 
         solution = NaN
     end
 
-    df = DataFrame(
-        objective_value=primal_objective_value, 
-        dual_bound=dual_objective_value,
-        solution=[solution], 
-        time=solved_time, 
-        termination=status,
-        nodes=nodes,
-        time_limit=time_limit)
+    dict = Dict{Symbol, Any}()
+    dict[:objective_value] = primal_objective_value
+    dict[:dual_bound] = dual_objective_value
+    dict[:solution] = solution
+    dict[:time] = solved_time
+    dict[:termination] = status
+    dict[:nodes] = nodes
+    dict[:time_limit] = time_limit
 
     type = "cobrexa_loopless_fba"
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
 
-    if csv 
-        if !isfile(file_name)
-            CSV.write(file_name, df, append=true, writeheader=true)
-        else 
-            CSV.write(file_name, df, append=false)    
+    if json 
+        open(file_name, "w") do f
+            JSON.print(f, dict) 
         end
     end
 end 

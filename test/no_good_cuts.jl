@@ -161,7 +161,7 @@ println("--------------------------------------------------------")
 
 # organism = "iJR904"
 # combinatorial_benders_data(organism, time_limit=600, csv=true, fast=false, silent=true)
-# combinatorial_benders_data(organism, time_limit=600, csv=true, fast=true, silent=true)
+# combinatorial_benders_data(organism, time_limit=600, json=true, fast=true, silent=true)
 # no_good_cuts_data(organism, time_limit=60)
 
 # organisms = ["e_coli_core", "iAF692", "iJR904", "iML1515", "iNF517", "iSB619", "iNJ661", "iCN900"]

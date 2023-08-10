@@ -9,7 +9,7 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", csv=true)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", json=true)
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -53,26 +53,26 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         thermo_feasible = false
     end
 
-    # @show nodes
-    df = DataFrame(
-        objective_value=objective_loopless_fba, 
-        dual_bound=dual_bound,
-        solution=[vars_loopless_fba], 
-        time=time_loopless_fba, 
-        termination=termination_loopless_fba,
-        nodes=nodes,
-        time_limit=time_limit, 
-        nullspace_formulation=nullspace_formulation,
-        thermo_feasible=thermo_feasible)
+    dict = Dict{Symbol, Any}()
+    dict[:objective_value] = objective_loopless_fba
+    dict[:dual_bound] = dual_bound
+    dict[:solution] = vars_loopless_fba
+    dict[:time] = time_loopless_fba
+    dict[:termination] = termination_loopless_fba
+    dict[:nodes] = nodes
+    dict[:time_limit] = time_limit
+    dict[:nullspace_formulation] = nullspace_formulation
+    dict[:thermo_feasible] = thermo_feasible
 
     if nullspace_formulation
         type = type * "_nullspace"
     end
     
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
-
-    if csv
-        CSV.write(file_name, df, append=false, writeheader=true)
+    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    if json 
+        open(file_name, "w") do f
+            JSON.print(f, dict) 
+        end
     end
     return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
 end

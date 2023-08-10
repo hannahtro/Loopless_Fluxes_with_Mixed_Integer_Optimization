@@ -502,7 +502,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter, cuts
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6)
+function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6)
     @show fast
     molecular_model = deserialize("../data/" * organism * ".js")
     print_model(molecular_model, "organism")
@@ -547,25 +547,27 @@ function combinatorial_benders_data(organism; time_limit=1800, csv=true, max_ite
         thermo_feasible = false 
     end
 
-    df = DataFrame(
-        objective_value=objective_value, 
-        dual_bounds=[dual_bounds],
-        objective_values=[objective_values],
-        solution=[solution], 
-        time=time, 
-        termination=termination,
-        time_limit=time_limit, 
-        thermo_feasible=thermo_feasible,
-        iter=iter,
-        scip_tol=scip_tol)
+    dict = Dict{Symbol, Any}()
+    dict[:objective_value] = objective_value
+    dict[:dual_bounds] = dual_bounds
+    dict[:objective_values] = objective_values
+    dict[:solution] = solution
+    dict[:time] = time
+    dict[:termination] = termination
+    dict[:time_limit] = time_limit
+    dict[:thermo_feasible] = thermo_feasible
+    dict[:iter] = iter
+    dict[:scip_tol] = scip_tol
 
     type = "combinatorial_benders"
     if fast
         type = type * "_fast"
     end
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
-    if csv
-        CSV.write(file_name, df, append=false, writeheader=true)
+    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    if json 
+        open(file_name, "w") do f
+            JSON.print(f, dict) 
+        end
     end
 end
 

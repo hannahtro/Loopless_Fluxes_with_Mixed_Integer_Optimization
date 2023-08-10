@@ -185,5 +185,5 @@ for organism in organisms
 end
 
 # organism = "iAF692"
-# loopless_relaxed_fba_data(organism, time_limit=1, nullspace_formulation=false, csv=false, save_lp=true)
+# loopless_fba_data(organism, time_limit=30, nullspace_formulation=false, json=true)
 
