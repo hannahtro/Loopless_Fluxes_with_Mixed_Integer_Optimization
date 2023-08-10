@@ -19,7 +19,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     set_attribute(model, MOI.Silent(), true)
 
     if save_lp
-        write_to_file(model, "../csv/models/fba_model_" * organism * ".lp")
+        write_to_file(model, "../models/fba_model_" * organism * ".lp")
     end
 
     # FBA
