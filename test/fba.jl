@@ -21,6 +21,7 @@ organisms = [
 ]
 
 for organism in organisms
-    get_fba_data(organism, save_lp=false, csv=true)
+    get_fba_data(organism, save_lp=false, json=true)
 end 
 
+# get_fba_data("iAF692", save_lp=false, json=true)

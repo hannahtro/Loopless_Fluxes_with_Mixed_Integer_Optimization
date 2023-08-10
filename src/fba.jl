@@ -1,12 +1,12 @@
 using COBREXA, Serialization, COBREXA.Everything
 using SCIP, JuMP
 using LinearAlgebra
-using DataFrames, CSV
+using DataFrames, CSV, JSON
 
 include("optimization_model.jl")
 include("loopless_constraints.jl")
 
-function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, csv=true)
+function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, json=true)
     # build model
     optimizer = SCIP.Optimizer
 
@@ -31,24 +31,22 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
     @show thermo_feasible
 
-    df = DataFrame(
-        objective_value=objective_fba, 
-        dual_bound=dual_bound,
-        solution=[vars_fba], 
-        time=time_fba, 
-        termination=termination_fba,
-        time_limit=time_limit,
-        thermo_feasible=thermo_feasible)
+    dict = Dict{Symbol, Any}()
+    dict[:objective_value] = objective_fba
+    dict[:dual_bound] = dual_bound
+    dict[:solution] = [vars_fba] 
+    dict[:time] = time_fba
+    dict[:termination] = termination_fba
+    dict[:time_limit] = time_limit
+    dict[:thermo_feasible] = thermo_feasible
 
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
-
-    if csv 
-        if !isfile(file_name)
-            CSV.write(file_name, df, append=true, writeheader=true)
-        else 
-            CSV.write(file_name, df, append=true)    
+    if json 
+        file_name = joinpath(@__DIR__, "../json/" * organism * "_" * type * ".json")
+        open(file_name, "w") do f
+            JSON.print(f, dict) 
         end
     end
+    # dict  = JSON.parse(open("../json/" * organism * "_" * type * ".json"))  
 
     # # loopless FBA
     # type = "loopless_fba"
