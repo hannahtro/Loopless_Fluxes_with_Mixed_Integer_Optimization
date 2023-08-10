@@ -13,13 +13,28 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     molecular_model = deserialize("../data/" * organism * ".js")
     S = stoichiometry(molecular_model)
     print_model(molecular_model, organism)
+    lb, ub = bounds(molecular_model)
+
+    # # check for fixed reactions
+    # fixed_reactions = [idx for (idx,val) in enumerate(lb) if val==ub[idx]]
+    # if !isempty(fixed_reactions)
+    #     @warn string(fixed_reactions) * " fixed to " * string(lb[fixed_reactions])
+    # end
+
+    # # check for fixed/ exchange (?) reactions
+    # occurencs = [(i, count(==(i), S.rowval)) for i in unique(S.rowval)]
+    # for (row, sum) in occurencs
+    #     if sum == 1
+    #         @warn string(row) * " is fixed to zero"
+    #     end
+    # end
 
     model = make_optimization_model(molecular_model, optimizer)
     # @show model
     set_attribute(model, MOI.Silent(), true)
 
     if save_lp
-        write_to_file(model, "../models/fba_model_" * organism * ".lp")
+        write_to_file(model, "../lp_models/fba_model_" * organism * ".lp")
     end
 
     # FBA
