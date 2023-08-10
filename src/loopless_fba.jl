@@ -49,6 +49,8 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
         thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
         @assert thermo_feasible
+    else 
+        thermo_feasible = false
     end
 
     # @show nodes

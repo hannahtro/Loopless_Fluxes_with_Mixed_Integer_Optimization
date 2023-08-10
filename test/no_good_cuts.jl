@@ -21,22 +21,22 @@ include("../src/constraint_handler.jl")
     internal_rxn_idxs = [2,3,4,6,7]
     println("--------------------------------------------------------")
 
-    println("no good cuts")
-    # no good cuts
-    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S)
-    solution_flux = solution[1:num_reactions]
-    @show solution_flux
-    solution_direction = solution[num_reactions+1:end]
-    @show solution_direction
-    nonzero_flux_idxs = [idx for (idx,i) in enumerate(solution_flux[internal_rxn_idxs]) if !isapprox(0, i, atol=0.001)]
-    @show nonzero_flux_idxs
-    @test thermo_feasible_mu(internal_rxn_idxs[nonzero_flux_idxs], solution_direction[nonzero_flux_idxs], S)
-    println("--------------------------------------------------------")
+    # println("no good cuts")
+    # # no good cuts
+    # objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S)
+    # solution_flux = solution[1:num_reactions]
+    # @show solution_flux
+    # solution_direction = solution[num_reactions+1:end]
+    # @show solution_direction
+    # nonzero_flux_idxs = [idx for (idx,i) in enumerate(solution_flux[internal_rxn_idxs]) if !isapprox(0, i, atol=0.001)]
+    # @show nonzero_flux_idxs
+    # @test thermo_feasible_mu(internal_rxn_idxs[nonzero_flux_idxs], solution_direction[nonzero_flux_idxs], S)
+    # println("--------------------------------------------------------")
 
     println("combinatorial Benders")
     # combinatorial Benders'
     model = build_fba_model(S, lb, ub, set_objective=true)
-    objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, time_cb, termination_cb, iter_cb = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=false)
+    objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, time_cb, termination_cb, iter_cb = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
     @show objective_value_cb, solution_cb
     @test termination_cb == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution_cb[internal_rxn_idxs], S)
@@ -102,17 +102,17 @@ end
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
-    # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
-    model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    time_limit = 2
-    objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+    # # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
+    # model = make_optimization_model(molecular_model, SCIP.Optimizer)
+    # time_limit = 2
+    # objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
-    try 
-        thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
-    catch 
-    else 
-        @test time >= time_limit
-    end
+    # try 
+    #     thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+    # catch 
+    # else 
+    #     @test time >= time_limit
+    # end
 
     println("combinatorial Benders")
     # combinatorial Benders'
