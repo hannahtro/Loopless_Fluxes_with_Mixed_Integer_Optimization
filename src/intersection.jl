@@ -4,10 +4,8 @@ using JuMP, HiGHS, Clp
 using MatrixOptInterface
 
 # m = read_from_file(joinpath(@__DIR__, "..", "csv/models/loopless_fba_relaxed_nullspace_iML1515.lp"))
-m = read_from_file(joinpath(@__DIR__, "..", "csv/models/loopless_fba_relaxed_iSB619.lp"))
-
-# @constraint(m, Gvars .<= 100)
-# @constraint(m, -Gvars .<= 100)
+# m = read_from_file(joinpath(@__DIR__, "..", "csv/models/loopless_fba_relaxed_iSB619.lp"))
+m = read_from_file(joinpath(@__DIR__, "..", "lp_models/loopless_fba_relaxed_nullspace_iML1515.lp"))
 
 var_vec = all_variables(m)
 cs = all_constraints(m, include_variable_in_set_constraints=false)
@@ -22,46 +20,35 @@ for cons in cs
         if length(func.terms) == 1
             push!(var_to_delete, VariableRef(m, func.terms[1].variable))
         end
+    elseif length(func.terms) == 1
+        @assert set isa MOI.LessThan
+        val = MOI.constant(set)
+        coeff = func.terms[1].coefficient
+        var = func.terms[1].variable
+        @assert coeff in (-1, 1)
+        if coeff < 0
+            set_lower_bound(VariableRef(m, var), -val)
+        else
+            set_upper_bound(VariableRef(m, var), val)
+        end
+        JuMP.delete(m, cons)
     end
 end
 
 JuMP.delete.(m, unique(var_to_delete))
 
+for v in all_variables(m)
+    if occursin("G_", name(v))
+        if !has_lower_bound(v)
+            set_lower_bound(v, -100)
+        end
+        if !has_upper_bound(v)
+            set_upper_bound(v, 100)
+        end
+    end
+end
 
-# we prefer AffineFunction in LessThan
-# for g in Gvars
-#     set_lower_bound(g, -100)
-#     set_upper_bound(g, 100)
-# end
-
-## used to convert constraints to variable bounds
-# for cons in all_constraints(m, include_variable_in_set_constraints=false)
-#     func = MOI.get(backend(m), MOI.ConstraintFunction(), cons.index)
-#     set = MOI.get(backend(m), MOI.ConstraintSet(), cons.index)
-#     if !(set isa MOI.EqualTo) && length(func.terms) == 1
-#         vname = MOI.get(backend(m), MOI.VariableName(), func.terms[1].variable)
-#         jump_v = variable_by_name(m, vname)
-#         val = MOI.constant(set)
-#         if set isa MOI.GreaterThan
-#             set_lower_bound(jump_v, val)
-#         elseif set isa MOI.LessThan
-#             set_upper_bound(jump_v, val)
-#         end
-#         JuMP.delete(m, cons)
-#     end
-# end
-
-## Converting everything to {Ax <= b} form.
-inner_optimizer = MOI.Utilities.Model{Float64}()
-optimizer = MOI.Bridges.Constraint.SplitInterval{Float64}(MOI.Bridges.Constraint.GreaterToLess{Float64}(inner_optimizer))
-MOI.copy_to(optimizer, m)
-
-model = Model()
-MOI.copy_to(model, optimizer.model.model)
-
-m = model
 set_optimizer(m, HiGHS.Optimizer)
-MOI.set(model, MOI.RawOptimizerAttribute("presolve"), "off")
 optimize!(m)
 
 cs = all_constraints(m, include_variable_in_set_constraints=false)
@@ -78,13 +65,13 @@ var_vec = all_variables(m)
 basic_vars = filter(var_vec) do v
     MOI.get(m, MOI.VariableBasisStatus(), v) == MOI.BASIC
 end
-nonbasic_vars = filter(var_vec) do v
-    MOI.get(m, MOI.VariableBasisStatus(), v) != MOI.BASIC
+nonbasic_lower_vars = filter(var_vec) do v
+    MOI.get(m, MOI.VariableBasisStatus(), v) == MOI.NONBASIC_AT_LOWER
+end
+nonbasic_upper_vars = filter(var_vec) do v
+    MOI.get(m, MOI.VariableBasisStatus(), v) == MOI.NONBASIC_AT_UPPER
 end
 
-# xvars_coupled = [JuMP.variable_by_name() ]
-# are our variables sorted and contiguous?
-@assert sort(getproperty.(getproperty.(var_vec, :index), :value)) == 1:length(var_vec)
 
 basis_matrix = zeros(length(var_vec), length(var_vec))
 nbasic_cons_names = name.(nonbasic_cons)
@@ -102,6 +89,22 @@ for row_idx in eachindex(nonbasic_cons)
     end
     push!(basis_rhs, row_multiplier * MOI.constant(set))
     for term in func.terms
-        basis_matrix[row_idx, term.variable.value] = row_multiplier * term.coefficient
+        col_idx = findfirst(v -> v.index == term.variable, var_vec)
+        basis_matrix[row_idx, col_idx] = row_multiplier * term.coefficient
     end
 end
+for idx in eachindex(nonbasic_lower_vars)
+    push!(basis_rhs, -lower_bound(nonbasic_lower_vars[idx]))
+    col_idx = findfirst(v -> v.index == nonbasic_lower_vars[idx].index , var_vec)
+    basis_matrix[idx + length(basic_vars),  col_idx] = -1
+    if col_idx == 297
+        @show idx + length(basic_vars)
+    end
+end
+for idx in eachindex(nonbasic_upper_vars)
+    push!(basis_rhs, upper_bound(nonbasic_upper_vars[idx]))
+    col_idx = findfirst(v -> v.index == nonbasic_upper_vars[idx].index, var_vec)
+    basis_matrix[idx + length(nonbasic_lower_vars) + length(basic_vars),  col_idx] = 1
+end
+
+@assert norm(basis_matrix \ basis_rhs - JuMP.value.(var_vec)) <= 1e-9
