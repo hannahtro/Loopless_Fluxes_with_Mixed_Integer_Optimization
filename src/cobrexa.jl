@@ -1,5 +1,5 @@
 using COBREXA, Serialization, COBREXA.Everything
-using DataFrames, CSV
+using DataFrames, CSV, JSON
 using SCIP, JuMP
 
 # FBA data 

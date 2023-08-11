@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
 using DataFrames, CSV
-using SCIP, JuMP
+using SCIP, JuMP, JSON
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")

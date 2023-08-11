@@ -167,14 +167,14 @@ println("--------------------------------------------------------")
 # organisms = ["e_coli_core", "iAF692", "iJR904", "iML1515", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
 organisms = [
-    # "iAF692", 
-    # "iJR904", 
-    # "iML1515", 
-    # "e_coli_core",
-    # "iNF517",
-    # "iSB619",
-    # "iNJ661",
-    # "iCN900",
+    "iAF692", 
+    "iJR904", 
+    "iML1515", 
+    "e_coli_core",
+    "iNF517",
+    "iSB619",
+    "iNJ661",
+    "iCN900",
     "iAF1260",
     "iEK1008",
     "iJO1366",

@@ -1,6 +1,7 @@
 using Dates 
 using HiGHS
 using Dualization 
+using JSON
 
 include("utils.jl")
 include("optimization_model.jl")
