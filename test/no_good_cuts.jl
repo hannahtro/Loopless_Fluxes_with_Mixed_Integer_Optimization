@@ -166,58 +166,76 @@ println("--------------------------------------------------------")
 
 # organisms = ["e_coli_core", "iAF692", "iJR904", "iML1515", "iNF517", "iSB619", "iNJ661", "iCN900"]
 
-organisms = [
-    "iAF692", 
-    "iJR904", 
-    "iML1515", 
-    "e_coli_core",
-    "iNF517",
-    "iSB619",
-    "iNJ661",
-    "iCN900",
-    "iAF1260",
-    "iEK1008",
-    "iJO1366",
-    "iMM904",
-    "iSDY_1059",
-    "iSFV_1184",
-    "iSF_1195",
-    "iS_1188",
-    "iSbBS512_1146"
-]
+# organisms = [
+#     "iAF692", 
+#     "iJR904", 
+#     "iML1515", 
+#     "e_coli_core",
+#     "iNF517",
+#     "iSB619",
+#     "iNJ661",
+#     "iCN900",
+#     "iAF1260",
+#     "iEK1008",
+#     "iJO1366",
+#     "iMM904",
+#     "iSDY_1059",
+#     "iSFV_1184",
+#     "iSF_1195",
+#     "iS_1188",
+#     "iSbBS512_1146"
+# ]
 
-for organism in organisms
-    type = "cb"
-    try 
-        combinatorial_benders_data(organism, time_limit=1800, fast=false)
-    catch e 
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
+# for organism in organisms
+#     type = "cb"
+#     try 
+#         combinatorial_benders_data(organism, time_limit=1800, fast=false)
+#     catch e 
+#         println(e)
+#         file = organism * "_" * type
+#         open(file * ".txt","a") do io
+#             println(io, e)
+#         end
+#     end
 
-    type = "cb_fast"
-    try 
-        combinatorial_benders_data(organism, time_limit=1800, fast=true)
-    catch e 
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
+#     type = "cb_fast"
+#     try 
+#         combinatorial_benders_data(organism, time_limit=1800, fast=true)
+#     catch e 
+#         println(e)
+#         file = organism * "_" * type
+#         open(file * ".txt","a") do io
+#             println(io, e)
+#         end
+#     end
     
-#    type = "ch"
-#    try 
-#        constraint_handler_data(organism, time_limit=600)
-#    catch e 
-#        println(e)
-#        file = organism * "_" * type
-#        open(file * ".txt","a") do io
-#            println(io, e)
-#        end
-#    end
-end
+# #    type = "ch"
+# #    try 
+# #        constraint_handler_data(organism, time_limit=600)
+# #    catch e 
+# #        println(e)
+# #        file = organism * "_" * type
+# #        open(file * ".txt","a") do io
+# #            println(io, e)
+# #        end
+# #    end
+# end
 
+# yeast model
+organisms = [
+    "Alloascoidea_hylecoeti",
+    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_monospora",
+    "Arthrobotrys_oligospora",
+    "Arxula_adeninivorans",
+    "Ascoidea_asiatica",
+    "Ascoidea_rubescens",
+    "Ashbya_aceri",
+    "Aspergillus_nidulans",
+    "Babjeviella_inositovora",
+    "Botrytis_cinerea"
+]
+for organism in organisms
+    combinatorial_benders_data(organism, yeast=true time_limit=1800, fast=false)
+    combinatorial_benders_data(organism, yeast=true time_limit=1800, fast=true)
+end

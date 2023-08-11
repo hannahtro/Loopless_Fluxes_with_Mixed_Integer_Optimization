@@ -503,10 +503,15 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter, cuts
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6)
+function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false)
     @show fast
-    molecular_model = deserialize("../data/" * organism * ".js")
-    print_model(molecular_model, "organism")
+
+    if yeast 
+        molecular_model = load_model("../data/ecModels/ecModels/Classical/emodel_" * organism * "_classical.mat")
+    else 
+        molecular_model = deserialize("../data/" * organism * ".js")
+        print_model(molecular_model, organism)
+    end
 
     S = stoichiometry(molecular_model)
     m, num_reactions = size(S)

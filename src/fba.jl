@@ -6,13 +6,17 @@ using DataFrames, CSV, JSON
 include("optimization_model.jl")
 include("loopless_constraints.jl")
 
-function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, json=true)
+function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, json=true, yeast=false)
     # build model
     optimizer = SCIP.Optimizer
 
-    molecular_model = deserialize("../data/" * organism * ".js")
+    if yeast 
+        molecular_model = load_model("../data/ecModels/ecModels/Classical/emodel_" * organism * "_classical.mat")
+    else 
+        molecular_model = deserialize("../data/" * organism * ".js")
+        print_model(molecular_model, organism)
+    end
     S = stoichiometry(molecular_model)
-    print_model(molecular_model, organism)
     lb, ub = bounds(molecular_model)
 
     # # check for fixed reactions

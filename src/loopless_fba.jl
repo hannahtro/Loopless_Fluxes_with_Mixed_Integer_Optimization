@@ -9,11 +9,15 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", json=true)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", json=true, yeast=false)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../data/" * organism * ".js")
-    # print_model(molecular_model, organism)
+    if yeast 
+        molecular_model = load_model("../data/ecModels/ecModels/Classical/emodel_" * organism * "_classical.mat")
+    else 
+        molecular_model = deserialize("../data/" * organism * ".js")
+        print_model(molecular_model, organism)
+    end
 
     model = make_optimization_model(molecular_model, optimizer)
     S = stoichiometry(molecular_model)
