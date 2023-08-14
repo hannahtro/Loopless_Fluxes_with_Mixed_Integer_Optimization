@@ -186,6 +186,10 @@ println("--------------------------------------------------------")
 #     "iSbBS512_1146"
 # ]
 
+combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
+combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
+combinatorial_benders_data("iAF692", time_limit=1800, fast=false, tol=1e-5)
+
 # for organism in organisms
 #     type = "cb"
 #     try 
@@ -221,21 +225,21 @@ println("--------------------------------------------------------")
 # #    end
 # end
 
-# yeast model
-organisms = [
-    "Alloascoidea_hylecoeti",
-    "Ambrosiozyma_kashinagacola",
-    "Ambrosiozyma_monospora",
-    "Arthrobotrys_oligospora",
-    "Arxula_adeninivorans",
-    "Ascoidea_asiatica",
-    "Ascoidea_rubescens",
-    "Ashbya_aceri",
-    "Aspergillus_nidulans",
-    "Babjeviella_inositovora",
-    "Botrytis_cinerea"
-]
-for organism in organisms
-    combinatorial_benders_data(organism, yeast=true time_limit=1800, fast=false)
-    combinatorial_benders_data(organism, yeast=true time_limit=1800, fast=true)
-end
+# # yeast model
+# organisms = [
+#     "Alloascoidea_hylecoeti",
+#     "Ambrosiozyma_kashinagacola",
+#     "Ambrosiozyma_monospora",
+#     "Arthrobotrys_oligospora",
+#     "Arxula_adeninivorans",
+#     "Ascoidea_asiatica",
+#     "Ascoidea_rubescens",
+#     "Ashbya_aceri",
+#     "Aspergillus_nidulans",
+#     "Babjeviella_inositovora",
+#     "Botrytis_cinerea"
+# ]
+# for organism in organisms
+#     combinatorial_benders_data(organism, yeast=true, time_limit=1800, fast=false)
+#     combinatorial_benders_data(organism, yeast=true, time_limit=1800, fast=true)
+# end

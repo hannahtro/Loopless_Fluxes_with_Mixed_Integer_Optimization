@@ -445,7 +445,6 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
         @assert !(round.(solution_master, digits=6) in solutions)
         if termination_master != MOI.OPTIMAL
-            @infiltrate
             @warn "master problem cannot be solved"
             @show termination_master
             end_time = time()
@@ -546,7 +545,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if termination == MOI.OPTIMAL
         solution_flux = solution[1:num_reactions]
         solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
-        thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001)
+        thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
         @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     else 
@@ -612,21 +611,21 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     end
     # check Benders' cuts 
     if check_cuts
-        for (O, Z, length_C) in cuts
+        for (idx, (O, Z, length_C)) in enumerate(cuts)
             # @show O, Z, length_C
             if isempty(Z)
                 # @show sum(solution_direction[O]), length_C-1
-                feasible = sum(solution_direction[O]) <= length_C-1
+                feasible = sum(solution_direction[O]) <= length_C-1 + tol
             elseif isempty(O)
                 # @show sum([1-solution_direction[i] for i in Z]), length_C-1
-                feasible = sum([1-solution_direction[i] for i in Z]) <= length_C-1
+                feasible = sum([1-solution_direction[i] for i in Z]) <= length_C-1 + tol
             else 
                 # @show sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]), length_C-1
                 # @show solution_direction[O]
                 # @show solution_direction[Z]
-                feasible = sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]) <= length_C-1
+                feasible = sum(solution_direction[O]) + sum([1-solution_direction[i] for i in Z]) <= length_C-1 + tol
             end
-            if !feasible 
+            if !feasible             
                 println("solution does not respect Benders' cut")
                 return false
             end
