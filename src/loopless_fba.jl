@@ -13,7 +13,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     # build model
     optimizer = SCIP.Optimizer
     if yeast 
-        molecular_model = load_model("../data/ecModels/ecModels/Classical/emodel_" * organism * "_classical.mat")
+        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
         molecular_model = deserialize("../data/" * organism * ".js")
         print_model(molecular_model, organism)

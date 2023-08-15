@@ -203,7 +203,7 @@ organisms = [
 ]
 
 for organism in organisms
-    loopless_fba_data(organism, yeast=true, time_limit=600)
+    loopless_fba_data(organism, yeast=true, time_limit=1800)
 end 
 
 

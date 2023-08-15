@@ -236,6 +236,6 @@ organisms = [
     "Botrytis_cinerea"
 ]
 for organism in organisms
-    combinatorial_benders_data(organism, yeast=true time_limit=1800, fast=false)
-    combinatorial_benders_data(organism, yeast=true time_limit=1800, fast=true)
+    combinatorial_benders_data(organism, yeast=true, time_limit=1800, fast=false)
+    combinatorial_benders_data(organism, yeast=true, time_limit=1800, fast=true)
 end
