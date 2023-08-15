@@ -198,10 +198,10 @@ function build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C; tol
     # solution_a = round.(solution_a, digits=6)
     for (idx,val) in enumerate(solution_a) 
         if isapprox(val, 0, atol=tol) && (idx in C)
-            c = @constraint(sub_problem, 1 <= G[idx] <= 1000)    
+            c = @constraint(sub_problem, 1 <= G[idx])    
             push!(constraint_list,c)
         elseif isapprox(val, 1, atol=tol) && (idx in C)
-            c = @constraint(sub_problem, -1000 <= G[idx] <= -1)    
+            c = @constraint(sub_problem, G[idx] <= -1)    
             push!(constraint_list,c)
         else
             # @assert (idx in C) == false
