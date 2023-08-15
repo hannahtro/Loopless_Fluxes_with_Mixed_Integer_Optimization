@@ -11,7 +11,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     optimizer = SCIP.Optimizer
 
     if yeast 
-        molecular_model = load_model("../data/ecModels/ecModels/Classical/emodel_" * organism * "_classical.mat")
+        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
         molecular_model = deserialize("../data/" * organism * ".js")
         print_model(molecular_model, organism)
