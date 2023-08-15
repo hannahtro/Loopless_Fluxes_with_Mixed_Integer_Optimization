@@ -580,7 +580,6 @@ end
 """
 check whether solution is feasible, within a tolerance
 """
-# TODO: add tolerance to different checks
 function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.000001)
     m, num_reactions = size(S)
     # check steady state assumption 

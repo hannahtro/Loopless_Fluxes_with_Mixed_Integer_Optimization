@@ -241,7 +241,7 @@ loopless_fba_vs_cb(organisms, cuts=false)
 #     "iAF692_loopless_fba_nullspace_1800", 
 #     "iAF692_loopless_indicator_fba_1800", 
 #     "iAF692_loopless_indicator_fba_blocked_500_1800_50_same_objective", 
-#     "iAF692_loopless_indicator_fba_blocked_500_1800_100_same_objective", #TODO: differet objective
+#     "iAF692_loopless_indicator_fba_blocked_500_1800_100_same_objective",
 #     "iAF692_loopless_fba_blocked_100_1800_50_same_objective", 
 #     "iAF692_loopless_fba_blocked_100_1800_100_same_objective", 
 #     "iAF692_loopless_fba_blocked_100_1800_200_same_objective", 
@@ -261,7 +261,7 @@ loopless_fba_vs_cb(organisms, cuts=false)
 #     "iML1515_loopless_fba_1800", 
 #     "iML1515_loopless_fba_nullspace_1800", 
 #     "iML1515_loopless_indicator_fba_1800", 
-#     "iML1515_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
+#     "iML1515_loopless_indicator_fba_blocked_500_1800_50_same_objective",
 #     "iML1515_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
 #     "iML1515_loopless_fba_blocked_100_1800_50_same_objective", 
 #     "iML1515_loopless_fba_blocked_100_1800_100_same_objective", 
@@ -284,7 +284,7 @@ loopless_fba_vs_cb(organisms, cuts=false)
 #     "iJR904_loopless_fba_1800", 
 #     "iJR904_loopless_fba_nullspace_1800", 
 #     "iJR904_loopless_indicator_fba_1800", 
-#     "iJR904_loopless_indicator_fba_blocked_500_1800_50_same_objective", #TODO: different objective
+#     "iJR904_loopless_indicator_fba_blocked_500_1800_50_same_objective",
 #     "iJR904_loopless_indicator_fba_blocked_500_1800_100_same_objective", 
 #     "iJR904_loopless_fba_blocked_100_1800_50_same_objective", 
 #     "iJR904_loopless_fba_blocked_100_1800_100_same_objective", 
