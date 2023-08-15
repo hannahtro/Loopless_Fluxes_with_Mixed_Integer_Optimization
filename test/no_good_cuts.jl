@@ -186,9 +186,9 @@ println("--------------------------------------------------------")
 #     "iSbBS512_1146"
 # ]
 
-combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
-combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
-combinatorial_benders_data("iAF692", time_limit=1800, fast=false, tol=1e-5)
+#combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
+#combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
+combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
 
 # for organism in organisms
 #     type = "cb"
