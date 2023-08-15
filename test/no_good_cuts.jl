@@ -160,8 +160,8 @@ println("--------------------------------------------------------")
 # no_good_cuts_data(organism, time_limit=60)
 
 # organism = "iJR904"
-# combinatorial_benders_data(organism, time_limit=600, csv=true, fast=false, silent=true)
-# combinatorial_benders_data(organism, time_limit=600, json=true, fast=true, silent=true)
+# combinatorial_benders_data(organism, time_limit=600, json=false, fast=false, silent=true)
+# combinatorial_benders_data(organism, time_limit=600, json=false, fast=true, silent=true)
 # no_good_cuts_data(organism, time_limit=60)
 
 # organisms = ["e_coli_core", "iAF692", "iJR904", "iML1515", "iNF517", "iSB619", "iNJ661", "iCN900"]
@@ -188,7 +188,7 @@ println("--------------------------------------------------------")
 
 #combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
 #combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
-combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
+# combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
 
 # for organism in organisms
 #     type = "cb"
@@ -225,21 +225,22 @@ combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
 # #    end
 # end
 
-# # yeast model
-# organisms = [
-#     "Alloascoidea_hylecoeti",
-#     "Ambrosiozyma_kashinagacola",
-#     "Ambrosiozyma_monospora",
-#     "Arthrobotrys_oligospora",
-#     "Arxula_adeninivorans",
-#     "Ascoidea_asiatica",
-#     "Ascoidea_rubescens",
-#     "Ashbya_aceri",
-#     "Aspergillus_nidulans",
-#     "Babjeviella_inositovora",
-#     "Botrytis_cinerea"
-# ]
-# for organism in organisms
-#     combinatorial_benders_data(organism, yeast=true, time_limit=1800, fast=false)
-#     combinatorial_benders_data(organism, yeast=true, time_limit=1800, fast=true)
-# end
+# yeast model
+organisms = [
+    "Alloascoidea_hylecoeti",
+    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_monospora",
+    "Arthrobotrys_oligospora",
+    "Arxula_adeninivorans",
+    "Ascoidea_asiatica",
+    "Ascoidea_rubescens",
+    "Ashbya_aceri",
+    "Aspergillus_nidulans",
+    "Babjeviella_inositovora",
+    "Botrytis_cinerea"
+]
+
+for organism in organisms
+    combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
+    combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
+end

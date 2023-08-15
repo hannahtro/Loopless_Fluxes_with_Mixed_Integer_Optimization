@@ -40,9 +40,9 @@ end
 
 # @show VERSION
 
-organism = "e_coli_core"
+# organism = "e_coli_core"
 # # loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
-loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, json=false)
+# loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, json=false)
 
 # loopless_indicator_fba_data(organism, time_limit=1800, nullspace_formulation=false)
 # loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=50, nullspace_formulation=false)
@@ -110,22 +110,22 @@ loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, json=fa
 # loopless_fba_data(organism, time_limit=30, nullspace_formulation=false, json=true)
 
 # yeast model
-# organisms = [
-#     "Alloascoidea_hylecoeti",
-#     "Ambrosiozyma_kashinagacola",
-#     "Ambrosiozyma_monospora",
-#     "Arthrobotrys_oligospora",
-#     "Arxula_adeninivorans",
-#     "Ascoidea_asiatica",
-#     "Ascoidea_rubescens",
-#     "Ashbya_aceri",
-#     "Aspergillus_nidulans",
-#     "Babjeviella_inositovora",
-#     "Botrytis_cinerea"
-# ]
+organisms = [
+    "Alloascoidea_hylecoeti",
+    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_monospora",
+    "Arthrobotrys_oligospora",
+    "Arxula_adeninivorans",
+    "Ascoidea_asiatica",
+    "Ascoidea_rubescens",
+    "Ashbya_aceri",
+    "Aspergillus_nidulans",
+    "Babjeviella_inositovora",
+    "Botrytis_cinerea"
+]
 
-# for organism in organisms
-#     loopless_fba_data(organism, yeast=true, time_limit=1800)
-# end 
+for organism in organisms
+    loopless_fba_data(organism, yeast=true, time_limit=1800*4)
+end 
 
 
