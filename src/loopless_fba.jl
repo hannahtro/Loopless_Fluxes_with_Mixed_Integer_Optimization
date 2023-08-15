@@ -21,6 +21,9 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
 
     model = make_optimization_model(molecular_model, optimizer)
     S = stoichiometry(molecular_model)
+    lb, ub = bounds(molecular_model)
+    max_flux_bound = maximum(abs.(vcat(lb, ub)))
+
     m, num_reactions = size(S)
     # xl, xu = bounds(molecular_model)
     # model = build_fba_model(S, xl, xu)
@@ -32,7 +35,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     #     print(f, model)
     # end
 
-    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation)
+    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation, max_flux_bound)
 
     # @show model
     # open("../csv/model_vector_" * organism * ".lp", "w") do f
@@ -67,6 +70,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:time_limit] = time_limit
     dict[:nullspace_formulation] = nullspace_formulation
     dict[:thermo_feasible] = thermo_feasible
+    dict[:max_flux_bound] = max_flux_bound
 
     if nullspace_formulation
         type = type * "_nullspace"

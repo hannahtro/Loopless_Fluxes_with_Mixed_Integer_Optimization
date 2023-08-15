@@ -563,6 +563,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     dict[:thermo_feasible] = thermo_feasible
     dict[:iter] = iter
     dict[:scip_tol] = scip_tol
+    dict[:cuts] = length(cuts)
 
     type = "combinatorial_benders"
     if fast

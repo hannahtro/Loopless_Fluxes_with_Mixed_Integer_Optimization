@@ -6,19 +6,19 @@ using Boscia, FrankWolfe
 """
 compute internal reactions of COBREXA model
 """
-function add_loopless_constraints(molecular_model, model; nullspace_formulation=true, reduced=false)
+function add_loopless_constraints(molecular_model, model, max_flux_bound; nullspace_formulation=true, reduced=false)
     # loopless model
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     if nullspace_formulation
-        add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs)
+        add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs, max_flux_bound)
     else 
         if !reduced
-            add_loopless_constraints_mu(model, stoichiometry(molecular_model), internal_rxn_idxs)
+            add_loopless_constraints_mu(model, stoichiometry(molecular_model), internal_rxn_idxs, max_flux_bound)
         else 
-            add_loopless_constraints_mu_reduced(model, stoichiometry(molecular_model), internal_rxn_idxs)
+            add_loopless_constraints_mu_reduced(model, stoichiometry(molecular_model), internal_rxn_idxs, max_flux_bound)
         end
     end
 end
@@ -26,7 +26,7 @@ end
 """
 add loopless FBA constraints
 """
-function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
+function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64}, max_flux_bound=1000)
     # @show length(internal_rxn_idxs)
     N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
 
@@ -36,17 +36,17 @@ function add_loopless_constraints(model, S, internal_rxn_idxs::Vector{Int64})
 
     # @show internal_rxn_idxs[1:10]
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
-        @constraint(model, x[ridx] <= 1000 * a[cidx])
+        @constraint(model, -max_flux_bound * (1 - a[cidx]) <= x[ridx])
+        @constraint(model, x[ridx] <= max_flux_bound * a[cidx])
 
         @constraint(
             model,
-            -1000 * a[cidx] + (1 - a[cidx]) <= G[cidx]
+            -max_flux_bound * a[cidx] + (1 - a[cidx]) <= G[cidx]
         )
         @constraint(
             model,
             G[cidx] <=
-            -a[cidx] + 1000 * (1 - a[cidx])
+            -a[cidx] + max_flux_bound * (1 - a[cidx])
         )
     end
     @constraint(model, N_int' * G .== 0)
@@ -55,7 +55,7 @@ end
 """
 add loopless FBA constraints witout nullspace formulation
 """
-function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64})
+function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64}, max_flux_bound=1000)
     # @show length(internal_rxn_idxs)
     S_int = Array(S[:, internal_rxn_idxs])
 
@@ -66,17 +66,17 @@ function add_loopless_constraints_mu(model, S, internal_rxn_idxs::Vector{Int64})
 
     # @show internal_rxn_idxs[1:10]
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
-        @constraint(model, x[ridx] <= 1000 * a[cidx])
+        @constraint(model, -max_flux_bound * (1 - a[cidx]) <= x[ridx])
+        @constraint(model, x[ridx] <= max_flux_bound * a[cidx])
 
         @constraint(
             model,
-            -1000 * a[cidx] + (1 - a[cidx]) <= G[cidx]
+            -max_flux_bound * a[cidx] + (1 - a[cidx]) <= G[cidx]
         )
         @constraint(
             model,
             G[cidx] <=
-            -a[cidx] + 1000 * (1 - a[cidx])
+            -a[cidx] + max_flux_bound * (1 - a[cidx])
         )
     end
 
@@ -107,7 +107,7 @@ end
 add loopless FBA constraints witout nullspace formulation using less decision variables,
 as G is defined by mu and S_int, we do not need G explicitly
 """
-function add_loopless_constraints_mu_reduced(model, S, internal_rxn_idxs::Vector{Int64})
+function add_loopless_constraints_mu_reduced(model, S, internal_rxn_idxs::Vector{Int64}, max_flux_bound=1000)
     # @show length(internal_rxn_idxs)
     S_int = Array(S[:, internal_rxn_idxs])
 
@@ -117,17 +117,17 @@ function add_loopless_constraints_mu_reduced(model, S, internal_rxn_idxs::Vector
 
     # @show internal_rxn_idxs[1:10]
     for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        @constraint(model, -1000 * (1 - a[cidx]) <= x[ridx])
-        @constraint(model, x[ridx] <= 1000 * a[cidx])
+        @constraint(model, -max_flux_bound * (1 - a[cidx]) <= x[ridx])
+        @constraint(model, x[ridx] <= max_flux_bound * a[cidx])
 
         @constraint(
             model,
-            -1000 * a[cidx] + (1 - a[cidx]) <= (μ' * S_int)[cidx]
+            -max_flux_bound * a[cidx] + (1 - a[cidx]) <= (μ' * S_int)[cidx]
         )
         @constraint(
             model,
             (μ' * S_int)[cidx] <=
-            -a[cidx] + 1000 * (1 - a[cidx])
+            -a[cidx] + max_flux_bound * (1 - a[cidx])
         )
     end
 
@@ -136,7 +136,7 @@ end
 """
 add loopless FBA constraints using indicator variables instead of big M formulation
 """
-function add_loopless_indicator_constraints(molecular_model, model)
+function add_loopless_indicator_constraints(molecular_model, model, max_flux_bound=1000)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -153,8 +153,8 @@ function add_loopless_indicator_constraints(molecular_model, model)
         @constraint(model, a[cidx] => {x[ridx] - 0.000001 >= 0})
         @constraint(model, !a[cidx] => {x[ridx] + 0.000001 <= 0})
 
-        @constraint(model, a[cidx] => {-1000 <= G[cidx] <= -1})
-        @constraint(model, !a[cidx] => {1 <= G[cidx] <= 1000})
+        @constraint(model, a[cidx] => {-max_flux_bound <= G[cidx] <= -1})
+        @constraint(model, !a[cidx] => {1 <= G[cidx] <= max_flux_bound})
     end
 
     @constraint(model, N_int' * G .== 0)
@@ -163,7 +163,7 @@ end
 """
 add loopless FBA constraints using indicator variables instead of big M formulation, without nullspace formulation
 """
-function add_loopless_indicator_constraints_mu(molecular_model, model)
+function add_loopless_indicator_constraints_mu(molecular_model, model, max_flux_bound=1000)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -181,8 +181,8 @@ function add_loopless_indicator_constraints_mu(molecular_model, model)
         @constraint(model, a[cidx] => {x[ridx] - 0.000001 >= 0})
         @constraint(model, !a[cidx] => {x[ridx] + 0.000001 <= 0})
 
-        @constraint(model, a[cidx] => {-1000 <= G[cidx] <= -1})
-        @constraint(model, !a[cidx] => {1 <= G[cidx] <= 1000})
+        @constraint(model, a[cidx] => {-max_flux_bound <= G[cidx] <= -1})
+        @constraint(model, !a[cidx] => {1 <= G[cidx] <= max_flux_bound})
     end
 
     @constraint(model, G' .== μ' * S_int)
@@ -298,7 +298,7 @@ end
 compute thermodynamic feasibility for a given cycle using the nullspace formulation,
     where the flux direction is captured by binary values
 """
-function thermo_feasible(cycle, flux_directions, S)
+function thermo_feasible(cycle, flux_directions, S, max_flux_bound=1000)
     # warning if flux_directions not integral
     if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
         @warn "flux directions should be binary"
@@ -310,9 +310,9 @@ function thermo_feasible(cycle, flux_directions, S)
     # @show cycle
     for (idx,cycle) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
-            @constraint(thermo_feasible_model, -1000 <= G[idx] <= -1)
+            @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
-            @constraint(thermo_feasible_model, 1 <= G[idx] <= 1000)
+            @constraint(thermo_feasible_model, 1 <= G[idx] <= max_flux_bound)
         end
     end
 
@@ -332,7 +332,7 @@ compute thermodynamic feasibility for a given cycle without using the nullspace 
     where the flux direction is captured by binary values
 """
 # TODO: add tolerance?
-function thermo_feasible_mu(cycle, flux_directions, S)
+function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
     thermo_feasible_model = Model(SCIP.Optimizer)
     S_int = S[:, cycle]
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
@@ -341,9 +341,9 @@ function thermo_feasible_mu(cycle, flux_directions, S)
     # add G variables for each reaction in cycle
     for (idx,cycle) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
-            @constraint(thermo_feasible_model, -1000 <= G[idx] <= -1)
+            @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
-            @constraint(thermo_feasible_model, 1 <= G[idx] <= 1000)
+            @constraint(thermo_feasible_model, 1 <= G[idx] <= max_flux_bound)
         end
     end
 
@@ -364,7 +364,7 @@ end
 """
 returns assignment of G and a for a given solution
 """
-function determine_G(S, solution, internal_rxn_idxs)
+function determine_G(S, solution, internal_rxn_idxs, max_flux_bound=1000)
     @assert length(solution) == size(S)[2]
     steady_state =  isapprox.(S * solution[1:size(S)[2]],0, atol=0.0001)
     @assert steady_state == ones(size(S)[1])
@@ -374,9 +374,9 @@ function determine_G(S, solution, internal_rxn_idxs)
 
     for (idx,ridx) in enumerate(internal_rxn_idxs)
         if solution[ridx] > 0
-            @constraint(Gibbs_model, -1000 <= G[idx] <= -1)
+            @constraint(Gibbs_model, -max_flux_bound <= G[idx] <= -1)
         elseif solution[ridx] < 0
-            @constraint(Gibbs_model, 1 <= G[idx] <= 1000)
+            @constraint(Gibbs_model, 1 <= G[idx] <= max_flux_bound)
         end
     end
 
@@ -397,7 +397,7 @@ end
 """
 returns assignment of G, mu and a for a given solution
 """
-function determine_G_mu(S, solution, internal_rxn_idxs)
+function determine_G_mu(S, solution, internal_rxn_idxs, max_flux_bound=1000)
     @assert length(solution) == size(S)[2]
     Gibbs_model = Model(SCIP.Optimizer)
     S_int = Array(S[:, internal_rxn_idxs])
@@ -408,9 +408,9 @@ function determine_G_mu(S, solution, internal_rxn_idxs)
 
     for (idx,ridx) in enumerate(internal_rxn_idxs)
         if solution[ridx] > 0
-            @constraint(Gibbs_model, -1000 <= G[idx] <= -1)
+            @constraint(Gibbs_model, -max_flux_bound <= G[idx] <= -1)
         elseif solution[ridx] < 0
-            @constraint(Gibbs_model, 1 <= G[idx] <= 1000)
+            @constraint(Gibbs_model, 1 <= G[idx] <= max_flux_bound)
         end
     end
 
