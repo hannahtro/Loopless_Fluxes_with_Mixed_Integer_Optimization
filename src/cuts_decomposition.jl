@@ -233,6 +233,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
         C = [idx for (idx,val) in enumerate(solution_a)]
         # C = [1,2,3]
+        C_list = [C]
     else 
         A = deepcopy(S_int)
         for (idx,a) in enumerate(solution_a)
@@ -277,11 +278,10 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
             push!(C_list, C)
         end  
 
-        # @show C_list
         # @show multiple_mis
         if multiple_mis > 0 && !isempty(C)
             for i in 1:multiple_mis
-                if i >= length(multiple_mis)
+                if i > multiple_mis
                     return C_list
                 end
                 coefs = ones(length(all_variables(mis_model)))
@@ -289,16 +289,14 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
                 @objective(mis_model, Min, coefs' * all_variables(mis_model))
                 optimize!(mis_model)
 
-                @show termination_status(mis_model)
                 if termination_status(mis_model) != MOI.OPTIMAL
                     println("MIS problem not feasible")
-                    @show termination_status(mis_model)
+                    # @show termination_status(mis_model)
                     C = []
                 else
                     solution_mis = [value(var) for var in all_variables(mis_model)]
-                    @show solution_mis
                     C = [idx for (idx,val) in enumerate(solution_mis) if !(isapprox(val,0))]
-                    push!(C_list, [C])
+                    push!(C_list, C)
                 end
             end
         end # TODO: return unique(C_list)
@@ -309,7 +307,8 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         # @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
     end
     # @show C_list
-    return C_list
+    @show unique(C_list)
+    return unique(C_list)
 end
 
 """
@@ -319,26 +318,27 @@ of the reactions in the minimal infeasible subset C.
 C contains indices of internal reactions in 1:length(internal_rxn_idxs)
 """
 function add_combinatorial_benders_cut(master_problem, solution_a, C_list, cuts)
-    C = C_list[1]
-    a = master_problem[:a]
-    Z = []
-    O = []
-    for idx in C
-        if solution_a[idx] > 0.000001 
-            push!(O, idx)
+    for C in C_list
+        a = master_problem[:a]
+        Z = []
+        O = []
+        for idx in C
+            if solution_a[idx] > 0.000001 
+                push!(O, idx)
+            else 
+                push!(Z, idx)
+            end
+        end 
+        # @show Z,O
+        if isempty(Z)
+            c = @constraint(master_problem, sum(a[O]) <= length(C)-1)
+        elseif isempty(O)
+            c = @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
         else 
-            push!(Z, idx)
+            c = @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
         end
-    end 
-    # @show Z,O
-    if isempty(Z)
-        c = @constraint(master_problem, sum(a[O]) <= length(C)-1)
-    elseif isempty(O)
-        c = @constraint(master_problem, sum([1-a[i] for i in Z]) <= length(C)-1)
-    else 
-        c = @constraint(master_problem, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(C)-1)
+        push!(cuts, (O, Z, length(C)))
     end
-    push!(cuts, (O, Z, length(C)))
 end 
 
 """
