@@ -433,6 +433,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     build_master_problem(master_problem, internal_rxn_idxs)   
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
+    println("master problem solved")
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     # solution_master = round.(solution_master, digits=6)
     solutions = [round.(solution_master, digits=5)]
@@ -459,6 +460,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C_list)
 
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+    println("sub problem solved")
     # @show solution_a
     # @show C
     # @show termination_sub
