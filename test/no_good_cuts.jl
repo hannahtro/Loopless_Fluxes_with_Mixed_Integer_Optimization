@@ -268,5 +268,10 @@ println("--------------------------------------------------------")
 #     combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
 # end
 
+
+organism = "iML1515"
+combinatorial_benders_data(organism, yeast=false, time_limit=20, fast=false, silent=true)
+
 organism = "Alloascoidea_hylecoeti"
-combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
+combinatorial_benders_data(organism, yeast=true, time_limit=20, fast=false, silent=true)
+

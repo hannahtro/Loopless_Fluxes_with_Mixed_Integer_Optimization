@@ -156,6 +156,7 @@ function build_master_problem(master_problem, internal_rxn_idxs)
     #     print(f, master_problem)
     # end
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mps")
+    println("model with " * string(length(x)) * " flux variables and " * string(num_variables(master_problem)) * " variables in total")
 end
 
 """
@@ -307,7 +308,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         # @assert !(solution_mis' * A * solution_master[internal_rxn_idxs] >= solution_mis' * b)
     end
     # @show C_list
-    @show unique(C_list)
+    # @show unique(C_list)
     return unique(C_list)
 end
 
@@ -433,8 +434,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     build_master_problem(master_problem, internal_rxn_idxs)   
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
-    println("master problem solved")
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
+    println("master problem solved")
     # solution_master = round.(solution_master, digits=6)
     solutions = [round.(solution_master, digits=5)]
     if length(solution_master) == 1
