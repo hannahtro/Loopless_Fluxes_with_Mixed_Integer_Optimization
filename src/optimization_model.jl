@@ -5,7 +5,6 @@ using Boscia, FrankWolfe
 # import MathOptInterface
 # const MOI = MathOptInterface
 
-#TODO: why do we get loops in max_flow?
 """
 build FBA model
 """
@@ -18,7 +17,7 @@ function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=
     # @show size(ub_transform)
 
     @variable(optimization_model, x[1:n])
-    @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
+    @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance
     @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
     @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
     # @show optimization_model
@@ -72,7 +71,6 @@ function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, 
         MOI.set(o, MOI.TimeLimitSec(), time_limit)
     end
 
-    # TODO: check required tolerance
     @show MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
     MOI.set(o, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
 
