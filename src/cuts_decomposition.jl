@@ -138,24 +138,36 @@ include("loopless_constraints.jl")
 """
 build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables
 """
-function build_master_problem(master_problem, internal_rxn_idxs)
-    # open("../csv/master_problem.lp", "w") do f
-    #     print(f, master_problem)
-    # end
-    set_attribute(master_problem, MOI.Silent(), true)
-    x = master_problem[:x]
+function build_master_problem(master_problem, internal_rxn_idxs, max_flux_bound=1000; big_m=false)
+    if big_m
+        set_attribute(master_problem, MOI.Silent(), true)
+        x = master_problem[:x]
 
-    # add indicator variables 
-    a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
-    for (cidx, ridx) in enumerate(internal_rxn_idxs)
-        # add indicator 
-        @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
-        @constraint(master_problem, !a[cidx] => {x[ridx] <= 0.0000001})
+        # add indicator variables 
+        a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
+        for (cidx, ridx) in enumerate(internal_rxn_idxs)
+            @constraint(master_problem, -max_flux_bound * (1 - a[cidx]) <= x[ridx])
+            @constraint(master_problem, x[ridx] <= max_flux_bound * a[cidx])
+        end
+    else 
+        # open("../csv/master_problem.lp", "w") do f
+        #     print(f, master_problem)
+        # end
+        set_attribute(master_problem, MOI.Silent(), true)
+        x = master_problem[:x]
+
+        # add indicator variables 
+        a = @variable(master_problem, a[1:length(internal_rxn_idxs)], Bin)
+        for (cidx, ridx) in enumerate(internal_rxn_idxs)
+            # add indicator 
+            @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
+            @constraint(master_problem, !a[cidx] => {x[ridx] <= 0.0000001})
+        end
+        # open("../csv/master_problem_with_binaries.lp", "w") do f
+        #     print(f, master_problem)
+        # end
+        # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mps")
     end
-    # open("../csv/master_problem_with_binaries.lp", "w") do f
-    #     print(f, master_problem)
-    # end
-    # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mps")
     println("model with " * string(length(x)) * " flux variables and " * string(num_variables(master_problem)) * " variables in total")
 end
 
@@ -418,7 +430,7 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0, big_m=false)
     @show fast
 
     _, num_reactions = size(S)
@@ -432,7 +444,12 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
     # solve master problem
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
-    build_master_problem(master_problem, internal_rxn_idxs)   
+    if big_m 
+        max_flux_bound = maximum(abs.(vcat(lb, ub)))
+        build_master_problem(master_problem, internal_rxn_idxs, max_flux_bound, big_m=true)   
+    else 
+        build_master_problem(master_problem, internal_rxn_idxs)   
+    end
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     println("master problem solved")
@@ -543,7 +560,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter, cuts
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0)
+function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0, big_m=false)
     @show fast
 
     if yeast 
@@ -566,11 +583,13 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if !isinf(time_limit)
         set_time_limit_sec(master_problem, time_limit)
     end    
-    MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), scip_tol)
-    @show MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"))
+    if optimizer == SCIP.Optimizer
+        MOI.set(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"), scip_tol)
+        @show MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol"))
+    end
     # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis)
+    objective_value, objective_values, dual_bounds, solution, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m)
 
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
     
@@ -586,7 +605,11 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if termination == MOI.OPTIMAL
         solution_flux = solution[1:num_reactions]
         solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
-        thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
+        if big_m 
+            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_indicator=false)
+        else 
+            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
+        end
         @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     else 
@@ -609,6 +632,9 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     type = "combinatorial_benders"
     if fast
         type = type * "_fast"
+    end
+    if big_m
+        type = type * "_big_m"
     end
     file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
     if json 

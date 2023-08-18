@@ -2,6 +2,7 @@ using Test
 using DataFrames
 using CSV
 using Infiltrator
+using GLPK
 
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")
@@ -81,6 +82,18 @@ include("../src/constraint_handler.jl")
 #     @show objective_value_multiple_mis, solution_multiple_mis
 #     println("--------------------------------------------------------")
 
+#     println("fast combinatorial Benders with big M")
+#     # fast combinatorial Benders'
+#     model = build_fba_model(S, lb, ub, set_objective=true)
+#     # print(model)
+#     objective_value_big_m, objective_values_big_m, dual_bounds_big_m, solution_big_m, time_big_m, termination_big_m, iter_big_m = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, big_m=true)
+#     @test termination_big_m == MOI.OPTIMAL 
+#     feasible = thermo_feasible(internal_rxn_idxs, solution_big_m[internal_rxn_idxs], S)
+#     @test feasible
+#     @test isapprox(objective_value_big_m, objective_value_fast)
+#     @test isapprox(solution_big_m[1:num_reactions], solution_fast[1:num_reactions], atol=0.00001)
+#     @show objective_value_big_m, solution_big_m
+#     println("--------------------------------------------------------")
 #     # println("constraint handler")
 #     # # test constraint handler    
 #     # scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
@@ -149,6 +162,11 @@ include("../src/constraint_handler.jl")
 #     # print(model)
 #     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true, multiple_mis=10)
     
+#     println("fast combinatorial Benders with big M")
+#     # fast combinatorial Benders'
+#     model = build_fba_model(S, lb, ub, set_objective=true)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true, big_m=true)
+
 #     # println("constraint handler")
 #     # # test constraint handler
 #     # # extract objective
@@ -163,115 +181,107 @@ include("../src/constraint_handler.jl")
 #     # # @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.TIME_LIMIT
 # end
 
-# constraint_handler_data("iAF692", time_limit=600)
-# no_good_cuts_data("iAF692", time_limit=3600)
-
 println("--------------------------------------------------------")
-# combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
-# combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)
-# combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=false, silent=false)
-# #combinatorial_benders_data("iJR904", time_limit=1800, csv=true, fast=true, silent=false)
-# combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=false, silent=false)
-# combinatorial_benders_data("iML1515", time_limit=1800, csv=true, fast=true, silent=false)
 
-# constraint_handler_data("iAF692", csv=true, silent=false)
-# combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=true)
+organisms = [
+    "iAF692", 
+    "iJR904", 
+    "iML1515", 
+    "e_coli_core",
+    "iNF517",
+    "iSB619",
+    "iNJ661",
+    "iCN900",
+    "iAF1260",
+    "iEK1008",
+    "iJO1366",
+    "iMM904",
+    "iSDY_1059",
+    "iSFV_1184",
+    "iSF_1195",
+    "iS_1188",
+    "iSbBS512_1146"
+]
 
-# organism = "iAF692" # "iNJ661
-# combinatorial_benders_data(organism, time_limit=1800, csv=true, fast=false, silent=true, scip_tol=1.0e-5)
-# combinatorial_benders_data(organism, time_limit=600, csv=true, fast=true, silent=true)
-# no_good_cuts_data(organism, time_limit=60)
+for organism in organisms
+    # type = "cb"
+    # try 
+    #     combinatorial_benders_data(organism, time_limit=1800, fast=false)
+    # catch e 
+    #     println(e)
+    #     file = organism * "_" * type
+    #     open(file * ".txt","a") do io
+    #         println(io, e)
+    #     end
+    # end
 
-# organism = "iJR904"
-# combinatorial_benders_data(organism, time_limit=600, json=false, fast=false, silent=true)
-# combinatorial_benders_data(organism, time_limit=600, json=false, fast=true, silent=true)
-# no_good_cuts_data(organism, time_limit=60)
-
-# organisms = ["e_coli_core", "iAF692", "iJR904", "iML1515", "iNF517", "iSB619", "iNJ661", "iCN900"]
-
-# organisms = [
-#     "iAF692", 
-#     "iJR904", 
-#     "iML1515", 
-#     "e_coli_core",
-#     "iNF517",
-#     "iSB619",
-#     "iNJ661",
-#     "iCN900",
-#     "iAF1260",
-#     "iEK1008",
-#     "iJO1366",
-#     "iMM904",
-#     "iSDY_1059",
-#     "iSFV_1184",
-#     "iSF_1195",
-#     "iS_1188",
-#     "iSbBS512_1146"
-# ]
-
-#combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
-#combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
-# combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
-
-# for organism in organisms
-#     type = "cb"
-#     try 
-#         combinatorial_benders_data(organism, time_limit=1800, fast=false)
-#     catch e 
-#         println(e)
-#         file = organism * "_" * type
-#         open(file * ".txt","a") do io
-#             println(io, e)
-#         end
-#     end
-
-#     type = "cb_fast"
-#     try 
-#         combinatorial_benders_data(organism, time_limit=1800, fast=true)
-#     catch e 
-#         println(e)
-#         file = organism * "_" * type
-#         open(file * ".txt","a") do io
-#             println(io, e)
-#         end
-#     end
+    # type = "cb_fast"
+    # try 
+    #     combinatorial_benders_data(organism, time_limit=1800, fast=true)
+    # catch e 
+    #     println(e)
+    #     file = organism * "_" * type
+    #     open(file * ".txt","a") do io
+    #         println(io, e)
+    #     end
+    # end
+    type = "cb_fast_big_m"
+    try 
+        combinatorial_benders_data(organism, time_limit=1800, fast=true, silent=true, json=true, big_m=true)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
     
-# #    type = "ch"
-# #    try 
-# #        constraint_handler_data(organism, time_limit=600)
-# #    catch e 
-# #        println(e)
-# #        file = organism * "_" * type
-# #        open(file * ".txt","a") do io
-# #            println(io, e)
-# #        end
-# #    end
-# end
+#    type = "ch"
+#    try 
+#        constraint_handler_data(organism, time_limit=600)
+#    catch e 
+#        println(e)
+#        file = organism * "_" * type
+#        open(file * ".txt","a") do io
+#            println(io, e)
+#        end
+#    end
+end
 
-# # yeast model
-# organisms = [
-#     "Alloascoidea_hylecoeti",
-#     "Ambrosiozyma_kashinagacola",
-#     "Ambrosiozyma_monospora",
-#     "Arthrobotrys_oligospora",
-#     "Arxula_adeninivorans",
-#     "Ascoidea_asiatica",
-#     "Ascoidea_rubescens",
-#     "Ashbya_aceri",
-#     "Aspergillus_nidulans",
-#     "Babjeviella_inositovora",
-#     "Botrytis_cinerea"
-# ]
+# yeast model
+organisms = [
+    "Alloascoidea_hylecoeti",
+    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_monospora",
+    "Arthrobotrys_oligospora",
+    "Arxula_adeninivorans",
+    "Ascoidea_asiatica",
+    "Ascoidea_rubescens",
+    "Ashbya_aceri",
+    "Aspergillus_nidulans",
+    "Babjeviella_inositovora",
+    "Botrytis_cinerea"
+]
 
-# for organism in organisms
-#     combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
-#     combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
-# end
+for organism in organisms
+    # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
+    # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
+    type = "cb_fast_big_m"
+    try 
+        combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true, silent=true, json=true, big_m=true)
+    catch e 
+        println(e)
+        file = organism * "_" * type
+        open(file * ".txt","a") do io
+            println(io, e)
+        end
+    end
+end
 
 
-organism = "iML1515"
-combinatorial_benders_data(organism, yeast=false, time_limit=20, fast=false, silent=true)
+# organism = "iML1515"
+# combinatorial_benders_data(organism, yeast=false, time_limit=600, fast=true, silent=true, json=true, big_m=true)
 
-organism = "Alloascoidea_hylecoeti"
-combinatorial_benders_data(organism, yeast=true, time_limit=20, fast=false, silent=true)
+# organism = "Alloascoidea_hylecoeti"
+# combinatorial_benders_data(organism, yeast=true, time_limit=600, fast=false, silent=true, json=false, big_m=true)#optimizer=GLPK.Optimizer)
 
