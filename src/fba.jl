@@ -1,38 +1,71 @@
 using COBREXA, Serialization, COBREXA.Everything
-using SCIP, JuMP, Tulip
+using SCIP, JuMP
 using LinearAlgebra
-using Boscia, FrankWolfe
-using DataFrames, CSV
+using DataFrames, CSV, JSON
 
 include("optimization_model.jl")
+include("loopless_constraints.jl")
 
-function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba")
+function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, json=true, yeast=false)
     # build model
     optimizer = SCIP.Optimizer
 
-    molecular_model = deserialize("../data/" * organism * ".js")
-    print_model(molecular_model)
+    if yeast 
+        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
+    else 
+        molecular_model = deserialize("../data/" * organism * ".js")
+        print_model(molecular_model, organism)
+    end
+    S = stoichiometry(molecular_model)
+    lb, ub = bounds(molecular_model)
+
+    # # check for fixed reactions
+    # fixed_reactions = [idx for (idx,val) in enumerate(lb) if val==ub[idx]]
+    # if !isempty(fixed_reactions)
+    #     @warn string(fixed_reactions) * " fixed to " * string(lb[fixed_reactions])
+    # end
+
+    # # check for fixed/ exchange (?) reactions
+    # occurencs = [(i, count(==(i), S.rowval)) for i in unique(S.rowval)]
+    # for (row, sum) in occurencs
+    #     if sum == 1
+    #         @warn string(row) * " is fixed to zero"
+    #     end
+    # end
 
     model = make_optimization_model(molecular_model, optimizer)
-    @show model
+    # @show model
     set_attribute(model, MOI.Silent(), true)
 
-    # FBA
-    objective_fba, _, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
-
-    df = DataFrame(
-        objective_fba=objective_fba, 
-        vars_fba=vars_fba, 
-        time_fba=time_fba, 
-        termination_fba=termination_fba)
-
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
-
-    if !isfile(file_name)
-        CSV.write(file_name, df, append=true, writeheader=true)
-    else 
-        CSV.write(file_name, df, append=true)    
+    if save_lp
+        write_to_file(model, "../lp_models/fba_model_" * organism * ".lp")
     end
+
+    # FBA
+    objective_fba, dual_bound, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
+
+    # test feasibility, filter non-zero fluxes, set binaries accordingly
+    non_zero_flux_indices = [idx for (idx, val) in enumerate(vars_fba) if !isapprox(val, 0, atol=1e-6)]
+    non_zero_flux_directions = [vars_fba[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+    thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+    @show thermo_feasible
+
+    dict = Dict{Symbol, Any}()
+    dict[:objective_value] = objective_fba
+    dict[:dual_bound] = dual_bound
+    dict[:solution] = vars_fba
+    dict[:time] = time_fba
+    dict[:termination] = termination_fba
+    dict[:time_limit] = time_limit
+    dict[:thermo_feasible] = thermo_feasible
+
+    if json 
+        file_name = joinpath(@__DIR__, "../json/" * organism * "_" * type * ".json")
+        open(file_name, "w") do f
+            JSON.print(f, dict) 
+        end
+    end
+    # dict  = JSON.parse(open("../json/" * organism * "_" * type * ".json"))  
 
     # # loopless FBA
     # type = "loopless_fba"

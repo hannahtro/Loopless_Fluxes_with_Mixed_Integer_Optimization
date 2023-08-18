@@ -230,7 +230,8 @@ end
     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution_transform, reaction_mapping)
     @show unbounded_cycles_original
     internal_rxn_idxs = [2,3,4]
-    feasible = thermo_feasible(unbounded_cycles_original[1], flux_directions[1], S)
+    flux_directions = [dir > 0 ? dir : 0 for dir in flux_directions[1]]
+    feasible = thermo_feasible(unbounded_cycles_original[1], flux_directions, S)
     @test !feasible
 end
 
@@ -271,6 +272,7 @@ end
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
+    @show num_blocked_cycles
 end
 
 

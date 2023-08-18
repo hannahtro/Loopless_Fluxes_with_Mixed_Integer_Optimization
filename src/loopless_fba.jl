@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
 using DataFrames, CSV
-using SCIP, JuMP
+using SCIP, JuMP, JSON
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")
@@ -9,7 +9,140 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", csv=true)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", json=true, yeast=false)
+    # build model
+    optimizer = SCIP.Optimizer
+    if yeast 
+        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
+    else 
+        molecular_model = deserialize("../data/" * organism * ".js")
+        print_model(molecular_model, organism)
+    end
+
+    model = make_optimization_model(molecular_model, optimizer)
+    S = stoichiometry(molecular_model)
+    lb, ub = bounds(molecular_model)
+    max_flux_bound = maximum(abs.(vcat(lb, ub)))
+
+    m, num_reactions = size(S)
+    # xl, xu = bounds(molecular_model)
+    # model = build_fba_model(S, xl, xu)
+    # x = model[:x]
+    # @objective(model, MAX_SENSE, objective(molecular_model)' * x)
+
+    # @show model
+    # open("../csv/model_cobrexa_" * organism * ".lp", "w") do f
+    #     print(f, model)
+    # end
+
+    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation, max_flux_bound)
+
+    # @show model
+    # open("../csv/model_vector_" * organism * ".lp", "w") do f
+    #     print(f, model)
+    # end
+
+    objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+        optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
+
+    nodes = MOI.get(model, MOI.NodeCount())
+    if termination_loopless_fba == MOI.OPTIMAL
+        S = stoichiometry(molecular_model)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
+        @assert steady_state == ones(size(S)[1])
+        # test feasibility, filter non-zero fluxes, set binaries accordingly
+        solution = vars_loopless_fba[1:num_reactions]
+        non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
+        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+        thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+        @assert thermo_feasible
+    else 
+        thermo_feasible = false
+    end
+
+    dict = Dict{Symbol, Any}()
+    dict[:objective_value] = objective_loopless_fba
+    dict[:dual_bound] = dual_bound
+    dict[:solution] = vars_loopless_fba
+    dict[:time] = time_loopless_fba
+    dict[:termination] = termination_loopless_fba
+    dict[:nodes] = nodes
+    dict[:time_limit] = time_limit
+    dict[:nullspace_formulation] = nullspace_formulation
+    dict[:thermo_feasible] = thermo_feasible
+    dict[:max_flux_bound] = max_flux_bound
+
+    if nullspace_formulation
+        type = type * "_nullspace"
+    end
+    
+    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    if json 
+        open(file_name, "w") do f
+            JSON.print(f, dict) 
+        end
+    end
+    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
+end
+
+"""
+compute dual gap with time limit of loopless FBA
+"""
+function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba_relaxed", csv=true, save_lp=false)
+    # build model
+    optimizer = SCIP.Optimizer
+    molecular_model = deserialize("../data/" * organism * ".js")
+    # print_model(molecular_model, organism)
+
+    model = make_optimization_model(molecular_model, optimizer)
+    S = stoichiometry(molecular_model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+
+    add_relaxed_loopless_constraints(model, S, internal_rxn_idxs, nullspace_formulation=nullspace_formulation)
+
+    if nullspace_formulation
+        type = type * "_nullspace"
+    end
+
+    if save_lp 
+        write_to_file(model, "../csv/models/" * type * "_" * organism * ".lp")
+    end 
+
+    objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+        optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
+
+    nodes = MOI.get(model, MOI.NodeCount())
+    if termination_loopless_fba == MOI.OPTIMAL
+        S = stoichiometry(molecular_model)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
+        @assert steady_state == ones(size(S)[1])
+    end
+
+    # @show nodes
+    df = DataFrame(
+        objective_value=objective_loopless_fba, 
+        dual_bound=dual_bound,
+        solution=[vars_loopless_fba], 
+        time=time_loopless_fba, 
+        termination=termination_loopless_fba,
+        nodes=nodes,
+        time_limit=time_limit, 
+        nullspace_formulation=nullspace_formulation)
+
+    if csv
+        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
+    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
+end
+
+"""
+compute dual gap with time limit of loopless FBA with indicator for bilinear constraints
+"""
+function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type="loopless_bilinear_fba", csv=true)
     # build model
     optimizer = SCIP.Optimizer
     molecular_model = deserialize("../data/" * organism * ".js")
@@ -27,7 +160,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     #     print(f, model)
     # end
 
-    add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation)
+    add_loopless_bilinear_constraints(molecular_model, model)
 
     # @show model
     # open("../csv/model_vector_" * organism * ".lp", "w") do f
@@ -38,26 +171,22 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
 
     nodes = MOI.get(model, MOI.NodeCount())
-    @show termination_status(model)
-
-    S = stoichiometry(molecular_model)
-    steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
-    @assert steady_state == ones(size(S)[1])
+    if termination_loopless_fba == MOI.OPTIMAL
+        S = stoichiometry(molecular_model)
+        steady_state =  isapprox.(S * vars_loopless_fba[1:size(S)[2]],0, atol=0.0001)
+        @assert steady_state == ones(size(S)[1])
+    end
 
     # @show nodes
     df = DataFrame(
         objective_value=objective_loopless_fba, 
         dual_bound=dual_bound,
-        solution=vars_loopless_fba, 
+        solution=[vars_loopless_fba], 
         time=time_loopless_fba, 
         termination=termination_loopless_fba,
         nodes=nodes,
-        time_limit=time_limit, 
-        nullspace_formulation=nullspace_formulation)
-
-    if nullspace_formulation
-        type = type * "_nullspace"
-    end
+        time_limit=time_limit
+    )
     
     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 

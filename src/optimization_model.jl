@@ -2,12 +2,13 @@ using COBREXA, Serialization, COBREXA.Everything
 using SCIP, JuMP
 using LinearAlgebra
 using Boscia, FrankWolfe
+# import MathOptInterface
+# const MOI = MathOptInterface
 
-#TODO: why do we get loops in max_flow?
 """
 build FBA model
 """
-function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer)
+function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=false, optimizer=SCIP.Optimizer, time_limit=1800)
     # make optimization model
     optimization_model = Model(optimizer)
     _, n = size(S_transform)
@@ -16,7 +17,7 @@ function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=
     # @show size(ub_transform)
 
     @variable(optimization_model, x[1:n])
-    @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance #TODO set coefficients to -1/1?
+    @constraint(optimization_model, mb, S_transform * x .== 0) # mass balance
     @constraint(optimization_model, lbs, lb_transform .<= x) # lower bounds
     @constraint(optimization_model, ubs, x .<= ub_transform) # upper bounds
     # @show optimization_model
@@ -24,8 +25,91 @@ function build_fba_model(S_transform, lb_transform, ub_transform; set_objective=
     if set_objective
         @objective(optimization_model, Max, sum(x))
     end 
+
+    if !isinf(time_limit)
+        set_time_limit_sec(optimization_model, time_limit)
+    end
     
     return optimization_model
+end
+
+"""
+build FBA model using MOI interface
+"""
+# TODO: ensure order of variables after copying
+function build_fba_indicator_model_moi(S_transform, lb_transform, ub_transform, internal_rxn_idxs; set_objective=false, optimizer=SCIP.Optimizer, time_limit=Inf, objective_func_vars=Nothing, objective_func_coeffs=Nothing, silent=true)
+    # make optimization model
+    optimization_model = Model(optimizer)
+    model = direct_model(optimization_model.moi_backend)
+
+    m, n = size(S_transform)
+
+    x = @variable(model, x[1:n])
+    @constraint(model, mb, S_transform * x .== 0) # mass balance
+    @constraint(model, lbs, lb_transform .<= x) # lower bounds
+    @constraint(model, ubs, x .<= ub_transform) # upper bounds
+    
+    if set_objective
+        if objective_func_vars != Nothing
+            @objective(model, Max, objective_func_coeffs' * objective_func_vars)        
+        else 
+            @objective(model, Max, sum(x))
+        end
+    end 
+
+    a = build_master_problem(model, internal_rxn_idxs)
+
+    o_inner = SCIP.Optimizer(; presolving_maxrounds=0)
+    o = MOI.Bridges.full_bridge_optimizer(o_inner, Float64)
+    MOI.copy_to(o, model) # adds complementary v variables
+    if silent
+        MOI.set(o, MOI.Silent(), true)
+    else 
+        MOI.set(o, MOI.Silent(), false)
+    end
+    if !isinf(time_limit)
+        MOI.set(o, MOI.TimeLimitSec(), time_limit)
+    end
+
+    @show MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol"))
+    MOI.set(o, MOI.RawOptimizerAttribute("numerics/feastol"), 1e-4)
+
+    # @show MOI.get(o, MOI.NumberOfVariables())
+    # @show MOI.get(o, MOI.ListOfVariableIndices())
+    # x = MOI.get(o,  MOI.ListOfVariableIndices())
+    # @show MOI.get(o, MOI.ListOfConstraintTypesPresent())
+    # var_names = [MOI.get(o, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o, MOI.NumberOfVariables())]
+    # @show var_names
+    # var_names_inner = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:MOI.get(o_inner, MOI.NumberOfVariables())]
+    # @show var_names_inner
+    # var_names = [MOI.get(o_inner, MOI.VariableName(), MOI.VariableIndex(i)) for i in 1:n+length(internal_rxn_idxs)]
+    # @show var_names
+    
+    # @show MOI.get(o, MOI.ZeroOne())
+    binary_vars = [MOI.VariableIndex(i) for i in 1:length(internal_rxn_idxs)]
+    flux_vars = [MOI.VariableIndex(i) for i in length(internal_rxn_idxs)+1:length(internal_rxn_idxs)+n]
+    @assert length(flux_vars) == n
+    # @show binary_vars
+    # @show flux_vars
+
+    # SCIP.SCIPwriteOrigProblem(
+    #     o_inner,
+    #     "original_problem.lp",
+    #     C_NULL,
+    #     SCIP.TRUE
+    # )
+    # @show SCIP.SCIPgetOrigVars(o_inner)
+    # @show SCIP.SCIPgetNOrigVars(o_inner)
+    # f = open("test", "w")
+    # SCIP.SCIPwriteVarsList(
+    #     o_inner,
+    #     f.handle,
+    #     SCIP.SCIPgetOrigVars(o_inner),
+    #     SCIP.SCIPgetNOrigVars(o_inner),
+    #     SCIP.TRUE,
+    #     44
+    # )
+    return o_inner, binary_vars, flux_vars
 end
 
 """
