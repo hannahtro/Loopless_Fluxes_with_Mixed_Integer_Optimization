@@ -225,62 +225,62 @@ println("--------------------------------------------------------")
 # #    end
 # end
 
-# yeast model
-organisms = [
-    # "Alloascoidea_hylecoeti",
-    # "Ambrosiozyma_kashinagacola",
-    "Ambrosiozyma_monospora",
-    "Arthrobotrys_oligospora",
-    "Arxula_adeninivorans",
-    "Ascoidea_asiatica",
-    "Ascoidea_rubescens",
-    "Ashbya_aceri",
-    "Aspergillus_nidulans",
-    "Babjeviella_inositovora",
-    "Botrytis_cinerea"
-]
+# # yeast model
+# organisms = [
+#     # "Alloascoidea_hylecoeti",
+#     # "Ambrosiozyma_kashinagacola",
+#     "Ambrosiozyma_monospora",
+#     "Arthrobotrys_oligospora",
+#     "Arxula_adeninivorans",
+#     "Ascoidea_asiatica",
+#     "Ascoidea_rubescens",
+#     "Ashbya_aceri",
+#     "Aspergillus_nidulans",
+#     "Babjeviella_inositovora",
+#     "Botrytis_cinerea"
+# ]
 
-for organism in organisms
-    #combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
-    # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
-    type = "cb_fast"
-    try 
-         combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
-    catch e 
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
-end
+# for organism in organisms
+#     #combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
+#     # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
+#     type = "cb_fast"
+#     try 
+#          combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
+#     catch e 
+#         println(e)
+#         file = organism * "_" * type
+#         open(file * ".txt","a") do io
+#             println(io, e)
+#         end
+#     end
+# end
 
 
-organisms = [
-    # "Alloascoidea_hylecoeti",
-    # "Ambrosiozyma_kashinagacola",
-    # "Ambrosiozyma_monospora",
-    "Arthrobotrys_oligospora",
-    "Arxula_adeninivorans",
-    "Ascoidea_asiatica",
-    "Ascoidea_rubescens",
-    "Ashbya_aceri",
-    "Aspergillus_nidulans",
-    "Babjeviella_inositovora",
-    "Botrytis_cinerea"
-]
+# organisms = [
+#     # "Alloascoidea_hylecoeti",
+#     # "Ambrosiozyma_kashinagacola",
+#     # "Ambrosiozyma_monospora",
+#     "Arthrobotrys_oligospora",
+#     "Arxula_adeninivorans",
+#     "Ascoidea_asiatica",
+#     "Ascoidea_rubescens",
+#     "Ashbya_aceri",
+#     "Aspergillus_nidulans",
+#     "Babjeviella_inositovora",
+#     "Botrytis_cinerea"
+# ]
 
-for organism in organisms
-    # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
-    # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
-    type = "cb"
-    try
-         combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
-    catch e
-        println(e)
-        file = organism * "_" * type
-        open(file * ".txt","a") do io
-            println(io, e)
-        end
-    end
-end
+# for organism in organisms
+#     # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
+#     # combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
+#     type = "cb"
+#     try
+#          combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=false)
+#     catch e
+#         println(e)
+#         file = organism * "_" * type
+#         open(file * ".txt","a") do io
+#             println(io, e)
+#         end
+#     end
+# end
