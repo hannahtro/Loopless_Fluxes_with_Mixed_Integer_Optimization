@@ -1,5 +1,0 @@
-type,objective,termination,blocked_cycles,time_s,nodes
-loopless_fba_blocked,0.0268,OPTIMAL,50,7.33,1699
-loopless_fba_blocked,0.0268,OPTIMAL,100,6.51,818
-loopless_fba_blocked_shortest_cycles,0.0268,OPTIMAL,50,7.34,1528
-loopless_fba_blocked_shortest_cycles,0.0268,OPTIMAL,100,6.39,917

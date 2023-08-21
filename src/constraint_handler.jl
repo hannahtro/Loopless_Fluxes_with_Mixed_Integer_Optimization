@@ -119,7 +119,7 @@ function SCIP.lock(ch::ThermoFeasibleConstaintHandler, constraint, locktype, nlo
 end
 
 function constraint_handler_data(organism; time_limit=1800, csv=true, silent=true, mute=true)
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, "organism")
 
     S = stoichiometry(molecular_model)
@@ -180,7 +180,7 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
         ncalls=ch.ncalls)
 
     type = "constraint_handler"
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
     if csv
         CSV.write(file_name, df, append=false, writeheader=true)
     end

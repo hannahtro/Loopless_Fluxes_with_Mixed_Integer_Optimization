@@ -9,7 +9,7 @@ organism = "iAF692"
 # organism = "iML1515"
 
 optimizer = SCIP.Optimizer
-molecular_model = deserialize("../data/" * organism * ".js")
+molecular_model = deserialize("../molecular_models/" * organism * ".js")
 # print_model(molecular_model, organism)
 
 S = stoichiometry(molecular_model)

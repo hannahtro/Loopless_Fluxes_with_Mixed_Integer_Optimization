@@ -3,6 +3,9 @@ using Test
 
 include("../src/set_primal.jl")
 
+println("============================================================")
+println("SET PRIMAL")
+println("============================================================")
 
 @testset "simple model with feasible loop" begin
     S = [[1,0,0,0,0,0,0,0,0] [0,0,0,0,0,1,0,0,0] [0,1,0,0,0,-1,0,0,0] [0,-1,0,0,0,0,1,0,0] [0,0,0,0,0,0,-1,0,0] [0,0,0,0,-1,0,0,0,0] [-1,-1,1,1,0,0,0,0,0] [0,1,0,-1,1,0,0,0,0] [0,0,-1,0,0,0,0,0,0] [0,0,0,0,0,0,0,1,0] [0,0,0,1,0,0,0,-1,0] [0,0,0,-1,0,0,0,0,1] [0,0,0,0,0,0,0,0,-1]]
@@ -28,17 +31,17 @@ include("../src/set_primal.jl")
     @test nodes >= nodes_primal
 end
 
-@testset "set optimal solution as primal in loopless FBA without nullspace formulation" begin
-    organism = "iAF692"
+# @testset "set optimal solution as primal in loopless FBA without nullspace formulation" begin
+#     organism = "iAF692"
 
-    objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, csv=false)
-    loopless_fba_set_primal(organism, nullspace_formulation=true, load=false, time_limit=1800, csv=false)
+#     objective_value, solution, time, nodes = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, json=false)
+#     loopless_fba_set_primal(organism, nullspace_formulation=true, load=false, time_limit=1800, csv=false)
 
     # objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal(organism, nullspace_formulation=true, flux=solution[1:690], load=false, time_limit=1800)
 
     # @test isapprox(objective_value_primal,objective_value, atol=0.001)
     # @test nodes_primal < nodes
-end
+# end
 
 # TODO: no assignment for G found for given flux
 # @testset "set optimal solution as primal in loopless FBA with nullspace formulation" begin

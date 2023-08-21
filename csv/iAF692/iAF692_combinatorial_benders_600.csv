@@ -1,2 +1,0 @@
-objective_value,dual_bounds,objective_values,solution,time,termination,time_limit,thermo_feasible,iter
-NaN,NaN,NaN,NaN,80.03900790214539,INFEASIBLE,600,false,58

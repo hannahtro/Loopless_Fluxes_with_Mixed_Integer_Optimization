@@ -96,7 +96,7 @@ include("loopless_constraints.jl")
 # end
 
 # function no_good_cuts_data(organism; time_limit=1800, csv=true)
-#     model = deserialize("../data/" * organism * ".js")
+#     model = deserialize("../molecular_models/" * organism * ".js")
 #     print_model(model, "organism")
 
 #     S = stoichiometry(model)
@@ -129,7 +129,7 @@ include("loopless_constraints.jl")
 #         iter=iter)
 
 #     type = "no_good_cuts"
-#     file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+#     file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 #     if csv
 #         CSV.write(file_name, df, append=false, writeheader=true)
 #     end
@@ -140,7 +140,7 @@ build master problem of combinatorial Benders decomposition with FBA constraints
 maps indicator variables to flux direction
 """
 function build_master_problem(master_problem, internal_rxn_idxs)
-    # open("../csv/master_problem.lp", "w") do f
+    # open("../experiments/csv/master_problem.lp", "w") do f
     #     print(f, master_problem)
     # end
     set_attribute(master_problem, MOI.Silent(), true)
@@ -153,10 +153,10 @@ function build_master_problem(master_problem, internal_rxn_idxs)
         @constraint(master_problem, a[cidx] => {x[ridx] >= -0.0000001})
         @constraint(master_problem, !a[cidx] => {x[ridx] <= 0.0000001})
     end
-    # open("../csv/master_problem_with_binaries.lp", "w") do f
+    # open("../experiments/csv/master_problem_with_binaries.lp", "w") do f
     #     print(f, master_problem)
     # end
-    # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mps")
+    # write_to_file(master_problem, "../experiments/csv/models/cb_master_iAF692.mps")
     println("model with " * string(length(x)) * " flux variables and " * string(num_variables(master_problem)) * " variables in total")
 end
 
@@ -429,14 +429,14 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     objective_values = []
     cuts = []
 
-    # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
-    # optimal_solution = parse_array_as_string(first(CSV.read("../csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
+    # optimal_solution = parse_array_as_string(first(CSV.read("../experiments/csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
+    # optimal_solution = parse_array_as_string(first(CSV.read("../experiments/csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
     # solve master problem
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     build_master_problem(master_problem, internal_rxn_idxs)   
-    # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
+    # write_to_file(master_problem, "../experiments/csv/models/cb_master_iAF692.mof.json")
     if save_model
-        open("../csv/model_" * organism * ".lp", "w") do f
+        open("../experiments/csv/model_" * organism * ".lp", "w") do f
             print(f, master_problem)
         end
     end 
@@ -481,9 +481,9 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         @assert has_duals(sub_problem)
 
         # add CB cut to MP and solve MP
-        add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
+        add_combinatorial_benders_cut(master_problem, solution_a, C_list, cuts)
         if save_model
-            open("../csv/model_" * organism * "_" * string(iter) * ".lp", "w") do f
+            open("../experiments/csv/model_" * organism * "_" * string(iter) * ".lp", "w") do f
                 print(f, master_problem)
             end
         end 
@@ -557,9 +557,9 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     @show fast
 
     if yeast 
-        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
+        molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../data/" * organism * ".js")
+        molecular_model = deserialize("../molecular_models/" * organism * ".js")
         print_model(molecular_model, organism)
     end
 

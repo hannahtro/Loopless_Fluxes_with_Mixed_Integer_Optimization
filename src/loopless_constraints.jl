@@ -263,7 +263,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
                 @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
             end
         end
-        # open("../csv/model_vector.lp", "w") do f
+        # open("../experiments/csv/model_vector.lp", "w") do f
         #     print(f, optimization_model)
         # end
     else 
@@ -285,7 +285,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
                 @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
             end
         end
-            # open("../csv/model_loop.lp", "w") do f
+            # open("../experiments/csv/model_loop.lp", "w") do f
             #     print(f, optimization_model)
             # end
         # print(optimization_model)
