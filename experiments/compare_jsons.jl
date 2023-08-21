@@ -47,7 +47,7 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 
         # read cobrexa data
         if !yeast
-            dict = JSON.parse(open(organism * "_cobrexa_loopless_fba_" * string(time_limit) * ".json"))
+            dict = JSON.parse(open("json/" * organism * "_cobrexa_loopless_fba_" * string(time_limit) * ".json"))
             dict_organism[:termination_ll_fba_cobrexa] = dict["termination"]
             dict_organism[:objective_value_ll_fba_cobrexa] = dict["objective_value"]
             dict_organism[:time_ll_fba_cobrexa] = dict["time"]
@@ -55,14 +55,14 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 
         # read ll-FBA data
         if !yeast
-            dict = JSON.parse(open(organism * "_loopless_fba_nullspace_" * string(time_limit) * ".json"))
+            dict = JSON.parse(open("json/" * organism * "_loopless_fba_nullspace_" * string(time_limit) * ".json"))
             dict_organism[:termination_ll_fba_nullspace] = dict["termination"]
             dict_organism[:objective_value_ll_fba_nullspace] = dict["objective_value"]
             dict_organism[:time_ll_fba_nullspace] = dict["time"]
         end
 
         # read ll-FBA without nullspace formulation data
-        dict = JSON.parse(open(organism * "_loopless_fba_" * string(time_limit) * ".json"))
+        dict = JSON.parse(open("json/" * organism * "_loopless_fba_" * string(time_limit) * ".json"))
         dict_organism[:termination_ll_fba] = dict["termination"]
         dict_organism[:objective_value_ll_fba] = dict["objective_value"]
         dict_organism[:time_ll_fba] = dict["time"]
@@ -70,9 +70,9 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 
         # read no good cuts data 
         if organism == "iAF692"
-            dict = JSON.parse(open(organism * "_combinatorial_benders_" * string(time_limit) * "_1e-5.json"))
+            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_" * string(time_limit) * "_1e-5.json"))
         else
-            dict = JSON.parse(open(organism * "_combinatorial_benders_" * string(time_limit) * ".json"))
+            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_" * string(time_limit) * ".json"))
         end
         # set termination status to TIME_LIMIT, INFEASIBLE, OPTIMAL
         if dict["termination"] == "INFEASIBLE" || dict["termination"] == "OTHER_ERROR" || dict["termination"] == "TIME_LIMIT"
@@ -88,7 +88,7 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
         dict_organism[:time_no_good_cuts] = dict["time"]
 
         # read fast CB data
-        dict = JSON.parse(open(organism * "_combinatorial_benders_fast_" * string(time_limit) * ".json"))
+        dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_" * string(time_limit) * ".json"))
         if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
             if dict["time"] >= dict["time_limit"]
                 dict_organism[:termination_cb] = "TIME_LIMIT"
@@ -159,7 +159,7 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
         else 
             file_name = "comparison_ll_fba_vs_cb.csv"
         end
-        CSV.write(file_name, df, append=false, writeheader=true)
+        CSV.write("csv/" * file_name, df, append=false, writeheader=true)
     else 
         df = df[!, [:time_ll_fba, :objective_value_ll_fba, :termination_ll_fba, :time_ll_fba_nullspace, :objective_value_ll_fba_nullspace, :termination_ll_fba_nullspace, :time_ll_fba_cobrexa, :objective_value_ll_fba_cobrexa, :termination_ll_fba_cobrexa]]
         if yeast
@@ -167,7 +167,7 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
         else
             file_name = "comparison_ll_fba.csv"
         end 
-        CSV.write(file_name, df, append=false, writeheader=true)
+        CSV.write("csv/" * file_name, df, append=false, writeheader=true)
     end
 end
 
@@ -196,13 +196,13 @@ organisms = [
     "Alloascoidea_hylecoeti",
     "Ambrosiozyma_kashinagacola",
     "Ambrosiozyma_monospora",
-    #"Arthrobotrys_oligospora",
+    # "Arthrobotrys_oligospora", # rerun cb fast 
     "Arxula_adeninivorans",
-    #"Ascoidea_asiatica",
-    #"Ascoidea_rubescens",
-    #"Ashbya_aceri",
-    #"Aspergillus_nidulans",
-    #"Babjeviella_inositovora",
-    #"Botrytis_cinerea"
+    # "Ascoidea_asiatica", # rerun cb
+    # "Ascoidea_rubescens", # rerun cb
+    # "Ashbya_aceri", # rerun cb
+    # "Aspergillus_nidulans", # rerun cb
+    # "Babjeviella_inositovora", # rerun cb
+    #"Botrytis_cinerea" # rerun cb fast
 ]
 loopless_fba_vs_cb(organisms, cuts=true, yeast=true, time_limit=7200)
