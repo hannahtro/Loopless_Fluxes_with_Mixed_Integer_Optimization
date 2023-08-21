@@ -163,9 +163,6 @@ include("../src/constraint_handler.jl")
 #     # # @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.TIME_LIMIT
 # end
 
-# constraint_handler_data("iAF692", time_limit=600)
-# no_good_cuts_data("iAF692", time_limit=3600)
-
 println("--------------------------------------------------------")
 # combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=false, silent=false)
 # combinatorial_benders_data("iAF692", time_limit=1800, csv=true, fast=true, silent=false)

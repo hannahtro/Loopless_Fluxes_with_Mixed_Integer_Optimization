@@ -6,7 +6,7 @@ using Boscia, FrankWolfe
 """
 compute internal reactions of COBREXA model
 """
-function add_loopless_constraints(molecular_model, model, max_flux_bound; nullspace_formulation=true, reduced=false)
+function add_loopless_constraints(molecular_model, model, max_flux_bound=1000; nullspace_formulation=true, reduced=false)
     # loopless model
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if

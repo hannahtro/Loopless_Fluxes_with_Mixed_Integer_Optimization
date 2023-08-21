@@ -109,23 +109,23 @@ end
 # organism = "iAF692"
 # loopless_fba_data(organism, time_limit=30, nullspace_formulation=false, json=true)
 
-# yeast model
-organisms = [
-    "Alloascoidea_hylecoeti",
-    "Ambrosiozyma_kashinagacola",
-    "Ambrosiozyma_monospora",
-    "Arthrobotrys_oligospora",
-    "Arxula_adeninivorans",
-    "Ascoidea_asiatica",
-    "Ascoidea_rubescens",
-    "Ashbya_aceri",
-    "Aspergillus_nidulans",
-    "Babjeviella_inositovora",
-    "Botrytis_cinerea"
-]
+# # yeast model
+# organisms = [
+#     "Alloascoidea_hylecoeti",
+#     "Ambrosiozyma_kashinagacola",
+#     "Ambrosiozyma_monospora",
+#     "Arthrobotrys_oligospora",
+#     "Arxula_adeninivorans",
+#     "Ascoidea_asiatica",
+#     "Ascoidea_rubescens",
+#     "Ashbya_aceri",
+#     "Aspergillus_nidulans",
+#     "Babjeviella_inositovora",
+#     "Botrytis_cinerea"
+# ]
 
-for organism in organisms
-    loopless_fba_data(organism, yeast=true, time_limit=1800*4)
-end 
+# for organism in organisms
+#     loopless_fba_data(organism, yeast=true, time_limit=1800*4)
+# end 
 
 

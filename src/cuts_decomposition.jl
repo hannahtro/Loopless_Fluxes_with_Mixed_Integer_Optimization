@@ -136,7 +136,8 @@ include("loopless_constraints.jl")
 # end
 
 """
-build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables
+build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables,
+maps indicator variables to flux direction
 """
 function build_master_problem(master_problem, internal_rxn_idxs)
     # open("../csv/master_problem.lp", "w") do f
@@ -418,7 +419,7 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, save_model=false, multiple_mis=0)
     @show fast
 
     _, num_reactions = size(S)
@@ -434,6 +435,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     build_master_problem(master_problem, internal_rxn_idxs)   
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
+    if save_model
+        open("../csv/model_" * organism * ".lp", "w") do f
+            print(f, master_problem)
+        end
+    end 
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     println("master problem solved")
     # solution_master = round.(solution_master, digits=6)
@@ -475,8 +481,12 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         @assert has_duals(sub_problem)
 
         # add CB cut to MP and solve MP
-        add_combinatorial_benders_cut(master_problem, solution_a, C_list, cuts)
-
+        add_combinatorial_benders_cut(master_problem, solution_a, C, cuts)
+        if save_model
+            open("../csv/model_" * organism * "_" * string(iter) * ".lp", "w") do f
+                print(f, master_problem)
+            end
+        end 
         # test if optimal solution is still feasible
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001, check_thermodynamic_feasibility=false)
 

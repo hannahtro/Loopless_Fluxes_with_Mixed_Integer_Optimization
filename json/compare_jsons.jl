@@ -47,7 +47,7 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 
         # read cobrexa data
         if !yeast
-            dict = JSON.parse(open(organism * "_cobrexa_loopless_fba_1800.json"))
+            dict = JSON.parse(open(organism * "_cobrexa_loopless_fba_" * string(time_limit) * ".json"))
             dict_organism[:termination_ll_fba_cobrexa] = dict["termination"]
             dict_organism[:objective_value_ll_fba_cobrexa] = dict["objective_value"]
             dict_organism[:time_ll_fba_cobrexa] = dict["time"]
@@ -55,14 +55,14 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 
         # read ll-FBA data
         if !yeast
-            dict = JSON.parse(open(organism * "_loopless_fba_nullspace_1800.json"))
+            dict = JSON.parse(open(organism * "_loopless_fba_nullspace_" * string(time_limit) * ".json"))
             dict_organism[:termination_ll_fba_nullspace] = dict["termination"]
             dict_organism[:objective_value_ll_fba_nullspace] = dict["objective_value"]
             dict_organism[:time_ll_fba_nullspace] = dict["time"]
         end
 
         # read ll-FBA without nullspace formulation data
-        dict = JSON.parse(open(organism * "_loopless_fba_1800.json"))
+        dict = JSON.parse(open(organism * "_loopless_fba_" * string(time_limit) * ".json"))
         dict_organism[:termination_ll_fba] = dict["termination"]
         dict_organism[:objective_value_ll_fba] = dict["objective_value"]
         dict_organism[:time_ll_fba] = dict["time"]
@@ -70,9 +70,9 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 
         # read no good cuts data 
         if organism == "iAF692"
-            dict = JSON.parse(open(organism * "_combinatorial_benders_1800_1e-5.json"))
+            dict = JSON.parse(open(organism * "_combinatorial_benders_" * string(time_limit) * "_1e-5.json"))
         else
-            dict = JSON.parse(open(organism * "_combinatorial_benders_1800.json"))
+            dict = JSON.parse(open(organism * "_combinatorial_benders_" * string(time_limit) * ".json"))
         end
         # set termination status to TIME_LIMIT, INFEASIBLE, OPTIMAL
         if dict["termination"] == "INFEASIBLE" || dict["termination"] == "OTHER_ERROR" || dict["termination"] == "TIME_LIMIT"
@@ -88,7 +88,7 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
         dict_organism[:time_no_good_cuts] = dict["time"]
 
         # read fast CB data
-        dict = JSON.parse(open(organism * "_combinatorial_benders_fast_1800.json"))
+        dict = JSON.parse(open(organism * "_combinatorial_benders_fast_" * string(time_limit) * ".json"))
         if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
             if dict["time"] >= dict["time_limit"]
                 dict_organism[:termination_cb] = "TIME_LIMIT"
@@ -172,37 +172,37 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 end
 
 # organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
-organisms = [
-    # "iAF692", # recompute for 1e-5
-    "iJR904", 
-    "iML1515", 
-    "e_coli_core",
-    "iNF517",
-    # "iSB619", # AssertionError("feasible")
-    "iNJ661",
-    "iCN900",
-    "iAF1260",
-    "iEK1008",
-    "iJO1366",
-    "iMM904",
-    "iSDY_1059",
-    "iSFV_1184", # recompute on cluster
-    "iSF_1195",
-    "iS_1188",
-    "iSbBS512_1146" # recompute on cluster
-]
-
 # organisms = [
-#     "Alloascoidea_hylecoeti",
-#     "Ambrosiozyma_kashinagacola",
-#     "Ambrosiozyma_monospora",
-#     "Arthrobotrys_oligospora",
-#     "Arxula_adeninivorans",
-#     "Ascoidea_asiatica",
-#     "Ascoidea_rubescens",
-#     "Ashbya_aceri",
-#     "Aspergillus_nidulans",
-#     "Babjeviella_inositovora",
-#     # "Botrytis_cinerea"
+#     # "iAF692", # recompute for 1e-5
+#     "iJR904", 
+#     "iML1515", 
+#     "e_coli_core",
+#     "iNF517",
+#     # "iSB619", # AssertionError("feasible")
+#     "iNJ661",
+#     "iCN900",
+#     "iAF1260",
+#     "iEK1008",
+#     "iJO1366",
+#     "iMM904",
+#     "iSDY_1059",
+#     "iSFV_1184", # recompute on cluster
+#     "iSF_1195",
+#     "iS_1188",
+#     "iSbBS512_1146" # recompute on cluster
 # ]
-loopless_fba_vs_cb(organisms, cuts=true, yeast=false)
+
+organisms = [
+    "Alloascoidea_hylecoeti",
+    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_monospora",
+    #"Arthrobotrys_oligospora",
+    "Arxula_adeninivorans",
+    #"Ascoidea_asiatica",
+    #"Ascoidea_rubescens",
+    #"Ashbya_aceri",
+    #"Aspergillus_nidulans",
+    #"Babjeviella_inositovora",
+    #"Botrytis_cinerea"
+]
+loopless_fba_vs_cb(organisms, cuts=true, yeast=true, time_limit=7200)
