@@ -68,8 +68,8 @@ include("../src/loopless_fba.jl")
 #     end
 # end
 
-# organism = "iAF692"
-# loopless_fba_data(organism, time_limit=30, nullspace_formulation=false, json=true)
+organism = "iAF1260"
+loopless_fba_data(organism, time_limit=600, nullspace_formulation=false, json=true, optimizer=SCIP.Optimizer, silent=false, max_reactions=["NDPK1"], print_objective=true)
 
 # # yeast model
 # organisms = [

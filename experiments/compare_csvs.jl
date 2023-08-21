@@ -5,7 +5,7 @@ function compare_shortest_cycles(;file_names, organism)
     df = DataFrame(type = String[], objective_value = Float64[], termination = String[], num_blocked_cycles = Int64[], time = Float64[], nodes = Int64[])
 
     for name in file_names
-        df_temp = first(CSV.read(organism * "/server/" * name * ".csv", DataFrame),1)
+        df_temp = first(CSV.read("csv/" * organism * "/server/" * name * ".csv", DataFrame),1)
         df_temp = df_temp[!,[:objective_value, :time, :termination, :nodes, :num_blocked_cycles]]
         name = replace(name, organism * "_" => "")
         name = replace(name, "_50_1800_10000" => "")
@@ -32,7 +32,7 @@ function compare_blocked_cycles(;file_names, organism)
 
     for name in file_names
         @show name
-        df_temp = first(CSV.read(organism * "/server/" * name * ".csv", DataFrame),1)
+        df_temp = first(CSV.read("csv/" * organism * "/server/" * name * ".csv", DataFrame),1)
         try 
             df_temp = df_temp[!,[:objective_value, :dual_bound, :time, :termination, :nodes, :num_blocked_cycles, :block_limit, :ceiling, :time_limit]]
         catch 
@@ -70,7 +70,7 @@ function compare_loopless_formulation_blocked_cycles(; file_names, organisms=["i
     for organism in organisms
         for name in file_names
             @show name
-            df_temp = first(CSV.read(organism * "/server/" * organism * "_" * name * ".csv", DataFrame),1)
+            df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_" * name * ".csv", DataFrame),1)
             try 
                 df_temp = df_temp[!,[:objective_value, :dual_bound, :time, :termination, :nodes, :num_blocked_cycles, :block_limit, :ceiling, :time_limit]]
             catch 
@@ -126,29 +126,29 @@ function loopless_fba_vs_cb(organisms; cuts=true)
         dict_organism[:organism] = organism
 
         # read cobrexa data
-        df_temp = first(CSV.read(organism * "/server/" * organism * "_cobrexa_loopless_fba_1800.csv", DataFrame),1)
+        df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_cobrexa_loopless_fba_1800.csv", DataFrame),1)
         dict_organism[:termination_ll_fba_cobrexa] = df_temp[!, [:termination][1]][1]
         dict_organism[:objective_value_ll_fba_cobrexa] = df_temp[!, [:objective_value][1]][1]
         dict_organism[:time_ll_fba_cobrexa] = df_temp[!, [:time][1]][1]
 
         # read ll-FBA data
-        df_temp = first(CSV.read(organism * "/server/" * organism * "_loopless_fba_nullspace_1800.csv", DataFrame),1)
+        df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_loopless_fba_nullspace_1800.csv", DataFrame),1)
         dict_organism[:time_limit] = df_temp[!, [:time_limit][1]][1]
         dict_organism[:termination_ll_fba_nullspace] = df_temp[!, [:termination][1]][1]
         dict_organism[:objective_value_ll_fba_nullspace] = df_temp[!, [:objective_value][1]][1]
         dict_organism[:time_ll_fba_nullspace] = df_temp[!, [:time][1]][1]
 
         # read ll-FBA without nullspace formulation data
-        df_temp = first(CSV.read(organism * "/server/" * organism * "_loopless_fba_1800.csv", DataFrame),1)
+        df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_loopless_fba_1800.csv", DataFrame),1)
         dict_organism[:termination_ll_fba] = df_temp[!, [:termination][1]][1]
         dict_organism[:objective_value_ll_fba] = df_temp[!, [:objective_value][1]][1]
         dict_organism[:time_ll_fba] = df_temp[!, [:time][1]][1]
 
         # read no good cuts data 
         if organism == "iAF692"
-            df_temp = first(CSV.read(organism * "/server/" * organism * "_combinatorial_benders_1800_1e-5.csv", DataFrame),1)
+            df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_combinatorial_benders_1800_1e-5.csv", DataFrame),1)
         else 
-            df_temp = first(CSV.read(organism * "/server/" * organism * "_combinatorial_benders_1800.csv", DataFrame),1)
+            df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_combinatorial_benders_1800.csv", DataFrame),1)
         end
         # set termination status to TIME_LIMIT, INFEASIBLE, OPTIMAL
         if df_temp[!, [:termination][1]][1] == "INFEASIBLE"
@@ -164,7 +164,7 @@ function loopless_fba_vs_cb(organisms; cuts=true)
         dict_organism[:time_no_good_cuts] = df_temp[!, [:time][1]][1]
 
         # read fast CB data
-        df_temp = first(CSV.read(organism * "/server/" * organism * "_combinatorial_benders_fast_1800.csv", DataFrame),1)
+        df_temp = first(CSV.read("csv/" * organism * "/server/" * organism * "_combinatorial_benders_fast_1800.csv", DataFrame),1)
         if df_temp[!, [:termination][1]][1] == "INFEASIBLE"
             if df_temp[!, [:time][1]][1] >=  df_temp[!, [:time_limit][1]][1]
                 dict_organism[:termination_cb] = "TIME_LIMIT"
@@ -221,15 +221,15 @@ function loopless_fba_vs_cb(organisms; cuts=true)
     
     if cuts 
         file_name = "comparison_ll_fba_vs_cb.csv"
-        CSV.write(file_name, df, append=false, writeheader=true)
+        CSV.write("csv/" * file_name, df, append=false, writeheader=true)
     else 
         df = df[!, [:time_ll_fba, :objective_value_ll_fba, :termination_ll_fba, :time_ll_fba_nullspace, :objective_value_ll_fba_nullspace, :termination_ll_fba_nullspace, :time_ll_fba_cobrexa, :objective_value_ll_fba_cobrexa, :termination_ll_fba_cobrexa]]
         file_name = "comparison_ll_fba.csv"
-        CSV.write(file_name, df, append=false, writeheader=true)
+        CSV.write("csv/" * file_name, df, append=false, writeheader=true)
     end
 end
 
-organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
+# organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
 loopless_fba_vs_cb(organisms, cuts=false)
 
 

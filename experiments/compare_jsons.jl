@@ -3,7 +3,7 @@ using DataFrames, JSON, CSV
 """
 compare ll-FBA, no good cuts and fast combinatorial Benders
 """
-function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
+function loopless_fba_vs_cb(organisms; cuts=false, ll_formulations=false, yeast=false, time_limit=1800)
     if yeast 
         df = DataFrame(
             organism = String[], 
@@ -154,14 +154,22 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
     @show df[!, [:time_ll_fba, :time_no_good_cuts, :time_cb]]
     
     if cuts 
+        df = df[!, [:organism, :time_limit, :termination_no_good_cuts, :objective_value_no_good_cuts, :time_no_good_cuts, :termination_cb, :objective_value_cb, :time_cb]]
         if yeast 
             file_name = "comparison_ll_fba_vs_cb_yeast.csv"
         else 
             file_name = "comparison_ll_fba_vs_cb.csv"
         end
         CSV.write("csv/" * file_name, df, append=false, writeheader=true)
+    elseif ll_formulations
+        df = df[!, [:organism, :time_limit,  :termination_ll_fba_nullspace, :objective_value_ll_fba_nullspace, :time_ll_fba_nullspace, :termination_ll_fba, :objective_value_ll_fba, :time_ll_fba]]
+        if yeast
+            file_name = "comparison_ll_formulations_yeast.csv"
+        else
+            file_name = "comparison_ll_formulations.csv"
+        end 
+        CSV.write("csv/" * file_name, df, append=false, writeheader=true)
     else 
-        df = df[!, [:time_ll_fba, :objective_value_ll_fba, :termination_ll_fba, :time_ll_fba_nullspace, :objective_value_ll_fba_nullspace, :termination_ll_fba_nullspace, :time_ll_fba_cobrexa, :objective_value_ll_fba_cobrexa, :termination_ll_fba_cobrexa]]
         if yeast
             file_name = "comparison_ll_fba_yeast.csv"
         else
@@ -172,37 +180,38 @@ function loopless_fba_vs_cb(organisms; cuts=true, yeast=false, time_limit=1800)
 end
 
 # organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
-# organisms = [
-#     # "iAF692", # recompute for 1e-5
-#     "iJR904", 
-#     "iML1515", 
-#     "e_coli_core",
-#     "iNF517",
-#     # "iSB619", # AssertionError("feasible")
-#     "iNJ661",
-#     "iCN900",
-#     "iAF1260",
-#     "iEK1008",
-#     "iJO1366",
-#     "iMM904",
-#     "iSDY_1059",
-#     "iSFV_1184", # recompute on cluster
-#     "iSF_1195",
-#     "iS_1188",
-#     "iSbBS512_1146" # recompute on cluster
-# ]
-
 organisms = [
-    "Alloascoidea_hylecoeti",
-    "Ambrosiozyma_kashinagacola",
-    "Ambrosiozyma_monospora",
-    # "Arthrobotrys_oligospora", # rerun cb fast 
-    "Arxula_adeninivorans",
-    # "Ascoidea_asiatica", # rerun cb
-    # "Ascoidea_rubescens", # rerun cb
-    # "Ashbya_aceri", # rerun cb
-    # "Aspergillus_nidulans", # rerun cb
-    # "Babjeviella_inositovora", # rerun cb
-    #"Botrytis_cinerea" # rerun cb fast
+    # "iAF692", # recompute for 1e-5
+    "iJR904", 
+    "iML1515", 
+    "e_coli_core",
+    "iNF517",
+    # "iSB619", # AssertionError("feasible")
+    "iNJ661",
+    "iCN900",
+    "iAF1260",
+    "iEK1008",
+    "iJO1366",
+    "iMM904",
+    "iSDY_1059",
+    "iSFV_1184", # recompute on cluster
+    "iSF_1195",
+    "iS_1188",
+    "iSbBS512_1146" # recompute on cluster
 ]
-loopless_fba_vs_cb(organisms, cuts=true, yeast=true, time_limit=7200)
+loopless_fba_vs_cb(organisms, cuts=true, yeast=false, time_limit=1800)
+
+# organisms = [
+#     "Alloascoidea_hylecoeti",
+#     "Ambrosiozyma_kashinagacola",
+#     "Ambrosiozyma_monospora",
+#     # "Arthrobotrys_oligospora", # rerun cb fast 
+#     "Arxula_adeninivorans",
+#     # "Ascoidea_asiatica", # rerun cb
+#     # "Ascoidea_rubescens", # rerun cb
+#     # "Ashbya_aceri", # rerun cb
+#     # "Aspergillus_nidulans", # rerun cb
+#     # "Babjeviella_inositovora", # rerun cb
+#     #"Botrytis_cinerea" # rerun cb fast
+# ]
+# loopless_fba_vs_cb(organisms, cuts=true, yeast=true, time_limit=7200)

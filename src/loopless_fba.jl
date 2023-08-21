@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
-using DataFrames, CSV
-using SCIP, JuMP, JSON
+using DataFrames, CSV, JSON
+using SCIP, JuMP, GLPK, HiGHS
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")
@@ -9,9 +9,8 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", json=true, yeast=false)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false)
     # build model
-    optimizer = SCIP.Optimizer
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
@@ -19,9 +18,19 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         print_model(molecular_model, organism)
     end
 
+    @show max_reactions
+    if !isempty(max_reactions)
+        molecular_model.objective = Dict{String, Float64}()
+        for molecule in max_reactions
+            molecular_model.objective[molecule] = 1.0
+        end
+    end
+
     model = make_optimization_model(molecular_model, optimizer)
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
+    # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
+
     max_flux_bound = maximum(abs.(vcat(lb, ub)))
 
     m, num_reactions = size(S)
@@ -43,9 +52,13 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     # end
 
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
-        optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
+        optimize_model(model, type, time_limit=time_limit, silent=silent, print_objective=print_objective)
 
-    nodes = MOI.get(model, MOI.NodeCount())
+    if optimizer == SCIP.Optimizer
+        nodes = MOI.get(model, MOI.NodeCount())
+    else 
+        nodes = NaN
+    end
     if termination_loopless_fba == MOI.OPTIMAL
         S = stoichiometry(molecular_model)
         steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
@@ -71,12 +84,21 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:nullspace_formulation] = nullspace_formulation
     dict[:thermo_feasible] = thermo_feasible
     dict[:max_flux_bound] = max_flux_bound
+    dict[:objective_function] = molecular_model.objective
 
     if nullspace_formulation
         type = type * "_nullspace"
     end
+    if !isempty(max_reactions)
+        type = type * "_modified_objective"
+    end
+    if optimizer == GLPK.Optimizer
+        type = type * "_GLPK"
+    elseif optimizer == HiGHS.Optimizer
+        type = type * "_HiGHS"
+    end
     
-    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    file_name = joinpath("json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
     if json 
         open(file_name, "w") do f
             JSON.print(f, dict) 
