@@ -85,6 +85,18 @@ println("============================================================")
     @show objective_value_multiple_mis, solution_multiple_mis
     println("--------------------------------------------------------")
 
+    println("test loopless violation")
+    # fast combinatorial Benders'
+    model = build_fba_model(S, lb, ub, set_objective=true)
+    # print(model)
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, max_iter=1)
+    flux = solution_fast[1:num_reactions]
+    flux_directions = solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
+    @show flux, flux_directions
+    diff = check_loopless_violation_mu(flux, flux_directions, S, internal_rxn_idxs)
+    @show diff
+    println("--------------------------------------------------------")
+
     # println("constraint handler")
     # # test constraint handler    
     # scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)

@@ -431,16 +431,19 @@ end
 
 """
 check loopless violation of a given solution and corresponding binary variables
+for internal reactions
 """
-function check_loopless_violation_mu(flux, flux_directions, S, max_flux_bound=1000)
+# TODO: add constraint on G?
+function check_loopless_violation_mu(flux, flux_directions, S, internal_rxn_idxs, max_flux_bound=1000)
     model = Model(SCIP.Optimizer)
-    S_int = S[:, flux]
-    G = @variable(model, G[1:length(flux)]) # approx ΔG for internal reactions
+    S_int = S[:, internal_rxn_idxs]
+    G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
     μ = @variable(model, μ[1:size(S_int)[1]])
-    α = @variable(model, α[1:length(flux)])
+    α = @variable(model, α[1:length(internal_rxn_idxs)])
+    @infiltrate
 
     # add G variables for each reaction in cycle
-    for (idx,cycle) in enumerate(cycle)
+    for (idx, direction) in enumerate(flux_directions)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(model, -max_flux_bound <= G[idx] <= -1)
             @constraint(model, α[idx] >= - G[idx])
@@ -450,16 +453,9 @@ function check_loopless_violation_mu(flux, flux_directions, S, max_flux_bound=10
         end
     end
 
-    # @show N_int, Array(S[:, cycle])
-    @constraint(model, G' .== μ' * S_int)   
+    # @constraint(model, G' .== μ' * S_int)   
     @objective(model, Min, ones(length(α))' * α)
-    # print(thermo_feasible_model)
 
-    _, _, solution, _, status = optimize_model(model)
-    # if status == MOI.OPTIMAL
-    #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
-    #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
-    # end
-    # @show solution, N_int' * solution
-    return status == MOI.OPTIMAL
+    primal_objective_value, _, solution, _, status = optimize_model(model)
+    return primal_objective_value
 end

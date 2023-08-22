@@ -477,7 +477,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # @show solution_sub
     # add Benders' cut if subproblem is infeasible
     iter = 1
-    while termination_sub == MOI.INFEASIBLE && iter <= max_iter && time()-start_time < time_limit
+    while termination_sub == MOI.INFEASIBLE && iter < max_iter && time()-start_time < time_limit
         @show iter
         @assert primal_status(sub_problem) == MOI.NO_SOLUTION
         @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
