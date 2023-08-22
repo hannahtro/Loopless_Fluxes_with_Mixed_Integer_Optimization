@@ -1,0 +1,310 @@
+--------------------------------------------------------
+fast = true
+iter = 1
+iter = 2
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.INFEASIBLE
+iter = 2
+(objective_value_cb, solution_cb) = (80.0000001, [20.0, 10.0000001, 10.0000001, -1.0e-7, 20.0, 10.0, 10.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0, -1.0, -1.0, 0.0, 1.0, 1.0, 0.0, 0.0])
+(objective_value, objective_value_cb) = (JuMP.objective_value, 80.0000001)
+--------------------------------------------------------
+fast combinatorial Benders
+fast = true
+iter = 1
+iter = 2
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.INFEASIBLE
+iter = 2
+(objective_value_fast, solution_fast) = (80.0000001, [20.0, 10.0000001, 10.0000001, -1.0e-7, 20.0, 10.0, 10.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0, -1.0, -1.0, 0.0, 1.0, 1.0, 0.0, 0.0])
+--------------------------------------------------------
+Test Summary: | Pass  Total   Time
+simple model  |    9      9  14.0s
+
+iAF1260
+----------------------------------
+number of metabolites : 1668
+number of reactions : 2382
+number of genes : 1261
+objective function: Dict("BIOMASS_Ec_iAF1260_core_59p81M" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+model with 2382 flux variables and 4460 variables in total
+master problem solved
+sub problem solved
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+--------------------------------------------------------
+fast combinatorial Benders
+fast = true
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+--------------------------------------------------------
+constraint handler
+MOI.get(o, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+LOCK
+CHECK
+CHECK
+CHECK
+CHECK
+CHECK
+CHECK
+CHECK
+LP SOL
+BENDERS CUT
+LP SOL
+BENDERS CUT
+LP SOL
+BENDERS CUT
+CHECK
+CHECK
+LP SOL
+BENDERS CUT
+LP SOL
+BENDERS CUT
+LP SOL
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.INFEASIBLE
+LP SOL
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.INFEASIBLE
+LP SOL
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.INFEASIBLE
+CHECK
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.INFEASIBLE
+Test Summary: | Time
+iAF692        | None  18.5s
+--------------------------------------------------------
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+termination = MathOptInterface.INFEASIBLE
+objective_value = 3.290126207234705e-7
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+WARNING: Dual bound 0.0637167 is smaller than the objective of the primal solution 0.0637494. The solution might not be optimal.
+iter = 2
+iter = 3
+iter = 4
+WARNING: Dual bound 0.0637564 is smaller than the objective of the primal solution 0.0637955. The solution might not be optimal.
+iter = 5
+iter = 6
+WARNING: Dual bound 0.0638094 is smaller than the objective of the primal solution 0.0638144. The solution might not be optimal.
+iter = 7
+iter = 8
+WARNING: Dual bound 0.0637836 is smaller than the objective of the primal solution 0.063803. The solution might not be optimal.
+iter = 9
+WARNING: Dual bound 0.0638052 is smaller than the objective of the primal solution 0.0638104. The solution might not be optimal.
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+WARNING: Dual bound 0.0637815 is smaller than the objective of the primal solution 0.0637912. The solution might not be optimal.
+iter = 14
+WARNING: Dual bound 0.0637987 is smaller than the objective of the primal solution 0.0638039. The solution might not be optimal.
+MIS problem not feasible
+termination_status(mis_model) = MathOptInterface.TIME_LIMIT
+AssertionError("feasible")
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+WARNING: Dual bound 0.0960473 is smaller than the objective of the primal solution 0.0961174. The solution might not be optimal.
+iter = 2
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:448
+termination_master = MathOptInterface.TIME_LIMIT
+termination = MathOptInterface.TIME_LIMIT
+objective_value = NaN
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+WARNING: Dual bound 0.052173 is smaller than the objective of the primal solution 0.0521822. The solution might not be optimal.
+iter = 1
+iter = 2
+WARNING: Dual bound 0.0521365 is smaller than the objective of the primal solution 0.0521478. The solution might not be optimal.
+iter = 3
+iter = 4
+iter = 5
+WARNING: Dual bound 0.052168 is smaller than the objective of the primal solution 0.0521771. The solution might not be optimal.
+iter = 6
+WARNING: Dual bound 0.0521589 is smaller than the objective of the primal solution 0.0522162. The solution might not be optimal.
+iter = 7
+iter = 8
+WARNING: Dual bound 0.0521716 is smaller than the objective of the primal solution 0.0522051. The solution might not be optimal.
+iter = 9
+WARNING: Dual bound -0.0516791 is larger than the objective of the primal solution -0.0517006. The solution might not be optimal.
+WARNING: Dual bound 0.0521873 is smaller than the objective of the primal solution 0.0522065. The solution might not be optimal.
+iter = 10
+WARNING: Dual bound -0.0513218 is larger than the objective of the primal solution -0.051337. The solution might not be optimal.
+WARNING: Dual bound 0.052144 is smaller than the objective of the primal solution 0.0521641. The solution might not be optimal.
+WARNING: Dual bound 0.0521641 is smaller than the objective of the primal solution 0.0522222. The solution might not be optimal.
+iter = 11
+WARNING: Dual bound 0.052158 is smaller than the objective of the primal solution 0.0521865. The solution might not be optimal.
+iter = 12
+WARNING: Dual bound 0.0521394 is smaller than the objective of the primal solution 0.0521781. The solution might not be optimal.
+iter = 13
+iter = 14
+WARNING: Dual bound 0.0521534 is smaller than the objective of the primal solution 0.0521766. The solution might not be optimal.
+iter = 15
+WARNING: Dual bound 0.0519885 is smaller than the objective of the primal solution 0.0521909. The solution might not be optimal.
+iter = 16
+WARNING: Dual bound 0.0521611 is smaller than the objective of the primal solution 0.052195. The solution might not be optimal.
+iter = 17
+WARNING: Dual bound -0.0521454 is larger than the objective of the primal solution -0.0521479. The solution might not be optimal.
+WARNING: Dual bound 0.0521317 is smaller than the objective of the primal solution 0.0521479. The solution might not be optimal.
+iter = 18
+WARNING: Dual bound 0.052138 is smaller than the objective of the primal solution 0.0522082. The solution might not be optimal.
+iter = 19
+WARNING: Dual bound 0.0521328 is smaller than the objective of the primal solution 0.0521381. The solution might not be optimal.
+iter = 20
+WARNING: Dual bound 0.052125 is smaller than the objective of the primal solution 0.0522068. The solution might not be optimal.
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+iter = 25
+WARNING: Dual bound 0.052153 is smaller than the objective of the primal solution 0.0521921. The solution might not be optimal.
+iter = 26
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:448
+termination_master = MathOptInterface.TIME_LIMIT
+termination = MathOptInterface.TIME_LIMIT
+objective_value = NaN
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.04739125584624761
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+WARNING: Dual bound 0.0240756 is smaller than the objective of the primal solution 0.0241217. The solution might not be optimal.
+iter = 1
+iter = 2
+WARNING: Dual bound -0.0240879 is larger than the objective of the primal solution -0.0240892. The solution might not be optimal.
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+WARNING: Dual bound 0.0240607 is smaller than the objective of the primal solution 0.0240782. The solution might not be optimal.
+iter = 7
+iter = 8
+WARNING: Dual bound 0.0240844 is smaller than the objective of the primal solution 0.0240943. The solution might not be optimal.
+iter = 9
+iter = 10
+WARNING: Dual bound 0.0240652 is smaller than the objective of the primal solution 0.024079. The solution might not be optimal.
+iter = 11
+WARNING: Dual bound 0.0240609 is smaller than the objective of the primal solution 0.0240652. The solution might not be optimal.
+iter = 12
+WARNING: Dual bound 0.024083 is smaller than the objective of the primal solution 0.0240992. The solution might not be optimal.
+iter = 13
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.02409923807892094
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+termination = MathOptInterface.INFEASIBLE
+objective_value = 8.145987124328349e-6
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+iter = 1
+WARNING: Dual bound 0.0696321 is smaller than the objective of the primal solution 0.0696445. The solution might not be optimal.
+iter = 2
+iter = 3
+WARNING: Dual bound 0.0695443 is smaller than the objective of the primal solution 0.0695489. The solution might not be optimal.
+iter = 4
+WARNING: Dual bound 0.0696477 is smaller than the objective of the primal solution 0.0696662. The solution might not be optimal.
+iter = 5
+WARNING: Dual bound 0.069667 is smaller than the objective of the primal solution 0.0696774. The solution might not be optimal.
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+WARNING: Dual bound 0.0696949 is smaller than the objective of the primal solution 0.0697049. The solution might not be optimal.
+iter = 12
+iter = 13
+WARNING: Dual bound 0.069757 is smaller than the objective of the primal solution 0.0697678. The solution might not be optimal.
+iter = 14
+iter = 15
+WARNING: Dual bound 0.0697582 is smaller than the objective of the primal solution 0.0697598. The solution might not be optimal.
+iter = 16
+iter = 17
+iter = 18
+WARNING: Dual bound 0.0696323 is smaller than the objective of the primal solution 0.0696369. The solution might not be optimal.
+iter = 19
+iter = 20
+iter = 21
+iter = 22
+iter = 23
+iter = 24
+WARNING: Dual bound 0.0696264 is smaller than the objective of the primal solution 0.0696418. The solution might not be optimal.
+iter = 25
+iter = 26
+WARNING: Dual bound 0.0697034 is smaller than the objective of the primal solution 0.0697135. The solution might not be optimal.
+iter = 27
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.06971349285765266
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+model with 10530 flux variables and 20796 variables in total
+master problem solved
+sub problem solved
+iter = 1
+AssertionError("feasible")
+fast = false
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:448
+termination_master = MathOptInterface.TIME_LIMIT
+termination = MathOptInterface.TIME_LIMIT
+objective_value = NaN
+fast = false
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+iter = 1
+iter = 2
+iter = 3
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/MA/src/cuts_decomposition.jl:448
+termination_master = MathOptInterface.TIME_LIMIT
+termination = MathOptInterface.TIME_LIMIT
+objective_value = NaN
+fast = false
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = false
+WARNING: Dual bound 0.052173 is smaller than the objective of the primal solution 0.0521822. The solution might not be optimal.
+iter = 1
+iter = 2
+WARNING: Dual bound 0.0521274 is smaller than the objective of the primal solution 0.0521812. The solution might not be optimal.
+iter = 3
+iter = 4
+WARNING: Dual bound 0.0519852 is smaller than the objective of the primal solution 0.0520067. The solution might not be optimal.
+WARNING: Dual bound 0.0520067 is smaller than the objective of the primal solution 0.0520619. The solution might not be optimal.
+WARNING: Dual bound 0.0520619 is smaller than the objective of the primal solution 0.0520709. The solution might not be optimal.
+iter = 5
+iter = 6

@@ -1,8 +1,0 @@
-time_ll_fba,objective_value_ll_fba,termination_ll_fba,time_ll_fba_nullspace,objective_value_ll_fba_nullspace,termination_ll_fba_nullspace,time_ll_fba_cobrexa,objective_value_ll_fba_cobrexa,termination_ll_fba_cobrexa
-3,0.027,OPTIMAL,1800,0.026,TIME_LIMIT,1800,0.026,TIME_LIMIT
-0,0.874,OPTIMAL,0,0.874,OPTIMAL,0,0.874,OPTIMAL
-93,0.922,OPTIMAL,163,0.922,OPTIMAL,163,0.922,OPTIMAL
-1772,0.877,OPTIMAL,1800,NaN,TIME_LIMIT,1800,NaN,TIME_LIMIT
-11,0.043,OPTIMAL,40,0.043,OPTIMAL,40,0.043,OPTIMAL
-181,0.053,OPTIMAL,228,0.053,OPTIMAL,228,0.053,OPTIMAL
-0,0.0,OPTIMAL,28,0.0,OPTIMAL,28,0.0,OPTIMAL

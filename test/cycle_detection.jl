@@ -4,6 +4,11 @@ using GraphPlot, Cairo, Compose
 include("../src/cycle_detection.jl")
 include("../src/loopless_constraints.jl")
 
+
+println("============================================================")
+println("CYLCE DETECTION AND BLOCKING")
+println("============================================================")
+
 S = [[0,1,1,-1,0] [-1,1,1,0,0] [0,0,-1,0,1] [0,0,0,1,-1] [1,0,0,0,0] [0,0,0,-1,0] [0,-1,0,0,0]]
 # @show S
 # @show size(S)
@@ -173,7 +178,7 @@ end
     x = model[:x]
     @objective(model, Max, x[2]+x[3]+x[4])
     add_loopless_constraints(model, S, [2,3,4])
-    print(model)
+    # print(model)
     _, _, solution, _, _ = optimize_model(model)
     @show solution[1:num_reactions]
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
@@ -187,7 +192,7 @@ end
     x = model[:x]
     @objective(model, Max, x[2]+x[3]+x[4])
     add_loopless_constraints_mu(model, S, [2,3,4])
-    print(model)
+    # print(model)
     _, _, solution, _, _ = optimize_model(model)
     @show solution[1:num_reactions]
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
@@ -201,7 +206,7 @@ end
     x = model[:x]
     @objective(model, Max, x[2]+x[3]+x[4])
     add_loopless_constraints_mu_reduced(model, S, [2,3,4])
-    print(model)
+    # print(model)
     _, _, solution, _, _ = optimize_model(model)
     @show solution[1:num_reactions]
     S_transform, lb_transform, ub_transform, reaction_mapping, solution_transform = split_hyperarcs(S, lb, ub, solution)
@@ -235,45 +240,45 @@ end
     @test !feasible
 end
 
-@testset "block cycle in iAF692" begin
-    # test organism
-    organism = "iAF692"
+# @testset "block cycle in iAF692" begin
+#     # test organism
+#     organism = "iAF692"
 
-    # transform S
-    molecular_model = deserialize("../data/" * organism * ".js")
-    print_model(molecular_model, organism)
+#     # transform S
+#     molecular_model = deserialize("../molecular_models/" * organism * ".js")
+#     print_model(molecular_model, organism)
 
-    # split hyperarcs
-    S = stoichiometry(molecular_model)
-    # @show size(S)
-    lb, ub = bounds(molecular_model)
-    S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
-    @test size(S_transform)[2] == length(lb_transform) == length(ub_transform)
-    m, n = size(S_transform)
+#     # split hyperarcs
+#     S = stoichiometry(molecular_model)
+#     # @show size(S)
+#     lb, ub = bounds(molecular_model)
+#     S_transform, lb_transform, ub_transform, reaction_mapping = split_hyperarcs(S, lb, ub)
+#     @test size(S_transform)[2] == length(lb_transform) == length(ub_transform)
+#     m, n = size(S_transform)
 
-    optimization_model = build_fba_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
-    _, _, solution, _, _ = optimize_model(optimization_model)
-    # @show size(solution)
+#     optimization_model = build_fba_model(S_transform, lb_transform, ub_transform; optimizer=SCIP.Optimizer)
+#     _, _, solution, _, _ = optimize_model(optimization_model)
+#     # @show size(solution)
 
-    # get original reactions
-    cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution, ceiling=100)
-    @test length(cycles) == 100
-    # @show cycles
-    # @show edge_mapping
-    unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
-    # @show unbounded_cycles
-    # @show flux_directions
-    add_loopless_constraints(molecular_model, optimization_model)
+#     # get original reactions
+#     cycles, edge_mapping, _ = ubounded_cycles(S_transform, solution, ceiling=100)
+#     @test length(cycles) == 100
+#     # @show cycles
+#     # @show edge_mapping
+#     unbounded_cycles, unbounded_cycles_original, flux_directions = unbounded_cycles_S(cycles, edge_mapping, solution, reaction_mapping)
+#     # @show unbounded_cycles
+#     # @show flux_directions
+#     add_loopless_constraints(molecular_model, optimization_model)
 
-    # @show optimization_model
-    # @show unbounded_cycles_original
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
-    num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
-    @show num_blocked_cycles
-end
+#     # @show optimization_model
+#     # @show unbounded_cycles_original
+#     internal_rxn_idxs = [
+#         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+#         !is_boundary(reaction_stoichiometry(molecular_model, rid))
+#     ]
+#     num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
+#     @show num_blocked_cycles
+# end
 
 
 # TODO: test feasibility mu

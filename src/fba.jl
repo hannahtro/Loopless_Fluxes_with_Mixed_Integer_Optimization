@@ -11,9 +11,9 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     optimizer = SCIP.Optimizer
 
     if yeast 
-        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
+        molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../data/" * organism * ".js")
+        molecular_model = deserialize("../molecular_models/" * organism * ".js")
         print_model(molecular_model, organism)
     end
     S = stoichiometry(molecular_model)
@@ -81,7 +81,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     #     time_loopless_fba=time_loopless_fba, 
     #     termination_loopless_fba=termination_loopless_fba)
 
-    # file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+    # file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     # if !isfile(file_name)
     #     CSV.write(file_name, df, append=true, writeheader=true)

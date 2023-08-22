@@ -5,7 +5,7 @@ using SCIP, JuMP
 # FBA data 
 function fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, csv=true)
     # build model
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     solved_model = flux_balance_analysis(molecular_model, optimizer)
@@ -36,7 +36,7 @@ function fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true
         time_limit=time_limit)
 
     type = "cobrexa_fba"
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     if csv 
         if !isfile(file_name)
@@ -50,7 +50,7 @@ end
 # loopless FBA data
 function loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, json=true)
     # build model
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     # TODO: set time limit

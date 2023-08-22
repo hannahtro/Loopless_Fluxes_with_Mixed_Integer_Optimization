@@ -6,7 +6,7 @@ using Boscia, FrankWolfe
 """
 compute internal reactions of COBREXA model
 """
-function add_loopless_constraints(molecular_model, model, max_flux_bound; nullspace_formulation=true, reduced=false)
+function add_loopless_constraints(molecular_model, model, max_flux_bound=1000; nullspace_formulation=true, reduced=false)
     # loopless model
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
@@ -263,7 +263,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
                 @constraint(optimization_model, constraint_coef' * a >= 1 - sum_forward)
             end
         end
-        # open("../csv/model_vector.lp", "w") do f
+        # open("../experiments/csv/model_vector.lp", "w") do f
         #     print(f, optimization_model)
         # end
     else 
@@ -285,7 +285,7 @@ function block_cycle_constraint(optimization_model, unbounded_cycles, flux_direc
                 @constraint(optimization_model, sum(bool_blocked_cycle) >= 1)
             end
         end
-            # open("../csv/model_loop.lp", "w") do f
+            # open("../experiments/csv/model_loop.lp", "w") do f
             #     print(f, optimization_model)
             # end
         # print(optimization_model)

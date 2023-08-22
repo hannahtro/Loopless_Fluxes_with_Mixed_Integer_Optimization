@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
-using DataFrames, CSV
-using SCIP, JuMP, JSON
+using DataFrames, CSV, JSON
+using SCIP, JuMP, GLPK, HiGHS
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")
@@ -9,19 +9,28 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba", json=true, yeast=false)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false)
     # build model
-    optimizer = SCIP.Optimizer
     if yeast 
-        molecular_model = load_model("../data/ecModels/Classical/emodel_" * organism * "_classical.mat")
+        molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../data/" * organism * ".js")
+        molecular_model = deserialize("../molecular_models/" * organism * ".js")
         print_model(molecular_model, organism)
+    end
+
+    @show max_reactions
+    if !isempty(max_reactions)
+        molecular_model.objective = Dict{String, Float64}()
+        for molecule in max_reactions
+            molecular_model.objective[molecule] = 1.0
+        end
     end
 
     model = make_optimization_model(molecular_model, optimizer)
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
+    # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
+
     max_flux_bound = maximum(abs.(vcat(lb, ub)))
 
     m, num_reactions = size(S)
@@ -31,21 +40,25 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     # @objective(model, MAX_SENSE, objective(molecular_model)' * x)
 
     # @show model
-    # open("../csv/model_cobrexa_" * organism * ".lp", "w") do f
+    # open("../experiments/csv/model_cobrexa_" * organism * ".lp", "w") do f
     #     print(f, model)
     # end
 
     add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation, max_flux_bound)
 
     # @show model
-    # open("../csv/model_vector_" * organism * ".lp", "w") do f
+    # open("../experiments/csv/model_vector_" * organism * ".lp", "w") do f
     #     print(f, model)
     # end
 
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
-        optimize_model(model, type, time_limit=time_limit, print_objective=false, silent=silent)
+        optimize_model(model, type, time_limit=time_limit, silent=silent, print_objective=print_objective)
 
-    nodes = MOI.get(model, MOI.NodeCount())
+    if optimizer == SCIP.Optimizer
+        nodes = MOI.get(model, MOI.NodeCount())
+    else 
+        nodes = NaN
+    end
     if termination_loopless_fba == MOI.OPTIMAL
         S = stoichiometry(molecular_model)
         steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
@@ -71,12 +84,21 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:nullspace_formulation] = nullspace_formulation
     dict[:thermo_feasible] = thermo_feasible
     dict[:max_flux_bound] = max_flux_bound
+    dict[:objective_function] = molecular_model.objective
 
     if nullspace_formulation
         type = type * "_nullspace"
     end
+    if !isempty(max_reactions)
+        type = type * "_modified_objective"
+    end
+    if optimizer == GLPK.Optimizer
+        type = type * "_GLPK"
+    elseif optimizer == HiGHS.Optimizer
+        type = type * "_HiGHS"
+    end
     
-    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    file_name = joinpath("json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
     if json 
         open(file_name, "w") do f
             JSON.print(f, dict) 
@@ -91,7 +113,7 @@ compute dual gap with time limit of loopless FBA
 function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba_relaxed", csv=true, save_lp=false)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -108,7 +130,7 @@ function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nulls
     end
 
     if save_lp 
-        write_to_file(model, "../csv/models/" * type * "_" * organism * ".lp")
+        write_to_file(model, "../experiments/csv/models/" * type * "_" * organism * ".lp")
     end 
 
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
@@ -133,7 +155,7 @@ function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nulls
         nullspace_formulation=nullspace_formulation)
 
     if csv
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+        file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
         CSV.write(file_name, df, append=false, writeheader=true)
     end
     return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
@@ -145,7 +167,7 @@ compute dual gap with time limit of loopless FBA with indicator for bilinear con
 function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type="loopless_bilinear_fba", csv=true)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -156,14 +178,14 @@ function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type
     # @objective(model, MAX_SENSE, objective(molecular_model)' * x)
 
     # @show model
-    # open("../csv/model_cobrexa_" * organism * ".lp", "w") do f
+    # open("../experiments/csv/model_cobrexa_" * organism * ".lp", "w") do f
     #     print(f, model)
     # end
 
     add_loopless_bilinear_constraints(molecular_model, model)
 
     # @show model
-    # open("../csv/model_vector_" * organism * ".lp", "w") do f
+    # open("../experiments/csv/model_vector_" * organism * ".lp", "w") do f
     #     print(f, model)
     # end
 
@@ -188,7 +210,7 @@ function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type
         time_limit=time_limit
     )
     
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     if csv
         CSV.write(file_name, df, append=false, writeheader=true)
@@ -201,7 +223,7 @@ compute dual gap with time limit of loopless FBA with blocked cycles
 """
 function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=false, reduced=false, csv=true)
     # load model
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     # compute FBA
@@ -227,7 +249,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
 
     # build model
     # add loopless constraints and block cycles
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -276,9 +298,9 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
         block_limit=block_limit)
 
     if !same_objective
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
+        file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
     else 
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
+        file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
     end
 
     if csv
@@ -292,7 +314,7 @@ compute dual gap with time limit of loopless FBA with indicators
 function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless_indicator_fba", nullspace_formulation=true, csv=true)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -327,7 +349,7 @@ function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless
         type = type * "_nullspace"
     end
 
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
 
     if csv
         CSV.write(file_name, df, append=false, writeheader=true)
@@ -339,7 +361,7 @@ compute dual gap with time limit of loopless FBA with indicators with bocked cyc
 """
 function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked", nullspace_formulation=false, csv=true)
     # load model
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     # compute FBA
@@ -367,7 +389,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
 
     # build model
     # add loopless constraints and block cycles
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -411,9 +433,9 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
     type = type * "_" * string(block_limit)
     
     if !same_objective
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
+        file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * ".csv")
     else 
-        file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
+        file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * "_" * string(ceiling) * "_same_objective.csv")
     end
 
     if csv

@@ -24,7 +24,7 @@ end
 """
 compute loopless fba after setting primal for a given model
 """
-function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspace_formulation=true, flux=[], time_limit=600)
+function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspace_formulation=true, flux=[], time_limit=600, csv=true)
     if nullspace_formulation 
         solution = determine_G(S, flux, internal_rxn_idxs)   
     else
@@ -66,9 +66,11 @@ function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspac
         termination=termination_loopless_fba,
         nodes=num_nodes)
 
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * ".csv")
 
-    CSV.write(file_name, df, append=false, writeheader=true)
+    if csv
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
     return objective_loopless_fba, time_loopless_fba, num_nodes
 end
 
@@ -77,7 +79,7 @@ compute loopless fba after setting primal for a given organism
 """
 function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formulation=false, time_limit=180, csv=true)
     # load model
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
 
     print_model(molecular_model)
     # get values for G and a for solution 
@@ -89,14 +91,14 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
     if nullspace_formulation
         type = type * "_nullspace"
     end
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * ".csv")
 
     if load 
         df = CSV.read(file_name, DataFrame)
         solution = df[!,:sol]
     else 
-        if isempty(flux)
-            objective, flux, _, _ = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=nullspace_formulation, csv=false)
+        if isempty(flux)   
+            objective, flux, _, _ = loopless_fba_data(organism, time_limit=1800, nullspace_formulation=nullspace_formulation, json=false)
             if !nullspace_formulation
                 @assert length(flux) == num_reactions + 2 * length(internal_rxn_idxs) + size(S)[1]
             else 
@@ -127,7 +129,7 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
 
     # loopless FBA 
     # add loopless constraints and block cycles
-    molecular_model = deserialize("../data/" * organism * ".js")
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
     model = make_optimization_model(molecular_model, SCIP.Optimizer)
     if nullspace_formulation 
@@ -160,7 +162,7 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
         termination=termination_loopless_fba,
         nodes=num_nodes)
 
-    file_name = joinpath(@__DIR__,"../csv/" * organism * "_" * type * ".csv")
+    file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * ".csv")
     if csv 
         CSV.write(file_name, df, append=false, writeheader=true)
     end
