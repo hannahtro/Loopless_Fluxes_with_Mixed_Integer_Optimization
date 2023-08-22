@@ -25,11 +25,10 @@ include("../src/constraint_handler.jl")
 #     "iSbBS512_1146"
 # ]
 
-# combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
-# combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
-# combinatorial_benders_data("iSB619", time_limit=1800, fast=true)
-# combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
-combinatorial_benders_data("e_coli_core", time_limit=1800, fast=true)
+combinatorial_benders_data("iSbBS512_1146", time_limit=1800, fast=true)
+combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
+combinatorial_benders_data("iSB619", time_limit=1800, fast=true)
+combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
 
 # for organism in organisms
 #     type = "cb"
@@ -86,76 +85,76 @@ combinatorial_benders_data("e_coli_core", time_limit=1800, fast=true)
 #     combinatorial_benders_data(organism, yeast=true, time_limit=1800*4, fast=true)
 # end
 
-# type = "cb_fast"
-# try 
-#     combinatorial_benders_data("Arthrobotrys_oligospora", yeast=true, time_limit=1800*4, fast=true)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
-# try 
-#     combinatorial_benders_data("Botrytis_cinerea", yeast=true, time_limit=1800*4, fast=true)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
+type = "cb_fast"
+try 
+    combinatorial_benders_data("Arthrobotrys_oligospora", yeast=true, time_limit=1800*4, fast=true)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
+try 
+    combinatorial_benders_data("Botrytis_cinerea", yeast=true, time_limit=1800*4, fast=true)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
 
-# type = "cb"
-# try 
-#     combinatorial_benders_data("Ascoidea_asiatica", yeast=true, time_limit=1800*4, fast=false)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
-# type = "cb"
-# try 
-#     combinatorial_benders_data("Ascoidea_rubescens", yeast=true, time_limit=1800*4, fast=false)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
-# type = "cb"
-# try 
-#     combinatorial_benders_data("Ashbya_aceri", yeast=true, time_limit=1800*4, fast=false)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
-# type = "cb"
-# try 
-#     combinatorial_benders_data("Aspergillus_nidulans", yeast=true, time_limit=1800*4, fast=false)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
-# type = "cb"
-# try 
-#     combinatorial_benders_data("Babjeviella_inositovora", yeast=true, time_limit=1800*4, fast=false)
-# catch e 
-#     println(e)
-#     file = organism * "_" * type
-#     open(file * ".txt","a") do io
-#         println(io, e)
-#     end
-# end
+type = "cb"
+try 
+    combinatorial_benders_data("Ascoidea_asiatica", yeast=true, time_limit=1800*4, fast=false)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
+type = "cb"
+try 
+    combinatorial_benders_data("Ascoidea_rubescens", yeast=true, time_limit=1800*4, fast=false)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
+type = "cb"
+try 
+    combinatorial_benders_data("Ashbya_aceri", yeast=true, time_limit=1800*4, fast=false)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
+type = "cb"
+try 
+    combinatorial_benders_data("Aspergillus_nidulans", yeast=true, time_limit=1800*4, fast=false)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
+type = "cb"
+try 
+    combinatorial_benders_data("Babjeviella_inositovora", yeast=true, time_limit=1800*4, fast=false)
+catch e 
+    println(e)
+    file = organism * "_" * type
+    open(file * ".txt","a") do io
+        println(io, e)
+    end
+end
 
 # type = "cb"
 # try 
