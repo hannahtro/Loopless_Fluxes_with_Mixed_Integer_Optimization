@@ -29,6 +29,7 @@ include("../src/constraint_handler.jl")
 # combinatorial_benders_data("iSFV_1184", time_limit=1800, fast=true)
 # combinatorial_benders_data("iSB619", time_limit=1800, fast=true)
 # combinatorial_benders_data("iAF692", time_limit=1800, fast=false, scip_tol=1e-5)
+combinatorial_benders_data("e_coli_core", time_limit=1800, fast=true)
 
 # for organism in organisms
 #     type = "cb"
@@ -156,13 +157,13 @@ include("../src/constraint_handler.jl")
 #     end
 # end
 
-type = "cb"
-try 
-    combinatorial_benders_data("Alloascoidea_hylecoeti", yeast=true, time_limit=1800*4, silent=false, fast=false)
-catch e 
-    println(e)
-    file = organism * "_" * type
-    open(file * ".txt","a") do io
-        println(io, e)
-    end
-end
+# type = "cb"
+# try 
+#     combinatorial_benders_data("Alloascoidea_hylecoeti", yeast=true, time_limit=1800*4, silent=false, fast=false)
+# catch e 
+#     println(e)
+#     file = organism * "_" * type
+#     open(file * ".txt","a") do io
+#         println(io, e)
+#     end
+# end

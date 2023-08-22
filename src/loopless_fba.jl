@@ -64,6 +64,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
         # test feasibility, filter non-zero fluxes, set binaries accordingly
+        # TODO: exclude exchange reactions ?
         solution = vars_loopless_fba[1:num_reactions]
         non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
         non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
@@ -85,6 +86,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:thermo_feasible] = thermo_feasible
     dict[:max_flux_bound] = max_flux_bound
     dict[:objective_function] = molecular_model.objective
+    dict[:sense] = objective_sense(model)
 
     if nullspace_formulation
         type = type * "_nullspace"

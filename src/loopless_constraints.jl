@@ -298,6 +298,7 @@ end
 compute thermodynamic feasibility for a given cycle using the nullspace formulation,
     where the flux direction is captured by binary values
 """
+# TODO: cylce should just contain internal reactions
 function thermo_feasible(cycle, flux_directions, S, max_flux_bound=1000)
     # warning if flux_directions not integral
     if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
@@ -308,7 +309,7 @@ function thermo_feasible(cycle, flux_directions, S, max_flux_bound=1000)
 
     # add G variables for each reaction in cycle
     # @show cycle
-    for (idx,cycle) in enumerate(cycle)
+    for (idx, _) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
@@ -339,7 +340,7 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
     μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
 
     # add G variables for each reaction in cycle
-    for (idx,cycle) in enumerate(cycle)
+    for (idx, _) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
@@ -426,4 +427,39 @@ function determine_G_mu(S, solution, internal_rxn_idxs, max_flux_bound=1000)
      end
 
     return vcat(solution, sol[1:length(internal_rxn_idxs)], a, sol[length(internal_rxn_idxs)+1:end]) # G, a, μ
+end
+
+"""
+check loopless violation of a given solution and corresponding binary variables
+"""
+function check_loopless_violation_mu(flux, flux_directions, S, max_flux_bound=1000)
+    model = Model(SCIP.Optimizer)
+    S_int = S[:, flux]
+    G = @variable(model, G[1:length(flux)]) # approx ΔG for internal reactions
+    μ = @variable(model, μ[1:size(S_int)[1]])
+    α = @variable(model, α[1:length(flux)])
+
+    # add G variables for each reaction in cycle
+    for (idx,cycle) in enumerate(cycle)
+        if isapprox(flux_directions[idx], 0, atol=0.0001)
+            @constraint(model, -max_flux_bound <= G[idx] <= -1)
+            @constraint(model, α[idx] >= - G[idx])
+        elseif isapprox(flux_directions[idx], 1, atol=0.0001)
+            @constraint(model, 1 <= G[idx] <= max_flux_bound)
+            @constraint(model, α[idx] >= G[idx])
+        end
+    end
+
+    # @show N_int, Array(S[:, cycle])
+    @constraint(model, G' .== μ' * S_int)   
+    @objective(model, Min, ones(length(α))' * α)
+    # print(thermo_feasible_model)
+
+    _, _, solution, _, status = optimize_model(model)
+    # if status == MOI.OPTIMAL
+    #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
+    #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
+    # end
+    # @show solution, N_int' * solution
+    return status == MOI.OPTIMAL
 end

@@ -236,6 +236,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         C = [idx for (idx,val) in enumerate(solution_a)]
         # C = [1,2,3]
         C_list = [C]
+        termination = MOI.OPTIMAL
     else 
         A = deepcopy(S_int)
         for (idx,a) in enumerate(solution_a)
@@ -265,10 +266,11 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         end
         set_time_limit_sec(mis_model, time_limit)
         optimize!(mis_model)
+        termination = termination_status(mis_model)
 
-        if termination_status(mis_model) != MOI.OPTIMAL
+        if termination != MOI.OPTIMAL
             println("MIS problem not feasible")
-            @show termination_status(mis_model)
+            @show termination
             C = []
         else
             solution_mis = [value(var) for var in all_variables(mis_model)]
@@ -290,8 +292,9 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
                 coefs[i] = 0
                 @objective(mis_model, Min, coefs' * all_variables(mis_model))
                 optimize!(mis_model)
+                termination = termination_status(mis_model)
 
-                if termination_status(mis_model) != MOI.OPTIMAL
+                if termination != MOI.OPTIMAL
                     println("MIS problem not feasible")
                     # @show termination_status(mis_model)
                     C = []
@@ -310,7 +313,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
     end
     # @show C_list
     # @show unique(C_list)
-    return unique(C_list)
+    return unique(C_list), termination
 end
 
 """
@@ -459,7 +462,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # compute corresponding MIS
     S_int = Array(S[:, internal_rxn_idxs])
     # @show size(S_int)
-    C_list = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, multiple_mis=multiple_mis)
+    C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, multiple_mis=multiple_mis)
 
     # build sub problem to master solution 
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
@@ -511,19 +514,24 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         # println("_______________")
         # println("compute MIS")
         # @show solution_a
-        C_list = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis)
+        # TODO: check termination status of MIS computation
+        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis)
 
         # @show C
         if isempty(C_list)
-            feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-            @assert feasible
-            sub_problem = Model(optimizer)
-            if !isinf(time_limit)
-                set_time_limit_sec(sub_problem, time_limit)
-            end              
-            constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, [internal_rxn_idxs])
-            objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
-            @assert termination_sub == MOI.OPTIMAL
+            if mis_model_termination != MOI.INFEASIBLE # should be TIME_LIMIT
+                @show mis_model_termination
+            else
+                feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
+                @assert feasible
+                sub_problem = Model(optimizer)
+                if !isinf(time_limit)
+                    set_time_limit_sec(sub_problem, time_limit)
+                end              
+                constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, [internal_rxn_idxs])
+                objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
+                @assert termination_sub == MOI.OPTIMAL
+            end
         else 
             # build sub problem to master solution 
             sub_problem = Model(optimizer)
@@ -620,7 +628,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if fast
         type = type * "_fast"
     end
-    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    file_name = "json/" * organism * "_" * type * "_" * string(time_limit) * ".json"
     if json 
         open(file_name, "w") do f
             JSON.print(f, dict) 
