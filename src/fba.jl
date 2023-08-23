@@ -17,8 +17,12 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
         print_model(molecular_model, organism)
     end
     S = stoichiometry(molecular_model)
+    m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
-
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
     # # check for fixed reactions
     # fixed_reactions = [idx for (idx,val) in enumerate(lb) if val==ub[idx]]
     # if !isempty(fixed_reactions)
@@ -44,11 +48,12 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     # FBA
     objective_fba, dual_bound, vars_fba, time_fba, termination_fba = optimize_model(model, print_objective=true)
 
-    # test feasibility, filter non-zero fluxes, set binaries accordingly
-    non_zero_flux_indices = [idx for (idx, val) in enumerate(vars_fba) if !isapprox(val, 0, atol=1e-6)]
-    non_zero_flux_directions = [vars_fba[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
-    thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
-    @show thermo_feasible
+    # test feasibility, filter non-zero internal fluxes, set binaries accordingly
+    solution = vars_fba[1:num_reactions]
+    non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+    non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
+    feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+    @show feasible
 
     dict = Dict{Symbol, Any}()
     dict[:objective_value] = objective_fba
@@ -57,10 +62,10 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     dict[:time] = time_fba
     dict[:termination] = termination_fba
     dict[:time_limit] = time_limit
-    dict[:thermo_feasible] = thermo_feasible
+    dict[:thermo_feasible] = feasible
 
     if json 
-        file_name = joinpath(@__DIR__, "../json/" * organism * "_" * type * ".json")
+        file_name = "json/" * organism * "_" * type * ".json"
         open(file_name, "w") do f
             JSON.print(f, dict) 
         end

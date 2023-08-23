@@ -59,9 +59,9 @@ end
 
     # test ll-ness through internal reactions
     internal_flux_directions = [vars_fba[idx] >= 1e-5 ? 1 : 0 for idx in internal_rxn_idxs]
-    thermo_feasible = thermo_feasible_mu(internal_rxn_idxs, internal_flux_directions, S)
-    @show thermo_feasible
-    @test !thermo_feasible
+    feasible = thermo_feasible_mu(internal_rxn_idxs, internal_flux_directions, S)
+    @show feasible
+    @test !feasible
 
     # test feasibility, filter non-zero fluxes, set binaries accordingly
     solution = vars_fba[1:num_reactions]
