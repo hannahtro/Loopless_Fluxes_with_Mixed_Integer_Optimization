@@ -349,7 +349,6 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
         end
     end
 
-    # @show N_int, Array(S[:, cycle])
     @constraint(thermo_feasible_model, G' .== μ' * S_int)   
 
     # print(thermo_feasible_model)
@@ -359,7 +358,6 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
     # end
-    # @show solution, N_int' * solution
     return status == MOI.OPTIMAL
 end
 
