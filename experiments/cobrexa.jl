@@ -28,4 +28,8 @@ include("../src/cobrexa.jl")
 # end 
 
 organism = "iAF692"
-cobrexa_loopless_fba_data(organism, time_limit=1800)
+cobrexa_fba_data(organism, time_limit=1800)
+
+
+organism = "e_coli_core"
+cobrexa_fba_data(organism, time_limit=1800)

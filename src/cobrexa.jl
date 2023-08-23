@@ -40,6 +40,7 @@ function cobrexa_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, m
         feasible = false
     end
 
+    @show feasible
     dict = Dict{Symbol, Any}()
 
     dict[:objective_value] = primal_objective_value 
@@ -91,8 +92,10 @@ function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limi
             println("")
         end
         solution = [value(var) for var in all_variables(model)]
-        flux_directions = solution[internal_rxn_idxs]
-        feasible = thermo_feasible(internal_rxn_idxs, flux_directions, S)
+        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
+        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+        @show feasible
         if status == MOI.OPTIMAL
             @assert feasible
         end 
