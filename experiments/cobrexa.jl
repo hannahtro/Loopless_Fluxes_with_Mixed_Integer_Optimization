@@ -24,5 +24,5 @@ organisms = [
 
 for organism in organisms
     @show organism
-    loopless_fba_data(organism, time_limit=time_limit)
+    cobrexa_loopless_fba_data(organism, time_limit=time_limit)
 end 
