@@ -2,9 +2,9 @@ include("../src/loopless_fba.jl")
 
 # @show VERSION
 
-# organism = "e_coli_core"
-# # loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
-# loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, json=false)
+organism = "e_coli_core"
+# loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
+loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false, json=false)
 
 # loopless_indicator_fba_data(organism, time_limit=1800, nullspace_formulation=false)
 # loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=50, nullspace_formulation=false)
@@ -68,8 +68,8 @@ include("../src/loopless_fba.jl")
 #     end
 # end
 
-organism = "iAF1260"
-loopless_fba_data(organism, time_limit=600, nullspace_formulation=false, json=true, optimizer=SCIP.Optimizer, silent=false, max_reactions=["NDPK1"], print_objective=true)
+# organism = "iAF1260"
+# loopless_fba_data(organism, time_limit=600, nullspace_formulation=false, json=true, optimizer=SCIP.Optimizer, silent=false, max_reactions=["NDPK1"], print_objective=true)
 
 # # yeast model
 # organisms = [

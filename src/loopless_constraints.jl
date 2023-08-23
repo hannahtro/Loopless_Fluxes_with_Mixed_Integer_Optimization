@@ -2,6 +2,8 @@ using COBREXA, Serialization, COBREXA.Everything
 import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
+using GLPK
+
 
 """
 compute internal reactions of COBREXA model
@@ -298,6 +300,7 @@ end
 compute thermodynamic feasibility for a given cycle using the nullspace formulation,
     where the flux direction is captured by binary values
 """
+# TODO: cylce should just contain internal reactions
 function thermo_feasible(cycle, flux_directions, S, max_flux_bound=1000)
     # warning if flux_directions not integral
     if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
@@ -308,7 +311,7 @@ function thermo_feasible(cycle, flux_directions, S, max_flux_bound=1000)
 
     # add G variables for each reaction in cycle
     # @show cycle
-    for (idx,cycle) in enumerate(cycle)
+    for (idx, _) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
@@ -333,13 +336,17 @@ compute thermodynamic feasibility for a given cycle without using the nullspace 
 """
 # TODO: add tolerance?
 function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
+    # warning if flux_directions not integral
+    if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
+        @warn "flux directions should be binary"
+    end
     thermo_feasible_model = Model(SCIP.Optimizer)
     S_int = S[:, cycle]
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
     μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
 
     # add G variables for each reaction in cycle
-    for (idx,cycle) in enumerate(cycle)
+    for (idx, _) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
@@ -347,7 +354,6 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
         end
     end
 
-    # @show N_int, Array(S[:, cycle])
     @constraint(thermo_feasible_model, G' .== μ' * S_int)   
 
     # print(thermo_feasible_model)
@@ -357,7 +363,6 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
     # end
-    # @show solution, N_int' * solution
     return status == MOI.OPTIMAL
 end
 
@@ -426,4 +431,40 @@ function determine_G_mu(S, solution, internal_rxn_idxs, max_flux_bound=1000)
      end
 
     return vcat(solution, sol[1:length(internal_rxn_idxs)], a, sol[length(internal_rxn_idxs)+1:end]) # G, a, μ
+end
+
+"""
+check loopless violation of a given solution and corresponding binary variables
+for internal reactions
+"""
+function check_loopless_violation(flux, flux_directions, S, internal_rxn_idxs, max_flux_bound=1000)
+    model = Model(SCIP.Optimizer)
+    S_int = S[:, internal_rxn_idxs]
+    N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
+    G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
+    α = @variable(model, α[1:length(internal_rxn_idxs)])
+
+    internal_fluxes = flux[internal_rxn_idxs]
+    # add G variables for each reaction in cycle
+    non_zero_reactions = []
+    for (idx, direction) in enumerate(flux_directions)
+        if !isapprox(internal_fluxes[idx], 0, atol=0.0001)
+            push!(non_zero_reactions, idx)
+            if isapprox(flux_directions[idx], 1, atol=0.0001)
+                @constraint(model, -max_flux_bound <= G[idx] <= 0)
+                @constraint(model, α[idx] <= - G[idx])
+            elseif isapprox(flux_directions[idx], 0, atol=0.0001)
+                @constraint(model, 0 <= G[idx] <= max_flux_bound)
+                @constraint(model, α[idx] <= G[idx])
+            end
+        end
+    end
+
+    @constraint(model, α >= 0)       
+    @constraint(model, N_int' * G .== 0)
+
+    @objective(model, Max, ones(length(α[non_zero_reactions]))' * α[non_zero_reactions])
+
+    primal_objective_value, _, solution, _, status = optimize_model(model, print_objective=true)
+    return primal_objective_value, solution
 end

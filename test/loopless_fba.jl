@@ -40,4 +40,38 @@ println("============================================================")
     flux_directions = solution[internal_rxn_idxs]
     @test thermo_feasible(internal_rxn_idxs, flux_directions, S)
     @test thermo_feasible_mu(internal_rxn_idxs, flux_directions, S)
+
+    # check thermodynamic feasibility of solution through non zero flux
+    non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+    non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
+    feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+    @test feasible
 end
+
+@testset "iAF692" begin
+    println("")
+    println("--------------------------------------------------------")
+    println("TEST iAF692")
+    println("--------------------------------------------------------")
+    organism = "iAF692"
+    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    # print_model(molecular_model, "organism")
+
+    S = stoichiometry(molecular_model)
+    m, num_reactions = size(S)
+    lb, ub = bounds(molecular_model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
+
+    # ll-FBA
+    primal_objective_value, solution, status = loopless_fba_data(organism, time_limit=1800, json=false)
+
+    # test feasibility, filter non-zero fluxes, set binaries accordingly
+    solution = solution[1:num_reactions]
+    non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+    non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
+    feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+    @test feasible
+end 

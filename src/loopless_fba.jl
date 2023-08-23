@@ -30,7 +30,10 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
     # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
-
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
     max_flux_bound = maximum(abs.(vcat(lb, ub)))
 
     m, num_reactions = size(S)
@@ -64,13 +67,14 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
         # test feasibility, filter non-zero fluxes, set binaries accordingly
+        # TODO: exclude exchange reactions ?
         solution = vars_loopless_fba[1:num_reactions]
-        non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
-        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
-        thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
-        @assert thermo_feasible
+        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
+        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+        @assert feasible
     else 
-        thermo_feasible = false
+        feasible = false
     end
 
     dict = Dict{Symbol, Any}()
@@ -82,9 +86,10 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:nodes] = nodes
     dict[:time_limit] = time_limit
     dict[:nullspace_formulation] = nullspace_formulation
-    dict[:thermo_feasible] = thermo_feasible
+    dict[:thermo_feasible] = feasible
     dict[:max_flux_bound] = max_flux_bound
     dict[:objective_function] = molecular_model.objective
+    dict[:sense] = objective_sense(model)
 
     if nullspace_formulation
         type = type * "_nullspace"

@@ -99,6 +99,27 @@ println("============================================================")
 #     @show objective_value_big_m, solution_big_m
 #     println("--------------------------------------------------------")
 
+    println("test loopless violation")
+    # fast combinatorial Benders'
+    model = build_fba_model(S, lb, ub, set_objective=true)
+    # run 2 iterations where solution is not loopless
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, max_iter=2)
+    flux = solution_fast[1:num_reactions]
+    flux_directions = solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
+    @show flux, flux_directions
+    diff, solution = check_loopless_violation(flux, flux_directions, S, internal_rxn_idxs)
+    @show diff, solution
+    
+    # solve till optimal solution found
+    model = build_fba_model(S, lb, ub, set_objective=true)
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
+    flux = solution_fast[1:num_reactions]
+    flux_directions = solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
+    @show flux, flux_directions
+    diff, solution = check_loopless_violation(flux, flux_directions, S, internal_rxn_idxs)
+    @show diff, solution
+    println("--------------------------------------------------------")
+
     # println("constraint handler")
     # # test constraint handler    
     # scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
@@ -120,51 +141,51 @@ println("============================================================")
     # SCIP.SCIPprintSol(ch.o, SCIP.SCIPgetBestSol(ch.o), C_NULL, SCIP.TRUE)
 end
 
-@testset "iAF692" begin
-    println("")
-    println("--------------------------------------------------------")
-    println("TEST iAF692")
-    println("--------------------------------------------------------")
-    organism = "iAF692"
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
-    # print_model(molecular_model, "organism")
+# @testset "iAF692" begin
+#     println("")
+#     println("--------------------------------------------------------")
+#     println("TEST iAF692")
+#     println("--------------------------------------------------------")
+#     organism = "iAF692"
+#     molecular_model = deserialize("../molecular_models/" * organism * ".js")
+#     # print_model(molecular_model, "organism")
 
-    S = stoichiometry(molecular_model)
-    lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+#     S = stoichiometry(molecular_model)
+#     lb, ub = bounds(molecular_model)
+#     internal_rxn_idxs = [
+#         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+#         !is_boundary(reaction_stoichiometry(molecular_model, rid))
+#     ]
 
-    # # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
-    # model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    # time_limit = 2
-    # objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
+#     # # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
+#     # model = make_optimization_model(molecular_model, SCIP.Optimizer)
+#     # time_limit = 2
+#     # objective_value, dual_bound, solution, time, termination, iter = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
 
-    # try 
-    #     thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
-    # catch 
-    # else 
-    #     @test time >= time_limit
-    # end
+#     # try 
+#     #     thermo_feasible_mu(internal_rxn_idxs,solution[internal_rxn_idxs], S)
+#     # catch 
+#     # else 
+#     #     @test time >= time_limit
+#     # end
 
-    println("combinatorial Benders")
-    # combinatorial Benders'
-    model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=false)
-    println("--------------------------------------------------------")
+#     println("combinatorial Benders")
+#     # combinatorial Benders'
+#     model = make_optimization_model(molecular_model, SCIP.Optimizer)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=false)
+#     println("--------------------------------------------------------")
 
-    println("fast combinatorial Benders")
-    # fast combinatorial Benders'
-    model = make_optimization_model(molecular_model, SCIP.Optimizer)
-    combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true)
-    println("--------------------------------------------------------")
+#     println("fast combinatorial Benders")
+#     # fast combinatorial Benders'
+#     model = make_optimization_model(molecular_model, SCIP.Optimizer)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true)
+#     println("--------------------------------------------------------")
     
-    println("fast combinatorial Benders with multiple MISs")
-    # fast combinatorial Benders'
-    model = build_fba_model(S, lb, ub, set_objective=true)
-    # print(model)
-    combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true, multiple_mis=10)
+#     println("fast combinatorial Benders with multiple MISs")
+#     # fast combinatorial Benders'
+#     model = build_fba_model(S, lb, ub, set_objective=true)
+#     # print(model)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true, multiple_mis=10)
     
 #     println("fast combinatorial Benders with big M")
 #     # fast combinatorial Benders'

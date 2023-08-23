@@ -1,37 +1,25 @@
 using DataFrames
-using CSV
+using CSV, JSON
 using PyPlot
 
 function plot_dual_bound(organism, file_name; fba_comparison=true)
-    df = first(CSV.read(organism * "_" * file_name * ".csv", DataFrame),1)
-    @show df
+    dict = JSON.parse(open("json/" * organism * "_" * file_name * ".json"))
 
-    objective_value = df[!,:objective_value]
-    objective_values = df[!,:objective_values][1]
-    objective_values = replace(objective_values, "Any[" => "")
-    objective_values = replace(objective_values, "]" => "")
-    objective_values = replace(objective_values, "," => "")
-    objective_values = parse.(Float64, split(objective_values))
-    objective_values = round.(objective_values, digits=5)
-    dual_bounds = df[!,:dual_bounds][1]
-    dual_bounds = replace(dual_bounds, "Any[" => "")
-    dual_bounds = replace(dual_bounds, "]" => "")
-    dual_bounds = replace(dual_bounds, "," => "")
-    dual_bounds = parse.(Float64, split(dual_bounds))
-    solution = df[!,:solution]
-    time = df[!,:time]
-    termination = df[!,:termination]
-    iter = df[!,:iter][1] + 1
+    objective_value = dict["objective_value"]
+    objective_values = round.(dict["objective_values"], digits=4)
+    solution = dict["solution"]
+    time = dict["time"]
+    termination = dict["termination"]
+    iter = dict["iter"]
 
     # @show objective_value
-    @show isapprox(objective_values[end],0)
     @show length(objective_values)
     @show objective_values[end]
     @show iter
 
     if fba_comparison
         # fba data 
-        df_fba = first(CSV.read(organism * "/server/" * organism * "_loopless_fba_1800.csv", DataFrame),1)
+        dict_ll_fba = JSON.parse(open("json/" * organism * "_loopless_fba_1800.json"))
     end
 
     fig = plt.figure(figsize=(6.5, 3.5))
@@ -41,7 +29,7 @@ function plot_dual_bound(organism, file_name; fba_comparison=true)
     # just the final objective value is available for loopless FBA, therefore it is mapped to the length
     # of the combinatorial Benders decomposition to compare the solutions 
     if fba_comparison
-        ax.plot(collect(1:length(objective_values)), ones(length(objective_values))*df_fba[!,:objective_value][1], label="FBA")
+        ax.plot(collect(1:length(objective_values)), ones(length(objective_values))*round(dict_ll_fba["objective_value"],digits=5), label="ll-FBA")
         # ax.plot(collect(1:length(df_fba[!,:objective_value])), df_fba[!,:objective_value], label="FBA")
     end
 
@@ -57,33 +45,25 @@ function plot_dual_bound(organism, file_name; fba_comparison=true)
     if fba_comparison
         file_name = file_name * "_fba_comparison"
     end
-    file = "../plots/" * organism * "_" * file_name * ".pdf"
+    file = "plots/" * organism * "_" * file_name * ".pdf"
     savefig(file)
 end 
 
-organism = "iAF692"
-file_name = "combinatorial_benders_fast_1800"
-plot_dual_bound(organism, file_name, fba_comparison=true)
-# plot_dual_bound(organism, file_name, fba_comparison=false)
-
 # organism = "iAF692"
-# file_name = "combinatorial_benders_1800"
-# plot_dual_bound(organism, file_name, fba_comparison=false)
-
-organism = "iJR904"
-file_name = "combinatorial_benders_fast_1800"
-plot_dual_bound(organism, file_name, fba_comparison=true)
-# plot_dual_bound(organism, file_name, fba_comparison=false)
+# file_name = "combinatorial_benders_fast_1800"
+# plot_dual_bound(organism, file_name, fba_comparison=true)
+# # plot_dual_bound(organism, file_name, fba_comparison=false)
 
 # organism = "iJR904"
-# file_name = "combinatorial_benders_1800"
-# plot_dual_bound(organism, file_name, fba_comparison=false)
-
-organism = "iML1515"
-file_name = "combinatorial_benders_fast_1800"
-plot_dual_bound(organism, file_name, fba_comparison=true)
-# plot_dual_bound(organism, file_name, fba_comparison=false)
+# file_name = "combinatorial_benders_fast_1800"
+# plot_dual_bound(organism, file_name, fba_comparison=true)
+# # plot_dual_bound(organism, file_name, fba_comparison=false)
 
 # organism = "iML1515"
-# file_name = "combinatorial_benders_1800"
-# plot_dual_bound(organism, file_name, fba_comparison=false)
+# file_name = "combinatorial_benders_fast_1800"
+# plot_dual_bound(organism, file_name, fba_comparison=true)
+# # plot_dual_bound(organism, file_name, fba_comparison=false)
+
+organism = "Babjeviella_inositovora"
+file_name = "combinatorial_benders_fast_7200"
+plot_dual_bound(organism, file_name, fba_comparison=false)

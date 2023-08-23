@@ -86,20 +86,20 @@ include("../src/constraint_handler.jl")
 # end
 
 type = "cb_fast"
-try 
-    combinatorial_benders_data("Arthrobotrys_oligospora", yeast=true, time_limit=1800*4, fast=true)
-catch e 
-    println(e)
-    file = organism * "_" * type
-    open(file * ".txt","a") do io
-        println(io, e)
-    end
-end
+# try 
+#     combinatorial_benders_data("Arthrobotrys_oligospora", yeast=true, time_limit=1800*4, fast=true)
+# catch e 
+#     println(e)
+#     file = "Arthrobotrys_oligospora" * "_" * type
+#     open(file * ".txt","a") do io
+#         println(io, e)
+#     end
+# end
 try 
     combinatorial_benders_data("Botrytis_cinerea", yeast=true, time_limit=1800*4, fast=true)
 catch e 
     println(e)
-    file = organism * "_" * type
+    file = "Botrytis_cinerea" * "_" * type
     open(file * ".txt","a") do io
         println(io, e)
     end
@@ -110,7 +110,7 @@ try
     combinatorial_benders_data("Ascoidea_asiatica", yeast=true, time_limit=1800*4, fast=false)
 catch e 
     println(e)
-    file = organism * "_" * type
+    file = "Ascoidea_asiatica" * "_" * type
     open(file * ".txt","a") do io
         println(io, e)
     end
@@ -120,7 +120,7 @@ try
     combinatorial_benders_data("Ascoidea_rubescens", yeast=true, time_limit=1800*4, fast=false)
 catch e 
     println(e)
-    file = organism * "_" * type
+    file = "Ascoidea_rubescens" * "_" * type
     open(file * ".txt","a") do io
         println(io, e)
     end
@@ -130,7 +130,7 @@ try
     combinatorial_benders_data("Ashbya_aceri", yeast=true, time_limit=1800*4, fast=false)
 catch e 
     println(e)
-    file = organism * "_" * type
+    file = "Ashbya_aceri" * "_" * type
     open(file * ".txt","a") do io
         println(io, e)
     end
@@ -140,7 +140,7 @@ try
     combinatorial_benders_data("Aspergillus_nidulans", yeast=true, time_limit=1800*4, fast=false)
 catch e 
     println(e)
-    file = organism * "_" * type
+    file = "Aspergillus_nidulans" * "_" * type
     open(file * ".txt","a") do io
         println(io, e)
     end
@@ -150,8 +150,19 @@ try
     combinatorial_benders_data("Babjeviella_inositovora", yeast=true, time_limit=1800*4, fast=false)
 catch e 
     println(e)
-    file = organism * "_" * type
+    file = "Babjeviella_inositovora" * "_" * type
     open(file * ".txt","a") do io
         println(io, e)
     end
 end
+
+# type = "cb"
+# try 
+#     combinatorial_benders_data("Alloascoidea_hylecoeti", yeast=true, time_limit=1800*4, silent=false, fast=false)
+# catch e 
+#     println(e)
+#     file = organism * "_" * type
+#     open(file * ".txt","a") do io
+#         println(io, e)
+#     end
+# end
