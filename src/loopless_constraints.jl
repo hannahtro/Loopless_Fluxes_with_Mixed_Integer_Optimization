@@ -336,6 +336,10 @@ compute thermodynamic feasibility for a given cycle without using the nullspace 
 """
 # TODO: add tolerance?
 function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
+    # warning if flux_directions not integral
+    if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
+        @warn "flux directions should be binary"
+    end
     thermo_feasible_model = Model(SCIP.Optimizer)
     S_int = S[:, cycle]
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions

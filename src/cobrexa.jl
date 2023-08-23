@@ -12,6 +12,7 @@ function cobrexa_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, m
     # print_model(molecular_model, organism)
 
     S = stoichiometry(molecular_model)
+    m, num_reactions = size(S)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -30,8 +31,8 @@ function cobrexa_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, m
             println("")
         end
         solution = [value(var) for var in all_variables(model)]
-        non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
-        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
         feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
     else 
         primal_objective_value = NaN

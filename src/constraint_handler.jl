@@ -149,7 +149,7 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     if result_status != MOI.NO_SOLUTION
         primal_objective_value = MOI.get(scip_model, MOI.ObjectiveValue())
         solution = [MOI.get(ch.o, MOI.VariablePrimal(1), MOI.VariableIndex(i)) for i in 1:length(internal_rxn_idxs) + num_reactions]
-        # test thermofeasibility
+        # test thermofeasibility on non zero interal reactions
         solution_direction = solution[1:length(internal_rxn_idxs)]
         solution_flux = solution[length(internal_rxn_idxs)+1:end]
         @assert sum([(i != 1 || 1 !=0) ? 0 : 1 for i in solution_direction]) == 0

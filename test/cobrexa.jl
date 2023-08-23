@@ -52,7 +52,7 @@ end
     primal_objective_value, solution, status = cobrexa_fba_data(organism, time_limit=1800, json=false)
 
     # test feasibility, filter non-zero fluxes, set binaries accordingly
-    non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
+    non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
     non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
     feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
     @show feasible
@@ -62,7 +62,10 @@ end
     primal_objective_value, solution, status = cobrexa_loopless_fba_data(organism, time_limit=1800, json=false)
 
     # test feasibility, filter non-zero fluxes, set binaries accordingly
-    flux_directions = solution[internal_rxn_idxs]
-    @test thermo_feasible(internal_rxn_idxs, flux_directions, S)
-    @test thermo_feasible_mu(internal_rxn_idxs, flux_directions, S)
+    non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+    non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+    feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+    @show feasible
+    @test thermo_feasible(non_zero_flux_indices, non_zero_flux_directions, S)
+    @test thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
 end 
