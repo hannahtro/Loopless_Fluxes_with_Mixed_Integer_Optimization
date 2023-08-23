@@ -21,7 +21,7 @@ println("============================================================")
     ]
 
     # FBA 
-    primal_objective_value, solution, status = fba_data(organism, time_limit=1800, json=false)
+    primal_objective_value, solution, status = cobrexa_fba_data(organism, time_limit=1800, json=false)
     @test status == MOI.OPTIMAL
 
     # assert that there is no loop in solution
@@ -49,7 +49,7 @@ end
     ]
 
     # FBA
-    primal_objective_value, solution, status = fba_data(organism, time_limit=1800, json=false)
+    primal_objective_value, solution, status = cobrexa_fba_data(organism, time_limit=1800, json=false)
 
     # test feasibility, filter non-zero fluxes, set binaries accordingly
     non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]

@@ -11,6 +11,7 @@ function cobrexa_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, m
     molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
 
+    S = stoichiometry(molecular_model)
     internal_rxn_idxs = [
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
@@ -29,23 +30,30 @@ function cobrexa_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, m
             println("")
         end
         solution = [value(var) for var in all_variables(model)]
+        non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
+        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
+        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
     else 
         primal_objective_value = NaN
         dual_objective_value = NaN
         solution = NaN
+        feasible = false
     end
 
-    df = DataFrame(
-        objective_value=primal_objective_value, 
-        dual_bound=dual_objective_value,
-        solution=[solution], 
-        time=solved_time, 
-        termination=status,
-        time_limit=time_limit)
+    dict = Dict{Symbol, Any}()
+
+    dict[:objective_value] = primal_objective_value 
+    dict[:dual_bound] = dual_objective_value
+    dict[:solution] = solution
+    dict[:thermo_feasible] = feasible
+    dict[:time] = solved_time
+    dict[:termination] = status
+    dict[:time_limit] = time_limit
 
     type = "cobrexa_fba"
+    file_name = "json/" * organism * "_" * type * "_" * string(time_limit) * ".json"
+
     if json 
-        file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
         open(file_name, "w") do f
             JSON.print(f, dict) 
         end
@@ -59,8 +67,11 @@ function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limi
     # build model
     molecular_model = deserialize("../molecular_models/" * organism * ".js")
     # print_model(molecular_model, organism)
-
-    # TODO: set time limit
+    S = stoichiometry(molecular_model)
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
     loopless_flux = flux_balance_analysis(
         molecular_model,
         optimizer,
@@ -80,23 +91,30 @@ function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limi
             println("")
         end
         solution = [value(var) for var in all_variables(model)]
+        flux_directions = solution[internal_rxn_idxs]
+        feasible = thermo_feasible(internal_rxn_idxs, flux_directions, S)
+        if status == MOI.OPTIMAL
+            @assert feasible
+        end 
     else 
         primal_objective_value = NaN
         dual_objective_value = NaN
         solution = NaN
+        feasible = false
     end
 
     dict = Dict{Symbol, Any}()
     dict[:objective_value] = primal_objective_value
     dict[:dual_bound] = dual_objective_value
     dict[:solution] = solution
+    dict[:thermo_feasible] = feasible
     dict[:time] = solved_time
     dict[:termination] = status
     dict[:nodes] = nodes
     dict[:time_limit] = time_limit
 
     type = "cobrexa_loopless_fba"
-    file_name = joinpath(@__DIR__,"../json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
+    file_name = "json/" * organism * "_" * type * "_" * string(time_limit) * ".json"
 
     if json 
         open(file_name, "w") do f
