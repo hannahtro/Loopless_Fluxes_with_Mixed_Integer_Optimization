@@ -204,4 +204,4 @@ end
 #     # SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-7000000, check_priority=-7000000)
 #     # MOI.optimize!(scip_model)
 #     # # @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.TIME_LIMIT
-end
+# end
