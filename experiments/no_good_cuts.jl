@@ -88,7 +88,7 @@ organisms = [
 for organism in organisms 
     type = "cb_fast_big_m"
     try 
-        combinatorial_benders_data(organism, yeast=true, time_limit=1800*10, fast=true, big_m=true)
+        combinatorial_benders_data(organism, yeast=true, time_limit=600, fast=true, big_m=true)
     catch e 
         println(e)
         file = organism * "_" * type
