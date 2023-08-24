@@ -8,9 +8,9 @@ json = parse(Bool, ARGS[4])
 yeast = parse(Bool, ARGS[5])
 @show time_limit, fast, json, yeast
 
-type = "cb_fast"
+type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(ARGS[1], time_limit=time_limit, fast=fast, json=json, yeast=yeast)
+    combinatorial_benders_data(ARGS[1], time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=true)
 catch e 
     println(e)
     file = organism * "_" * type
