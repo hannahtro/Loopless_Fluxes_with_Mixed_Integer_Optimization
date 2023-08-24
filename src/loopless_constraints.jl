@@ -440,8 +440,7 @@ function check_loopless_violation_mu(flux, flux_directions, S, internal_rxn_idxs
     G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
     μ = @variable(model, μ[1:size(S_int)[1]])
     α = @variable(model, α[1:length(internal_rxn_idxs)])
-    @infiltrate
-
+   
     # add G variables for each reaction in cycle
     for (idx, direction) in enumerate(flux_directions)
         if isapprox(flux_directions[idx], 0, atol=0.0001)

@@ -25,6 +25,6 @@ yeast = false
 
 for organism in organisms
     @show organism
-    run(`sbatch -A ais2t batch.sh $organism $time_limit $fast $json $yeast`)
+    run(`sbatch -A optimi batch.sh $organism $time_limit $fast $json $yeast`)
     # run(`sh batch.sh $organism $time_limit $fast $json $yeast`)
 end

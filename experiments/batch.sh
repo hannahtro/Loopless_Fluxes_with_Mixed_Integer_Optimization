@@ -4,7 +4,7 @@
 #       Job blueprint        #
 ##############################
 
-echo "First arg: $1"
+echo "First arg: $argv[1]"
 
 # Give your job a name, so you can recognize it in the queue overview
 #SBATCH --job-name=pivotinglogreg
@@ -23,7 +23,7 @@ echo "First arg: $1"
 #SBATCH --time=0-23:40:00
 
 # Define the partition on which the job shall run. May be omitted.
-SBATCH --partition small
+#SBATCH --partition small
 
 # How much memory you need.
 # --mem will define memory per node and
@@ -38,7 +38,7 @@ SBATCH --partition small
 #SBATCH --mail-type=ALL
 
 # You may not place any commands before the last SBATCH directive
-julia --project run_combinatorial_benders.jl $1 $2 $3 $4 $5 &> log_logreg_$SLURM_JOB_ID.txt
+julia --project run_combinatorial_benders.jl $argv[1] $argv[2] $argv[3] $argv[4] $argv[5] &> cb_$SLURM_JOB_ID.txt
 
 # Finish the script
 exit 0
