@@ -1,0 +1,11 @@
+Ascoidea_rubescens
+(time_limit, fast, json, yeast) = (10, true, true, true)
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+model with 7172 flux variables and 14079 variables in total
+master problem solved
+sub problem solved
+iter = 1
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.04715691219370511

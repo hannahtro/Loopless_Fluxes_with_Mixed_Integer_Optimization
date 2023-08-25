@@ -32,7 +32,7 @@
 # yeast model
 organisms = [
     "Alloascoidea_hylecoeti",
-    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_kashinagacola",   
     "Ambrosiozyma_monospora",
     "Arthrobotrys_oligospora",
     "Arxula_adeninivorans",

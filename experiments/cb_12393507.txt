@@ -1,0 +1,5 @@
+WARNING: Dual bound 0.0681088 is smaller than the objective of the primal solution 0.0681383. The solution might not be optimal.
+WARNING: Dual bound 0.0681483 is smaller than the objective of the primal solution 0.0681858. The solution might not be optimal.
+WARNING: Dual bound 0.0681088 is smaller than the objective of the primal solution 0.0681163. The solution might not be optimal.
+WARNING: Dual bound 0.0681127 is smaller than the objective of the primal solution 0.0681295. The solution might not be optimal.
+WARNING: Dual bound 0.0682736 is smaller than the objective of the primal solution 0.068307. The solution might not be optimal.

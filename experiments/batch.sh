@@ -4,7 +4,7 @@
 #       Job blueprint        #
 ##############################
 
-echo "First arg: $argv[1]"
+#echo "First arg: $argv[1]"
 
 # Give your job a name, so you can recognize it in the queue overview
 #SBATCH --job-name=pivotinglogreg

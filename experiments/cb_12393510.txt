@@ -1,0 +1,177 @@
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Parsers [69de0a69-1ddd-5017-9359-2bf0b02dc9f0]
+│   exception = Required dependency PrecompileTools [aea7be01-6a6a-4083-8856-8a6e6704d82a] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for LogExpFunctions [2ab3a3ac-af41-5b50-aa03-7779005ae688]
+│   exception = Required dependency DocStringExtensions [ffbed154-4ef7-542d-bbb7-c09d3a79fcae] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for DiffRules [b552c78f-8df3-52c6-915a-8e097449b14b]
+│   exception = Required dependency IrrationalConstants [92d709cd-6900-40b7-9082-c6be49f344b6] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for DiffResults [163ba53b-c6d8-5494-b064-1a9d43ac40c5]
+│   exception = Required dependency StaticArraysCore [1e83bf80-4336-4d27-bf5d-d5a4f845583c] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for NaNMath [77ba4419-2d1f-58cd-9bb1-8ffee604a2e3]
+│   exception = Required dependency OpenLibm_jll [05823500-19ac-5b8b-9628-191a04bc5112] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for OrderedCollections [bac558e1-5e72-5ebc-8fee-abe8a469f55d]
+│   exception = ArgumentError: Invalid checksum in cache file /scratch/opt/htroppen/.julia/compiled/v1.9/OrderedCollections/LtT3J_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for BenchmarkTools [6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf]
+│   exception = Required dependency Parsers [69de0a69-1ddd-5017-9359-2bf0b02dc9f0] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JLLWrappers with build ID fafbfcfd-3293-4030-0002-c91e0e70b3d4 is missing from the cache.
+│ This may mean JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MPIPreferences with build ID fafbfcfd-4093-c03a-0003-109509d9ae23 is missing from the cache.
+│ This may mean MPIPreferences [3da0fdf6-3ccc-4f1b-acd9-58baa6c99267] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for HDF5_jll [0234f1f7-429e-5d53-9886-15a909be8d59]
+│   exception = Required dependency MPIPreferences [3da0fdf6-3ccc-4f1b-acd9-58baa6c99267] failed to load from a cache file.
+└ @ Base loading.jl:1783
+ERROR: LoadError: could not load symbol "H5open":
+/scratch/opt/htroppen/julia-1.9.0/bin/julia: undefined symbol: H5open
+Stacktrace:
+  [1] #dlsym#1
+    @ ./libdl.jl:59 [inlined]
+  [2] dlsym
+    @ ./libdl.jl:56 [inlined]
+  [3] top-level scope
+    @ /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/api/types.jl:247
+  [4] include(mod::Module, _path::String)
+    @ Base ./Base.jl:457
+  [5] include(x::String)
+    @ HDF5.API /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/api/api.jl:1
+  [6] top-level scope
+    @ /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/api/api.jl:17
+  [7] include(mod::Module, _path::String)
+    @ Base ./Base.jl:457
+  [8] include(x::String)
+    @ HDF5 /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/HDF5.jl:1
+  [9] top-level scope
+    @ /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/HDF5.jl:67
+ [10] include
+    @ ./Base.jl:457 [inlined]
+ [11] include_package_for_output(pkg::Base.PkgId, input::String, depot_path::Vector{String}, dl_load_path::Vector{String}, load_path::Vector{String}, concrete_deps::Vector{Pair{Base.PkgId, UInt128}}, source::String)
+    @ Base ./loading.jl:2010
+ [12] top-level scope
+    @ stdin:2
+in expression starting at /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/api/types.jl:247
+in expression starting at /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/api/api.jl:1
+in expression starting at /scratch/opt/htroppen/.julia/packages/HDF5/aiZLs/src/HDF5.jl:1
+in expression starting at stdin:2
+ERROR: LoadError: Failed to precompile HDF5 [f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f] to "/scratch/opt/htroppen/.julia/compiled/v1.9/HDF5/jl_aQ7LHJ".
+Stacktrace:
+  [1] error(s::String)
+    @ Base ./error.jl:35
+  [2] compilecache(pkg::Base.PkgId, path::String, internal_stderr::IO, internal_stdout::IO, keep_loaded_modules::Bool)
+    @ Base ./loading.jl:2260
+  [3] compilecache
+    @ ./loading.jl:2127 [inlined]
+  [4] _require(pkg::Base.PkgId, env::String)
+    @ Base ./loading.jl:1770
+  [5] _require_prelocked(uuidkey::Base.PkgId, env::String)
+    @ Base ./loading.jl:1625
+  [6] macro expansion
+    @ ./loading.jl:1613 [inlined]
+  [7] macro expansion
+    @ ./lock.jl:267 [inlined]
+  [8] require(into::Module, mod::Symbol)
+    @ Base ./loading.jl:1576
+  [9] include(mod::Module, _path::String)
+    @ Base ./Base.jl:457
+ [10] include(x::String)
+    @ COBREXA /scratch/opt/htroppen/.julia/packages/COBREXA/MDccL/src/COBREXA.jl:26
+ [11] top-level scope
+    @ /scratch/opt/htroppen/.julia/packages/COBREXA/MDccL/src/COBREXA.jl:46
+ [12] include
+    @ ./Base.jl:457 [inlined]
+ [13] include_package_for_output(pkg::Base.PkgId, input::String, depot_path::Vector{String}, dl_load_path::Vector{String}, load_path::Vector{String}, concrete_deps::Vector{Pair{Base.PkgId, UInt128}}, source::String)
+    @ Base ./loading.jl:2010
+ [14] top-level scope
+    @ stdin:2
+in expression starting at /scratch/opt/htroppen/.julia/packages/COBREXA/MDccL/src/types.jl:2
+in expression starting at /scratch/opt/htroppen/.julia/packages/COBREXA/MDccL/src/COBREXA.jl:1
+in expression starting at stdin:2
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for HiGHS [87dc4568-4c63-4d18-b0c0-bb2238e4078b]
+│   exception = Required dependency JLLWrappers [692b3bcd-3c85-4b1f-b108-f13ce0eb3210] failed to load from a cache file.
+└ @ Base loading.jl:1783
+ERROR: LoadError: Failed to precompile COBREXA [babc4406-5200-4a30-9033-bf5ae714c842] to "/scratch/opt/htroppen/.julia/compiled/v1.9/COBREXA/jl_RWUBgA".
+Stacktrace:
+  [1] error(s::String)
+    @ Base ./error.jl:35
+  [2] compilecache(pkg::Base.PkgId, path::String, internal_stderr::IO, internal_stdout::IO, keep_loaded_modules::Bool)
+    @ Base ./loading.jl:2260
+  [3] compilecache
+    @ ./loading.jl:2127 [inlined]
+  [4] _require(pkg::Base.PkgId, env::String)
+    @ Base ./loading.jl:1770
+  [5] _require_prelocked(uuidkey::Base.PkgId, env::String)
+    @ Base ./loading.jl:1625
+  [6] macro expansion
+    @ ./loading.jl:1613 [inlined]
+  [7] macro expansion
+    @ ./lock.jl:267 [inlined]
+  [8] require(into::Module, mod::Symbol)
+    @ Base ./loading.jl:1576
+  [9] include(fname::String)
+    @ Base.MainInclude ./client.jl:478
+ [10] top-level scope
+    @ /scratch/htc/htroppen/MA/src/cuts_decomposition.jl:7
+ [11] include(fname::String)
+    @ Base.MainInclude ./client.jl:478
+ [12] top-level scope
+    @ /scratch/htc/htroppen/MA/experiments/run_combinatorial_benders.jl:1
+in expression starting at /scratch/htc/htroppen/MA/src/optimization_model.jl:1
+in expression starting at /scratch/htc/htroppen/MA/src/cuts_decomposition.jl:7
+in expression starting at /scratch/htc/htroppen/MA/experiments/run_combinatorial_benders.jl:1

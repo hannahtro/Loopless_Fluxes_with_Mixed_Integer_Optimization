@@ -68,16 +68,16 @@ include("../src/constraint_handler.jl")
 # yeast model
 organisms = [
     "Alloascoidea_hylecoeti",
-    "Ambrosiozyma_kashinagacola",
-    "Ambrosiozyma_monospora",
-    "Arthrobotrys_oligospora",
-    "Arxula_adeninivorans",
-    "Ascoidea_asiatica",
-    "Ascoidea_rubescens",
-    "Ashbya_aceri",
-    "Aspergillus_nidulans",
-    "Babjeviella_inositovora",
-    "Botrytis_cinerea"
+#    "Ambrosiozyma_kashinagacola",
+#    "Ambrosiozyma_monospora",
+#    "Arthrobotrys_oligospora",
+#    "Arxula_adeninivorans",
+#    "Ascoidea_asiatica",
+#    "Ascoidea_rubescens",
+#    "Ashbya_aceri",
+#    "Aspergillus_nidulans",
+#    "Babjeviella_inositovora",
+#    "Botrytis_cinerea"
 ]
 
 # for organism in organisms
@@ -88,7 +88,7 @@ organisms = [
 for organism in organisms 
     type = "cb_fast_big_m"
     try 
-        combinatorial_benders_data(organism, yeast=true, time_limit=600, fast=true, big_m=true)
+        combinatorial_benders_data(organism, yeast=true, time_limit=60, fast=true, big_m=true)
     catch e 
         println(e)
         file = organism * "_" * type

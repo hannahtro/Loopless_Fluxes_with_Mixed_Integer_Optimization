@@ -1,0 +1,12 @@
+Ambrosiozyma_monospora
+(time_limit, fast, json, yeast) = (10, true, true, true)
+fast = true
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+model with 9680 flux variables and 19097 variables in total
+master problem solved
+sub problem solved
+iter = 1
+iter = 2
+termination = MathOptInterface.INFEASIBLE
+objective_value = 2.3283064365386963e-10
