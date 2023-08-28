@@ -30,19 +30,20 @@
 # end
 
 # yeast model
-organisms = [
-    "Alloascoidea_hylecoeti",
-    "Ambrosiozyma_kashinagacola",   
-    "Ambrosiozyma_monospora",
-    "Arthrobotrys_oligospora",
-    "Arxula_adeninivorans",
-    "Ascoidea_asiatica",
-    "Ascoidea_rubescens",
-    "Ashbya_aceri",
-    "Aspergillus_nidulans",
-    "Babjeviella_inositovora",
-    "Botrytis_cinerea"
-]
+# organisms = [
+#     "Alloascoidea_hylecoeti",
+#     "Ambrosiozyma_kashinagacola",   
+#     "Ambrosiozyma_monospora",
+#     "Arthrobotrys_oligospora",
+#     "Arxula_adeninivorans",
+#     "Ascoidea_asiatica",
+#     "Ascoidea_rubescens",
+#     "Ashbya_aceri",
+#     "Aspergillus_nidulans",
+#     "Babjeviella_inositovora",
+#     "Botrytis_cinerea"
+# ]
+organisms = readdlm("../molecular_models/ecModel_smallest_model_names.txt", '\t', String, '\n')
 
 time_limit = 3600*10
 fast = true
