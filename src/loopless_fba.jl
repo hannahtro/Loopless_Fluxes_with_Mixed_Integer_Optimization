@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
 using DataFrames, CSV, JSON
-using SCIP, JuMP, GLPK, HiGHS
+using SCIP, JuMP, GLPK, HiGHS, Gurobi
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")
@@ -101,6 +101,10 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         type = type * "_GLPK"
     elseif optimizer == HiGHS.Optimizer
         type = type * "_HiGHS"
+    elseif optimizer == Gurobi.Optimizer
+        type = type * "_Gurobi"
+    else 
+        @error "solver not specified"
     end
     
     file_name = joinpath("json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
