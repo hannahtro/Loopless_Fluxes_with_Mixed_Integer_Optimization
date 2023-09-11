@@ -1,3 +1,5 @@
+using DelimitedFiles
+
 # organisms = [
 #     "iAF692", 
 #     # "iJR904", 
@@ -43,7 +45,7 @@
 #     "Babjeviella_inositovora",
 #     "Botrytis_cinerea"
 # ]
-organisms = readdlm("../molecular_models/ecModel_smallest_model_names.txt", '\t', String, '\n')
+organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
 
 time_limit = 3600*10
 fast = true
