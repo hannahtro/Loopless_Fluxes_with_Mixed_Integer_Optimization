@@ -1,0 +1,15 @@
+WARNING: Dual bound 0.0637269 is smaller than the objective of the primal solution 0.0637306. The solution might not be optimal.
+WARNING: Dual bound 0.0637205 is smaller than the objective of the primal solution 0.0637228. The solution might not be optimal.
+WARNING: Dual bound 0.0637205 is smaller than the objective of the primal solution 0.06373. The solution might not be optimal.
+WARNING: Dual bound 0.0637286 is smaller than the objective of the primal solution 0.0637414. The solution might not be optimal.
+WARNING: Dual bound 0.0637286 is smaller than the objective of the primal solution 0.0638132. The solution might not be optimal.
+WARNING: Dual bound 0.0637258 is smaller than the objective of the primal solution 0.0637428. The solution might not be optimal.
+WARNING: Dual bound 0.0637279 is smaller than the objective of the primal solution 0.063729. The solution might not be optimal.
+WARNING: Dual bound 0.0637264 is smaller than the objective of the primal solution 0.0637965. The solution might not be optimal.
+WARNING: Dual bound 0.0637286 is smaller than the objective of the primal solution 0.06373. The solution might not be optimal.
+WARNING: Dual bound 0.0637264 is smaller than the objective of the primal solution 0.06373. The solution might not be optimal.
+WARNING: Dual bound 0.06373 is smaller than the objective of the primal solution 0.0637428. The solution might not be optimal.
+WARNING: Dual bound 0.0637258 is smaller than the objective of the primal solution 0.06373. The solution might not be optimal.
+WARNING: Dual bound 0.0637286 is smaller than the objective of the primal solution 0.0637327. The solution might not be optimal.
+WARNING: Dual bound 0.0637258 is smaller than the objective of the primal solution 0.0637987. The solution might not be optimal.
+WARNING: Dual bound 0.0637258 is smaller than the objective of the primal solution 0.0637317. The solution might not be optimal.
