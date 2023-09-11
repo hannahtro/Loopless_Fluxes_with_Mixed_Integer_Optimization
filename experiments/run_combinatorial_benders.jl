@@ -10,7 +10,7 @@ yeast = parse(Bool, ARGS[5])
 
 type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(ARGS[1], time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=true)
+    combinatorial_benders_data(ARGS[1], time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=true, optimizer=Gurobi.Optimizer)
 catch e 
     println(e)
     file = organism * "_" * type
