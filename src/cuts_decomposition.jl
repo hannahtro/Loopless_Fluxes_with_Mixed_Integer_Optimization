@@ -6,6 +6,7 @@ using JSON
 include("utils.jl")
 include("optimization_model.jl")
 include("loopless_constraints.jl")
+include("../src/constraint_handler.jl")
 
 # """
 # add an additional cycle to block until the solution is thermodynamically feasible

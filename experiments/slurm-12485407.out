@@ -1,3 +1,0 @@
-/var/spool/slurmd/htc-cmp512/job12485407/slurm_script (line 41): Unknown command: julia
-julia --project run_combinatorial_benders.jl $argv[1] $argv[2] $argv[3] $argv[4] $argv[5] &> cb_$SLURM_JOB_ID.txt
-^~~~^
