@@ -3,6 +3,7 @@ using Gurobi
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")
 
+@show ENV["GRB_LICENSE_FILE"]
 println(ARGS[1])
 organism = ARGS[1]
 time_limit = parse(Int64, ARGS[2])

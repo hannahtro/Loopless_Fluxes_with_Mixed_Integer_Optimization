@@ -4,6 +4,7 @@
 #       Job blueprint        #
 ##############################
 
+echo $GRB_LICENSE_FILE 
 #echo "First arg: $argv[1]"
 
 # Give your job a name, so you can recognize it in the queue overview
