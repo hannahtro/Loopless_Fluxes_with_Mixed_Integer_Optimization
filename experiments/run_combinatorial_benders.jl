@@ -1,3 +1,5 @@
+using Gurobi 
+
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")
 
