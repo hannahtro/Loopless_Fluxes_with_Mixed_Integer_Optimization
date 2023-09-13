@@ -7,7 +7,7 @@ organism = ARGS[1]
 time_limit = parse(Int64, ARGS[2])
 json = parse(Bool, ARGS[3])
 yeast = parse(Bool, ARGS[4])
-@show time_limit, fast, json, yeast
+@show time_limit, json, yeast
 
 type = "loopless_fba"
 try 
