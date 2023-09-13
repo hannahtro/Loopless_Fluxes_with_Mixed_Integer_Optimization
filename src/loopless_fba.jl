@@ -94,10 +94,8 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     if !isempty(max_reactions)
         type = type * "_modified_objective"
     end
-    if optimizer == GLPK.Optimizer
-        type = type * "_GLPK"
-    elseif optimizer == HiGHS.Optimizer
-        type = type * "_HiGHS"
+    if optimizer != SCIP.Optimizer
+        type = type * "_" * replace(string(optimizer), ".Optimizer"=>"")
     end
     
     file_name = joinpath("json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
