@@ -39,7 +39,7 @@ echo "First arg: $argv[1]"
 
 # You may not place any commands before the last SBATCH directive
 # julia --project run_combinatorial_benders.jl $argv[1] $argv[2] $argv[3] $argv[4] $argv[5] &> cb_$argv[1]_$SLURM_JOB_ID.txt
-julia --project run_loopless_fba.jl $argv[1] $argv[2] $argv[3] $argv[4] &> cb_$argv[1]_$SLURM_JOB_ID.txt
+julia --project run_loopless_fba.jl $argv[1] $argv[2] $argv[3] $argv[4] &> ll_fba_$argv[1]_$SLURM_JOB_ID.txt
 
 # Finish the script
 exit 0
