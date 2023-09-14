@@ -1,0 +1,7 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 36000
+organism = "Starmerella_bombicola_JCM9596"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 1595.06112408638
