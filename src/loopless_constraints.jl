@@ -2,8 +2,9 @@ using COBREXA, Serialization, COBREXA.Everything
 import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
-using GLPK
+using GLPK, JuMP
 
+include("optimization_model.jl")
 
 """
 compute internal reactions of COBREXA model

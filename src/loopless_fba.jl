@@ -9,7 +9,7 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false, scip_tol=1.0e-6)
     # build model
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
@@ -57,7 +57,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, type, time_limit=time_limit, silent=silent, print_objective=print_objective)
 
-    if optimizer == SCIP.Optimizer
+    if optimizer == SCIP.Optimizer || optimizer == Gurobi.Optimizer
         nodes = MOI.get(model, MOI.NodeCount())
     else 
         nodes = NaN
@@ -88,7 +88,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:nullspace_formulation] = nullspace_formulation
     dict[:thermo_feasible] = feasible
     dict[:max_flux_bound] = max_flux_bound
-    dict[:objective_function] = molecular_model.objective
+    dict[:objective_function] = objective(molecular_model)
     dict[:sense] = objective_sense(model)
 
     if nullspace_formulation
@@ -97,10 +97,8 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     if !isempty(max_reactions)
         type = type * "_modified_objective"
     end
-    if optimizer == GLPK.Optimizer
-        type = type * "_GLPK"
-    elseif optimizer == HiGHS.Optimizer
-        type = type * "_HiGHS"
+    if optimizer != SCIP.Optimizer
+        type = type * "_" * replace(string(optimizer), ".Optimizer"=>"")
     end
     
     file_name = joinpath("json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
