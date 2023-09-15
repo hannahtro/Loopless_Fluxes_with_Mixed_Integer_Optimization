@@ -1,0 +1,12 @@
+organism = "e_coli_core"
+(time_limit, json, yeast) = (1800, true, false)
+
+e_coli_core
+----------------------------------
+number of metabolites : 72
+number of reactions : 95
+number of genes : 137
+objective function: Dict("BIOMASS_Ecoli_core_w_GAM" => 1.0)
+
+max_reactions = Any[]
+time_taken = 18.671666860580444

@@ -1,13 +1,13 @@
-#!/home/htc/mbesanco/.local/bin/fish -l
+#!/usr/bin/bash
 
 ##############################
 #       Job blueprint        #
 ##############################
 
-echo "First arg: $argv[1]"
+# echo "First arg: $1"
 
 # Give your job a name, so you can recognize it in the queue overview
-#SBATCH --job-name=pivotinglogreg
+#SBATCH --job-name=llFBA
 
 # Define, how many nodes you need. Here, we ask for 1 node.
 # Each node has 16 or 20 CPU cores.
@@ -39,7 +39,7 @@ echo "First arg: $argv[1]"
 
 # You may not place any commands before the last SBATCH directive
 # julia --project run_combinatorial_benders.jl $argv[1] $argv[2] $argv[3] $argv[4] $argv[5] &> cb_$argv[1]_$SLURM_JOB_ID.txt
-julia --project run_loopless_fba.jl $argv[1] $argv[2] $argv[3] $argv[4] &> ll_fba_$argv[1]_$SLURM_JOB_ID.txt
+julia --project run_loopless_fba.jl $1 $2 $3 $4 &> ll_fba_$1_$SLURM_JOB_ID.txt
 
 # Finish the script
 exit 0

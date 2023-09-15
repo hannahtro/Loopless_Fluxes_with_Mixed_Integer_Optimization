@@ -20,12 +20,12 @@ organisms = [
     "iSbBS512_1146"
 ]
 
-# organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
+organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
 
-time_limit = 1800
+time_limit = 3600*10
 fast = true
 json = true
-yeast = false
+yeast = true
 
 for organism in organisms
     @show organism

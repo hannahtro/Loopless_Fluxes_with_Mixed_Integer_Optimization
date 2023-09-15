@@ -1,4 +1,4 @@
-using Gurobi
+using Gurobi, HiGHS
 using Dates 
 
 include("../src/loopless_fba.jl")
@@ -14,7 +14,7 @@ start_time = time()
 
 type = "loopless_fba"
 try 
-    loopless_fba_data(organism, time_limit=time_limit, yeast=yeast, nullspace_formulation=false, json=json, optimizer=Gurobi.Optimizer)
+    loopless_fba_data(organism, time_limit=time_limit, yeast=yeast, nullspace_formulation=false, json=json, optimizer=HiGHS.Optimizer)
 catch e 
     println(e)
     file = organism * "_" * type
