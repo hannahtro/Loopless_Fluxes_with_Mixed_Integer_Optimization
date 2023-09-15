@@ -20,16 +20,16 @@ organisms = [
     "iSbBS512_1146"
 ]
 
-# organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
+organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
 
-time_limit = 1800
+time_limit = 3600*10
 fast = true
 json = true
-yeast = false
+yeast = true
 
 for organism in organisms
     @show organism
     # run(`sbatch -A optimi batch.sh $organism $time_limit $fast $json $yeast`) # CB
-    run(`sbatch -A optimi batch.sh $organism $time_limit $json $yeast`) # ll FBA
+    run(`sbatch -A optimi batch.sh $organism $time_limit $json $yeast --time=0-23:40:00`) # ll FBA
     # run(`sh batch.sh $organism $time_limit $fast $json $yeast`)
 end
