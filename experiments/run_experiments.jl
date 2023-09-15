@@ -30,6 +30,6 @@ yeast = true
 for organism in organisms
     @show organism
     # run(`sbatch -A optimi batch.sh $organism $time_limit $fast $json $yeast`) # CB
-    run(`sbatch -A optimi batch.sh $organism $time_limit $json $yeast --time=0-23:40:00`) # ll FBA
+    run(`sbatch -A optimi batch.sh $organism $time_limit $json $yeast`) # ll FBA
     # run(`sh batch.sh $organism $time_limit $fast $json $yeast`)
 end
