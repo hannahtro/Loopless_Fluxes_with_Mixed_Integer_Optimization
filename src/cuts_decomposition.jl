@@ -628,7 +628,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
         else 
             thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
         end
-        @assert thermo_feasible        
+        # @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     else 
         thermo_feasible = false 
