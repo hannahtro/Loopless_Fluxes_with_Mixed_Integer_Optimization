@@ -1,0 +1,12 @@
+organism = "iJR904"
+(time_limit, json, yeast) = (1800, true, false)
+
+iJR904
+----------------------------------
+number of metabolites : 761
+number of reactions : 1075
+number of genes : 904
+objective function: Dict("BIOMASS_Ecoli" => 1.0)
+
+max_reactions = Any[]
+time_taken = 73.94203090667725

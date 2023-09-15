@@ -1,0 +1,12 @@
+organism = "iSFV_1184"
+(time_limit, json, yeast) = (1800, true, false)
+
+iSFV_1184
+----------------------------------
+number of metabolites : 1917
+number of reactions : 2621
+number of genes : 1184
+objective function: Dict("BIOMASS_Ec_iJO1366_core_53p95M" => 1.0)
+
+max_reactions = Any[]
+time_taken = 24.017295122146606
