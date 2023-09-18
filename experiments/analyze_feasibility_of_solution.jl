@@ -27,4 +27,6 @@ solution = dict["solution"][1:num_reactions]
 non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-5)], internal_rxn_idxs)
 # non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-4)]
 non_zero_flux_directions = [solution[idx] >= 1e-4 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)] # TODO: for loop correct ???
-@show thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+@show thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001)
+
+# TODO: check if Gurobi variables are ordered as expected
