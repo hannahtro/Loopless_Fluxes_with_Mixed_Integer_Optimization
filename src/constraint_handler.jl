@@ -1,6 +1,6 @@
 using SCIP
 
-# include("cuts_decomposition.jl")
+include("cuts_decomposition.jl")
 
 mutable struct ThermoFeasibleConstaintHandler{} <: SCIP.AbstractConstraintHandler
     o
@@ -207,71 +207,6 @@ function solution_within_bounds(solution, lb, ub; tol=0.00001)
     for (idx,sol) in enumerate(solution)
         if sol < lb[idx] - tol || sol > ub[idx] + tol
             return false
-        end
-    end
-    return true
-end
-
-"""
-check whether solution is feasible, within a tolerance
-"""
-# TODO: add tolerance to different checks
-function is_feasible(ch, solution_flux, solution_direction, lb, ub; check_steady_state=true, check_bounds=true, check_thermodynamic_feasibility=true, check_cuts=true, check_indicator=true, tol=0.000001)
-    # check steady state assumption 
-    if check_steady_state
-        steady_state = ch.S * solution_flux
-        # @show steady_state
-        for s in steady_state 
-            if !isapprox(s, 0, atol=tol) 
-                println("solution does not respect steady state assumption")
-                return false
-            end
-        end
-    end
-    # check bounds 
-    if check_bounds
-        if !solution_within_bounds(solution_flux, lb, ub, tol=tol)
-            println("solution does not respect reaction bounds")
-            return false
-        end
-    end
-    # check thermo feasiblity 
-    if check_thermodynamic_feasibility
-        feasible = thermo_feasible_mu(ch.internal_rxn_idxs, round.(solution_flux[ch.internal_rxn_idxs],digits=5), ch.S)
-        if !feasible 
-            println("solution is not thermodynamically feasible")
-            return false 
-        end
-    end
-    # check Benders' cuts 
-    if check_cuts
-        for cut in ch.cuts
-            upper = MOI.get(ch.o, MOI.ConstraintSet(), cut).upper
-            func = MOI.get(ch.o, MOI.ConstraintFunction(), cut)
-            var_indices = [term.variable.value for term in func.terms]
-            coefficients = [term.coefficient for term in func.terms]
-            if !(coefficients' * solution_direction[var_indices] + func.constant <= upper)
-                println("solution does not respect Benders' cut")
-                return false
-            end
-        end
-    end
-    # check indicator variables
-    if check_indicator
-        solution_flux_internal_rxns = solution_flux[ch.internal_rxn_idxs]
-        @show solution_flux_internal_rxns, solution_direction
-        for (idx, a) in enumerate(solution_direction)
-            if isapprox(a, 1, atol=tol)
-                if solution_flux_internal_rxns[idx] < 0 - tol
-                    println("solution does not respect indicator constraint")
-                    return false 
-                end 
-            elseif isapprox(a, 0, atol=tol)
-                if solution_flux_internal_rxns[idx] > 0 + tol
-                    println("solution does not respect indicator constraint")
-                    return false 
-                end 
-            end 
         end
     end
     return true
