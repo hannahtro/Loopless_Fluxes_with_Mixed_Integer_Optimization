@@ -76,6 +76,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
         steady_state =  isapprox.(S * x, 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
         # test feasibility, filter non-zero fluxes, set binaries accordingly
+	direction = a
         non_zero_flux_directions = round.(direction, digits=5)
         feasible = thermo_feasible_mu(internal_rxn_idxs, non_zero_flux_directions, S; scip_tol=0.0001)
         @assert feasible
