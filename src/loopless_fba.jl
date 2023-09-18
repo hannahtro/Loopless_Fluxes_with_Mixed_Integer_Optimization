@@ -9,7 +9,7 @@ include("cycle_detection.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false, scip_tol=1.0e-6)
     # build model
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
@@ -54,24 +54,31 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     #     print(f, model)
     # end
 
-    objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+    objective_loopless_fba, dual_bound, _, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, type, time_limit=time_limit, silent=silent, print_objective=print_objective)
 
-    if optimizer == SCIP.Optimizer
+    if optimizer == SCIP.Optimizer || optimizer == Gurobi.Optimizer
         nodes = MOI.get(model, MOI.NodeCount())
     else 
         nodes = NaN
     end
     if termination_loopless_fba == MOI.OPTIMAL
         S = stoichiometry(molecular_model)
-        steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
+        x = value.(model[:x])
+        a = value.(model[:a])
+        G = value.(model[:G])
+        if !nullspace_formulation
+            μ = value.(model[:μ])
+        else 
+            μ = NaN
+        end 
+        
+        steady_state =  isapprox.(S * x, 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
         # test feasibility, filter non-zero fluxes, set binaries accordingly
-        # TODO: exclude exchange reactions ?
-        solution = vars_loopless_fba[1:num_reactions]
-        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
-        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
-        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+	direction = a
+        non_zero_flux_directions = round.(direction, digits=5)
+        feasible = thermo_feasible_mu(internal_rxn_idxs, non_zero_flux_directions, S; scip_tol=0.0001)
         @assert feasible
     else 
         feasible = false
@@ -80,7 +87,10 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict = Dict{Symbol, Any}()
     dict[:objective_value] = objective_loopless_fba
     dict[:dual_bound] = dual_bound
-    dict[:solution] = vars_loopless_fba
+    dict[:x] = x
+    dict[:a] = a
+    dict[:G] = G
+    dict[:μ] = μ
     dict[:time] = time_loopless_fba
     dict[:termination] = termination_loopless_fba
     dict[:nodes] = nodes
@@ -88,7 +98,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     dict[:nullspace_formulation] = nullspace_formulation
     dict[:thermo_feasible] = feasible
     dict[:max_flux_bound] = max_flux_bound
-    dict[:objective_function] = molecular_model.objective
+    dict[:objective_function] = objective(molecular_model)
     dict[:sense] = objective_sense(model)
 
     if nullspace_formulation
@@ -97,14 +107,8 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     if !isempty(max_reactions)
         type = type * "_modified_objective"
     end
-    if optimizer == GLPK.Optimizer
-        type = type * "_GLPK"
-    elseif optimizer == HiGHS.Optimizer
-        type = type * "_HiGHS"
-    elseif optimizer == Gurobi.Optimizer
-        type = type * "_Gurobi"
-    else 
-        @error "solver not specified"
+    if optimizer != SCIP.Optimizer
+        type = type * "_" * replace(string(optimizer), ".Optimizer"=>"")
     end
     
     file_name = joinpath("json/" * organism * "_" * type * "_" * string(time_limit) * ".json")
@@ -113,7 +117,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
             JSON.print(f, dict) 
         end
     end
-    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
+    return objective_loopless_fba, vcat(x,a,G), time_loopless_fba, nodes
 end
 
 """

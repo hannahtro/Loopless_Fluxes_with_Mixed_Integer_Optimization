@@ -1,0 +1,7 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 36000
+organism = "Eremothecium_gossypii"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 1455.0406410694122

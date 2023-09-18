@@ -200,6 +200,29 @@ function loopless_fba_vs_cb(organisms; cuts=false, ll_formulations=false, yeast=
     end
 end
 
+# organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
+organisms = [
+    # "iAF692", # recompute for 1e-5
+    "iJR904", 
+    "iML1515", 
+    "e_coli_core",
+    "iNF517",
+    # "iSB619", # AssertionError("feasible")
+    "iNJ661",
+    "iCN900",
+    "iAF1260",
+    "iEK1008",
+    "iJO1366",
+    "iMM904",
+    "iSDY_1059",
+    "iSFV_1184", # recompute on cluster
+    "iSF_1195",
+    "iS_1188",
+    "iSbBS512_1146" # recompute on cluster
+]
+
+loopless_fba_vs_cb(organisms, cuts=true, yeast=false, time_limit=1800)
+
 # organisms = [
 #     # "iAF692", # recompute for 1e-5
 #     "iJR904", 

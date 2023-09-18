@@ -2,8 +2,9 @@ using COBREXA, Serialization, COBREXA.Everything
 import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
-using GLPK
+using GLPK, JuMP
 
+include("optimization_model.jl")
 
 """
 compute internal reactions of COBREXA model
@@ -332,15 +333,18 @@ end
 
 """
 compute thermodynamic feasibility for a given cycle without using the nullspace formulation,
-    where the flux direction is captured by binary values
+    where the flux direction is captured by binary values, 
+    the reactions should be internal reactions only
 """
-# TODO: add tolerance?
-function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
+function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip_tol=1e-6)
     # warning if flux_directions not integral
     if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
         @warn "flux directions should be binary"
     end
     thermo_feasible_model = Model(SCIP.Optimizer)
+
+    MOI.set(thermo_feasible_model, MOI.RawOptimizerAttribute("numerics/feastol"), scip_tol)
+    
     S_int = S[:, cycle]
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
     μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])

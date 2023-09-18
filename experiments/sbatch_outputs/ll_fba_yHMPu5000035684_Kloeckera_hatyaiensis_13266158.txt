@@ -1,0 +1,4 @@
+organism = "yHMPu5000035684_Kloeckera_hatyaiensis"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 36013.90463900566
