@@ -1,0 +1,4 @@
+organism = "Ashbya_aceri"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 36013.60248994827

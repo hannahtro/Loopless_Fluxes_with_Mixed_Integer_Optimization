@@ -1,0 +1,4 @@
+organism = "Eremothecium_sinecaudum"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 1762.0998101234436

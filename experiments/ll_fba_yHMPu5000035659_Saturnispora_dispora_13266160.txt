@@ -1,0 +1,4 @@
+organism = "yHMPu5000035659_Saturnispora_dispora"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 72.34036803245544
