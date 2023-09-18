@@ -2,7 +2,7 @@ using COBREXA, Serialization, COBREXA.Everything
 import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
-using JuMP
+using GLPK, JuMP
 
 include("optimization_model.jl")
 
@@ -333,11 +333,18 @@ end
 
 """
 compute thermodynamic feasibility for a given cycle without using the nullspace formulation,
-    where the flux direction is captured by binary values
+    where the flux direction is captured by binary values, 
+    the reactions should be internal reactions only
 """
-# TODO: add tolerance?
-function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
+function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip_tol=1e-6)
+    # warning if flux_directions not integral
+    if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
+        @warn "flux directions should be binary"
+    end
     thermo_feasible_model = Model(SCIP.Optimizer)
+
+    MOI.set(thermo_feasible_model, MOI.RawOptimizerAttribute("numerics/feastol"), scip_tol)
+    
     S_int = S[:, cycle]
     G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
     μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
@@ -351,7 +358,6 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
         end
     end
 
-    # @show N_int, Array(S[:, cycle])
     @constraint(thermo_feasible_model, G' .== μ' * S_int)   
 
     # print(thermo_feasible_model)
@@ -361,7 +367,6 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
     # end
-    # @show solution, N_int' * solution
     return status == MOI.OPTIMAL
 end
 
@@ -436,28 +441,34 @@ end
 check loopless violation of a given solution and corresponding binary variables
 for internal reactions
 """
-# TODO: add constraint on G?
-function check_loopless_violation_mu(flux, flux_directions, S, internal_rxn_idxs, max_flux_bound=1000)
+function check_loopless_violation(flux, flux_directions, S, internal_rxn_idxs, max_flux_bound=1000)
     model = Model(SCIP.Optimizer)
     S_int = S[:, internal_rxn_idxs]
+    N_int = nullspace(Array(S[:, internal_rxn_idxs])) # no sparse nullspace function
     G = @variable(model, G[1:length(internal_rxn_idxs)]) # approx ΔG for internal reactions
-    μ = @variable(model, μ[1:size(S_int)[1]])
     α = @variable(model, α[1:length(internal_rxn_idxs)])
-   
+
+    internal_fluxes = flux[internal_rxn_idxs]
     # add G variables for each reaction in cycle
+    non_zero_reactions = []
     for (idx, direction) in enumerate(flux_directions)
-        if isapprox(flux_directions[idx], 0, atol=0.0001)
-            @constraint(model, -max_flux_bound <= G[idx] <= -1)
-            @constraint(model, α[idx] >= - G[idx])
-        elseif isapprox(flux_directions[idx], 1, atol=0.0001)
-            @constraint(model, 1 <= G[idx] <= max_flux_bound)
-            @constraint(model, α[idx] >= G[idx])
+        if !isapprox(internal_fluxes[idx], 0, atol=0.0001)
+            push!(non_zero_reactions, idx)
+            if isapprox(flux_directions[idx], 1, atol=0.0001)
+                @constraint(model, -max_flux_bound <= G[idx] <= 0)
+                @constraint(model, α[idx] <= - G[idx])
+            elseif isapprox(flux_directions[idx], 0, atol=0.0001)
+                @constraint(model, 0 <= G[idx] <= max_flux_bound)
+                @constraint(model, α[idx] <= G[idx])
+            end
         end
     end
 
-    # @constraint(model, G' .== μ' * S_int)   
-    @objective(model, Min, ones(length(α))' * α)
+    @constraint(model, α >= 0)       
+    @constraint(model, N_int' * G .== 0)
 
-    primal_objective_value, _, solution, _, status = optimize_model(model)
-    return primal_objective_value
+    @objective(model, Max, ones(length(α[non_zero_reactions]))' * α[non_zero_reactions])
+
+    primal_objective_value, _, solution, _, status = optimize_model(model, print_objective=true)
+    return primal_objective_value, solution
 end

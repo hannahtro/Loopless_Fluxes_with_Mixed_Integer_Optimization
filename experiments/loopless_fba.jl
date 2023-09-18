@@ -4,7 +4,7 @@ include("../src/loopless_fba.jl")
 
 organism = "e_coli_core"
 # loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false)
-loopless_fba_data(organism, time_limit=1800, nullspace_formulation=true, json=false)
+loopless_fba_data(organism, time_limit=1800, nullspace_formulation=false, json=false)
 
 # loopless_indicator_fba_data(organism, time_limit=1800, nullspace_formulation=false)
 # loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=50, nullspace_formulation=false)

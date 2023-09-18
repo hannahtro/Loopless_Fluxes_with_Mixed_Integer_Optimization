@@ -1,6 +1,6 @@
 using COBREXA, Serialization, COBREXA.Everything
 using DataFrames, CSV, JSON
-using SCIP, JuMP, GLPK, HiGHS
+using SCIP, JuMP, GLPK, HiGHS, Gurobi
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")
@@ -30,7 +30,10 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
     # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
-
+    internal_rxn_idxs = [
+        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        !is_boundary(reaction_stoichiometry(molecular_model, rid))
+    ]
     max_flux_bound = maximum(abs.(vcat(lb, ub)))
 
     m, num_reactions = size(S)
@@ -51,7 +54,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     #     print(f, model)
     # end
 
-    objective_loopless_fba, dual_bound, vars_loopless_fba, time_loopless_fba, termination_loopless_fba = 
+    objective_loopless_fba, dual_bound, _, time_loopless_fba, termination_loopless_fba = 
         optimize_model(model, type, time_limit=time_limit, silent=silent, print_objective=print_objective)
 
     if optimizer == SCIP.Optimizer || optimizer == Gurobi.Optimizer
@@ -61,29 +64,40 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     end
     if termination_loopless_fba == MOI.OPTIMAL
         S = stoichiometry(molecular_model)
-        steady_state =  isapprox.(S * vars_loopless_fba[1:num_reactions], 0, atol=0.0001)
+        x = value.(model[:x])
+        a = value.(model[:a])
+        G = value.(model[:G])
+        if !nullspace_formulation
+            μ = value.(model[:μ])
+        else 
+            μ = NaN
+        end 
+        
+        steady_state =  isapprox.(S * x, 0, atol=0.0001)
         @assert steady_state == ones(size(S)[1])
         # test feasibility, filter non-zero fluxes, set binaries accordingly
         # TODO: exclude exchange reactions ?
-        solution = vars_loopless_fba[1:num_reactions]
-        non_zero_flux_indices = [idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-6)]
-        non_zero_flux_directions = [solution[idx] >= 1e-5 ? 1 : 0 for (idx,val) in enumerate(non_zero_flux_indices)]
-        thermo_feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
-        # @assert thermo_feasible
+        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(x) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+        non_zero_flux_directions = [x[idx] >= 1e-5 ? 1 : 0 for idx in non_zero_flux_indices]
+        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S)
+        @assert feasible
     else 
-        thermo_feasible = false
+        feasible = false
     end
 
     dict = Dict{Symbol, Any}()
     dict[:objective_value] = objective_loopless_fba
     dict[:dual_bound] = dual_bound
-    dict[:solution] = vars_loopless_fba
+    dict[:x] = x
+    dict[:a] = a
+    dict[:G] = G
+    dict[:μ] = μ
     dict[:time] = time_loopless_fba
     dict[:termination] = termination_loopless_fba
     dict[:nodes] = nodes
     dict[:time_limit] = time_limit
     dict[:nullspace_formulation] = nullspace_formulation
-    dict[:thermo_feasible] = thermo_feasible
+    dict[:thermo_feasible] = feasible
     dict[:max_flux_bound] = max_flux_bound
     dict[:objective_function] = objective(molecular_model)
     dict[:sense] = objective_sense(model)
@@ -104,7 +118,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
             JSON.print(f, dict) 
         end
     end
-    return objective_loopless_fba, vars_loopless_fba, time_loopless_fba, nodes
+    return objective_loopless_fba, vcat(x,a,G), time_loopless_fba, nodes
 end
 
 """
