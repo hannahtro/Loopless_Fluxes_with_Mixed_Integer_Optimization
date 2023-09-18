@@ -6,6 +6,7 @@ using JSON
 include("utils.jl")
 include("optimization_model.jl")
 include("loopless_constraints.jl")
+include("../src/constraint_handler.jl")
 
 # """
 # add an additional cycle to block until the solution is thermodynamically feasible
@@ -438,7 +439,6 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     @show fast
 
     _, num_reactions = size(S)
-
     start_time = time()
     dual_bounds = []
     objective_values = []
@@ -446,6 +446,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
 
     # optimal_solution = parse_array_as_string(first(CSV.read("../experiments/csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
     # optimal_solution = parse_array_as_string(first(CSV.read("../experiments/csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
+    
     # solve master problem
     # objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     if big_m 
@@ -456,10 +457,12 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     end
     # write_to_file(master_problem, "../csv/models/cb_master_iAF692.mof.json")
     if save_model
+        # write_to_file(master_problem, "../experiments/csv/models/cb_master_iAF692.mof.json")
         open("../experiments/csv/model_" * organism * ".lp", "w") do f
             print(f, master_problem)
         end
     end 
+
     objective_value_master, dual_bound_master, solution_master, _, termination_master = optimize_model(master_problem, time_limit=time_limit, silent=silent)
     println("master problem solved")
     # solution_master = round.(solution_master, digits=6)
@@ -472,7 +475,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             return NaN, NaN, NaN, NaN, time_taken, termination_master, 0, cuts
         end
     end
-    solution_a = solution_master[num_reactions+1:end]
+    solution_a = value.(master_problem[:a])
     push!(dual_bounds, dual_bound_master)
     push!(objective_values, objective_value_master)
 
@@ -485,13 +488,15 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
     sub_problem = Model(optimizer)
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C_list)
-
+    
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
     println("sub problem solved")
+
     # @show solution_a
     # @show C
     # @show termination_sub
     # @show solution_sub
+
     # add Benders' cut if subproblem is infeasible
     iter = 1
     while termination_sub == MOI.INFEASIBLE && iter < max_iter && time()-start_time < time_limit
@@ -507,6 +512,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
                 print(f, master_problem)
             end
         end 
+
         # test if optimal solution is still feasible
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, optimal_solution[1:num_reactions], optimal_solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)], S, internal_rxn_idxs, cuts, lb, ub, tol=0.000001, check_thermodynamic_feasibility=false)
 
@@ -524,16 +530,16 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         push!(solutions, round.(solution_master, digits=5))
         push!(dual_bounds, dual_bound_master)
         push!(objective_values, objective_value_master)
-        solution_a = solution_master[num_reactions+1:end]
+        solution_a = value.(master_problem[:a])
         # @show solution_master
 
         # compute corresponding MIS
         # println("_______________")
         # println("compute MIS")
         # @show solution_a
-        # TODO: check termination status of MIS computation
-        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis)
 
+        # check termination status of MIS computation
+        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis)
         # @show C
         if isempty(C_list)
             if mis_model_termination != MOI.INFEASIBLE # should be TIME_LIMIT
@@ -564,18 +570,34 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             iter += 1
         end
     end
+
     @show iter
     end_time = time()
     time_taken = end_time - start_time
     solution = vcat(solution_master, solution_sub)
     # @show termination_sub
+    if has_values(master_problem)
+        a = value.(master_problem[:a])
+        x = value.(master_problem[:x])
+    else 
+        a = NaN 
+        x = NaN
+    end
+
+    if has_values(sub_problem)
+        G = value.(sub_problem[:G])
+        μ = value.(sub_problem[:μ])
+    else 
+        G = NaN 
+        μ = NaN
+    end
 
     if termination_sub == MOI.OPTIMAL
         feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
         @assert feasible
     end 
 
-    return objective_value_master, objective_values, dual_bounds, solution, time_taken, termination_sub, iter, cuts
+    return objective_value_master, objective_values, dual_bounds, solution, x, a, G, μ, time_taken, termination_sub, iter, cuts
 end
 
 function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0, big_m=false)
@@ -607,8 +629,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     end
     # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
-    objective_value, objective_values, dual_bounds, solution, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m)
-
+    objective_value, objective_values, dual_bounds, solution, x, a, G, μ, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m)
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
     
     if store_optimal_solution
@@ -621,14 +642,12 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     @show objective_value
     # test feasibiliy
     if termination == MOI.OPTIMAL
-        solution_flux = solution[1:num_reactions]
-        solution_direction = solution[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
         if big_m 
-            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_indicator=false)
+            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_indicator=false)
         else 
-            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, solution_flux, solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
+            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
         end
-        # @assert thermo_feasible        
+        @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     else 
         thermo_feasible = false 
@@ -639,6 +658,10 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     dict[:dual_bounds] = dual_bounds
     dict[:objective_values] = objective_values
     dict[:solution] = solution
+    dict[:x] = x
+    dict[:a] = a
+    dict[:G] = G
+    dict[:μ] = μ
     dict[:time] = time
     dict[:termination] = termination
     dict[:time_limit] = time_limit

@@ -1,0 +1,12 @@
+organism = "iNJ661"
+(time_limit, json, yeast) = (1800, true, false)
+
+iNJ661
+----------------------------------
+number of metabolites : 825
+number of reactions : 1025
+number of genes : 661
+objective function: Dict("BIOMASS_Mtb_9_60atp" => 1.0)
+
+max_reactions = Any[]
+time_taken = 252.7255699634552

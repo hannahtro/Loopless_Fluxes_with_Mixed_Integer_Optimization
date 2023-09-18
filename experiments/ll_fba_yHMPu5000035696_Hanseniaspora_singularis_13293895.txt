@@ -1,0 +1,7 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 36000
+organism = "yHMPu5000035696_Hanseniaspora_singularis"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 340.30550384521484

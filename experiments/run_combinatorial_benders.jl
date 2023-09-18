@@ -1,7 +1,6 @@
 using Gurobi 
 
 include("../src/cuts_decomposition.jl")
-include("../src/constraint_handler.jl")
 
 @show ENV["GRB_LICENSE_FILE"]
 println(ARGS[1])

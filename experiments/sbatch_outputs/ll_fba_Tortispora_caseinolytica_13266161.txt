@@ -1,0 +1,8 @@
+organism = "Tortispora_caseinolytica"
+(time_limit, json, yeast) = (36000, true, true)
+max_reactions = Any[]
+time_taken = 36013.68215179443
+Solve 3: Forcing phase 2 since near primal feasible with unperturbed costs
+num / max / sum primal infeasiblitiles
+1 /   0.0003711 /   0.0003711 (  perturbed bounds)
+1 /   0.0003711 /   0.0003711 (unperturbed bounds)

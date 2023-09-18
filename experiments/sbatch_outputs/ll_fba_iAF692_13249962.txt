@@ -1,0 +1,15 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 1800
+organism = "iAF692"
+(time_limit, json, yeast) = (1800, true, false)
+
+iAF692
+----------------------------------
+number of metabolites : 628
+number of reactions : 690
+number of genes : 692
+objective function: Dict("BIOMASS_Mb_30" => 1.0)
+
+max_reactions = Any[]
+time_taken = 22.84833312034607
