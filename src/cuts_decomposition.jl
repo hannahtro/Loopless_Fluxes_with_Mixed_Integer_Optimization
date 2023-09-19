@@ -424,6 +424,7 @@ on a solution to the master problem and minimal infeasible subsets. The sub prob
 """
 function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, save_model=false, multiple_mis=0)
     @show fast
+    @assert multiple_mis >= 0
 
     _, num_reactions = size(S)
     start_time = time()
@@ -583,6 +584,7 @@ end
 
 function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0)
     @show fast
+    @assert multiple_mis >= 0
 
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
@@ -648,6 +650,9 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     type = "combinatorial_benders"
     if fast
         type = type * "_fast"
+    end
+    if multiple_mis != 0
+        type = type * "_" * string(multiple_mis) * "_mis_"
     end
     file_name = "json/" * organism * "_" * type * "_" * string(time_limit) * ".json"
     if json 
