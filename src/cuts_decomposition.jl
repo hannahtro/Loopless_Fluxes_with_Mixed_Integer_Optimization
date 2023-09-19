@@ -599,7 +599,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     return objective_value_master, objective_values, dual_bounds, solution, x, a, G, μ, time_taken, termination_sub, iter, cuts
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0, big_m=false)
+function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, subproblem_solver=HiGHS.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0, big_m=false)
     @show fast
 
     if yeast 
@@ -628,7 +628,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     end
     # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
-    objective_value, objective_values, dual_bounds, solution, x, a, G, μ, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m)
+    objective_value, objective_values, dual_bounds, solution, x, a, G, μ, time, termination, iter, cuts = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m, subproblem_solver=subproblem_solver)
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
     
     if store_optimal_solution
