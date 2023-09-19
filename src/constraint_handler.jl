@@ -201,18 +201,6 @@ function check_solutions(ch, lb, ub)
 end 
 
 """
-check whether a solution respects the upper and lower bounds of a reaction
-"""
-function solution_within_bounds(solution, lb, ub; tol=0.00001)
-    for (idx,sol) in enumerate(solution)
-        if sol < lb[idx] - tol || sol > ub[idx] + tol
-            return false
-        end
-    end
-    return true
-end
-
-"""
 check whether solution is feasible in SCIP directly
 """
 function is_feasible_scip(model, solution)
