@@ -181,3 +181,15 @@ function internal_reactions(molecular_model)
     ]
     return internal_rxn_idxs
 end
+
+"""
+check whether a solution respects the upper and lower bounds of a reaction
+"""
+function solution_within_bounds(solution, lb, ub; tol=0.00001)
+    for (idx,sol) in enumerate(solution)
+        if sol < lb[idx] - tol || sol > ub[idx] + tol
+            return false
+        end
+    end
+    return true
+end
