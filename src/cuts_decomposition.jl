@@ -241,7 +241,7 @@ end
 returns a minimal infeasible subset of reactions for a given solution and stoichiometric matrix
 """
 # TODO: compute several MISs at once
-function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true, time_limit=1800, silent=true, multiple_mis=0)
+function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true, time_limit=1800, silent=true, multiple_mis=0, mis_solver=HiGHS.Optimizer)
     if !fast
         # not a MIS
         # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
@@ -258,12 +258,12 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         end
         b = [1 for i in 1:length(internal_rxn_idxs)]
 
-        model = Model(HiGHS.Optimizer)
+        model = Model(mis_solver)
         μ = @variable(model, μ[1:size(S_int)[1]])
         @constraint(model, A' * μ .>= b)
         @objective(model, Max, 0)
 
-        optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
+        optimizer = optimizer_with_attributes(mis_solver, "presolve" => "off")
         mis_model = dualize(model, optimizer, dual_names = DualNames("dual","dual_constraints"))
         set_attribute(mis_model, MOI.Silent(), true)
 
@@ -434,7 +434,7 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0, big_m=false, save_model=false)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0, big_m=false, save_model=false, subproblem_solver=HiGHS.Optimizer, mis_solver=HiGHS.Optimizer)
     @show fast
 
     _, num_reactions = size(S)
@@ -481,11 +481,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     # compute corresponding MIS
     S_int = Array(S[:, internal_rxn_idxs])
     # @show size(S_int)
-    C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, multiple_mis=multiple_mis)
+    C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, multiple_mis=multiple_mis, mis_solver=mis_solver)
 
     # build sub problem to master solution 
-    optimizer = optimizer_with_attributes(HiGHS.Optimizer, "presolve" => "off")
-    sub_problem = Model(optimizer)
+    optimizer = optimizer_with_attributes(subproblem_solver, "presolve" => "off")
+    sub_problem = Model(subproblem_solver)
     constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C_list)
     
     objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
@@ -538,7 +538,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         # @show solution_a
 
         # check termination status of MIS computation
-        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis)
+        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis, mis_solver=mis_solver)
         # @show C
         if isempty(C_list)
             if mis_model_termination != MOI.INFEASIBLE # should be TIME_LIMIT
@@ -546,7 +546,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             else
                 feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
                 # @assert feasible
-                sub_problem = Model(optimizer)
+                sub_problem = Model(subproblem_solver)
                 if !isinf(time_limit)
                     set_time_limit_sec(sub_problem, time_limit)
                 end              
@@ -556,7 +556,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             end
         else 
             # build sub problem to master solution 
-            sub_problem = Model(optimizer)
+            sub_problem = Model(subproblem_solver)
             if !isinf(time_limit)
                 set_time_limit_sec(sub_problem, time_limit)
             end 
@@ -695,7 +695,7 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     m, num_reactions = size(S)
     # check steady state assumption 
     if check_steady_state
-        steady_state = S * solution_flux
+        steady_state = collect(S) * solution_flux
         # @show steady_state
         for (idx, s) in enumerate(steady_state) 
             if !isapprox(s, 0, atol=tol) 
@@ -748,13 +748,13 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
         # @show solution_flux_internal_rxns, solution_direction
         for (idx, a) in enumerate(solution_direction)
             if isapprox(a, 1, atol=tol)
-                if solution_flux_internal_rxns[idx] < 0 - tol
+                if solution_flux_internal_rxns[idx] < 0 + tol
                     @show solution_flux_internal_rxns[idx]
                     println("solution does not respect indicator constraint")
                     return false 
                 end 
             elseif isapprox(a, 0, atol=tol)
-                if solution_flux_internal_rxns[idx] > 0 + tol
+                if solution_flux_internal_rxns[idx] > 0 - tol
                     @show solution_flux_internal_rxns[idx]
                     println("solution does not respect indicator constraint")
                     return false 
