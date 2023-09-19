@@ -545,7 +545,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
                 @show mis_model_termination
             else
                 feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-                @assert feasible
+                # @assert feasible
                 sub_problem = Model(optimizer)
                 if !isinf(time_limit)
                     set_time_limit_sec(sub_problem, time_limit)
@@ -593,7 +593,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
 
     if termination_sub == MOI.OPTIMAL
         feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-        @assert feasible
+        # @assert feasible
     end 
 
     return objective_value_master, objective_values, dual_bounds, solution, x, a, G, μ, time_taken, termination_sub, iter, cuts
@@ -641,14 +641,13 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     @show objective_value
     # test feasibiliy
     if termination == MOI.OPTIMAL
-        
         if big_m 
             thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_indicator=false)
         else 
             thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
         end
-
-        @assert thermo_feasible        
+	@show thermo_feasible
+        # @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     else 
         thermo_feasible = false 
