@@ -2,6 +2,7 @@ using JSON
 using SCIP
 
 include("../src/loopless_constraints.jl")
+include("../src/cuts_decomposition.jl")
 
 # organisms with thermo infeasible solution:
 # iNF517, Ashbya_aceri, Starmerella_bombicola, Tortispora, all yHMPu5000* models
@@ -35,3 +36,14 @@ direction = dict["a"]
 direction = round.(direction, digits=5)
 @show length(flux), length(direction)
 @show thermo_feasible_mu(internal_rxn_idxs, direction, S; scip_tol=0.00001)
+
+# load cb solution 
+file_name = "combinatorial_benders_fast_Gurobi_36000"
+dict = JSON.parse(open("json/" * organism * "_" * file_name * ".json"))
+direction = dict["a"]
+
+solution_dict = Dict(:G => dict["G"], :μ => dict["μ"])
+feasible = thermo_feasible_mu(internal_rxn_idxs, direction, S; scip_tol=0.001, solution_dict=solution_dict)
+@show feasible
+
+@show is_feasible(model, flux, direction, S, internal_rxn_idxs, [], lb, ub, tol=0.001, check_cuts=false, check_thermodynamic_feasibility=false)
