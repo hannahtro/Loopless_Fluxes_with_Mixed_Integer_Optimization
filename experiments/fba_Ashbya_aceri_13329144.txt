@@ -1,0 +1,4 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+Ashbya_aceri
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+SystemError("opening file \"../molecular_models/Ashbya_aceri.js\"", 2, nothing)

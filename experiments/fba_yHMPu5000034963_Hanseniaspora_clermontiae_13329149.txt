@@ -1,0 +1,7 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+yHMPu5000034963_Hanseniaspora_clermontiae
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+objective function : x[4298]
+feasible = false

@@ -11,7 +11,7 @@ yeast = parse(Bool, ARGS[5])
 
 type = "fba"
 try 
-    get_fba_data(organism, save_lp=false, json=true, optimizer=Gurobi.Optimizer)
+    get_fba_data(organism, save_lp=false, yeast=yeast, json=true, optimizer=Gurobi.Optimizer)
 catch e 
     println(e)
     file = organism * "_" * type

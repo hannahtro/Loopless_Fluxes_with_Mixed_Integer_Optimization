@@ -1,0 +1,4 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+Tortispora_caseinolytica
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+SystemError("opening file \"../molecular_models/Tortispora_caseinolytica.js\"", 2, nothing)

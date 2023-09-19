@@ -1,0 +1,4 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+Eremothecium_gossypii
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+SystemError("opening file \"../molecular_models/Eremothecium_gossypii.js\"", 2, nothing)

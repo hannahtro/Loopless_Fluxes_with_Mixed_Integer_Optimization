@@ -1,0 +1,1 @@
+SystemError("opening file \"../molecular_models/yHMPu5000034963_Hanseniaspora_clermontiae.js\"", 2, nothing)

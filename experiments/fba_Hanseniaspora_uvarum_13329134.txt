@@ -1,0 +1,4 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+Hanseniaspora_uvarum
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+SystemError("opening file \"../molecular_models/Hanseniaspora_uvarum.js\"", 2, nothing)
