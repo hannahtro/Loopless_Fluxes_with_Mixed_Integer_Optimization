@@ -1,0 +1,33 @@
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JuMP with build ID ffffffff-ffff-ffff-0006-65ce21ca1037 is missing from the cache.
+│ This may mean JuMP [4076af6c-e467-56ae-b986-b466b2749572] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module ConstructionBase with build ID fafbfcfd-eeaf-a6ef-0003-faef7ecc8f66 is missing from the cache.
+│ This may mean ConstructionBase [187b0558-2788-49d3-abe0-74a17ed4e7c9] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-4583-579e-0006-65b4c6b51aaf is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
