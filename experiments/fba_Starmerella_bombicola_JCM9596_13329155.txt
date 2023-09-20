@@ -1,7 +1,0 @@
-Set parameter GURO_PAR_SPECIAL
-Set parameter TokenServer to value "optportal"
-ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
-Starmerella_bombicola_JCM9596
-(time_limit, fast, json, yeast) = (36000, true, true, true)
-objective function : x[3595]
-feasible = false

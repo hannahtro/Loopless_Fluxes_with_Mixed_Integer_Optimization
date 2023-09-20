@@ -1,1 +1,0 @@
-SystemError("opening file \"../molecular_models/Starmerella_bombicola_JCM9596.js\"", 2, nothing)

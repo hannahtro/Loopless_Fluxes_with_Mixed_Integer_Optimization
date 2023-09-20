@@ -1,1 +1,0 @@
-SystemError("opening file \"../molecular_models/yHMPu5000035684_Kloeckera_hatyaiensis.js\"", 2, nothing)

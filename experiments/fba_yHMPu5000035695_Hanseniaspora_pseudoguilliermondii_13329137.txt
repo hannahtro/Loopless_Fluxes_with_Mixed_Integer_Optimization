@@ -1,4 +1,0 @@
-ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
-yHMPu5000035695_Hanseniaspora_pseudoguilliermondii
-(time_limit, fast, json, yeast) = (36000, true, true, true)
-SystemError("opening file \"../molecular_models/yHMPu5000035695_Hanseniaspora_pseudoguilliermondii.js\"", 2, nothing)
