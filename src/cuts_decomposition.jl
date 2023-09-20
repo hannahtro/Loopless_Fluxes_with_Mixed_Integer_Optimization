@@ -593,7 +593,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             constraint_list = build_sub_problem(sub_problem, internal_rxn_idxs, S, solution_a, C_list)
             # println("_______________")
             # println("sub problem")
-	    write_to_file(master_problem, "lp_models/cb_subproblem_highs.mps")
+	        # write_to_file(sub_problem, "lp_models/cb_subproblem_highs.mps")
             start_time = time()
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
             end_time = time()
