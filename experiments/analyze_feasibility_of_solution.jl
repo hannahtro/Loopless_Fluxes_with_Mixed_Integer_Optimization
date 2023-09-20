@@ -47,3 +47,13 @@ feasible = thermo_feasible_mu(internal_rxn_idxs, direction, S; scip_tol=0.001, s
 @show feasible
 
 @show is_feasible(model, flux, direction, S, internal_rxn_idxs, [], lb, ub, tol=0.001, check_cuts=false, check_thermodynamic_feasibility=false)
+
+non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(flux) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+reaction_mapping = Dict()
+for (idx, val) in enumerate(internal_rxn_idxs)
+    reaction_mapping[val] = idx
+end
+
+non_zero_flux_directions = direction[collect(reaction_mapping[val] for val in non_zero_flux_indices)] 
+feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001)
+@show feasible

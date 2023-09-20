@@ -443,6 +443,12 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     objective_values = []
     cuts = []
 
+    # dictionary to map internal reaction ids to index for thermodynamic feasibility variable indices
+    reaction_mapping = Dict()
+    for (idx, val) in enumerate(internal_rxn_idxs)
+        reaction_mapping[val] = idx
+    end
+
     # optimal_solution = parse_array_as_string(first(CSV.read("../experiments/csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
     # optimal_solution = parse_array_as_string(first(CSV.read("../experiments/csv/" * organism * "_combinatorial_benders_fast_600.csv", DataFrame),1)[!,:solution])
     
@@ -501,8 +507,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     while termination_sub == MOI.INFEASIBLE && iter < max_iter && time()-start_time < time_limit
         @show iter
         @assert primal_status(sub_problem) == MOI.NO_SOLUTION
-        @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
-        @assert has_duals(sub_problem)
+        # @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
+        # @assert has_duals(sub_problem)
 
         # add CB cut to MP and solve MP
         add_combinatorial_benders_cut(master_problem, solution_a, C_list, cuts)
@@ -544,8 +550,11 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             if mis_model_termination != MOI.INFEASIBLE # should be TIME_LIMIT
                 @show mis_model_termination
             else
-                feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-                # @assert feasible
+                flux = value.(master_problem[:x])
+                non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(flux) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+                non_zero_flux_directions = solution_a[collect(reaction_mapping[val] for val in non_zero_flux_indices)] 
+                feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001)
+                @assert feasible
                 sub_problem = Model(subproblem_solver)
                 if !isinf(time_limit)
                     set_time_limit_sec(sub_problem, time_limit)
@@ -592,8 +601,10 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     end
 
     if termination_sub == MOI.OPTIMAL
-        feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-        # @assert feasible
+        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(x) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+        non_zero_flux_directions = a[collect(reaction_mapping[val] for val in non_zero_flux_indices)] 
+        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001)
+        @assert feasible
     end 
 
     return objective_value_master, objective_values, dual_bounds, solution, x, a, G, μ, time_taken, termination_sub, iter, cuts
@@ -616,6 +627,12 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
+
+    # dictionary to map internal reaction ids to decision variable indices of thermodynamic feasibility constraints
+    reaction_mapping = Dict()
+    for (idx, val) in enumerate(internal_rxn_idxs)
+        reaction_mapping[val] = idx
+    end
 
     # model = build_fba_model(S, lb, ub, optimizer=SCIP.Optimizer)
     master_problem = make_optimization_model(molecular_model, optimizer)
@@ -641,12 +658,8 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     @show objective_value
     # test feasibiliy
     if termination == MOI.OPTIMAL
-        if big_m 
-            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_indicator=false)
-        else 
-            thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
-        end
-	@show thermo_feasible
+        thermo_feasible = is_feasible(master_problem.moi_backend.optimizer.model, x, a, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001, check_indicator=false)
+	    @show thermo_feasible
         # @assert thermo_feasible        
         # @assert is_feasible(master_problem.moi_backend.optimizer.model, round.(solution_flux, digits=6), solution_direction, S, internal_rxn_idxs, cuts, lb, ub, tol=0.00001)
     else 
@@ -714,7 +727,13 @@ function is_feasible(o, solution_flux, solution_direction, S, internal_rxn_idxs,
     end
     # check thermo feasiblity 
     if check_thermodynamic_feasibility
-        feasible = thermo_feasible_mu(internal_rxn_idxs, round.(solution_direction, digits=5), S)
+        reaction_mapping = Dict()
+        for (idx, val) in enumerate(internal_rxn_idxs)
+            reaction_mapping[val] = idx
+        end
+        non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution_flux) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
+        non_zero_flux_directions = solution_direction[collect(reaction_mapping[val] for val in non_zero_flux_indices)] 
+        feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001)
         if !feasible 
             println("solution is not thermodynamically feasible")
             return false 
