@@ -50,12 +50,20 @@ feasible = thermo_feasible_mu(internal_rxn_idxs, direction, S; scip_tol=0.001, s
 
 @show is_feasible(model, flux, direction, S, internal_rxn_idxs, [], lb, ub, tol=0.001, check_cuts=false, check_thermodynamic_feasibility=true, check_indicator=false)
 
-non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(flux) if !isapprox(val, 0, atol=1e-4)], internal_rxn_idxs)
+non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(flux) if !isapprox(val, 0, atol=1e-3)], internal_rxn_idxs)
 reaction_mapping = Dict()
 for (idx, val) in enumerate(internal_rxn_idxs)
     reaction_mapping[val] = idx
 end
 
+G = dict["G"][collect(reaction_mapping[val] for val in non_zero_flux_indices)]
+μ = dict["μ"]
+solution_dict = Dict(:G => G, :μ => μ)
 non_zero_flux_directions = direction[collect(reaction_mapping[val] for val in non_zero_flux_indices)] 
-feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001)
+feasible = thermo_feasible_mu(non_zero_flux_indices, non_zero_flux_directions, S; scip_tol=0.001, solution_dict=solution_dict)
 @show feasible
+for i in flux[non_zero_flux_indices]
+    for j in non_zero_flux_directions
+        @show (i,j) 
+    end 
+end 

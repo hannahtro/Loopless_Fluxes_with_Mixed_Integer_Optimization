@@ -234,18 +234,18 @@ organisms = [
     "iS_1188",
     "iSbBS512_1146" # recompute on cluster
 ]
-gurobi_data(organisms, time_limit=36000, fba=true, yeast=false, cb=true, cb_big_m=true, solver="Gurobi")
+gurobi_data(organisms, time_limit=1800, yeast=false, cb=false, fba=false, cb_big_m=false, solver="Gurobi")
 
-# organisms = [
-#     "Hanseniaspora_uvarum",
-#     "yHMPu5000035696_Hanseniaspora_singularis",
-#     "yHMPu5000034963_Hanseniaspora_clermontiae",
-#     "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
-#     "yHMPu5000035684_Kloeckera_hatyaiensis",
-#     "Eremothecium_sinecaudum",
-#     "yHMPu5000035659_Saturnispora_dispora",
-#     "Tortispora_caseinolytica",
-#     "Starmerella_bombicola_JCM9596",
-#     "Eremothecium_gossypii",
-#     "Ashbya_aceri"]
-# gurobi_data(organisms, time_limit=36000, fba=true, yeast=true, cb=true, cb_big_m=true, solver="Gurobi")
+organisms = [
+    "Hanseniaspora_uvarum",
+    "yHMPu5000035696_Hanseniaspora_singularis",
+    "yHMPu5000034963_Hanseniaspora_clermontiae",
+    "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+    "yHMPu5000035684_Kloeckera_hatyaiensis",
+    "Eremothecium_sinecaudum",
+    "yHMPu5000035659_Saturnispora_dispora",
+    "Tortispora_caseinolytica",
+    "Starmerella_bombicola_JCM9596",
+    "Eremothecium_gossypii",
+    "Ashbya_aceri"]
+gurobi_data(organisms, time_limit=36000, fba=true, yeast=true, cb=true, cb_big_m=true, solver="Gurobi")

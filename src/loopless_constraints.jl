@@ -353,9 +353,9 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip
     # add G variables for each reaction in cycle
     for (idx, _) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
-            @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
+            @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1 + scip_tol)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
-            @constraint(thermo_feasible_model, 1 <= G[idx] <= max_flux_bound)
+            @constraint(thermo_feasible_model, 1 - scip_tol <= G[idx] <= max_flux_bound)
         end
     end
 
