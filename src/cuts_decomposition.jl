@@ -597,7 +597,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
             objective_value_sub, dual_bound_sub, solution_sub, _, termination_sub = optimize_model(sub_problem, silent=silent, time_limit=time_limit)
             end_time = time()
             push!(times_sub_problem, end_time - start_time)
-            # @show termination_sub
+            @show termination_sub
             # @show solution_sub
             iter += 1
         end
