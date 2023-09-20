@@ -20,7 +20,19 @@ organisms = [
     "iSbBS512_1146"
 ]
 
-organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
+#organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
+organisms = [
+#    "Hanseniaspora_uvarum",
+    "yHMPu5000035696_Hanseniaspora_singularis",
+#    "yHMPu5000034963_Hanseniaspora_clermontiae",
+#    "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+    "yHMPu5000035684_Kloeckera_hatyaiensis",
+#    "Eremothecium_sinecaudum",
+    "yHMPu5000035659_Saturnispora_dispora",
+#    "Tortispora_caseinolytica",
+    "Starmerella_bombicola_JCM9596",
+    "Eremothecium_gossypii",
+    "Ashbya_aceri"]
 
 time_limit = 3600*10
 fast = true
