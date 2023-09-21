@@ -17,6 +17,9 @@ function loopless_fba_vs_cb(organisms; cuts=false, ll_formulations=false, yeast=
             termination_cb = String[], 
             objective_value_cb = Float64[], 
             time_cb = Float64[], 
+            termination_cb_big_m = String[], 
+            objective_value_cb_big_m = Float64[], 
+            time_cb_big_m = Float64[]
         )
     else 
         df = DataFrame(
@@ -37,6 +40,9 @@ function loopless_fba_vs_cb(organisms; cuts=false, ll_formulations=false, yeast=
             termination_cb = String[], 
             objective_value_cb = Float64[], 
             time_cb = Float64[], 
+            termination_cb_big_m = String[], 
+            objective_value_cb_big_m = Float64[], 
+            time_cb_big_m = Float64[]
         )
     end
     
@@ -101,6 +107,21 @@ function loopless_fba_vs_cb(organisms; cuts=false, ll_formulations=false, yeast=
         dict_organism[:objective_value_cb] = dict["objective_value"]
         dict_organism[:time_cb] = dict["time"]
 
+        # read fast CB data big M
+        dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_big_m_" * string(time_limit) * ".json"))
+        if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
+            if dict["time"] >= dict["time_limit"]
+                dict_organism[:termination_cb_big_m] = "TIME_LIMIT"
+            else 
+                dict_organism[:termination_cb_big_m] = "INFEASIBLE"
+            end
+        elseif dict["thermo_feasible"] == true
+            dict_organism[:termination_cb_big_m] = "OPTIMAL"
+        end
+        dict_organism[:objective_value_cb_big_m] = dict["objective_value"]
+        dict_organism[:time_cb_big_m] = dict["time"]
+
+        # polish dataframe
         for (key, value) in dict_organism
             if isnothing(value)
                 dict_organism[key] = NaN
@@ -154,7 +175,7 @@ function loopless_fba_vs_cb(organisms; cuts=false, ll_formulations=false, yeast=
     @show df[!, [:time_ll_fba, :time_no_good_cuts, :time_cb]]
     
     if cuts 
-        df = df[!, [:organism, :time_limit, :termination_no_good_cuts, :objective_value_no_good_cuts, :time_no_good_cuts, :termination_cb, :objective_value_cb, :time_cb]]
+        df = df[!, [:organism, :time_limit, :termination_no_good_cuts, :objective_value_no_good_cuts, :time_no_good_cuts, :termination_cb, :objective_value_cb, :time_cb, :termination_cb_big_m, :objective_value_cb_big_m, :time_cb_big_m]]
         if yeast 
             file_name = "comparison_ll_fba_vs_cb_yeast.csv"
         else 
@@ -203,16 +224,37 @@ organisms = [
 loopless_fba_vs_cb(organisms, cuts=true, yeast=false, time_limit=1800)
 
 # organisms = [
-#     "Alloascoidea_hylecoeti",
-#     "Ambrosiozyma_kashinagacola",
-#     "Ambrosiozyma_monospora",
-#     # "Arthrobotrys_oligospora", # rerun cb fast 
-#     "Arxula_adeninivorans",
-#     # "Ascoidea_asiatica", # rerun cb
-#     # "Ascoidea_rubescens", # rerun cb
-#     # "Ashbya_aceri", # rerun cb
-#     # "Aspergillus_nidulans", # rerun cb
-#     # "Babjeviella_inositovora", # rerun cb
-#     #"Botrytis_cinerea" # rerun cb fast
+#     # "iAF692", # recompute for 1e-5
+#     "iJR904", 
+#     "iML1515", 
+#     "e_coli_core",
+#     "iNF517",
+#     # "iSB619", # AssertionError("feasible")
+#     "iNJ661",
+#     "iCN900",
+#     "iAF1260",
+#     "iEK1008",
+#     "iJO1366",
+#     "iMM904",
+#     "iSDY_1059",
+#     "iSFV_1184", # recompute on cluster
+#     "iSF_1195",
+#     "iS_1188",
+#     "iSbBS512_1146" # recompute on cluster
 # ]
-# loopless_fba_vs_cb(organisms, cuts=true, yeast=true, time_limit=7200)
+# loopless_fba_vs_cb(organisms, cuts=true, yeast=false, time_limit=1800)
+
+organisms = [
+    #"Alloascoidea_hylecoeti", #rerun bigM
+    "Ambrosiozyma_kashinagacola",
+    "Ambrosiozyma_monospora",
+    # "Arthrobotrys_oligospora", # rerun cb fast 
+    "Arxula_adeninivorans",
+    # "Ascoidea_asiatica", # rerun cb
+    # "Ascoidea_rubescens", # rerun cb
+    # "Ashbya_aceri", # rerun cb
+    # "Aspergillus_nidulans", # rerun cb
+    # "Babjeviella_inositovora", # rerun cb
+    #"Botrytis_cinerea" # rerun cb fast
+]
+loopless_fba_vs_cb(organisms, cuts=true, yeast=true, time_limit=7200)

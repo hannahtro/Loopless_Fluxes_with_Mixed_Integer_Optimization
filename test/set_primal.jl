@@ -20,10 +20,10 @@ println("============================================================")
     nodes = MOI.get(model, MOI.NodeCount())
 
     model = build_fba_model(S, lb, ub)
-    objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=true, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
+    objective_value_primal, time_primal, nodes_primal = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=true, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,], csv=false)
 
     model = build_fba_model(S, lb, ub)
-    objective_value_primal_mu, time_primal_mu, nodes_primal_mu = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=false, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,])
+    objective_value_primal_mu, time_primal_mu, nodes_primal_mu = loopless_fba_set_primal("simple_model", model, S, internal_rxn_idxs, nullspace_formulation=false, flux=[10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0,], csv=false)
 
     @test isapprox(objective, objective_value_primal)
     @test isapprox(objective_value_primal, objective_value_primal_mu)

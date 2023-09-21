@@ -24,7 +24,7 @@ end
 """
 compute loopless fba after setting primal for a given model
 """
-function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspace_formulation=true, flux=[], time_limit=600)
+function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspace_formulation=true, flux=[], time_limit=600, csv=true)
     if nullspace_formulation 
         solution = determine_G(S, flux, internal_rxn_idxs)   
     else
@@ -68,7 +68,9 @@ function loopless_fba_set_primal(organism, model, S, internal_rxn_idxs; nullspac
 
     file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * ".csv")
 
-    CSV.write(file_name, df, append=false, writeheader=true)
+    if csv
+        CSV.write(file_name, df, append=false, writeheader=true)
+    end
     return objective_loopless_fba, time_loopless_fba, num_nodes
 end
 

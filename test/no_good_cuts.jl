@@ -2,6 +2,7 @@ using Test
 using DataFrames
 using CSV
 using Infiltrator
+using GLPK
 
 include("../src/cuts_decomposition.jl")
 include("../src/constraint_handler.jl")
@@ -40,7 +41,7 @@ println("============================================================")
     println("combinatorial Benders with no good cuts")
     # combinatorial Benders'
     model = build_fba_model(S, lb, ub, set_objective=true)
-    objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, time_cb, termination_cb, iter_cb = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=false)
+    objective_value_cb, objective_values_cb, dual_bounds_cb, solution_cb, x_cb, a_cb, G_cb, _, time_cb, termination_cb, iter_cb, cuts_cb, _, _, _ = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=false)
     @show objective_value_cb, solution_cb
     @test termination_cb == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution_cb[internal_rxn_idxs], S)
@@ -55,7 +56,7 @@ println("============================================================")
     # fast combinatorial Benders'
     model = build_fba_model(S, lb, ub, set_objective=true)
     # print(model)
-    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, x_fast, a_fast, G_fast, _, time_fast, termination_fast, iter_fast, cuts_fast, _, _, _ = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
     @test termination_fast == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution_fast[internal_rxn_idxs], S)
     @test feasible
@@ -72,7 +73,7 @@ println("============================================================")
     # fast combinatorial Benders'
     model = build_fba_model(S, lb, ub, set_objective=true)
     # print(model)
-    objective_value_multiple_mis, objective_values_multiple_mis, dual_bounds_multiple_mis, solution_multiple_mis, time_multiple_mis, termination_multiple_mis, iter_multiple_mis = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, multiple_mis=3)
+    objective_value_multiple_mis, objective_values_multiple_mis, dual_bounds_multiple_mis, solution_multiple_mis, x_multiple_mis, a_multiple_mis, G_multiple_mis, _, time_multiple_mis, termination_multiple_mis, iter_multiple_mis, cuts_multiple_mis, _, _, _ = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, multiple_mis=3)
     @test termination_multiple_mis == MOI.OPTIMAL 
     feasible = thermo_feasible(internal_rxn_idxs, solution_multiple_mis[internal_rxn_idxs], S)
     @test feasible
@@ -84,12 +85,25 @@ println("============================================================")
     @test isapprox(solution_cb[1:num_reactions], solution_multiple_mis[1:num_reactions], atol=0.00001)
     @show objective_value_multiple_mis, solution_multiple_mis
     println("--------------------------------------------------------")
+    
+#     println("fast combinatorial Benders with big M")
+#     # fast combinatorial Benders'
+#     model = build_fba_model(S, lb, ub, set_objective=true)
+#     # print(model)
+#     objective_value_big_m, objective_values_big_m, dual_bounds_big_m, solution_big_m, time_big_m, termination_big_m, iter_big_m = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, big_m=true)
+#     @test termination_big_m == MOI.OPTIMAL 
+#     feasible = thermo_feasible(internal_rxn_idxs, solution_big_m[internal_rxn_idxs], S)
+#     @test feasible
+#     @test isapprox(objective_value_big_m, objective_value_fast)
+#     @test isapprox(solution_big_m[1:num_reactions], solution_fast[1:num_reactions], atol=0.00001)
+#     @show objective_value_big_m, solution_big_m
+#     println("--------------------------------------------------------")
 
     println("test loopless violation")
     # fast combinatorial Benders'
     model = build_fba_model(S, lb, ub, set_objective=true)
     # run 2 iterations where solution is not loopless
-    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, max_iter=2)
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, x_fast, a_fast, G_fast, _, time_fast, termination_fast, iter_fast, cuts_fast, _, _, _  = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true, max_iter=2)
     flux = solution_fast[1:num_reactions]
     flux_directions = solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
     @show flux, flux_directions
@@ -98,7 +112,7 @@ println("============================================================")
     
     # solve till optimal solution found
     model = build_fba_model(S, lb, ub, set_objective=true)
-    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, time_fast, termination_fast, iter_fast = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
+    objective_value_fast, objective_values_fast, dual_bounds_fast, solution_fast, x_fast, a_fast, G_fast, _, time_fast, termination_fast, iter_fast, cuts_fast, _, _, _  = combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, fast=true)
     flux = solution_fast[1:num_reactions]
     flux_directions = solution_fast[num_reactions+1:num_reactions+length(internal_rxn_idxs)]
     @show flux, flux_directions
@@ -110,7 +124,6 @@ println("============================================================")
     # # test constraint handler    
     # scip_model, bin_vars, flux_vars = build_fba_indicator_model_moi(S, lb, ub, internal_rxn_idxs, set_objective=true, silent=true)
     # # print(scip_model)
-
     # ch = ThermoFeasibleConstaintHandler(scip_model, 0, internal_rxn_idxs, S, flux_vars, bin_vars, [], [], [])
     # SCIP.include_conshdlr(scip_model, ch; needs_constraints=false, name="thermodynamically_feasible_ch", enforce_priority=-99999999, check_priority=-99999999)
 
@@ -174,6 +187,11 @@ end
 #     # print(model)
 #     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true, multiple_mis=10)
     
+#     println("fast combinatorial Benders with big M")
+#     # fast combinatorial Benders'
+#     model = build_fba_model(S, lb, ub, set_objective=true)
+#     combinatorial_benders(model, internal_rxn_idxs, S, lb, ub, max_iter=5, fast=true, big_m=true)
+
 #     # println("constraint handler")
 #     # # test constraint handler
 #     # # extract objective
@@ -187,4 +205,3 @@ end
 #     # MOI.optimize!(scip_model)
 #     # # @test MOI.get(scip_model, MOI.TerminationStatus()) == MOI.TIME_LIMIT
 # end
-

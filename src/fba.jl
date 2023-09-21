@@ -1,15 +1,13 @@
 using COBREXA, Serialization, COBREXA.Everything
-using SCIP, JuMP
+using SCIP, JuMP, Gurobi
 using LinearAlgebra
 using DataFrames, CSV, JSON
 
 include("optimization_model.jl")
 include("loopless_constraints.jl")
 
-function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp=false, json=true, yeast=false)
+function get_fba_data(organism="iML1515"; time_limit=1800, type="fba", save_lp=false, json=true, yeast=false, optimizer=SCIP.Optimizer)
     # build model
-    optimizer = SCIP.Optimizer
-
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
@@ -65,7 +63,11 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type = "fba", save_lp
     dict[:thermo_feasible] = feasible
 
     if json 
+        if optimizer != SCIP.Optimizer
+            type = type * "_" * replace(string(optimizer), ".Optimizer"=>"")
+        end
         file_name = "json/" * organism * "_" * type * ".json"
+
         open(file_name, "w") do f
             JSON.print(f, dict) 
         end

@@ -1,0 +1,16 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 36000
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+Starmerella_bombicola_JCM9596
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+fast = true
+fast = true
+model with 6095 flux variables and 11927 variables in total
+master problem solved
+sub problem solved
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+AssertionError("feasible")

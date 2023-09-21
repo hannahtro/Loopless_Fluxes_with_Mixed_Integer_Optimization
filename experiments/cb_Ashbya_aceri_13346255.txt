@@ -1,0 +1,78 @@
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JuMP with build ID ffffffff-ffff-ffff-0006-65c14919d692 is missing from the cache.
+│ This may mean JuMP [4076af6c-e467-56ae-b986-b466b2749572] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for MUMPS_seq_jll [d7ed1dd3-d0ae-5e8e-bfb4-87a502085b8d]
+│   exception = Required dependency METIS_jll [d00139f3-1899-568f-a2f0-47f597d42d70] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Ipopt_jll [9cc047cb-c261-5740-88fc-0cf96f7bdcc7]
+│   exception = Required dependency ASL_jll [ae81ac8f-d209-56e5-92de-9978fef736f9] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for SCIP_PaPILO_jll [fc9abe76-a5e6-5fed-b0b7-a12f309cf031]
+│   exception = Required dependency boost_jll [28df3c45-c428-5900-9ff8-a3135698ca75] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for TimerOutputs [a759f4b9-e2f1-59dc-863e-4aeb61b1ea8f]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/TimerOutputs/hd2yD_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Setfield [efcf1570-3423-57d1-acb7-fd33fddbac46]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/Setfield/dVM1R_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module ChainRulesCore with build ID ffffffff-ffff-ffff-0006-65e295be435e is missing from the cache.
+│ This may mean ChainRulesCore [d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for ChainRulesCore [d360d2e6-b24c-11e9-a2a3-2a2ae2dbcce4]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/ChainRulesCore/G6ax7_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for FillArrays [1a297f60-69ca-5386-bcde-b61e274b549b]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/FillArrays/2Dg1l_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c138-419a-0006-659b18045ef4 is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 36000
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Bonobo [f7b14807-3d4d-461a-888a-05dd4bca8bc3]
+│   exception = Required dependency NamedTupleTools [d9ec5142-1e00-5aa0-9d6a-321866360f50] failed to load from a cache file.
+└ @ Base loading.jl:1783
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+Ashbya_aceri
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+fast = true
+fast = true
+model with 6206 flux variables and 12149 variables in total
+master problem solved
+sub problem solved
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+AssertionError("feasible")
