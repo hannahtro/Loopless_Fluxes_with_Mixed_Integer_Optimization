@@ -436,8 +436,6 @@ on a solution to the master problem and minimal infeasible subsets. The sub prob
 """
 function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0, big_m=false, save_model=false, subproblem_solver=HiGHS.Optimizer, mis_solver=HiGHS.Optimizer)
     @show fast
-    @assert multiple_mis >= 0
-    @show multiple_mis
 
     _, num_reactions = size(S)
     start_time = time()
@@ -447,6 +445,10 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     times_master_problem = []
     times_sub_problem = []
     times_mis_problem = []
+
+    @assert multiple_mis >= 0
+    multiple_mis = Int(round(0.01 * multiple_mis * num_reactions))
+    @show multiple_mis
 
     # dictionary to map internal reaction ids to index for thermodynamic feasibility variable indices
     reaction_mapping = Dict()
