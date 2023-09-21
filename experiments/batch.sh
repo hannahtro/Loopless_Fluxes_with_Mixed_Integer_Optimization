@@ -38,7 +38,7 @@
 #SBATCH --mail-type=END
 
 # You may not place any commands before the last SBATCH directive
-julia --project run_combinatorial_benders.jl $1 $2 $3 $4 $5 &> cb_$1_$SLURM_JOB_ID.txt
+julia --project run_combinatorial_benders.jl $1 $2 $3 $4 $5 $6 &> cb_$1_$SLURM_JOB_ID.txt
 # julia --project run_loopless_fba.jl $1 $2 $3 $4 &> ll_fba_$1_$SLURM_JOB_ID.txt
 # julia --project run_fba.jl $1 $2 $3 $4 $5 &> fba_$1_$SLURM_JOB_ID.txt
 
