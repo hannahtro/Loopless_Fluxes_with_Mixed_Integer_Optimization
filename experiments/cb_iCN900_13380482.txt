@@ -1,0 +1,68 @@
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module JuMP with build ID ffffffff-ffff-ffff-0006-ad8a8a6355ea is missing from the cache.
+│ This may mean JuMP [4076af6c-e467-56ae-b986-b466b2749572] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-f8e7-e880-0006-ad5d3e0a7aea is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Gurobi [2e9cd046-0924-5485-92f1-d5272153d98b]
+│   exception = Required dependency MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] failed to load from a cache file.
+└ @ Base loading.jl:1783
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCN900
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCN900
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+objective function: Dict("BIOMASS__5" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 10
+model with 1229 flux variables and 2326 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 3
+termination = MathOptInterface.OPTIMAL
+objective_value = 1.0e-7
+thermo_feasible = true

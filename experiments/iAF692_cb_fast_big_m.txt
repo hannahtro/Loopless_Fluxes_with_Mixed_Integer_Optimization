@@ -1,0 +1,1 @@
+BoundsError((NaN, NaN, NaN, NaN, 0.27926206588745117, MathOptInterface.INFEASIBLE, 3, Any[(Any[356], Any[357], 2), (Any[405, 412], Any[], 2), (Any[282, 306, 412], Any[284], 4), (Any[526, 527], Any[306, 412], 4), (Any[55, 404], Any[54, 389], 4), (Any[525, 526], Any[], 2)]), 9)

@@ -1,0 +1,35 @@
+┌ Warning: Module SCIP with build ID fafbfcfd-99d1-2404-0006-ad9b7ff43431 is missing from the cache.
+│ This may mean SCIP [82193955-e24f-5292-bf16-6f2c5261a85f] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCN900
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCN900
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+objective function: Dict("BIOMASS__5" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 5
+model with 1229 flux variables and 2326 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 3
+termination = MathOptInterface.OPTIMAL
+objective_value = 1.0e-7
+thermo_feasible = true
