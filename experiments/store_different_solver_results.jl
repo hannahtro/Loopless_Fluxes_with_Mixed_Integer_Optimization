@@ -247,7 +247,7 @@ end
 
 # organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
 organisms = [
-    #"iAF692", # recompute for 1e-5
+    "iAF692", # recompute for 1e-5
     "iJR904", 
     "iML1515", 
     "e_coli_core",
@@ -261,11 +261,11 @@ organisms = [
     "iMM904",
     "iSDY_1059",
     "iSFV_1184", # recompute on cluster
-    # "iSF_1195",
+    "iSF_1195",
     "iS_1188",
     "iSbBS512_1146" # recompute on cluster
 ]
-mis_numbers = [2, 5, 10, 20]
+mis_numbers = [5, 10, 20, 30]
 solver_data(organisms, time_limit=1800, yeast=false, cb=false, fba=false, cb_big_m=false, mis_numbers=mis_numbers)
 
 # organisms = [
