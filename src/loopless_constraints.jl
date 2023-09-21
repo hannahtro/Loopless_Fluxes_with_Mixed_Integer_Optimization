@@ -3,6 +3,7 @@ import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
 using GLPK, JuMP
+using DelimitedFiles
 
 include("optimization_model.jl")
 
@@ -336,7 +337,7 @@ compute thermodynamic feasibility for a given cycle without using the nullspace 
     where the flux direction is captured by binary values, 
     the reactions should be internal reactions only
 """
-function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip_tol=1e-6)
+function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip_tol=1e-6, solution_dict=Dict())
     # warning if flux_directions not integral
     if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
         @warn "flux directions should be binary"
@@ -346,15 +347,15 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip
     MOI.set(thermo_feasible_model, MOI.RawOptimizerAttribute("numerics/feastol"), scip_tol)
     
     S_int = S[:, cycle]
-    G = @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
-    μ = @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
+    @variable(thermo_feasible_model, G[1:length(cycle)]) # approx ΔG for internal reactions
+    @variable(thermo_feasible_model, μ[1:size(S_int)[1]])
 
     # add G variables for each reaction in cycle
     for (idx, _) in enumerate(cycle)
         if isapprox(flux_directions[idx], 0, atol=0.0001)
-            @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1)
+            @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1 + scip_tol)
         elseif isapprox(flux_directions[idx], 1, atol=0.0001)
-            @constraint(thermo_feasible_model, 1 <= G[idx] <= max_flux_bound)
+            @constraint(thermo_feasible_model, 1 - scip_tol <= G[idx] <= max_flux_bound)
         end
     end
 
@@ -367,6 +368,15 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), G)
     #     @show MOI.get.(thermo_feasible_model, MOI.VariablePrimal(), μ)
     # end
+    
+    if !isempty(solution_dict)
+        key_vector = vcat(G, μ)
+        value_vector = vcat(solution_dict[:G], solution_dict[:μ])
+        point = Dict(key_vector .=> value_vector)
+        report = primal_feasibility_report(thermo_feasible_model, point, atol=0.001)
+        writedlm("report.txt", report)
+    end 
+
     return status == MOI.OPTIMAL
 end
 

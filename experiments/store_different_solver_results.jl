@@ -3,7 +3,7 @@ using DataFrames, JSON, CSV
 """
 compare ll-FBA, no good cuts and fast combinatorial Benders
 """
-function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb=false, ll_formulation=false, yeast=false, nullspace=false, time_limit=1800, solver="SCIP")
+function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb=false, cb_big_m=false, yeast=false, nullspace=false, time_limit=1800, solver="SCIP")
     if solver == "" || solver == "SCIP"
         file = string(time_limit) * ".json"
     else 
@@ -15,39 +15,54 @@ function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
             time_limit= Int64[],
             termination_ll_fba = String[], 
             objective_value_ll_fba = Float64[], 
-            time_ll_fba = Float64[]
+            time_ll_fba = Float64[],
+            feasibility_ll_fba = Bool[]
     )
 
     if no_good_cuts 
         df[!, "termination_no_good_cuts"] = String[] 
         df[!, "objective_value_no_good_cuts"] = Float64[] 
         df[!, "time_no_good_cuts"] = Float64[] 
+        df[!, "feasibility_no_good_cuts"] = Bool[]
     end 
 
     if cb 
         df[!, "termination_cb"] = String[] 
         df[!, "objective_value_cb"] = Float64[] 
         df[!, "time_cb"] = Float64[] 
+        df[!, "feasibility_cb"] = Bool[]
+    end
+
+    if cb_big_m 
+        df[!, "termination_cb_big_m"] = String[] 
+        df[!, "objective_value_cb_big_m"] = Float64[] 
+        df[!, "time_cb_big_m"] = Float64[] 
+        df[!, "feasibility_cb_big_m"] = Bool[]
     end
 
     if nullspace 
         df[!, "termination_ll_fba_nullspace"] = String[] 
         df[!, "objective_value_ll_fba_nullspace"] = Float64[] 
         df[!, "time_ll_fba_nullspace"] = Float64[]
+        df[!, "feasibility_ll_fba_nullspace"] = Bool[]
     end
 
     if fba 
         df[!, "termination_fba"] = String[] 
         df[!, "objective_value_fba"] = Float64[] 
         df[!, "time_fba"] = Float64[]
+        df[!, "feasibility_fba"] = Bool[]
     end
 
     if cobrexa
         df[!, "termination_ll_fba_cobrexa"] = String[] 
         df[!, "objective_value_ll_fba_cobrexa"] = Float64[] 
         df[!, "time_ll_fba_cobrexa"] = Float64[] 
+        df[!, "feasibility_cobrexa"] = Bool[]
     end 
     
+    # @show df
+
     for organism in organisms
         @show organism
         dict_organism = Dict{Symbol, Any}()
@@ -59,6 +74,7 @@ function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
         dict_organism[:objective_value_ll_fba] = dict["objective_value"]
         dict_organism[:time_ll_fba] = dict["time"]
         dict_organism[:time_limit] = dict["time_limit"]
+        dict_organism[:feasibility_ll_fba] = dict["thermo_feasible"]
 
         if nullspace
             # read ll-FBA data
@@ -66,6 +82,7 @@ function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
             dict_organism[:termination_ll_fba_nullspace] = dict["termination"]
             dict_organism[:objective_value_ll_fba_nullspace] = dict["objective_value"]
             dict_organism[:time_ll_fba_nullspace] = dict["time"]
+            dict_organism[:feasibility_ll_fba_nullspace] = dict["thermo_feasible"]
         end 
 
         if no_good_cuts
@@ -88,6 +105,7 @@ function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
             end
             dict_organism[:objective_value_no_good_cuts] = dict["objective_value"]
             dict_organism[:time_no_good_cuts] = dict["time"]
+            dict_organism[:feasibility_no_good_cuts] = dict["thermo_feasible"]
         end 
 
         if cb 
@@ -101,12 +119,28 @@ function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
                 end
             elseif dict["thermo_feasible"] == true
                 dict_organism[:termination_cb] = "OPTIMAL"
+            else 
+                dict_organism[:termination_cb] = dict["termination"]
             end
             dict_organism[:objective_value_cb] = dict["objective_value"]
             dict_organism[:time_cb] = dict["time"]
+            dict_organism[:feasibility_cb] = dict["thermo_feasible"]
+        end 
+
+        if cb_big_m
+            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_big_m_" * file))
+            dict_organism[:termination_cb_big_m] = dict["termination"]
+            dict_organism[:objective_value_cb_big_m] = dict["objective_value"]
+            dict_organism[:time_cb_big_m] = dict["time"]
+            dict_organism[:feasibility_cb_big_m] = dict["thermo_feasible"]
         end 
 
         if fba 
+            dict = JSON.parse(open("json/" * organism * "_fba_" * solver * ".json"))
+            dict_organism[:termination_fba] = dict["termination"]
+            dict_organism[:objective_value_fba] = dict["objective_value"]
+            dict_organism[:time_fba] = dict["time"]
+            dict_organism[:feasibility_fba] = dict["thermo_feasible"]
         end 
 
         for (key, value) in dict_organism
@@ -114,7 +148,7 @@ function gurobi_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
                 dict_organism[key] = NaN
             end
         end
-        @show dict_organism
+        # @show dict_organism
         push!(df, dict_organism)
     end
     
@@ -182,12 +216,12 @@ end
 
 # organisms = ["iAF692", "e_coli_core", "iJR904", "iML1515", "iNF517", "iNJ661", "iCN900"] # "iSB619" not feasible
 organisms = [
-    # "iAF692", # recompute for 1e-5
+    "iAF692", # recompute for 1e-5
     "iJR904", 
     "iML1515", 
     "e_coli_core",
     "iNF517",
-    # "iSB619", # AssertionError("feasible")
+    "iSB619", # AssertionError("feasible")
     "iNJ661",
     "iCN900",
     "iAF1260",
@@ -200,5 +234,18 @@ organisms = [
     "iS_1188",
     "iSbBS512_1146" # recompute on cluster
 ]
+gurobi_data(organisms, time_limit=1800, yeast=false, cb=false, fba=false, cb_big_m=false, solver="Gurobi")
 
-gurobi_data(organisms, time_limit=1800, solver="Gurobi")
+organisms = [
+    "Hanseniaspora_uvarum",
+    "yHMPu5000035696_Hanseniaspora_singularis",
+    "yHMPu5000034963_Hanseniaspora_clermontiae",
+    "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+    "yHMPu5000035684_Kloeckera_hatyaiensis",
+    "Eremothecium_sinecaudum",
+    "yHMPu5000035659_Saturnispora_dispora",
+    "Tortispora_caseinolytica",
+    "Starmerella_bombicola_JCM9596",
+    "Eremothecium_gossypii",
+    "Ashbya_aceri"]
+gurobi_data(organisms, time_limit=36000, fba=true, yeast=true, cb=true, cb_big_m=true, solver="Gurobi")

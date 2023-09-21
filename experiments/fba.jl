@@ -21,7 +21,7 @@ organisms = [
 ]
 
 for organism in organisms
-    get_fba_data(organism, save_lp=false, json=true)
+    get_fba_data(organism, save_lp=false, json=true, optimizer=Gurobi.Optimizer)
 end 
 
 # organism = "iML1515"

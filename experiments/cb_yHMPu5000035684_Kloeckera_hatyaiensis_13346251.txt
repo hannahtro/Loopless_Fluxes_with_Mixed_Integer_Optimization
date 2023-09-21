@@ -1,0 +1,64 @@
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for MUMPS_seq_jll [d7ed1dd3-d0ae-5e8e-bfb4-87a502085b8d]
+│   exception = Required dependency METIS_jll [d00139f3-1899-568f-a2f0-47f597d42d70] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Ipopt_jll [9cc047cb-c261-5740-88fc-0cf96f7bdcc7]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/Ipopt_jll/FgsDH_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for SCIP_PaPILO_jll [fc9abe76-a5e6-5fed-b0b7-a12f309cf031]
+│   exception = Required dependency MUMPS_seq_jll [d7ed1dd3-d0ae-5e8e-bfb4-87a502085b8d] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c3e1-1025-0006-65b4e5ce471e is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c3e1-1025-0006-65b4e5ce471e is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c3e1-1025-0006-65b4e5ce471e is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c3e1-1025-0006-65b4e5ce471e is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c3e1-1025-0006-65b4e5ce471e is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module ConstructionBase with build ID fafbfcfd-eeaf-a6ef-0003-faef7ecc8f66 is missing from the cache.
+│ This may mean ConstructionBase [187b0558-2788-49d3-abe0-74a17ed4e7c9] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: Module MathOptInterface with build ID fafbfcfd-c3e1-1025-0006-65b4e5ce471e is missing from the cache.
+│ This may mean MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Set parameter TimeLimit to value 36000
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Gurobi [2e9cd046-0924-5485-92f1-d5272153d98b]
+│   exception = Required dependency MathOptInterface [b8f27783-ece8-5eb3-8dc8-9495eed66fee] failed to load from a cache file.
+└ @ Base loading.jl:1783
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+yHMPu5000035684_Kloeckera_hatyaiensis
+(time_limit, fast, json, yeast) = (36000, true, true, true)
+fast = true
+fast = true
+model with 6382 flux variables and 12501 variables in total
+master problem solved
+sub problem solved
+iter = 1
+iter = 2
+iter = 3
+iter = 4
+iter = 5
+iter = 6
+iter = 7
+iter = 8
+iter = 9
+iter = 10
+iter = 11
+iter = 12
+iter = 13
+iter = 14
+iter = 15
+iter = 16
+iter = 17
+iter = 18
+iter = 19
+AssertionError("feasible")

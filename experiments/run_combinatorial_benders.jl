@@ -1,16 +1,19 @@
-include("../src/cuts_decomposition.jl")
-include("../src/constraint_handler.jl")
+using Gurobi 
 
+include("../src/cuts_decomposition.jl")
+
+@show ENV["GRB_LICENSE_FILE"]
 println(ARGS[1])
+organism = ARGS[1]
 time_limit = parse(Int64, ARGS[2])
 fast = parse(Bool, ARGS[3])
 json = parse(Bool, ARGS[4])
 yeast = parse(Bool, ARGS[5])
 @show time_limit, fast, json, yeast
 
-type = "cb_fast"
+type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(ARGS[1], time_limit=time_limit, fast=fast, json=json, yeast=yeast)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=false, optimizer=Gurobi.Optimizer, subproblem_solver=HiGHS.Optimizer)
 catch e 
     println(e)
     file = organism * "_" * type

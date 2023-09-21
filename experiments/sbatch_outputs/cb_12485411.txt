@@ -1,0 +1,16 @@
+WARNING: Dual bound 0.153345 is smaller than the objective of the primal solution 0.153389. The solution might not be optimal.
+WARNING: Dual bound 0.153321 is smaller than the objective of the primal solution 0.15333. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153376. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153343. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153343. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153343. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153342. The solution might not be optimal.
+WARNING: Dual bound 0.153347 is smaller than the objective of the primal solution 0.15339. The solution might not be optimal.
+WARNING: Dual bound 0.153345 is smaller than the objective of the primal solution 0.153356. The solution might not be optimal.
+WARNING: Dual bound 0.153343 is smaller than the objective of the primal solution 0.153355. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153345. The solution might not be optimal.
+WARNING: Dual bound 0.153321 is smaller than the objective of the primal solution 0.153365. The solution might not be optimal.
+WARNING: Dual bound 0.153336 is smaller than the objective of the primal solution 0.153345. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153336. The solution might not be optimal.
+WARNING: Dual bound 0.15333 is smaller than the objective of the primal solution 0.153356. The solution might not be optimal.
+WARNING: Dual bound 0.153333 is smaller than the objective of the primal solution 0.153344. The solution might not be optimal.
