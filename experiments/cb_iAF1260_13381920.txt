@@ -1,0 +1,44 @@
+┌ Warning: Module SCIP with build ID fafbfcfd-fca9-d629-0006-b2c957a269eb is missing from the cache.
+│ This may mean SCIP [82193955-e24f-5292-bf16-6f2c5261a85f] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAF1260
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAF1260
+----------------------------------
+number of metabolites : 1668
+number of reactions : 2382
+number of genes : 1261
+objective function: Dict("BIOMASS_Ec_iAF1260_core_59p81M" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 119
+model with 2382 flux variables and 4460 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 28
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 6
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.7367011420207317
+thermo_feasible = true

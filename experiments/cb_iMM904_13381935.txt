@@ -1,0 +1,83 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iMM904
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iMM904
+----------------------------------
+number of metabolites : 1226
+number of reactions : 1577
+number of genes : 905
+objective function: Dict("BIOMASS_SC5_notrace" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 473
+model with 1577 flux variables and 2990 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 83
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 79
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 29
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 39
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 43
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 94
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 40
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 30
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 53
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 112
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 42
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 42
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 25
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+length(C_list) = 103
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 17
+length(C_list) = 102
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 18
+length(C_list) = 33
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 19
+length(C_list) = 65
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 20
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 20
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.28786570827562474
+thermo_feasible = true

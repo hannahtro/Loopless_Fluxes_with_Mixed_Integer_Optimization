@@ -1,0 +1,56 @@
+┌ Warning: Module SCIP with build ID fafbfcfd-7c5e-e1ad-0006-b4171ec6ceb7 is missing from the cache.
+│ This may mean SCIP [82193955-e24f-5292-bf16-6f2c5261a85f] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iNJ661
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iNJ661
+----------------------------------
+number of metabolites : 825
+number of reactions : 1025
+number of genes : 661
+objective function: Dict("BIOMASS_Mtb_9_60atp" => 1.0)
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 205
+model with 1025 flux variables and 1963 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 41
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 27
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 29
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 70
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 25
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 79
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 69
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 31
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 10
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.05254951263399518
+thermo_feasible = true
