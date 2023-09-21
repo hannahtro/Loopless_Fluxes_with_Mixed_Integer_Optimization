@@ -571,6 +571,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
         if isempty(C_list)
             if mis_model_termination != MOI.INFEASIBLE # should be TIME_LIMIT
                 @show mis_model_termination
+                @assert mis_model_termination == MOI.TIME_LIMIT
             else
                 flux = value.(master_problem[:x])
                 non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(flux) if !isapprox(val, 0, atol=1e-6)], internal_rxn_idxs)
