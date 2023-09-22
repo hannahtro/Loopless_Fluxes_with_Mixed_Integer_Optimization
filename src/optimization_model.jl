@@ -1,4 +1,4 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 using SCIP, JuMP
 using LinearAlgebra
 using Boscia, FrankWolfe
@@ -176,7 +176,7 @@ end
 
 function internal_reactions(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     return internal_rxn_idxs

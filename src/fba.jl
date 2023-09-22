@@ -1,4 +1,4 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 using SCIP, JuMP, Gurobi
 using LinearAlgebra
 using DataFrames, CSV, JSON
@@ -18,7 +18,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type="fba", save_lp=f
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     # # check for fixed reactions

@@ -1,5 +1,5 @@
-using COBREXA, Serialization, COBREXA.Everything
-import COBREXA.Everything: add_loopless_constraints
+using COBREXA, Serialization
+# import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
 using GLPK, JuMP
@@ -13,7 +13,7 @@ compute internal reactions of COBREXA model
 function add_loopless_constraints(molecular_model, model, max_flux_bound=1000; nullspace_formulation=true, reduced=false)
     # loopless model
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     if nullspace_formulation
@@ -142,7 +142,7 @@ add loopless FBA constraints using indicator variables instead of big M formulat
 """
 function add_loopless_indicator_constraints(molecular_model, model, max_flux_bound=1000)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
@@ -169,7 +169,7 @@ add loopless FBA constraints using indicator variables instead of big M formulat
 """
 function add_loopless_indicator_constraints_mu(molecular_model, model, max_flux_bound=1000)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
@@ -197,7 +197,7 @@ add loopless FBA constraints using bilinear constraints
 """
 function add_loopless_bilinear_constraints(molecular_model, model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 

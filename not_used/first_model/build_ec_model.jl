@@ -1,4 +1,4 @@
-using COBREXA, COBREXA.Everything, JSON, CSV, Serialization
+using COBREXA, JSON, CSV, Serialization
 
 include("build_utilities.jl")
 

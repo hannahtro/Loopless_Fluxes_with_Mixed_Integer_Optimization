@@ -1,5 +1,5 @@
 using SCIP, GLPK
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 
 model = deserialize("data/ec_e_coli_core.js")
 

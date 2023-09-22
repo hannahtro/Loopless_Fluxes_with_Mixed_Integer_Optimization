@@ -61,7 +61,7 @@ end
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 

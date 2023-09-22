@@ -1,4 +1,4 @@
-using COBREXA, COBREXA.Everything, Serialization
+using COBREXA, Serialization
 
 model = ObjectModel()
 

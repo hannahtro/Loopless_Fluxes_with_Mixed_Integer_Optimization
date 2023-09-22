@@ -1,4 +1,4 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 using Serialization
 using DataFrames, CSV
 using SCIP, JuMP

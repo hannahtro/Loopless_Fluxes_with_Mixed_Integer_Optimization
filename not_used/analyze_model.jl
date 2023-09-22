@@ -1,4 +1,4 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 include("functions.jl")
 
 model = deserialize("data/ec_e_coli_core.js")

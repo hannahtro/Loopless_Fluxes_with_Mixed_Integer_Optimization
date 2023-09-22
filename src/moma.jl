@@ -1,4 +1,4 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 using SCIP, JuMP
 using LinearAlgebra
 using Boscia, FrankWolfe
