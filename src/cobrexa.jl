@@ -1,4 +1,5 @@
 using COBREXA, Serialization
+import COBREXA: add_loopless_constraints, change_optimizer_attribute
 using DataFrames, CSV, JSON
 using SCIP, JuMP
 
@@ -73,13 +74,12 @@ function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limi
         ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    loopless_flux = flux_balance_analysis(
+    model = flux_balance_analysis(
         molecular_model,
         optimizer,
-        modifications = [add_loopless_constraints(), modify_optimizer_attribute(MOI.Silent(), true), modify_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
+        modifications = [add_loopless_constraints(), change_optimizer_attribute(MOI.Silent(), true), change_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
     )
 
-    model = loopless_flux.result
     status = termination_status(model)
     solved_time = solve_time(model)
     nodes = MOI.get(model, MOI.NodeCount())

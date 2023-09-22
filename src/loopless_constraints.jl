@@ -1,5 +1,4 @@
 using COBREXA, Serialization
-# import COBREXA.Everything: add_loopless_constraints
 using LinearAlgebra, SparseArrays
 using Boscia, FrankWolfe
 using GLPK, JuMP

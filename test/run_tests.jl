@@ -1,4 +1,4 @@
-# include("cobrexa.jl")
+include("cobrexa.jl")
 include("fba.jl")
 include("cycle_detection.jl")
 include("set_primal.jl")
