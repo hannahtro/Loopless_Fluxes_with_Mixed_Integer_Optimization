@@ -11,7 +11,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type="fba", save_lp=f
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../molecular_models/" * organism * ".js")
+        molecular_model = load_model("../molecular_models/" * organism * ".json")
         print_model(molecular_model, organism)
     end
     S = stoichiometry(molecular_model)

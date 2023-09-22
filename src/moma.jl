@@ -58,7 +58,7 @@ function get_moma_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf, time_
     # build model
     optimizer = SCIP.Optimizer
 
-    molecular_model = deserialize("data/" * organism * ".js")
+    molecular_model = load_model("data/" * organism * ".json")
     print_model(molecular_model)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -99,7 +99,7 @@ function get_moma_boscia_data(organism="iML1515", idx=1; var=NaN, time_limit=Inf
     # build model
     optimizer = SCIP.Optimizer
 
-    molecular_model = deserialize("data/" * organism * ".js")
+    molecular_model = load_model("data/" * organism * ".json")
     print_model(molecular_model)
 
     model = make_optimization_model(molecular_model, optimizer)

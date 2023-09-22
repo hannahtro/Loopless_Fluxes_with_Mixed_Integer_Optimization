@@ -14,7 +14,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../molecular_models/" * organism * ".js")
+        molecular_model = load_model("../molecular_models/" * organism * ".json")
         print_model(molecular_model, organism)
     end
 
@@ -131,7 +131,7 @@ compute dual gap with time limit of loopless FBA
 function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type = "loopless_fba_relaxed", csv=true, save_lp=false)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -185,7 +185,7 @@ compute dual gap with time limit of loopless FBA with indicator for bilinear con
 function loopless_fba_bilinear_data(organism; time_limit=1800, silent=true, type="loopless_bilinear_fba", csv=true)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -241,7 +241,7 @@ compute dual gap with time limit of loopless FBA with blocked cycles
 """
 function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_objective=true, vector_formulation=true, shortest_cycles=false, block_limit=100, type="loopless_fba_blocked", nullspace_formulation=false, reduced=false, csv=true)
     # load model
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     # compute FBA
@@ -267,7 +267,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
 
     # build model
     # add loopless constraints and block cycles
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -332,7 +332,7 @@ compute dual gap with time limit of loopless FBA with indicators
 function loopless_indicator_fba_data(organism; time_limit=1800, type = "loopless_indicator_fba", nullspace_formulation=true, csv=true)
     # build model
     optimizer = SCIP.Optimizer
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)
@@ -379,7 +379,7 @@ compute dual gap with time limit of loopless FBA with indicators with bocked cyc
 """
 function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=10, same_objective=true, shortest_cycles=false, block_limit=500, type = "loopless_indicator_fba_blocked", nullspace_formulation=false, csv=true)
     # load model
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     # compute FBA
@@ -407,7 +407,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
 
     # build model
     # add loopless constraints and block cycles
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     model = make_optimization_model(molecular_model, optimizer)

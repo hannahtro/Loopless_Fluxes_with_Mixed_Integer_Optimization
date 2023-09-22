@@ -79,7 +79,7 @@ compute loopless fba after setting primal for a given organism
 """
 function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formulation=false, time_limit=180, csv=true)
     # load model
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
 
     print_model(molecular_model)
     # get values for G and a for solution 
@@ -129,7 +129,7 @@ function loopless_fba_set_primal(organism; flux=[], load=true, nullspace_formula
 
     # loopless FBA 
     # add loopless constraints and block cycles
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
     model = make_optimization_model(molecular_model, SCIP.Optimizer)
     if nullspace_formulation 

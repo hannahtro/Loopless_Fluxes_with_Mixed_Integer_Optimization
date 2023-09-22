@@ -54,7 +54,7 @@ end
     println("TEST iAF692")
     println("--------------------------------------------------------")
     organism = "iAF692"
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, "organism")
 
     S = stoichiometry(molecular_model)

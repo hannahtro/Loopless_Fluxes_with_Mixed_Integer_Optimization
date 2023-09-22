@@ -642,7 +642,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../molecular_models/" * organism * ".js")
+        molecular_model = load_model("../molecular_models/" * organism * ".json")
         print_model(molecular_model, organism)
     end
 

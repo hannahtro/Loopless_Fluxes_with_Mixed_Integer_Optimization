@@ -71,7 +71,7 @@ end
 organism = "iAF692"
 optimizer = SCIP.Optimizer
 
-molecular_model = deserialize("../molecular_models/" * organism * ".js")
+molecular_model = load_model("../molecular_models/" * organism * ".json")
 S = stoichiometry(molecular_model)
 m, num_reactions = size(S)
 
