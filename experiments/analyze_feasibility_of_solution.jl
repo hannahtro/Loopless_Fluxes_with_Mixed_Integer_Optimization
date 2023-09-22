@@ -21,7 +21,7 @@ lb, ub = bounds(molecular_model)
 max_flux_bound = maximum(abs.(vcat(lb, ub)))
 m, num_reactions = size(S)
 internal_rxn_idxs = [
-    ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+    ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
     !is_boundary(reaction_stoichiometry(molecular_model, rid))
 ]
 

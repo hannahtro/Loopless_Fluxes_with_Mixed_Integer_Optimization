@@ -1,4 +1,4 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
 using SCIP, JuMP
 using LinearAlgebra
 using Boscia, FrankWolfe
@@ -119,12 +119,12 @@ function print_model(model, name="MODEL")
     println("")
     println(name)
     println("----------------------------------")
-    println("number of metabolites : ", length(model.metabolites))
-    println("number of reactions : ", length(model.reactions))
+    println("number of metabolites : ", length(model.mets))
+    println("number of reactions : ", length(model.rxns))
     println("number of genes : ", length(model.genes))
     # @show model.annotations
     # @show model.notes
-    println("objective function: ", model.objective)
+    # println("objective function: ", model.objective)
     # @show molecular_model.reactions
     # @show molecular_model.metabolites
     println("")
@@ -176,7 +176,7 @@ end
 
 function internal_reactions(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
     return internal_rxn_idxs

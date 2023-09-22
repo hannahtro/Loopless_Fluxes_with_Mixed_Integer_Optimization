@@ -1,4 +1,5 @@
-using COBREXA, Serialization, COBREXA.Everything
+using COBREXA, Serialization
+import COBREXA: add_loopless_constraints, change_optimizer_attribute
 using DataFrames, CSV, JSON
 using SCIP, JuMP
 
@@ -8,18 +9,17 @@ include("optimization_model.jl")
 # FBA data 
 function cobrexa_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, json=true)
     # build model
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
 
     S = stoichiometry(molecular_model)
     m, num_reactions = size(S)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 
-    solved_model = flux_balance_analysis(molecular_model, optimizer)
-    model = solved_model.result
+    model = flux_balance_analysis(molecular_model, optimizer)
     status = termination_status(model)
     solved_time = solve_time(model)
 
@@ -67,20 +67,19 @@ end
 # loopless FBA data
 function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, json=true)
     # build model
-    molecular_model = deserialize("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
     S = stoichiometry(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
-    loopless_flux = flux_balance_analysis(
+    model = flux_balance_analysis(
         molecular_model,
         optimizer,
-        modifications = [add_loopless_constraints(), modify_optimizer_attribute(MOI.Silent(), true), modify_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
+        modifications = [add_loopless_constraints(), change_optimizer_attribute(MOI.Silent(), true), change_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
     )
 
-    model = loopless_flux.result
     status = termination_status(model)
     solved_time = solve_time(model)
     nodes = MOI.get(model, MOI.NodeCount())

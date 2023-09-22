@@ -438,7 +438,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     @show fast
 
     _, num_reactions = size(S)
-    start_time = time()
+    cb_start_time = time()
     dual_bounds = []
     objective_values = []
     cuts = []
@@ -520,7 +520,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
 
     # add Benders' cut if subproblem is infeasible
     iter = 1
-    while termination_sub == MOI.INFEASIBLE && iter < max_iter && time()-start_time < time_limit
+    while termination_sub == MOI.INFEASIBLE && iter < max_iter && time()-start_time_cb < time_limit
         @show iter
         @assert primal_status(sub_problem) == MOI.NO_SOLUTION
         # @assert dual_status(sub_problem) == MOI.INFEASIBILITY_CERTIFICATE
@@ -611,8 +611,8 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     end
 
     @show iter
-    end_time = time()
-    time_taken = end_time - start_time
+    end_time_cb = time()
+    time_taken = end_time_cb - start_time_cb
     solution = vcat(solution_master, solution_sub)
     # @show termination_sub
     if has_values(master_problem)
@@ -648,7 +648,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if yeast 
         molecular_model = load_model("../molecular_models/ecModels/Classical/emodel_" * organism * "_classical.mat")
     else 
-        molecular_model = deserialize("../molecular_models/" * organism * ".js")
+        molecular_model = load_model("../molecular_models/" * organism * ".json")
         print_model(molecular_model, organism)
     end
 
@@ -656,7 +656,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
     internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
         !is_boundary(reaction_stoichiometry(molecular_model, rid))
     ]
 

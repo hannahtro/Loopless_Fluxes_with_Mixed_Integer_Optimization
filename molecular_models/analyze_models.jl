@@ -1,5 +1,5 @@
 using DelimitedFiles
-using COBREXA, COBREXA.Everything
+using COBREXA
 using SCIP 
 
 # organisms = readdlm("ecModel_names.txt", '\t', String, '\n')

@@ -273,7 +273,7 @@ end
 #     # @show optimization_model
 #     # @show unbounded_cycles_original
 #     internal_rxn_idxs = [
-#         ridx for (ridx, rid) in enumerate(variables(molecular_model)) if
+#         ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
 #         !is_boundary(reaction_stoichiometry(molecular_model, rid))
 #     ]
 #     num_blocked_cycles = block_cycle_constraint(optimization_model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S)
