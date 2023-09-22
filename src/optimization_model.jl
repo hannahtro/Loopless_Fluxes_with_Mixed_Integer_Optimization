@@ -119,12 +119,12 @@ function print_model(model, name="MODEL")
     println("")
     println(name)
     println("----------------------------------")
-    println("number of metabolites : ", length(model.metabolites))
-    println("number of reactions : ", length(model.reactions))
+    println("number of metabolites : ", length(model.mets))
+    println("number of reactions : ", length(model.rxns))
     println("number of genes : ", length(model.genes))
     # @show model.annotations
     # @show model.notes
-    println("objective function: ", model.objective)
+    # println("objective function: ", model.objective)
     # @show molecular_model.reactions
     # @show molecular_model.metabolites
     println("")

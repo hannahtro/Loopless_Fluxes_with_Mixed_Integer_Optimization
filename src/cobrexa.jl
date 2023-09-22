@@ -67,7 +67,7 @@ end
 # loopless FBA data
 function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limit=1800, mute=true, json=true)
     # build model
-    molecular_model = load_model("../molecular_models/" * organism * ".js")
+    molecular_model = load_model("../molecular_models/" * organism * ".json")
     # print_model(molecular_model, organism)
     S = stoichiometry(molecular_model)
     internal_rxn_idxs = [
