@@ -1,0 +1,28 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCN900
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCN900
+----------------------------------
+number of metabolites : 885
+number of reactions : 1229
+number of genes : 900
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 61
+model with 1229 flux variables and 2326 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 2
+termination = MathOptInterface.OPTIMAL
+objective_value = 3.743421024235148e-8
+thermo_feasible = true
