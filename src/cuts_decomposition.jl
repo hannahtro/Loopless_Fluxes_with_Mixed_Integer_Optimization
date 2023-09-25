@@ -438,7 +438,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     @show fast
 
     _, num_reactions = size(S)
-    cb_start_time = time()
+    start_time_cb = time()
     dual_bounds = []
     objective_values = []
     cuts = []
