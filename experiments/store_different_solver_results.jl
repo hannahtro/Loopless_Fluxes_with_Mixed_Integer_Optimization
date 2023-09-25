@@ -72,8 +72,11 @@ function solver_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
         df[!, "objective_value_cb_mis_" * string(mis)] = Float64[] 
         df[!, "time_cb_mis_" * string(mis)] = Float64[] 
         df[!, "feasibility_cb_mis_" * string(mis)] = Bool[]
-        df[!, "cuts_cb_mis_" *string(mis)] = Int64[]
-        df[!, "iter_cb_mis_" *string(mis)] = Int64[]
+        df[!, "cuts_cb_mis_" * string(mis)] = Int64[]
+        df[!, "iter_cb_mis_" * string(mis)] = Int64[]
+        df[!, "times_master_problem_mis_" * string(mis)] = Float64[]
+        df[!, "times_sub_problem_mis_" * string(mis)] = Float64[]
+        df[!, "times_mis_problem_mis_" * string(mis)] = Float64[]
     end 
     
     # @show df
@@ -172,6 +175,9 @@ function solver_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
             dict_organism[Symbol("feasibility_cb_mis_" * string(mis))] = dict["thermo_feasible"]
             dict_organism[Symbol("cuts_cb_mis_" * string(mis))] = dict["cuts"]
             dict_organism[Symbol("iter_cb_mis_" * string(mis))] = dict["iter"]
+            dict_organism[Symbol("times_master_problem_mis_" * string(mis))] = mean(dict["times_master_problem"])
+            dict_organism[Symbol("times_sub_problem_mis_" * string(mis))] = mean(dict["times_sub_problem"])
+            dict_organism[Symbol("times_mis_problem_mis_" * string(mis))] = mean(dict["times_mis_problem"])
         end 
 
         for (key, value) in dict_organism
