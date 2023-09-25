@@ -17,10 +17,7 @@ function get_fba_data(organism="iML1515"; time_limit=1800, type="fba", save_lp=f
     S = stoichiometry(molecular_model)
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
     # # check for fixed reactions
     # fixed_reactions = [idx for (idx,val) in enumerate(lb) if val==ub[idx]]
     # if !isempty(fixed_reactions)

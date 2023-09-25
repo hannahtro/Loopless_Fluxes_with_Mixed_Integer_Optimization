@@ -126,10 +126,7 @@ function constraint_handler_data(organism; time_limit=1800, csv=true, silent=tru
     S = stoichiometry(molecular_model)
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
     model = make_optimization_model(molecular_model, SCIP.Optimizer)
     
     # extract objective

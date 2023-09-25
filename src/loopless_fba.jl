@@ -30,10 +30,7 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
     # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
     max_flux_bound = maximum(abs.(vcat(lb, ub)))
 
     m, num_reactions = size(S)
@@ -136,10 +133,7 @@ function loopless_relaxed_fba_data(organism; time_limit=1800, silent=true, nulls
 
     model = make_optimization_model(molecular_model, optimizer)
     S = stoichiometry(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     add_relaxed_loopless_constraints(model, S, internal_rxn_idxs, nullspace_formulation=nullspace_formulation)
 
@@ -272,10 +266,7 @@ function loopless_fba_blocked_data(organism; time_limit=180, ceiling=1000, same_
 
     model = make_optimization_model(molecular_model, optimizer)
     add_loopless_constraints(molecular_model, model, nullspace_formulation=nullspace_formulation, reduced=reduced)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
     num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, vector_formulation=vector_formulation, shortest_cycles=shortest_cycles, block_limit=block_limit, nullspace_formulation=nullspace_formulation)
 
     # optimize loopless FBA
@@ -417,10 +408,7 @@ function loopless_indicator_fba_blocked_data(organism; time_limit=1800, ceiling=
         add_loopless_indicator_constraints_mu(molecular_model, model)
     end
     
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
     num_blocked_cycles = block_cycle_constraint(model, unbounded_cycles_original, flux_directions, internal_rxn_idxs, S, shortest_cycles=shortest_cycles, block_limit=block_limit, nullspace_formulation=nullspace_formulation)
 
     # optimize loopless FBA

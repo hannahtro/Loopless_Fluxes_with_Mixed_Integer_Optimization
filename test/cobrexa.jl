@@ -15,10 +15,7 @@ println("============================================================")
     organism = "e_coli_core"
     molecular_model = load_model("../molecular_models/" * organism * ".json")
     S = stoichiometry(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     # FBA 
     primal_objective_value, solution, status = cobrexa_fba_data(organism, time_limit=1800, json=false)
@@ -43,10 +40,7 @@ end
     S = stoichiometry(molecular_model)
     @show size(S)
     lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     # FBA
     primal_objective_value, solution, status = cobrexa_fba_data(organism, time_limit=1800, json=false)

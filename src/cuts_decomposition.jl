@@ -649,10 +649,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     S = stoichiometry(molecular_model)
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     # dictionary to map internal reaction ids to decision variable indices of thermodynamic feasibility constraints
     reaction_mapping = Dict()
