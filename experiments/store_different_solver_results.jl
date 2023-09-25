@@ -1,4 +1,5 @@
 using DataFrames, JSON, CSV
+using Statistics
 
 """
 compare ll-FBA, no good cuts and fast combinatorial Benders
