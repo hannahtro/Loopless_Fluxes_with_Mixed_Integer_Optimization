@@ -1,0 +1,89 @@
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for HDF5_jll [0234f1f7-429e-5d53-9886-15a909be8d59]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/HDF5_jll/w9xrx_QONXq.so.
+└ @ Base loading.jl:1783
+ERROR: LoadError: could not load symbol "H5open":
+/scratch/opt/htroppen/julia-1.9.0/bin/julia: undefined symbol: H5open
+Stacktrace:
+  [1] #dlsym#1
+    @ ./libdl.jl:59 [inlined]
+  [2] dlsym
+    @ ./libdl.jl:56 [inlined]
+  [3] top-level scope
+    @ ~/.julia/packages/HDF5/MIuzl/src/api/types.jl:253
+  [4] include(mod::Module, _path::String)
+    @ Base ./Base.jl:457
+  [5] include(x::String)
+    @ HDF5.API ~/.julia/packages/HDF5/MIuzl/src/api/api.jl:1
+  [6] top-level scope
+    @ ~/.julia/packages/HDF5/MIuzl/src/api/api.jl:17
+  [7] include(mod::Module, _path::String)
+    @ Base ./Base.jl:457
+  [8] include(x::String)
+    @ HDF5 ~/.julia/packages/HDF5/MIuzl/src/HDF5.jl:1
+  [9] top-level scope
+    @ ~/.julia/packages/HDF5/MIuzl/src/HDF5.jl:68
+ [10] include
+    @ ./Base.jl:457 [inlined]
+ [11] include_package_for_output(pkg::Base.PkgId, input::String, depot_path::Vector{String}, dl_load_path::Vector{String}, load_path::Vector{String}, concrete_deps::Vector{Pair{Base.PkgId, UInt128}}, source::String)
+    @ Base ./loading.jl:2010
+ [12] top-level scope
+    @ stdin:2
+in expression starting at /home/htc/htroppen/.julia/packages/HDF5/MIuzl/src/api/types.jl:253
+in expression starting at /home/htc/htroppen/.julia/packages/HDF5/MIuzl/src/api/api.jl:1
+in expression starting at /home/htc/htroppen/.julia/packages/HDF5/MIuzl/src/HDF5.jl:1
+in expression starting at stdin:2
+ERROR: LoadError: Failed to precompile HDF5 [f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f] to "/home/htc/htroppen/.julia/compiled/v1.9/HDF5/jl_W4ubno".
+Stacktrace:
+  [1] error(s::String)
+    @ Base ./error.jl:35
+  [2] compilecache(pkg::Base.PkgId, path::String, internal_stderr::IO, internal_stdout::IO, keep_loaded_modules::Bool)
+    @ Base ./loading.jl:2260
+  [3] compilecache
+    @ ./loading.jl:2127 [inlined]
+  [4] _require(pkg::Base.PkgId, env::String)
+    @ Base ./loading.jl:1770
+  [5] _require_prelocked(uuidkey::Base.PkgId, env::String)
+    @ Base ./loading.jl:1625
+  [6] macro expansion
+    @ ./loading.jl:1613 [inlined]
+  [7] macro expansion
+    @ ./lock.jl:267 [inlined]
+  [8] require(into::Module, mod::Symbol)
+    @ Base ./loading.jl:1576
+  [9] include
+    @ ./Base.jl:457 [inlined]
+ [10] include_package_for_output(pkg::Base.PkgId, input::String, depot_path::Vector{String}, dl_load_path::Vector{String}, load_path::Vector{String}, concrete_deps::Vector{Pair{Base.PkgId, UInt128}}, source::String)
+    @ Base ./loading.jl:2010
+ [11] top-level scope
+    @ stdin:2
+in expression starting at /home/htc/htroppen/.julia/packages/COBREXA/IheBW/src/COBREXA.jl:1
+in expression starting at stdin:2
+ERROR: LoadError: Failed to precompile COBREXA [babc4406-5200-4a30-9033-bf5ae714c842] to "/home/htc/htroppen/.julia/compiled/v1.9/COBREXA/jl_jrrbdr".
+Stacktrace:
+  [1] error(s::String)
+    @ Base ./error.jl:35
+  [2] compilecache(pkg::Base.PkgId, path::String, internal_stderr::IO, internal_stdout::IO, keep_loaded_modules::Bool)
+    @ Base ./loading.jl:2260
+  [3] compilecache
+    @ ./loading.jl:2127 [inlined]
+  [4] _require(pkg::Base.PkgId, env::String)
+    @ Base ./loading.jl:1770
+  [5] _require_prelocked(uuidkey::Base.PkgId, env::String)
+    @ Base ./loading.jl:1625
+  [6] macro expansion
+    @ ./loading.jl:1613 [inlined]
+  [7] macro expansion
+    @ ./lock.jl:267 [inlined]
+  [8] require(into::Module, mod::Symbol)
+    @ Base ./loading.jl:1576
+  [9] include(fname::String)
+    @ Base.MainInclude ./client.jl:478
+ [10] top-level scope
+    @ /scratch/htc/htroppen/MA/src/cuts_decomposition.jl:7
+ [11] include(fname::String)
+    @ Base.MainInclude ./client.jl:478
+ [12] top-level scope
+    @ /scratch/htc/htroppen/MA/experiments/run_combinatorial_benders.jl:3
+in expression starting at /scratch/htc/htroppen/MA/src/optimization_model.jl:1
+in expression starting at /scratch/htc/htroppen/MA/src/cuts_decomposition.jl:7
+in expression starting at /scratch/htc/htroppen/MA/experiments/run_combinatorial_benders.jl:3

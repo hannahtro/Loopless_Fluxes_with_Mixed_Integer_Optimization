@@ -1,0 +1,55 @@
+┌ Warning: Module HDF5 with build ID ffffffff-ffff-ffff-0007-0f4ccd70b637 is missing from the cache.
+│ This may mean HDF5 [f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1758
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for HDF5 [f67ccb44-e63f-5c2f-98bd-6dc0ccc4ba2f]
+│   exception = Required dependency HDF5_jll [0234f1f7-429e-5d53-9886-15a909be8d59] failed to load from a cache file.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for COBREXA [babc4406-5200-4a30-9033-bf5ae714c842]
+│   exception = ArgumentError: Invalid checksum in cache file /home/htc/htroppen/.julia/compiled/v1.9/COBREXA/Uq4VT_QONXq.so.
+└ @ Base loading.jl:1783
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for MAT [23992714-dd62-5051-b70f-ba57cb901cac]
+│   exception = Invalid input in module list: expected HDF5.
+└ @ Base loading.jl:1783
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAF692
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAF692
+----------------------------------
+number of metabolites : 628
+number of reactions : 690
+number of genes : 692
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+multiple_mis = 69
+model with 690 flux variables and 1310 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+MIS problem not feasible
+termination = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 7
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.026780730617598954
+thermo_feasible = true
