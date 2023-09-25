@@ -33,7 +33,7 @@ function solver_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
         df[!, "objective_value_cb"] = Float64[] 
         df[!, "time_cb"] = Float64[] 
         df[!, "feasibility_cb"] = Bool[]
-        df[!, "cuts_cb"] = Int64[]
+        # df[!, "cuts_cb"] = Int64[]
         df[!, "iter_cb"] = Int64[]
     end
 
@@ -142,7 +142,7 @@ function solver_data(organisms; no_good_cuts=false, fba=false, cobrexa=false, cb
             dict_organism[:objective_value_cb] = dict["objective_value"]
             dict_organism[:time_cb] = dict["time"]
             dict_organism[:feasibility_cb] = dict["thermo_feasible"]
-            dict_organism[:cuts_cb] = dict["cuts"]
+            # dict_organism[:cuts_cb] = dict["cuts"]
             dict_organism[:iter_cb] = dict["iter"]
         end 
 
@@ -266,7 +266,7 @@ organisms = [
     "iSbBS512_1146" # recompute on cluster
 ]
 mis_numbers = [5, 10, 20, 30]
-solver_data(organisms, time_limit=1800, yeast=false, cb=false, fba=false, cb_big_m=false, mis_numbers=mis_numbers)
+solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=false, cb_big_m=false, mis_numbers=mis_numbers)
 
 # organisms = [
 #     "Hanseniaspora_uvarum",
