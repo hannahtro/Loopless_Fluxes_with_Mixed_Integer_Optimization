@@ -2,12 +2,12 @@ using DelimitedFiles
 
 organisms = [
 #    "iAF692", 
-#    "iJR904", 
+    "iJR904", 
 #    "iML1515", 
 #    "e_coli_core",
-    "iNF517",
+#    "iNF517",
 #    "iSB619",
-#    "iNJ661",
+    "iNJ661",
 #    "iCN900",
 #    "iAF1260",
 #    "iEK1008",
@@ -47,7 +47,7 @@ yeast = false
 #     # run(`sh batch.sh $organism $time_limit $fast $json $yeast`)
 # end
 
-mis_numbers = [30]# [5, 10, 20, 30]
+mis_numbers = [5, 10, 20, 30]
 for organism in organisms
     for mis in mis_numbers
         @show organism, mis
