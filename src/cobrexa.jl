@@ -71,7 +71,7 @@ function cobrexa_loopless_fba_data(organism; optimizer=SCIP.Optimizer, time_limi
     model = flux_balance_analysis(
         molecular_model,
         optimizer,
-        modifications = [add_loopless_constraints(), change_optimizer_attribute(MOI.Silent(), true), change_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
+        modifications = [add_loopless_constraints, change_optimizer_attribute(MOI.Silent(), true), change_optimizer_attribute(MOI.TimeLimitSec(), time_limit)]
     )
 
     status = termination_status(model)
