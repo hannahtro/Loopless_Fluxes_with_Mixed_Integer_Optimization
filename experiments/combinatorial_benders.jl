@@ -13,7 +13,7 @@ yeast = parse(Bool, ARGS[5])
 
 type = "cb_fast"
 try 
-    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=false)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=true)
 catch e 
     println(e)
     file = organism * "_" * type
