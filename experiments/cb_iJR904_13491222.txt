@@ -1,0 +1,69 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iJR904
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iJR904
+----------------------------------
+number of metabolites : 761
+number of reactions : 1075
+number of genes : 904
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+fast = true
+model with 1075 flux variables and 2007 variables in total
+master problem solved
+sub problem solved
+iter = 1
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 16
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9219481902621829
+thermo_feasible = true
