@@ -1,24 +1,47 @@
-using Gurobi 
+using DelimitedFiles
 
-include("../src/cuts_decomposition.jl")
+organisms = [
+    "iAF692", 
+    "iJR904", 
+    "iML1515", 
+    "e_coli_core",
+    "iNF517",
+    "iSB619",
+    "iNJ661",
+    "iCN900",
+    "iAF1260",
+    "iEK1008",
+    "iJO1366",
+    "iMM904",
+    "iSDY_1059",
+    "iSFV_1184",
+    "iSF_1195",
+    "iS_1188",
+    "iSbBS512_1146"
+]
 
-@show ENV["GRB_LICENSE_FILE"]
-println(ARGS[1])
-organism = ARGS[1]
-time_limit = parse(Int64, ARGS[2])
-fast = parse(Bool, ARGS[3])
-json = parse(Bool, ARGS[4])
-yeast = parse(Bool, ARGS[5])
-@show time_limit, fast, json, yeast
+#organisms = readdlm("../molecular_models/ecModel_small_model_names.txt", '\t', String, '\n')
+# organisms = [
+#     "Hanseniaspora_uvarum",
+# #    "yHMPu5000035696_Hanseniaspora_singularis",
+#     "yHMPu5000034963_Hanseniaspora_clermontiae",
+#     "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+# #    "yHMPu5000035684_Kloeckera_hatyaiensis",
+#     "Eremothecium_sinecaudum",
+# #    "yHMPu5000035659_Saturnispora_dispora",
+#     "Tortispora_caseinolytica",
+# #    "Starmerella_bombicola_JCM9596",
+# #    "Eremothecium_gossypii",
+# #    "Ashbya_aceri"
+# ]
 
-type = "cb_fast_big_m"
-try 
-    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=false)
-catch e 
-    println(e)
-    file = organism * "_" * type
-    open(file * ".txt","a") do io
-        println(io, e)
-    end
+time_limit = 1800
+fast = true
+json = true
+yeast = false
+
+for organism in organisms
+    @show organism
+    run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast`) # CB
 end
 

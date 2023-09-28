@@ -1,4 +1,6 @@
-include("../src/fba.jl")
+using Gurobi 
+
+include("../src/cuts_decomposition.jl")
 
 @show ENV["GRB_LICENSE_FILE"]
 println(ARGS[1])
@@ -9,9 +11,9 @@ json = parse(Bool, ARGS[4])
 yeast = parse(Bool, ARGS[5])
 @show time_limit, fast, json, yeast
 
-type = "fba"
+type = "cb_fast"
 try 
-    get_fba_data(organism, save_lp=false, yeast=yeast, json=true, optimizer=Gurobi.Optimizer)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=false)
 catch e 
     println(e)
     file = organism * "_" * type
