@@ -20,10 +20,7 @@ lb, ub = bounds(molecular_model)
 # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
 max_flux_bound = maximum(abs.(vcat(lb, ub)))
 m, num_reactions = size(S)
-internal_rxn_idxs = [
-    ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-    !is_boundary(reaction_stoichiometry(molecular_model, rid))
-]
+internal_rxn_idxs = internal_reactions(molecular_model)
 
 # # solution = dict["solution"][1:num_reactions]
 # # non_zero_flux_indices = intersect([idx for (idx, val) in enumerate(solution) if !isapprox(val, 0, atol=1e-5)], internal_rxn_idxs)

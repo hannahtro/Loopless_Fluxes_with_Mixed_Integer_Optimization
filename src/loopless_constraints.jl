@@ -11,10 +11,7 @@ compute internal reactions of COBREXA model
 """
 function add_loopless_constraints(molecular_model, model, max_flux_bound=1000; nullspace_formulation=true, reduced=false)
     # loopless model
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
     if nullspace_formulation
         add_loopless_constraints(model, stoichiometry(molecular_model), internal_rxn_idxs, max_flux_bound)
     else 
@@ -140,10 +137,7 @@ end
 add loopless FBA constraints using indicator variables instead of big M formulation
 """
 function add_loopless_indicator_constraints(molecular_model, model, max_flux_bound=1000)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     N_int = nullspace(Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])) # no sparse nullspace function
 
@@ -167,10 +161,7 @@ end
 add loopless FBA constraints using indicator variables instead of big M formulation, without nullspace formulation
 """
 function add_loopless_indicator_constraints_mu(molecular_model, model, max_flux_bound=1000)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     S_int = Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])
 
@@ -195,11 +186,7 @@ end
 add loopless FBA constraints using bilinear constraints
 """
 function add_loopless_bilinear_constraints(molecular_model, model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
-
+    internal_rxn_idxs = internal_reactions(molecular_model)
     S_int = Array(stoichiometry(molecular_model)[:, internal_rxn_idxs])
 
     x = model[:x]
@@ -338,7 +325,7 @@ compute thermodynamic feasibility for a given cycle without using the nullspace 
 """
 function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip_tol=1e-6, solution_dict=Dict())
     # warning if flux_directions not integral
-    if sum([(i != 1 || 1 !=0) ? 0 : 1 for i in flux_directions]) != 0
+    if sum([(i != 1 || i !=0) ? 0 : 1 for i in flux_directions]) != 0
         @warn "flux directions should be binary"
     end
     thermo_feasible_model = Model(SCIP.Optimizer)
@@ -351,9 +338,9 @@ function thermo_feasible_mu(cycle, flux_directions, S, max_flux_bound=1000; scip
 
     # add G variables for each reaction in cycle
     for (idx, _) in enumerate(cycle)
-        if isapprox(flux_directions[idx], 0, atol=0.0001)
+        if isapprox(flux_directions[idx], 1, atol=0.0001)
             @constraint(thermo_feasible_model, -max_flux_bound <= G[idx] <= -1 + scip_tol)
-        elseif isapprox(flux_directions[idx], 1, atol=0.0001)
+        elseif isapprox(flux_directions[idx], 0, atol=0.0001)
             @constraint(thermo_feasible_model, 1 - scip_tol <= G[idx] <= max_flux_bound)
         end
     end

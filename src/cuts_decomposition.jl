@@ -248,7 +248,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         C = [idx for (idx,val) in enumerate(solution_a)]
         # C = [1,2,3]
         C_list = [C]
-        termination = MOI.OPTIMAL
+        termination_mis = MOI.OPTIMAL
     else 
         A = deepcopy(S_int)
         for (idx,a) in enumerate(solution_a)
@@ -278,11 +278,12 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
         end
         set_time_limit_sec(mis_model, time_limit)
         optimize!(mis_model)
-        termination = termination_status(mis_model)
+        termination_mis = termination_status(mis_model)
 
-        if termination != MOI.OPTIMAL
+        if termination_mis != MOI.OPTIMAL
             println("MIS problem not feasible")
-            @show termination
+            @show termination_mis
+            @assert termination_mis != MOI.OTHER_ERROR
             C = []
         else
             solution_mis = [value(var) for var in all_variables(mis_model)]
@@ -304,9 +305,9 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
                 coefs[i] = 0
                 @objective(mis_model, Min, coefs' * all_variables(mis_model))
                 optimize!(mis_model)
-                termination = termination_status(mis_model)
+                termination_mis = termination_status(mis_model)
 
-                if termination != MOI.OPTIMAL
+                if termination_mis != MOI.OPTIMAL
                     println("MIS problem not feasible")
                     # @show termination_status(mis_model)
                     C = []
@@ -325,7 +326,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
     end
     # @show C_list
     # @show unique(C_list)
-    return unique(C_list), termination
+    return unique(C_list), termination_mis
 end
 
 """
@@ -655,10 +656,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     S = stoichiometry(molecular_model)
     m, num_reactions = size(S)
     lb, ub = bounds(molecular_model)
-    internal_rxn_idxs = [
-        ridx for (ridx, rid) in enumerate(reactions(molecular_model)) if
-        !is_boundary(reaction_stoichiometry(molecular_model, rid))
-    ]
+    internal_rxn_idxs = internal_reactions(molecular_model)
 
     # dictionary to map internal reaction ids to decision variable indices of thermodynamic feasibility constraints
     reaction_mapping = Dict()
