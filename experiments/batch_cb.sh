@@ -35,7 +35,7 @@
 # Turn on mail notification. There are many possible self-explaining values:
 # NONE, BEGIN, END, FAIL, ALL (including all aforementioned)
 # For more values, check "man sbatch"
-#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
 
 # You may not place any commands before the last SBATCH directive
 julia --project combinatorial_benders.jl $1 $2 $3 $4 $5 $6 &> cb_$1_$SLURM_JOB_ID.txt
