@@ -43,5 +43,5 @@ yeast = false
 
 for organism in organisms
     @show organism
-    run(`sh batch.sh $organism $time_limit $fast $json $yeast`)
+    run(`sh batch_ll_fba.sh $organism $time_limit $fast $json $yeast`)
 end
