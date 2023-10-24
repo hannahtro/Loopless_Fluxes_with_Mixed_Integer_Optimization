@@ -35,10 +35,10 @@
 # Turn on mail notification. There are many possible self-explaining values:
 # NONE, BEGIN, END, FAIL, ALL (including all aforementioned)
 # For more values, check "man sbatch"
-#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
 
 # You may not place any commands before the last SBATCH directive
-julia --project run_fba.jl $1 $2 $3 $4 $5 &> fba_$1_$SLURM_JOB_ID.txt
+julia --project fba.jl $1 $2 $3 $4 $5 &> fba_$1_$SLURM_JOB_ID.txt
 
 # Finish the script
 exit 0

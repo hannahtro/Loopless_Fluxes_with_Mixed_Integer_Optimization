@@ -14,7 +14,7 @@ mis = parse(Int64, ARGS[6])
 
 type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=false, multiple_mis=mis)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, big_m=true, multiple_mis=mis)
 catch e 
     println(e)
     file = organism * "_" * type
