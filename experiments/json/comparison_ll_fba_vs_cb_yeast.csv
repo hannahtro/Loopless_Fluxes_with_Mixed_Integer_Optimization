@@ -1,0 +1,5 @@
+organism,time_limit,termination_ll_fba,objective_value_ll_fba,time_ll_fba,termination_no_good_cuts,objective_value_no_good_cuts,time_no_good_cuts,termination_cb,objective_value_cb,time_cb
+Alloascoidea_hylecoeti,7200,TIME_LIMIT,NaN,1800,TIME_LIMIT,0.0,1800,TIME_LIMIT,0.0,1800
+Ambrosiozyma_kashinagacola,7200,TIME_LIMIT,NaN,1800,TIME_LIMIT,NaN,1800,TIME_LIMIT,NaN,1800
+Ambrosiozyma_monospora,7200,TIME_LIMIT,NaN,1800,TIME_LIMIT,0.0,1800,TIME_LIMIT,0.0,1800
+Arxula_adeninivorans,7200,TIME_LIMIT,NaN,1800,TIME_LIMIT,NaN,1800,TIME_LIMIT,NaN,1800
