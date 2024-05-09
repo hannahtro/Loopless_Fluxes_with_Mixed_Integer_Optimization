@@ -1,0 +1,108 @@
+%Nicht anfassen, so ist der Dokumentenaufbau
+\documentclass[a4paper, 12pt]{report}
+\input{settings/packages}
+\input{settings/acros.tex}
+
+% \input{settings/page}
+
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\selectlanguage{english}
+
+\input{Chapters/Cover}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%Ab hier Inhalt einfügen%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}
+\input{Chapters/Abstract}
+\input{Chapters/Zusammenfassung}
+
+\newpage
+% Inhaltsverzeichnis
+\thispagestyle{plain}
+\setstretch{1.25} % Zeilenabstand
+\microtypesetup{protrusion=false}
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+\microtypesetup{protrusion=true}
+\thispagestyle{plain} % Kein Header aber mit Seitenanzahl
+
+\newpage
+\pagestyle{fancy}
+\fancyhead{} % Clears the standard fancy style
+\fancyhead[R]{\rightmark} %Kopfzeile rechts
+% \fancyhead[L]{\leftmark}
+% \fancyhead[L]{\rmshape\nouppercase{\leftmark}} %Kopfzeile links
+
+\setstretch{1.25}
+\input{Chapters/Abbreviations}
+\vspace{0.5cm}
+{
+    \hypersetup{linkcolor=black}
+    \listoffigures
+    \thispagestyle{plain}
+    \listofmyproblems
+}
+\todo[inline]{check which problems to add}
+% \listoftables
+% \listofalgorithms
+% \listofmyequations
+
+% \todo[inline]{use caption and subcaption in figures/ tables}
+\todo[inline]{fix figure counter}
+% \unsure[inline]{list of equations? list of problems?}
+\includepdf[pages=-]{Images/Erklaerung.pdf}
+\newpage
+\pagenumbering{arabic}
+\input{Chapters/Introduction}
+\newpage
+\input{Chapters/optimization}
+\newpage
+\input{Chapters/molecular_networks}
+\clearpage
+\input{Chapters/Methods}
+\input{Chapters/Discussion}
+\input{Chapters/Conclusion}
+
+\newpage
+% \todo[inline]{do not enumerate single subsections, only multiple} 
+\todo[inline]{use AE or BE consistently} 
+% \todo[inline]{align all problems that are on the same page} 
+\todo[inline]{boldsymbol a}
+% \todo[inline]{page with list of symbols and abbreviations}
+\todo[inline]{add var types to mathematical programs}
+\todo[inline]{use big-M with vector or scalar}
+\todo[inline]{use nonzero}
+\todo[inline]{polyhedral $P$, vs primal $\mathbb{P}$ vs optimization problem P, $\mathcal{P}$}
+\todo[inline]{program vs problem}
+% \todo[inline]{fix cover page} 
+\todo[inline]{fix bib entry mosek}
+% \todo[inline]{use Latex font in plots}
+\todo[inline]{running time instead of runtime}
+% \todo[inline]{minimal infeasible subsystem}
+\todo[inline]{use report instead of article?}
+\todo[inline]{relaxed solution instead of optimal solution to relaxed problem}
+\todo[inline]{do not start sentence with symbol}
+\todo[inline]{remove quad}
+% \todo[inline]{add label directly to equation for reference ?}
+% \todo[inline]{make fig ref dark blue}
+% \todo[inline]{font for BiGG, SCIP, ll-FBA etc}
+\todo[inline]{use chapter instead of section}
+\todo[inline]{space before reference}
+\todo[inline]{method (bio) vs problem (optimization)}
+
+% \newpage
+\pagestyle{plain}
+\input{endofdocument}
+% \newpage
+% \listoftodos[Notes]
+
+% \input{Chapters/Eigenständigkeitserklärung}
+
+\input{Chapters/Appendix}
+
+\end{document} 

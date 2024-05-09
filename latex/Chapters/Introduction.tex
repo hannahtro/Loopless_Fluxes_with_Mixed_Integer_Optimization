@@ -1,0 +1,40 @@
+\thispagestyle{plain}
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}  
+
+In systems biology, mathematical modeling is used to predict the behavior of biological systems \cite{intro_computational_systems_biology}. A fundamental system is the cell and its metabolism.
+Due to advances in sequencing and gene annotation technology, detailed information about the metabolism of numerous different organisms is available \cite{palsson_systems_biology}. Genome-scale metabolic networks model the interactions between entities in the cell such as small molecules (metabolites) and enzymes, by making use of these annotated genes \cite{intro_computational_systems_biology}.\\
+A commonly used method to study metabolic networks is a constraint-based approach, which assumes a steady state of metabolites within the cell, ensuring a mass balance between the production and the consumption of each metabolite \cite{palsson_systems_biology}. The steady-state assumption, together with flux bounds on each reaction, defines a system of linear constraints. A solution corresponds to a flux distribution, which is the rate of each reaction, that satisfies the constraints \cite{intro_computational_systems_biology}. \\ %flow of metabolites through a metabolic network using mathematical optimization
+A basic method to analyze the flux distribution in a metabolic network is flux balance analysis (FBA) \cite{FBA}. In FBA, a linear program is solved where we optimize a biological objective function, such as maximizing growth. As cells evolve under selection pressure, it is plausible that the behavior is in line with optimizing growth\todo[inline]{was this meant??} and using mathematical optimization to study the flow of metabolites through a metabolic network is reasonable \cite{palsson_systems_biology}. With FBA, it is possible to predict cellular behavior in accordance with observations in experiments~\cite{FBA}. \\
+%% MOTIVATION AND CONTEXT 1-2 pages
+%% get attention and introduce topic
+%% background information
+% \todo[inline]{question addressed system biology}
+% System biologists model large biological systems with the help of mathematical approaches to predict the behaviour of the system \cite{intro_computational_systems_biology}. 
+% \todo[inline]{goal of modelling}
+% \todo[inline]{question addressed with studying metabolic models} 
+% \todo[inline]{metabolic models}
+% \todo[inline]{availability of GEMs}
+% Due to advances in technology, 
+% quantitative data on biological systems.... detailed information of the cell ...
+% We have access to the composition of ... give rise to reconstructed biochemical reaction networks \cite{palsson_systems_biology}.
+% \todo[inline]{metabolic network}
+% \todo[inline]{FBA} 
+% Flux balance analysis is an approach for analyzing the flow of metabolites through a metabolic network using mathematical optimization \cite{FBA}.
+% \todo[inline]{success and use of FBA}
+% \todo[inline]{problems with FBA}
+However, solutions of FBA often violate the loop law, which means that the solution contains internal cycles which is biologically implausible\todo[inline]{was this meant??}. Loopless FBA (ll-FBA) is an extension to FBA which includes thermodynamic information \cite{elimination_infeasible_loops}. A solution to ll-FBA does not contain internal cycles, but ll-FBA is computationally harder as we need to solve a disjunctive program, which is usually reformulated as a mixed-integer program (MIP). 
+In this thesis, we look at different reformulations of ll-FBA and compare the performance of different solution approaches. %\todo[inline]{MIP technique correct for all/most approaches?}
+
+%% thesis statement: topic, question being addressed, summarize resulst and significance
+%% STRATEGY 1 page: what am I trying to do
+
+%% OUTLINE 1/2 page
+%% and outlines structure to come
+% \todo[inline]{overview of thesis}
+
+In \cref{chap:optimization}, we will give a short introduction to mathematical optimization with a focus on the aspects relevant to this thesis including the problem definitions and solving strategies for linear programming, mixed-integer programming and disjunctive programming. We will present the biological context in more detail and present the relevant problems in detail in \cref{chap:metabolic_networks}. 
+We consider several reformulations and solution strategies in \cref{chap:methods}, including a combinatorial Benders' approach, and we establish how to apply intersection cuts to ll-FBA. In \cref{chap:results}, we show and discuss the computational results. 
+% \todo[inline]{FBA extensions}
+
+\input{Chapters/notation}

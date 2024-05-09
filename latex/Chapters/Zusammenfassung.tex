@@ -1,0 +1,9 @@
+\section*{\centering Zusammenfassung}
+
+Loopless Flux Balance Analysis (ll-FBA) ist eine Constraint-basierte Methode zur Modellierung des Stoffwechsels in der Zelle.
+ll-FBA ist ein disjunktives Programm, das in der Regel als gemischt-ganzzahliges Programm umformuliert wird, und ist für biologische Modelle, die oft Tausende von Reaktionen und Metaboliten enthalten, schwierig zu lösen. \\
+In dieser Arbeit vergleichen wir mehrere Umformulierungen von ll-FBA und unterschiedliche Lösungsstrategien. Wir erörtern die Verwendung von Schnittebenen basierend auf Schnittstellen und testen die Laufzeit, wenn thermodynamisch unmögliche Lösungen durch Ungleichungen von dem Lösungsraum abgeschnitten werden. Außerdem vergleichen wir die Laufzeit, wenn ll-FBA in zwei Teilprobleme zerlegt wird, und wenn wir das Problem so umformulieren, dass wir die konvexe Hülle des disjunktiven Programms erhalten.\\
+Insgesamt ist die kombinatorische Benders-Zerlegung der vielversprechendste der getesteten Ansätze, mit dem wir die meisten Instanzen lösen. 
+Allerdings stellen die Größe des Models
+und die numerische Instabilität eine Herausforderung für die kombinatorische Benders Methode dar.
+

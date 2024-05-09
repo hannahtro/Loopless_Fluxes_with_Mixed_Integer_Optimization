@@ -1,0 +1,7 @@
+\newpage
+\section*{\centering Abstract}
+
+Loopless Flux Balance Analysis (ll-FBA) is a constraint-based approach to predict flux distributions in cells that do not contain internal loops, which would be physiologically unrealistic.
+ll-FBA is a disjunctive program, usually reformulated as a mixed-integer program, and is challenging to solve for biological models that often contain thousands of reactions and metabolites. \\
+In this thesis, we compare various reformulations of ll-FBA and different solution approaches. We discuss the use of intersection cuts and compare the performance of blocking cycles to decomposing the problem and to solving the convex-hull formulation.\\
+Overall, the combinatorial Benders' decomposition is the most promising of the tested approaches with which we could solve most instances. However, the model size and numerical instability pose a challenge to the combinatorial Benders' method.
