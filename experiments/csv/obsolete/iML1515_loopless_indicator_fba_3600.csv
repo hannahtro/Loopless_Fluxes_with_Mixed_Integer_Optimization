@@ -1,0 +1,2 @@
+objective_value,dual_bound,solution,time,termination,nodes
+NaN,NaN,NaN,3600.771801,TIME_LIMIT,15

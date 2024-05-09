@@ -1,0 +1,18 @@
+[0] Config.pm:311> INFO - This is Biber 2.16
+[0] Config.pm:314> INFO - Logfile is 'main.blg'
+[50] biber:340> INFO - === Thu May  9, 2024, 16:35:36
+[60] Biber.pm:415> INFO - Reading 'main.bcf'
+[125] Biber.pm:952> INFO - Found 40 citekeys in bib section 0
+[136] Biber.pm:4340> INFO - Processing section 0
+[144] Biber.pm:4531> INFO - Looking for bibtex format file 'bibliography.bib' for section 0
+[149] bibtex.pm:1689> INFO - LaTeX decoding ...
+[228] bibtex.pm:1494> INFO - Found BibTeX data source 'bibliography.bib'
+[400] Utils.pm:395> WARN - legacy month field 'Dec' in entry 'overflow' is not an integer - this will probably not sort properly.
+[486] Utils.pm:395> WARN - BibTeX subsystem: /tmp/biber_tmp_6pU_/f4d088b3f9f145b5c3058da33afd57d4_112180.utf8, line 762, warning: 1 characters of junk seen at toplevel
+[540] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[540] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[541] Biber.pm:4168> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[541] Biber.pm:4174> INFO - No sort tailoring available for locale 'de-DE'
+[579] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[609] bbl.pm:757> INFO - Output to main.bbl
+[610] Biber.pm:128> INFO - WARNINGS: 2

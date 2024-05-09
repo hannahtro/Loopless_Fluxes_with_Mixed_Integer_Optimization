@@ -1,0 +1,4 @@
+\ACRO{total-barriers}{1}
+\ACRO{usage}{lp=={1}||dp=={1}||mip=={1}||fba=={1}||ll-fba=={1}||mp=={1}||sp=={1}||mis=={1}||gem=={1}||cobra=={1}||cff=={1}}
+\ACRO{pages}{lp=={11@1@5}||mip=={16@1@10}||dp=={19@1@13}||mp=={23@1@17}||sp=={23@1@17}||mis=={24@1@18}||gem=={28@1@22}||cobra=={29@1@23}||fba=={33@1@27}||cff=={34@1@28}||ll-fba=={37@1@31}}
+\ACRO{barriers}{}

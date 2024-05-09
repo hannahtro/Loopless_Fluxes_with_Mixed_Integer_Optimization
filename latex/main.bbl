@@ -1,0 +1,1805 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{hutchison_automating_2010}{incollection}{}
+      \name{author}{4}{}{%
+        {{hash=37e1df772f97a2e492755e2006294387}{%
+           family={Agarwal},
+           familyi={A\bibinitperiod},
+           given={Ashish},
+           giveni={A\bibinitperiod}}}%
+        {{hash=648c7e7df766d18b3bab09fc0945333b}{%
+           family={Bhat},
+           familyi={B\bibinitperiod},
+           given={Sooraj},
+           giveni={S\bibinitperiod}}}%
+        {{hash=a263cec8e9c2448c55c8a3ccad6ea03d}{%
+           family={Gray},
+           familyi={G\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9a39a2eac2d858d35e3c0d94e4e8d4b6}{%
+           family={Grossmann},
+           familyi={G\bibinitperiod},
+           given={Ignacio\bibnamedelima E.},
+           giveni={I\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=2f544e49b5c235e9f223d60a309d458d}{%
+           family={Carro},
+           familyi={C\bibinitperiod},
+           given={Manuel},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3552c85b6bb215a4709637a3980aa677}{%
+           family={Peña},
+           familyi={P\bibinitperiod},
+           given={Ricardo},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{19d96e7fa88fb5ec0584220a9d291bb2}
+      \strng{fullhash}{19d96e7fa88fb5ec0584220a9d291bb2}
+      \strng{bibnamehash}{19d96e7fa88fb5ec0584220a9d291bb2}
+      \strng{authorbibnamehash}{19d96e7fa88fb5ec0584220a9d291bb2}
+      \strng{authornamehash}{19d96e7fa88fb5ec0584220a9d291bb2}
+      \strng{authorfullhash}{19d96e7fa88fb5ec0584220a9d291bb2}
+      \strng{editorbibnamehash}{2477cc3a0c2829d6b521a3477aaaddfb}
+      \strng{editornamehash}{2477cc3a0c2829d6b521a3477aaaddfb}
+      \strng{editorfullhash}{2477cc3a0c2829d6b521a3477aaaddfb}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Mathematical programs ({MPs}) are a class of constrained optimization problems that include linear, mixed-integer, and disjunctive programs. Strategies for solving {MPs} rely heavily on various transformations between these subclasses, but most are not automated because {MP} theory does not presently treat programs as syntactic objects. In this work, we present the ﬁrst syntactic deﬁnition of {MP} and of some widely used {MP} transformations, most notably the big-M and convex hull methods for converting disjunctive constraints. We use an embedded {OCaml} {DSL} on problems from chemical process engineering and operations research to compare our automated transformations to existing technology—ﬁnding that no one technique is always best—and also to manual reformulations—ﬁnding that our mechanizations are comparable to human experts. This work enables higher-level solution strategies that can use these transformations as subroutines.}
+      \field{booktitle}{Practical Aspects of Declarative Languages}
+      \field{editorbtype}{redactor}
+      \field{langid}{english}
+      \field{title}{Automating Mathematical Program Transformations}
+      \field{volume}{5937}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-3-642-11503-5_12
+      \endverb
+      \verb{file}
+      \verb Agarwal et al. - 2010 - Automating Mathematical Program Transformations.pdf:/home/hannah/git/Zotero/storage/824QCS8L/Agarwal et al. - 2010 - Automating Mathematical Program Transformations.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{balas_disjunctive_2018}{book}{}
+      \name{author}{1}{}{%
+        {{hash=01734dbb0b47a82196a5c1bf5b1ea27a}{%
+           family={Balas},
+           familyi={B\bibinitperiod},
+           given={Egon},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Publishing Company, Incorporated}%
+      }
+      \strng{namehash}{01734dbb0b47a82196a5c1bf5b1ea27a}
+      \strng{fullhash}{01734dbb0b47a82196a5c1bf5b1ea27a}
+      \strng{bibnamehash}{01734dbb0b47a82196a5c1bf5b1ea27a}
+      \strng{authorbibnamehash}{01734dbb0b47a82196a5c1bf5b1ea27a}
+      \strng{authornamehash}{01734dbb0b47a82196a5c1bf5b1ea27a}
+      \strng{authorfullhash}{01734dbb0b47a82196a5c1bf5b1ea27a}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Disjunctive Programming}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1007/978-3-030-00148-3
+      \endverb
+    \endentry
+    \entry{overflow}{article}{}
+      \name{author}{7}{}{%
+        {{hash=19663955d493863125d48fa7ed7dc64f}{%
+           family={Basan},
+           familyi={B\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=78647c820a71999863935664a388681e}{%
+           family={Hui},
+           familyi={H\bibinitperiod},
+           given={Sheng},
+           giveni={S\bibinitperiod}}}%
+        {{hash=97294881bd247aeb794d06e7d8b409ae}{%
+           family={Okano},
+           familyi={O\bibinitperiod},
+           given={Hiroyuki},
+           giveni={H\bibinitperiod}}}%
+        {{hash=36ce118cf8f68edb09ee2e72fd7c5027}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Zhongge},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=2eaf1ac8cedab60ffc1cc6e343e757df}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Yang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ffaf1289b5a9cb42ff97a7a88ebd36db}{%
+           family={Williamson},
+           familyi={W\bibinitperiod},
+           given={James\bibnamedelima R.},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=51bdc3ad6579d4affe675723bc921f14}{%
+           family={Hwa},
+           familyi={H\bibinitperiod},
+           given={Terence},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{92830336a4563679e92bacf7f93a3191}
+      \strng{fullhash}{92830336a4563679e92bacf7f93a3191}
+      \strng{bibnamehash}{92830336a4563679e92bacf7f93a3191}
+      \strng{authorbibnamehash}{92830336a4563679e92bacf7f93a3191}
+      \strng{authornamehash}{92830336a4563679e92bacf7f93a3191}
+      \strng{authorfullhash}{92830336a4563679e92bacf7f93a3191}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{month}{12}
+      \field{number}{7580}
+      \field{title}{Overflow metabolism in escherichia coli results from efficient proteome allocation}
+      \field{volume}{528}
+      \field{year}{2015}
+      \field{pages}{99\bibrangedash 104}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1038/nature15765
+      \endverb
+    \endentry
+    \entry{SCIP}{misc}{}
+      \name{author}{35}{}{%
+        {{hash=1939a8cc53763b6f524946d619a9b40b}{%
+           family={Bestuzheva},
+           familyi={B\bibinitperiod},
+           given={Ksenia},
+           giveni={K\bibinitperiod}}}%
+        {{hash=145e91a29c8cef5733e25e9bf3810db6}{%
+           family={Besançon},
+           familyi={B\bibinitperiod},
+           given={Mathieu},
+           giveni={M\bibinitperiod}}}%
+        {{hash=c6b455c174f0914acd3d7ab657eed057}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Wei-Kun},
+           giveni={W\bibinithyphendelim K\bibinitperiod}}}%
+        {{hash=ff11da7975f9054cb5045fc7017755f2}{%
+           family={Chmiela},
+           familyi={C\bibinitperiod},
+           given={Antonia},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7d85736e535ecf5645693e0c12fc3304}{%
+           family={Donkiewicz},
+           familyi={D\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=367bdde2c8bf77b9ec0ca80c1660601e}{%
+           family={Doornmalen},
+           familyi={D\bibinitperiod},
+           given={Jasper},
+           giveni={J\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=09d01c4aa6ce3a0361cd1db2eaab137c}{%
+           family={Eifler},
+           familyi={E\bibinitperiod},
+           given={Leon},
+           giveni={L\bibinitperiod}}}%
+        {{hash=81f1e172c44ef50e970314c1ca9c5e2b}{%
+           family={Gaul},
+           familyi={G\bibinitperiod},
+           given={Oliver},
+           giveni={O\bibinitperiod}}}%
+        {{hash=ccfbef5a6ac473e4660174d24b475c13}{%
+           family={Gamrath},
+           familyi={G\bibinitperiod},
+           given={Gerald},
+           giveni={G\bibinitperiod}}}%
+        {{hash=84097f2d6128ad7cca9b7618c7f35b3b}{%
+           family={Gleixner},
+           familyi={G\bibinitperiod},
+           given={Ambros},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a5904cee0b846d818619c062087a89c2}{%
+           family={Gottwald},
+           familyi={G\bibinitperiod},
+           given={Leona},
+           giveni={L\bibinitperiod}}}%
+        {{hash=b2814e41e2a9494fbd2aee1f0002c4e8}{%
+           family={Graczyk},
+           familyi={G\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+        {{hash=d672289944d12c47a1687782d5853375}{%
+           family={Halbig},
+           familyi={H\bibinitperiod},
+           given={Katrin},
+           giveni={K\bibinitperiod}}}%
+        {{hash=60ce15d2cbc5a6bd866ff03e5397f8fb}{%
+           family={Hoen},
+           familyi={H\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=de9287ca03fac13c65df9799b3e592dc}{%
+           family={Hojny},
+           familyi={H\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+        {{hash=8976737721afd413fb1da3fcc40dee13}{%
+           family={Hulst},
+           familyi={H\bibinitperiod},
+           given={Rolf},
+           giveni={R\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+        {{hash=52ebb73e351f82fe6d8bdbd3064ba270}{%
+           family={Koch},
+           familyi={K\bibinitperiod},
+           given={Thorsten},
+           giveni={T\bibinitperiod}}}%
+        {{hash=728d0ae29faca15964ab6edef12d51f8}{%
+           family={Lübbecke},
+           familyi={L\bibinitperiod},
+           given={Marco},
+           giveni={M\bibinitperiod}}}%
+        {{hash=cfdc3ef6648c5e7e02bea3115207bc90}{%
+           family={Maher},
+           familyi={M\bibinitperiod},
+           given={Stephen\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=cb67b7c220711290199d5bcf6b26c295}{%
+           family={Matter},
+           familyi={M\bibinitperiod},
+           given={Frederic},
+           giveni={F\bibinitperiod}}}%
+        {{hash=77aa35658e971703d2210252f8e01545}{%
+           family={Mühmer},
+           familyi={M\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=ffb793415708e65a879e5a59f5128396}{%
+           family={Müller},
+           familyi={M\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod}}}%
+        {{hash=33dc1889b4e298811eb9dcf8903a5310}{%
+           family={Pfetsch},
+           familyi={P\bibinitperiod},
+           given={Marc\bibnamedelima E.},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=1408def8e019f9f8aeb2e0b58e857c09}{%
+           family={Rehfeldt},
+           familyi={R\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=ddf5615f4a64ed356f3cdc8ce1a75208}{%
+           family={Schlein},
+           familyi={S\bibinitperiod},
+           given={Steffan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=edf2cd02f365749523f304b19474f4fa}{%
+           family={Schlösser},
+           familyi={S\bibinitperiod},
+           given={Franziska},
+           giveni={F\bibinitperiod}}}%
+        {{hash=f15a0124bc149ef6cf7246c0fcfda20f}{%
+           family={Serrano},
+           familyi={S\bibinitperiod},
+           given={Felipe},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2c75f9962bfc70b69d013e7817c1fbfb}{%
+           family={Shinano},
+           familyi={S\bibinitperiod},
+           given={Yuji},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=8fe1530e5a43ad05fa1698f81d82fe7d}{%
+           family={Sofranac},
+           familyi={S\bibinitperiod},
+           given={Boro},
+           giveni={B\bibinitperiod}}}%
+        {{hash=5a8d8b77cef37ded3cef9f4690d80b5a}{%
+           family={Turner},
+           familyi={T\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+        {{hash=987d34271b0cc03ed2771b4661adefc0}{%
+           family={Vigerske},
+           familyi={V\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=918aee2fde4324c0946071a61db74c18}{%
+           family={Wegscheider},
+           familyi={W\bibinitperiod},
+           given={Fabian},
+           giveni={F\bibinitperiod}}}%
+        {{hash=5686e2dd405eaa593e673476df39f30c}{%
+           family={Wellner},
+           familyi={W\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod}}}%
+        {{hash=9dda7fcddc319e80e9944650c5620e49}{%
+           family={Weninger},
+           familyi={W\bibinitperiod},
+           given={Dieter},
+           giveni={D\bibinitperiod}}}%
+        {{hash=a0876e5f589e5b9d76a85cc7bf0fce0c}{%
+           family={Witzig},
+           familyi={W\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{fb73c5a2468690fd70491d660e3bcdf4}
+      \strng{fullhash}{fb73c5a2468690fd70491d660e3bcdf4}
+      \strng{bibnamehash}{fb73c5a2468690fd70491d660e3bcdf4}
+      \strng{authorbibnamehash}{fb73c5a2468690fd70491d660e3bcdf4}
+      \strng{authornamehash}{fb73c5a2468690fd70491d660e3bcdf4}
+      \strng{authorfullhash}{fb73c5a2468690fd70491d660e3bcdf4}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{math.OC}
+      \field{eprinttype}{arXiv}
+      \field{title}{The SCIP Optimization Suite 8.0}
+      \field{year}{2021}
+      \verb{eprint}
+      \verb 2112.08872
+      \endverb
+    \endentry
+    \entry{bienstock_outer_product_free_sets}{article}{}
+      \name{author}{3}{}{%
+        {{hash=ef9ca700c806f2b9ba320b842d4788f6}{%
+           family={Bienstock},
+           familyi={B\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+        {{hash=da31f56113cb61a1fef7cf7543eefff8}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Chen},
+           giveni={C\bibinitperiod}}}%
+        {{hash=ba61fb9515c8ce4e3f6cacb5c3802a80}{%
+           family={Muñoz},
+           familyi={M\bibinitperiod},
+           given={Gonzalo},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{db8a0cd078d6cf7d956d8532d9785ccb}
+      \strng{fullhash}{db8a0cd078d6cf7d956d8532d9785ccb}
+      \strng{bibnamehash}{db8a0cd078d6cf7d956d8532d9785ccb}
+      \strng{authorbibnamehash}{db8a0cd078d6cf7d956d8532d9785ccb}
+      \strng{authornamehash}{db8a0cd078d6cf7d956d8532d9785ccb}
+      \strng{authorfullhash}{db8a0cd078d6cf7d956d8532d9785ccb}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper introduces cutting planes that involve minimal structural assumptions, enabling the generation of strong polyhedral relaxations for a broad class of problems. We consider valid inequalities for the set \$\$S{\textbackslash}cap P\$\$, where S is a closed set, and P is a polyhedron. Given an oracle that provides the distance from a point to S, we construct a pure cutting plane algorithm which is shown to converge if the initial relaxation is a polyhedron. These cuts are generated from convex forbidden zones, or S-free sets, derived from the oracle. We also consider the special case of polynomial optimization. Accordingly we develop a theory of outer-product-free sets, where S is the set of real, symmetric matrices of the form \$\$xx{\textasciicircum}T\$\$. All maximal outer-product-free sets of full dimension are shown to be convex cones and we identify several families of such sets. These families are used to generate strengthened intersection cuts that can separate any infeasible extreme point of a linear programming relaxation efficiently. Computational experiments demonstrate the promise of our approach.}
+      \field{journaltitle}{Mathematical Programming}
+      \field{langid}{english}
+      \field{shortjournal}{Math. Program.}
+      \field{title}{Outer-product-free sets for polynomial optimization and oracle-based cuts}
+      \field{volume}{183}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/s10107-020-01484-3
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/htroppen/git/Zotero/storage/9XU88UKL/Bienstock et al. - 2020 - Outer-product-free sets for polynomial optimizatio.pdf:application/pdf
+      \endverb
+      \keyw{90C30,90C57,Cutting planes,Intersection cuts,Polynomial optimization,S-free sets}
+    \endentry
+    \entry{boyd_stephen_convex_2004}{book}{}
+      \name{author}{2}{}{%
+        {{hash=ec94d94cc487dd71939a90cbeaaf47d0}{%
+           family={Boyd},
+           familyi={B\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=2608d599a0bc2a784c301329a8da5f7b}{%
+           family={Vandenberghe},
+           familyi={V\bibinitperiod},
+           given={Lieven},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{fullhash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{bibnamehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{authorbibnamehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{authornamehash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \strng{authorfullhash}{436abed3bce8d1b1d30640d4e5ff3d58}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Convex Optimization}
+      \field{year}{2004}
+      \verb{doi}
+      \verb https://doi.org/10.1017/CBO9780511804441
+      \endverb
+    \endentry
+    \entry{codato_combinatorial_2006}{article}{}
+      \name{author}{2}{}{%
+        {{hash=42ab3fe8f0b58c15cde433e3c3a38f28}{%
+           family={Codato},
+           familyi={C\bibinitperiod},
+           given={Gianni},
+           giveni={G\bibinitperiod}}}%
+        {{hash=bb435e1802203c028732fd11795a75a1}{%
+           family={Fischetti},
+           familyi={F\bibinitperiod},
+           given={Matteo},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf6c94c26877b76d8722d2c80065889b}
+      \strng{fullhash}{cf6c94c26877b76d8722d2c80065889b}
+      \strng{bibnamehash}{cf6c94c26877b76d8722d2c80065889b}
+      \strng{authorbibnamehash}{cf6c94c26877b76d8722d2c80065889b}
+      \strng{authornamehash}{cf6c94c26877b76d8722d2c80065889b}
+      \strng{authorfullhash}{cf6c94c26877b76d8722d2c80065889b}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Mixed-integer programs ({MIPs}) involving logical implications modeled through big-M coefficients are notoriously among the hardest to solve. In this paper, we propose and analyze computationally an automatic problem reformulation of quite general applicability, aimed at removing the model dependency on the big-M coefficients. Our solution scheme defines a master integer linear problem ({ILP}) with no continuous variables, which contains combinatorial information on the feasible integer variable combinations that can be "distilled" from the original {MIP} model. The master solutions are sent to a slave linear program ({LP}), which validates them and possibly returns combinatorial inequalities to be added to the current master {ILP}. The inequalities are associated to minimal (or irreducible) infeasible subsystems of a certain linear system, and can be separated efficiently in case the master solution is integer. The overall solution mechanism closely resembles the Benders' one, but the cuts we produce are purely combinatorial and do not depend on the big-M values used in the {MIP} formulation. This produces an {LP} relaxation of the master problem which can be considerably tighter than the one associated with original {MIP} formulation. Computational results on two specific classes of hard-to-solve {MIPs} indicate that the new method produces a reformulation which can be solved some orders of magnitude faster than the original {MIP} model.}
+      \field{journaltitle}{Operations Research}
+      \field{note}{Publisher: {INFORMS}}
+      \field{title}{Combinatorial Benders' Cuts for Mixed-Integer Linear Programming}
+      \field{volume}{54}
+      \field{year}{2006}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1287/opre.1060.0286
+      \endverb
+    \endentry
+    \entry{integer_programming}{book}{}
+      \name{author}{3}{}{%
+        {{hash=7c81773474602dfd70a1ef2592805d03}{%
+           family={Conforti},
+           familyi={C\bibinitperiod},
+           given={Michele},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6097c8dac72c605fecb566085a6f17b0}{%
+           family={Cornuéjols},
+           familyi={C\bibinitperiod},
+           given={Gérard},
+           giveni={G\bibinitperiod}}}%
+        {{hash=5e906349369476ab81211faadb61fe98}{%
+           family={Zambelli},
+           familyi={Z\bibinitperiod},
+           given={Giacomo},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham}%
+      }
+      \list{publisher}{1}{%
+        {Springer International Publishing}%
+      }
+      \strng{namehash}{85ca2de8082aecff75b5aff56a2a6813}
+      \strng{fullhash}{85ca2de8082aecff75b5aff56a2a6813}
+      \strng{bibnamehash}{85ca2de8082aecff75b5aff56a2a6813}
+      \strng{authorbibnamehash}{85ca2de8082aecff75b5aff56a2a6813}
+      \strng{authornamehash}{85ca2de8082aecff75b5aff56a2a6813}
+      \strng{authorfullhash}{85ca2de8082aecff75b5aff56a2a6813}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{series}{Graduate Texts in Mathematics}
+      \field{title}{Integer Programming}
+      \field{volume}{271}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-3-319-11008-0
+      \endverb
+      \verb{file}
+      \verb Conforti et al. - 2014 - Integer Programming.pdf:/home/hannah/git/Zotero/storage/DS83SDTW/Conforti et al. - 2014 - Integer Programming.pdf:application/pdf
+      \endverb
+      \keyw{Optimization,Integer Programming,Mixed-Integer Linear Programming,Operations Research,Polyhedral Theory}
+    \endentry
+    \entry{cobrexa}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labeltitlesource}{title}
+      \field{title}{Constraint-Based Reconstruction and EXascale Analysis}
+      \field{urlday}{15}
+      \field{urlmonth}{2}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/LCSB-BioCore/COBREXA.jl
+      \endverb
+      \verb{url}
+      \verb https://github.com/LCSB-BioCore/COBREXA.jl
+      \endverb
+    \endentry
+    \entry{CormenIntroduction}{book}{}
+      \name{author}{4}{}{%
+        {{hash=45b8a1d10dd28c65dd843a76583308c3}{%
+           family={Cormen},
+           familyi={C\bibinitperiod},
+           given={T.H.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=c71fd291b2f1a30d3a8bdcd818638fd0}{%
+           family={Leiserson},
+           familyi={L\bibinitperiod},
+           given={C.E.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=6a630bbc1f4da3f000de53a8c3fcda9a}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={R.L.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=340a9e41a37c56843c3354ab4ef758e7}{%
+           family={Stein},
+           familyi={S\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{677319d1db3e1c54f3d98b68b2a6a846}
+      \strng{fullhash}{677319d1db3e1c54f3d98b68b2a6a846}
+      \strng{bibnamehash}{677319d1db3e1c54f3d98b68b2a6a846}
+      \strng{authorbibnamehash}{677319d1db3e1c54f3d98b68b2a6a846}
+      \strng{authornamehash}{677319d1db3e1c54f3d98b68b2a6a846}
+      \strng{authorfullhash}{677319d1db3e1c54f3d98b68b2a6a846}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{3rd}
+      \field{isbn}{0262033844}
+      \field{title}{Introduction to Algorithms, Third Edition}
+      \field{year}{2009}
+    \endentry
+    \entry{dadush}{incollection}{}
+      \name{author}{1}{}{%
+        {{hash=cebe7d49f69bf76a46b82c442750058b}{%
+           family={D.\bibnamedelimi Dadush},
+           familyi={D\bibinitperiod\bibinitdelim D\bibinitperiod},
+           given={S.\bibnamedelimi Huiberts},
+           giveni={S\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{cebe7d49f69bf76a46b82c442750058b}
+      \strng{fullhash}{cebe7d49f69bf76a46b82c442750058b}
+      \strng{bibnamehash}{cebe7d49f69bf76a46b82c442750058b}
+      \strng{authorbibnamehash}{cebe7d49f69bf76a46b82c442750058b}
+      \strng{authornamehash}{cebe7d49f69bf76a46b82c442750058b}
+      \strng{authorfullhash}{cebe7d49f69bf76a46b82c442750058b}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Beyond the Worst-Case Analysis of Algorithms}
+      \field{title}{Smoothed Analysis of the Simplex Method}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1017/9781108637435
+      \endverb
+    \endentry
+    \entry{desouki_cyclefreeflux_2015-1}{article}{}
+      \name{author}{4}{}{%
+        {{hash=92cff95d2e707f8132b5deeaf745bda3}{%
+           family={Desouki},
+           familyi={D\bibinitperiod},
+           given={Abdelmoneim\bibnamedelima Amer},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=e750cfbe16c2bc31d2cd5348971f9a0c}{%
+           family={Jarre},
+           familyi={J\bibinitperiod},
+           given={Florian},
+           giveni={F\bibinitperiod}}}%
+        {{hash=e0ce21b119e82e732689a63be14a7ca3}{%
+           family={Gelius-Dietrich},
+           familyi={G\bibinithyphendelim D\bibinitperiod},
+           given={Gabriel},
+           giveni={G\bibinitperiod}}}%
+        {{hash=1018208040d8bf378f4513e16e6ffcb3}{%
+           family={Lercher},
+           familyi={L\bibinitperiod},
+           given={Martin\bibnamedelima J.},
+           giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{5eb0eaa720bbfd51fe1b8d7e8f4c2912}
+      \strng{fullhash}{5eb0eaa720bbfd51fe1b8d7e8f4c2912}
+      \strng{bibnamehash}{5eb0eaa720bbfd51fe1b8d7e8f4c2912}
+      \strng{authorbibnamehash}{5eb0eaa720bbfd51fe1b8d7e8f4c2912}
+      \strng{authornamehash}{5eb0eaa720bbfd51fe1b8d7e8f4c2912}
+      \strng{authorfullhash}{5eb0eaa720bbfd51fe1b8d7e8f4c2912}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Motivation: Constraint-based metabolic modeling methods such as Flux Balance Analysis ({FBA}) are routinely used to predict metabolic phenotypes, e.g. growth rates, {ATP} yield or the ﬁtness of gene knockouts. One frequent difﬁculty of constraint-based solutions is the inclusion of thermodynamically infeasible loops (or internal cycles), which add nonbiological ﬂuxes to the predictions.}
+      \field{issn}{1367-4811, 1367-4803}
+      \field{journaltitle}{Bioinformatics}
+      \field{langid}{english}
+      \field{shorttitle}{{CycleFreeFlux}}
+      \field{title}{{CycleFreeFlux}: efficient removal of thermodynamically infeasible loops from flux distributions}
+      \field{volume}{31}
+      \field{year}{2015}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1093/bioinformatics/btv096
+      \endverb
+      \verb{file}
+      \verb Desouki et al. - 2015 - CycleFreeFlux efficient removal of thermodynamica.pdf:/home/htroppen/git/Zotero/storage/2E56KY54/Desouki et al. - 2015 - CycleFreeFlux efficient removal of thermodynamica.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{dualization}{online}{}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labeltitlesource}{title}
+      \field{title}{Dualization.jl}
+      \field{urlday}{15}
+      \field{urlmonth}{2}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://github.com/jump-dev/Dualization.jl
+      \endverb
+      \verb{url}
+      \verb https://github.com/jump-dev/Dualization.jl
+      \endverb
+    \endentry
+    \entry{eifler_combining_2023}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=09d01c4aa6ce3a0361cd1db2eaab137c}{%
+           family={Eifler},
+           familyi={E\bibinitperiod},
+           given={Leon},
+           giveni={L\bibinitperiod}}}%
+        {{hash=081f11ae7eb73e86fb469813459564f6}{%
+           family={Nicolas-Thouvenin},
+           familyi={N\bibinithyphendelim T\bibinitperiod},
+           given={Jules},
+           giveni={J\bibinitperiod}}}%
+        {{hash=84097f2d6128ad7cca9b7618c7f35b3b}{%
+           family={Gleixner},
+           familyi={G\bibinitperiod},
+           given={Ambros},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{efb3126687903ea4cfb5aef457a7a524}
+      \strng{fullhash}{efb3126687903ea4cfb5aef457a7a524}
+      \strng{bibnamehash}{efb3126687903ea4cfb5aef457a7a524}
+      \strng{authorbibnamehash}{efb3126687903ea4cfb5aef457a7a524}
+      \strng{authornamehash}{efb3126687903ea4cfb5aef457a7a524}
+      \strng{authorfullhash}{efb3126687903ea4cfb5aef457a7a524}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{math.OC}
+      \field{eprinttype}{arXiv}
+      \field{title}{Combining Precision Boosting with LP Iterative Refinement for Exact Linear Optimization}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2311.08037
+      \endverb
+    \endentry
+    \entry{gallo_directed_1993}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5f77512de4d3eeef7996f641b69c8c19}{%
+           family={Gallo},
+           familyi={G\bibinitperiod},
+           given={Giorgio},
+           giveni={G\bibinitperiod}}}%
+        {{hash=f9ba6d159f101761353dd356371dd15f}{%
+           family={Longo},
+           familyi={L\bibinitperiod},
+           given={Giustino},
+           giveni={G\bibinitperiod}}}%
+        {{hash=9cfedfcb86f44b43c422e90895da0876}{%
+           family={Pallottino},
+           familyi={P\bibinitperiod},
+           given={Stefano},
+           giveni={S\bibinitperiod}}}%
+        {{hash=226412d53df2ce00dfa3a86e5e11dbdd}{%
+           family={Nguyen},
+           familyi={N\bibinitperiod},
+           given={Sang},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{5079b75b387be48d4a04529bcac216cd}
+      \strng{fullhash}{5079b75b387be48d4a04529bcac216cd}
+      \strng{bibnamehash}{5079b75b387be48d4a04529bcac216cd}
+      \strng{authorbibnamehash}{5079b75b387be48d4a04529bcac216cd}
+      \strng{authornamehash}{5079b75b387be48d4a04529bcac216cd}
+      \strng{authorfullhash}{5079b75b387be48d4a04529bcac216cd}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0166218X}
+      \field{journaltitle}{Discrete Applied Mathematics}
+      \field{langid}{english}
+      \field{shortjournal}{Discrete Applied Mathematics}
+      \field{title}{Directed hypergraphs and applications}
+      \field{volume}{42}
+      \field{year}{1993}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/0166-218X(93)90045-P
+      \endverb
+      \verb{file}
+      \verb Gallo et al. - 1993 - Directed hypergraphs and applications.pdf:/home/htroppen/git/Zotero/storage/HL4CXUCC/Gallo et al. - 1993 - Directed hypergraphs and applications.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{HiGHS}{article}{}
+      \name{author}{2}{}{%
+        {{hash=b8390b28eb7705707650d11e6d479d4f}{%
+           family={Huangfu},
+           familyi={H\bibinitperiod},
+           given={Q.},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=c454bcef6bc4f48080bcdec7e5bf52ae}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={J.\bibnamedelimi A.\bibnamedelimi J.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \strng{namehash}{a8350195cb2f2f5eee82f581b3ca9e57}
+      \strng{fullhash}{a8350195cb2f2f5eee82f581b3ca9e57}
+      \strng{bibnamehash}{a8350195cb2f2f5eee82f581b3ca9e57}
+      \strng{authorbibnamehash}{a8350195cb2f2f5eee82f581b3ca9e57}
+      \strng{authornamehash}{a8350195cb2f2f5eee82f581b3ca9e57}
+      \strng{authorfullhash}{a8350195cb2f2f5eee82f581b3ca9e57}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper introduces the design and implementation of two parallel dual simplex solvers for general large scale sparse linear programming problems. One approach, called {PAMI}, extends a relatively unknown pivoting strategy called suboptimization and exploits parallelism across multiple iterations. The other, called {SIP}, exploits purely single iteration parallelism by overlapping computational components when possible. Computational results show that the performance of {PAMI} is superior to that of the leading open-source simplex solver, and that {SIP} complements {PAMI} in achieving speedup when {PAMI} results in slowdown. One of the authors has implemented the techniques underlying {PAMI} within the {FICO} Xpress simplex solver and this paper presents computational results demonstrating their value. In developing the first parallel revised simplex solver of general utility, this work represents a significant achievement in computational optimization.}
+      \field{issn}{1867-2957}
+      \field{journaltitle}{Mathematical Programming Computation}
+      \field{langid}{english}
+      \field{shortjournal}{Math. Prog. Comp.}
+      \field{title}{Parallelizing the dual revised simplex method}
+      \field{volume}{10}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/s12532-017-0130-5
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/hannah/git/Zotero/storage/SPNMWNN7/Huangfu and Hall - 2018 - Parallelizing the dual revised simplex method.pdf:application/pdf
+      \endverb
+      \keyw{65K05,90C05,90C06,Linear programming,Parallel computing,Revised simplex method}
+    \endentry
+    \entry{huiberts}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=f2157ff59aaaf3876502bc7334cc98ff}{%
+           family={Huiberts},
+           familyi={H\bibinitperiod},
+           given={Sophie},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Mathematical Sciences at Utrecht University}%
+      }
+      \strng{namehash}{f2157ff59aaaf3876502bc7334cc98ff}
+      \strng{fullhash}{f2157ff59aaaf3876502bc7334cc98ff}
+      \strng{bibnamehash}{f2157ff59aaaf3876502bc7334cc98ff}
+      \strng{authorbibnamehash}{f2157ff59aaaf3876502bc7334cc98ff}
+      \strng{authornamehash}{f2157ff59aaaf3876502bc7334cc98ff}
+      \strng{authorfullhash}{f2157ff59aaaf3876502bc7334cc98ff}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{How Large is the Shadow? Smoothed Analysis of the Simplex Method}
+      \field{type}{mathesis}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://studenttheses.uu.nl/handle/20.500.12932/28439
+      \endverb
+      \verb{url}
+      \verb https://studenttheses.uu.nl/handle/20.500.12932/28439
+      \endverb
+    \endentry
+    \entry{BiGG}{article}{}
+      \name{author}{9}{}{%
+        {{hash=28d450c30d5b17f10fb57452732b037d}{%
+           family={King},
+           familyi={K\bibinitperiod},
+           given={Zachary\bibnamedelima A.},
+           giveni={Z\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=4b387f0b209244bc29066da946e58edc}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Justin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=226ca405f7e7e806dead85aa92ec3c47}{%
+           family={Dräger},
+           familyi={D\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3069b852b6dc505d4df1b95f93e326d3}{%
+           family={Miller},
+           familyi={M\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=84ba5dbb3d6cda9df8ecb136ee196232}{%
+           family={Federowicz},
+           familyi={F\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod}}}%
+        {{hash=92e7180320e3d9859daf41d0d2cd94b1}{%
+           family={Lerman},
+           familyi={L\bibinitperiod},
+           given={Joshua\bibnamedelima A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=b05043062488d7f7270498dc64290c72}{%
+           family={Ebrahim},
+           familyi={E\bibinitperiod},
+           given={Ali},
+           giveni={A\bibinitperiod}}}%
+        {{hash=671aeb8decdb8c2284aae5e2f2c9342b}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima O.},
+           giveni={B\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=61beaf2f99876923aa52a2c5ad1b9c7f}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Nathan\bibnamedelima E.},
+           giveni={N\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a1b3ef21b51dedf34d8f4e718b1b162e}
+      \strng{fullhash}{a1b3ef21b51dedf34d8f4e718b1b162e}
+      \strng{bibnamehash}{a1b3ef21b51dedf34d8f4e718b1b162e}
+      \strng{authorbibnamehash}{a1b3ef21b51dedf34d8f4e718b1b162e}
+      \strng{authornamehash}{a1b3ef21b51dedf34d8f4e718b1b162e}
+      \strng{authorfullhash}{a1b3ef21b51dedf34d8f4e718b1b162e}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Genome-scale metabolic models are mathematically-structured knowledge bases that can be used to predict metabolic pathway usage and growth phenotypes. Furthermore, they can generate and test hypotheses when integrated with experimental data. To maximize the value of these models, centralized repositories of high-quality models must be established, models must adhere to established standards and model components must be linked to relevant databases. Tools for model visualization further enhance their utility. To meet these needs, we present {BiGG} Models (http://bigg.ucsd.edu), a completely redesigned Biochemical, Genetic and Genomic knowledge base. {BiGG} Models contains more than 75 high-quality, manually-curated genome-scale metabolic models. On the website, users can browse, search and visualize models. {BiGG} Models connects genome-scale models to genome annotations and external databases. Reaction and metabolite identifiers have been standardized across models to conform to community standards and enable rapid comparison across models. Furthermore, {BiGG} Models provides a comprehensive application programming interface for accessing {BiGG} Models with modeling and analysis tools. As a resource for highly curated, standardized and accessible models of metabolism, {BiGG} Models will facilitate diverse systems biology studies and support knowledge-based analysis of diverse experimental data.}
+      \field{issn}{0305-1048}
+      \field{journaltitle}{Nucleic Acids Research}
+      \field{shortjournal}{Nucleic Acids Research}
+      \field{shorttitle}{{BiGG} Models}
+      \field{title}{{BiGG} Models: A platform for integrating, standardizing and sharing genome-scale models}
+      \field{volume}{44}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1093/nar/gkv1049
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/hannah/git/Zotero/storage/EXFVPKAC/King et al. - 2016 - BiGG Models A platform for integrating, standardi.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{mathoptinterface}{article}{}
+      \name{author}{4}{}{%
+        {{hash=b2457c8250c4c09987eec825dc104c00}{%
+           family={Legat},
+           familyi={L\bibinitperiod},
+           given={Benoı̂t},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0cb8db37d5c816a9dffec8efdf7d443c}{%
+           family={Dowson},
+           familyi={D\bibinitperiod},
+           given={Oscar},
+           giveni={O\bibinitperiod}}}%
+        {{hash=596ad63caad8bee007bd13b952226b8a}{%
+           family={Dias\bibnamedelima Garcia},
+           familyi={D\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={Joaquim},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ae562f612365bfa1287b8268e8b021df}{%
+           family={Lubin},
+           familyi={L\bibinitperiod},
+           given={Miles},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {INFORMS}%
+      }
+      \strng{namehash}{140938a70db599a2404c006871f446c1}
+      \strng{fullhash}{140938a70db599a2404c006871f446c1}
+      \strng{bibnamehash}{140938a70db599a2404c006871f446c1}
+      \strng{authorbibnamehash}{140938a70db599a2404c006871f446c1}
+      \strng{authornamehash}{140938a70db599a2404c006871f446c1}
+      \strng{authorfullhash}{140938a70db599a2404c006871f446c1}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{INFORMS Journal on Computing}
+      \field{number}{2}
+      \field{title}{{MathOptInterface}: a data structure for mathematical optimization problems}
+      \field{volume}{34}
+      \field{year}{2021}
+      \field{pages}{672\bibrangedash 689}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1287/ijoc.2021.1067
+      \endverb
+    \endentry
+    \entry{lu_yeast_2021}{article}{}
+      \name{author}{11}{}{%
+        {{hash=d1d75046dd932324dfb6271f32dadad6}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Hongzhong},
+           giveni={H\bibinitperiod}}}%
+        {{hash=6c33b1963946e0547cc768a962fc2ec0}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Feiran},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2d7f32a938c2068c32eab133ea34e057}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Le},
+           giveni={L\bibinitperiod}}}%
+        {{hash=f7b99abc4a5eaefcf502acc53eedb344}{%
+           family={Domenzain},
+           familyi={D\bibinitperiod},
+           given={Iván},
+           giveni={I\bibinitperiod}}}%
+        {{hash=87afaef960fe7955d330a1cf0ddc5c71}{%
+           family={Yu},
+           familyi={Y\bibinitperiod},
+           given={Rosemary},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c8cf19241225247d6d07dbf8a516b8ed}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Hao},
+           giveni={H\bibinitperiod}}}%
+        {{hash=56ba559f18e74cf681fe113aba3fa9af}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Gang},
+           giveni={G\bibinitperiod}}}%
+        {{hash=5ffb5aba0d9858b862639d446d48f8eb}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=bfd02d67ace5d03188f85304fbbca868}{%
+           family={Ji},
+           familyi={J\bibinitperiod},
+           given={Boyang},
+           giveni={B\bibinitperiod}}}%
+        {{hash=c1863fc4d0ea312ba80cf85f4b697ad6}{%
+           family={Kerkhoven},
+           familyi={K\bibinitperiod},
+           given={Eduard\bibnamedelima J},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=7367c4123d321556d38803b11cd83308}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{dfe962de34e5a3129631f5be34ef3ca0}
+      \strng{fullhash}{dfe962de34e5a3129631f5be34ef3ca0}
+      \strng{bibnamehash}{dfe962de34e5a3129631f5be34ef3ca0}
+      \strng{authorbibnamehash}{dfe962de34e5a3129631f5be34ef3ca0}
+      \strng{authornamehash}{dfe962de34e5a3129631f5be34ef3ca0}
+      \strng{authorfullhash}{dfe962de34e5a3129631f5be34ef3ca0}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Abstract Yeasts are known to have versatile metabolic traits, while how these metabolic traits have evolved has not been elucidated systematically. We performed integrative evolution analysis to investigate how genomic evolution determines trait generation by reconstructing genome-scale metabolic models ({GEMs}) for 332 yeasts. These {GEMs} could comprehensively characterize trait diversity and predict enzyme functionality, thereby signifying that sequence-level evolution has shaped reaction networks towards new metabolic functions. Strikingly, using {GEMs}, we can mechanistically map different evolutionary events, e.g. horizontal gene transfer and gene duplication, onto relevant subpathways to explain metabolic plasticity. This demonstrates that gene family expansion and enzyme promiscuity are prominent mechanisms for metabolic trait gains, while {GEM} simulations reveal that additional factors, such as gene loss from distant pathways, contribute to trait losses. Furthermore, our analysis could pinpoint to specific genes and pathways that have been under positive selection and relevant for the formulation of complex metabolic traits, i.e. thermotolerance and the Crabtree effect. Our findings illustrate how multidimensional evolution in both metabolic network structure and individual enzymes drives phenotypic variations.}
+      \field{issn}{1744-4292}
+      \field{journaltitle}{Molecular Systems Biology}
+      \field{note}{Publisher: John Wiley \& Sons, Ltd}
+      \field{title}{Yeast metabolic innovations emerged via expanded metabolic network and gene positive selection}
+      \field{volume}{17}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.15252/msb.202110427
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/hannah/git/Zotero/storage/YWUS8DZS/Lu et al. - 2021 - Yeast metabolic innovations emerged via expanded m.pdf:application/pdf
+      \endverb
+      \keyw{systems biology,genome analysis,genome-scale metabolic models,metabolic innovation}
+    \endentry
+    \entry{JuMP}{article}{}
+      \name{author}{6}{}{%
+        {{hash=ae562f612365bfa1287b8268e8b021df}{%
+           family={Lubin},
+           familyi={L\bibinitperiod},
+           given={Miles},
+           giveni={M\bibinitperiod}}}%
+        {{hash=0cb8db37d5c816a9dffec8efdf7d443c}{%
+           family={Dowson},
+           familyi={D\bibinitperiod},
+           given={Oscar},
+           giveni={O\bibinitperiod}}}%
+        {{hash=596ad63caad8bee007bd13b952226b8a}{%
+           family={{Dias Garcia}},
+           familyi={D\bibinitperiod},
+           given={Joaquim},
+           giveni={J\bibinitperiod}}}%
+        {{hash=3d4093b368f12c6a917914c63f0d75d1}{%
+           family={Huchette},
+           familyi={H\bibinitperiod},
+           given={Joey},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b84ac2149b86ed91cc93922f9509b81a}{%
+           family={Legat},
+           familyi={L\bibinitperiod},
+           given={Benoît},
+           giveni={B\bibinitperiod}}}%
+        {{hash=7d17a5f1d39e49c4e154daa7e469b420}{%
+           family={Vielma},
+           familyi={V\bibinitperiod},
+           given={Juan\bibnamedelima Pablo},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{f4a052310f59d20497d8c2bd553be8e3}
+      \strng{fullhash}{f4a052310f59d20497d8c2bd553be8e3}
+      \strng{bibnamehash}{f4a052310f59d20497d8c2bd553be8e3}
+      \strng{authorbibnamehash}{f4a052310f59d20497d8c2bd553be8e3}
+      \strng{authornamehash}{f4a052310f59d20497d8c2bd553be8e3}
+      \strng{authorfullhash}{f4a052310f59d20497d8c2bd553be8e3}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Programming Computation}
+      \field{title}{{JuMP} 1.0: {R}ecent improvements to a modeling language for mathematical optimization}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.1007/s12532-023-00239-3
+      \endverb
+    \endentry
+    \entry{aps_mosek_nodate}{misc}{}
+      \list{publisher}{1}{%
+        {MOSEK ApS}%
+      }
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{{MOSEK} Modeling Cookbook}
+      \field{urlday}{22}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb ApS - MOSEK Modeling Cookbook.pdf:/home/hannah/Zotero/storage/KZGFDR83/ApS - MOSEK Modeling Cookbook.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://docs.mosek.com/modeling-cookbook/index.html
+      \endverb
+      \verb{url}
+      \verb https://docs.mosek.com/modeling-cookbook/index.html
+      \endverb
+    \endentry
+    \entry{muller_fast_2013}{article}{}
+      \name{author}{2}{}{%
+        {{hash=684b3d24da1822dbbca7ca6c98214ef3}{%
+           family={Müller},
+           familyi={M\bibinitperiod},
+           given={Arne\bibnamedelima C.},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=636c03693db9f56228f2200595724a93}{%
+           family={Bockmayr},
+           familyi={B\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{6e25ce9a88ddd7092ca5b5ba33f236fb}
+      \strng{fullhash}{6e25ce9a88ddd7092ca5b5ba33f236fb}
+      \strng{bibnamehash}{6e25ce9a88ddd7092ca5b5ba33f236fb}
+      \strng{authorbibnamehash}{6e25ce9a88ddd7092ca5b5ba33f236fb}
+      \strng{authornamehash}{6e25ce9a88ddd7092ca5b5ba33f236fb}
+      \strng{authorfullhash}{6e25ce9a88ddd7092ca5b5ba33f236fb}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Motivation: Flux variability analysis ({FVA}) is an important tool to further analyse the results obtained by flux balance analysis ({FBA}) on genome-scale metabolic networks. For many constraint-based models, {FVA} identifies unboundedness of the optimal flux space. This reveals that optimal flux solutions with net flux through internal biochemical loops are feasible, which violates the second law of thermodynamics. Such unbounded fluxes may be eliminated by extending {FVA} with thermodynamic constraints.}
+      \field{issn}{1367-4811, 1367-4803}
+      \field{journaltitle}{Bioinformatics}
+      \field{langid}{english}
+      \field{title}{Fast thermodynamically constrained flux variability analysis}
+      \field{volume}{29}
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1093/bioinformatics/btt059
+      \endverb
+      \verb{file}
+      \verb Müller and Bockmayr - 2013 - Fast thermodynamically constrained flux variabilit.pdf:/home/htroppen/git/Zotero/storage/733HI6E7/Müller and Bockmayr - 2013 - Fast thermodynamically constrained flux variabilit.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{musalem_intersection_cuts}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=717bb645c7ec51de1b4e2848c13e01d8}{%
+           family={Musalem},
+           familyi={M\bibinitperiod},
+           given={Felipe\bibnamedelima Serrano},
+           giveni={F\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {TU Berlin}%
+      }
+      \strng{namehash}{717bb645c7ec51de1b4e2848c13e01d8}
+      \strng{fullhash}{717bb645c7ec51de1b4e2848c13e01d8}
+      \strng{bibnamehash}{717bb645c7ec51de1b4e2848c13e01d8}
+      \strng{authorbibnamehash}{717bb645c7ec51de1b4e2848c13e01d8}
+      \strng{authornamehash}{717bb645c7ec51de1b4e2848c13e01d8}
+      \strng{authorfullhash}{717bb645c7ec51de1b4e2848c13e01d8}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{On cutting planes for mixed-integer nonlinear programming}
+      \field{type}{Dissertation}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.14279/depositonce-12180
+      \endverb
+    \endentry
+    \entry{noor_removing_2018}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=a5dfa5eaf997d540eefd077c226d6a43}{%
+           family={Noor},
+           familyi={N\bibinitperiod},
+           given={Elad},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a5dfa5eaf997d540eefd077c226d6a43}
+      \strng{fullhash}{a5dfa5eaf997d540eefd077c226d6a43}
+      \strng{bibnamehash}{a5dfa5eaf997d540eefd077c226d6a43}
+      \strng{authorbibnamehash}{a5dfa5eaf997d540eefd077c226d6a43}
+      \strng{authornamehash}{a5dfa5eaf997d540eefd077c226d6a43}
+      \strng{authorfullhash}{a5dfa5eaf997d540eefd077c226d6a43}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{q-bio.MN}
+      \field{eprinttype}{arXiv}
+      \field{title}{Removing both Internal and Unrealistic Energy-Generating Cycles in Flux Balance Analysis}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1803.04999
+      \endverb
+    \endentry
+    \entry{noor_proof_2012}{article}{}
+      \name{author}{3}{}{%
+        {{hash=a5dfa5eaf997d540eefd077c226d6a43}{%
+           family={Noor},
+           familyi={N\bibinitperiod},
+           given={Elad},
+           giveni={E\bibinitperiod}}}%
+        {{hash=61beaf2f99876923aa52a2c5ad1b9c7f}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Nathan\bibnamedelima E.},
+           giveni={N\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=9fed56718464421f939e0b0d84997792}{%
+           family={Milo},
+           familyi={M\bibinitperiod},
+           given={Ron},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{9225515d5b8db6a279e72635d1fef593}
+      \strng{fullhash}{9225515d5b8db6a279e72635d1fef593}
+      \strng{bibnamehash}{9225515d5b8db6a279e72635d1fef593}
+      \strng{authorbibnamehash}{9225515d5b8db6a279e72635d1fef593}
+      \strng{authornamehash}{9225515d5b8db6a279e72635d1fef593}
+      \strng{authorfullhash}{9225515d5b8db6a279e72635d1fef593}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Constraint-based modeling is increasingly employed for metabolic network analysis. Its underlying assumption is that natural metabolic phenotypes can be predicted by adding physicochemical constraints to remove unrealistic metabolic flux solutions. The loopless-{COBRA} approach provides an additional constraint that eliminates thermodynamically infeasible internal cycles (or loops) from the space of solutions. This allows the prediction of flux solutions that are more consistent with experimental data. However, it is not clear if this approach over-constrains the models by removing non-loop solutions as well.}
+      \field{issn}{1752-0509}
+      \field{journaltitle}{{BMC} Systems Biology}
+      \field{langid}{english}
+      \field{shortjournal}{{BMC} Syst Biol}
+      \field{title}{A proof for loop-law constraints in stoichiometric metabolic networks}
+      \field{year}{2012}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1186/1752-0509-6-140
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/hannah/git/Zotero/storage/DTHEL5EV/Noor et al. - 2012 - A proof for loop-law constraints in stoichiometric.pdf:application/pdf
+      \endverb
+      \keyw{Thermodynamics,Metabolism,Gordan’s theorem}
+    \endentry
+    \entry{noauthor_numerical_2006}{book}{}
+      \list{publisher}{1}{%
+        {Springer New York}%
+      }
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{series}{Springer Series in Operations Research and Financial Engineering}
+      \field{title}{Numerical Optimization}
+      \field{year}{2006}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-0-387-40065-5
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/htroppen/git/Zotero/storage/8CL8KMX8/2006 - Numerical Optimization.pdf:application/pdf
+      \endverb
+      \keyw{optimization,algorithms,Calculus of Variations,linear optimization,nonlinear optimization,operations research,quadratic programming,Quasi-Newton method}
+    \endentry
+    \entry{FBA}{article}{}
+      \name{author}{3}{}{%
+        {{hash=2a429d4f552ad86277871a715ca53124}{%
+           family={Orth},
+           familyi={O\bibinitperiod},
+           given={Jeffrey\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=2e0f1047352d52b2df4e335ddb5885c5}{%
+           family={Thiele},
+           familyi={T\bibinitperiod},
+           given={Ines},
+           giveni={I\bibinitperiod}}}%
+        {{hash=602bb2352ab8de3f4a1815d96d352a2b}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima Ø},
+           giveni={B\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{9ee45f7eab522c64f13ac2eb5b7bf66f}
+      \strng{fullhash}{9ee45f7eab522c64f13ac2eb5b7bf66f}
+      \strng{bibnamehash}{9ee45f7eab522c64f13ac2eb5b7bf66f}
+      \strng{authorbibnamehash}{9ee45f7eab522c64f13ac2eb5b7bf66f}
+      \strng{authornamehash}{9ee45f7eab522c64f13ac2eb5b7bf66f}
+      \strng{authorfullhash}{9ee45f7eab522c64f13ac2eb5b7bf66f}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Flux balance analysis is a mathematical approach for analyzing the flow of metabolites through a metabolic network. This primer covers the theoretical basis of the approach, several practical examples and a software toolbox for performing the calculations.}
+      \field{journaltitle}{Nature Biotechnology}
+      \field{langid}{english}
+      \field{shortjournal}{Nat Biotechnol}
+      \field{title}{What is flux balance analysis?}
+      \field{year}{2010}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1038/nbt.1614
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/hannah/Zotero/storage/68GJS8V8/Orth et al. - 2010 - What is flux balance analysis.pdf:application/pdf
+      \endverb
+      \keyw{Biochemical reaction networks,Biotechnology,Metabolism}
+    \endentry
+    \entry{palsson_systems_biology}{book}{}
+      \name{author}{1}{}{%
+        {{hash=602bb2352ab8de3f4a1815d96d352a2b}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima Ø.},
+           giveni={B\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{602bb2352ab8de3f4a1815d96d352a2b}
+      \strng{fullhash}{602bb2352ab8de3f4a1815d96d352a2b}
+      \strng{bibnamehash}{602bb2352ab8de3f4a1815d96d352a2b}
+      \strng{authorbibnamehash}{602bb2352ab8de3f4a1815d96d352a2b}
+      \strng{authornamehash}{602bb2352ab8de3f4a1815d96d352a2b}
+      \strng{authorfullhash}{602bb2352ab8de3f4a1815d96d352a2b}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Systems Biology: Constraint-based Reconstruction and Analysis}
+      \field{year}{2015}
+      \verb{doi}
+      \verb 10.1017/CBO9781139854610
+      \endverb
+    \endentry
+    \entry{GEMs}{article}{}
+      \name{author}{6}{}{%
+        {{hash=8206c8bc1696ccfe9ae4348c15f6e503}{%
+           family={Passi},
+           familyi={P\bibinitperiod},
+           given={Anurag},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d458933c39d0cc86474f53ad62bcdc4f}{%
+           family={Tibocha-Bonilla},
+           familyi={T\bibinithyphendelim B\bibinitperiod},
+           given={Juan\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=6f429abbdf00e2829bc3db724739047b}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={Manish},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3425a7c1dbdeab83eb1ad9845a3e2974}{%
+           family={Tec-Campos},
+           familyi={T\bibinithyphendelim C\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod}}}%
+        {{hash=b0a8484d79aa720e46390e8aaf6b5987}{%
+           family={Zengler},
+           familyi={Z\bibinitperiod},
+           given={Karsten},
+           giveni={K\bibinitperiod}}}%
+        {{hash=c56e94fd9d80b95e66376c68f0e3aca2}{%
+           family={Zuniga},
+           familyi={Z\bibinitperiod},
+           given={Cristal},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{1d0249a270a7aacc434a66cb32c7514b}
+      \strng{fullhash}{1d0249a270a7aacc434a66cb32c7514b}
+      \strng{bibnamehash}{1d0249a270a7aacc434a66cb32c7514b}
+      \strng{authorbibnamehash}{1d0249a270a7aacc434a66cb32c7514b}
+      \strng{authornamehash}{1d0249a270a7aacc434a66cb32c7514b}
+      \strng{authorfullhash}{1d0249a270a7aacc434a66cb32c7514b}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Genome-scale metabolic models ({GEMs}) enable the mathematical simulation of the metabolism of archaea, bacteria, and eukaryotic organisms. {GEMs} quantitatively define a relationship between genotype and phenotype by contextualizing different types of Big Data (e.g., genomics, metabolomics, and transcriptomics). In this review, we analyze the available Big Data useful for metabolic modeling and compile the available {GEM} reconstruction tools that integrate Big Data. We also discuss recent applications in industry and research that include predicting phenotypes, elucidating metabolic pathways, producing industry-relevant chemicals, identifying drug targets, and generating knowledge to better understand host-associated diseases. In addition to the up-to-date review of {GEMs} currently available, we assessed a plethora of tools for developing new {GEMs} that include macromolecular expression and dynamic resolution. Finally, we provide a perspective in emerging areas, such as annotation, data managing, and machine learning, in which {GEMs} will play a key role in the further utilization of Big Data.}
+      \field{journaltitle}{Metabolites}
+      \field{shortjournal}{Metabolites}
+      \field{title}{Genome-Scale Metabolic Modeling Enables In-Depth Understanding of Big Data}
+      \field{volume}{12}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.3390/metabo12010014
+      \endverb
+      \verb{file}
+      \verb PubMed Central Full Text PDF:/home/hannah/git/Zotero/storage/LS5RVT72/Passi et al. - 2021 - Genome-Scale Metabolic Modeling Enables In-Depth U.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{perez_disjunctiveprogrammingjl_2023}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=4b152c56133d1c61ca1de66e9892f89a}{%
+           family={Perez},
+           familyi={P\bibinitperiod},
+           given={Hector\bibnamedelima D.},
+           giveni={H\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=b747436783b3b63d57a962597ebe0332}{%
+           family={Joshi},
+           familyi={J\bibinitperiod},
+           given={Shivank},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9a39a2eac2d858d35e3c0d94e4e8d4b6}{%
+           family={Grossmann},
+           familyi={G\bibinitperiod},
+           given={Ignacio\bibnamedelima E.},
+           giveni={I\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{a7fe55f7bbad15c886c2dbb76b863894}
+      \strng{fullhash}{a7fe55f7bbad15c886c2dbb76b863894}
+      \strng{bibnamehash}{a7fe55f7bbad15c886c2dbb76b863894}
+      \strng{authorbibnamehash}{a7fe55f7bbad15c886c2dbb76b863894}
+      \strng{authornamehash}{a7fe55f7bbad15c886c2dbb76b863894}
+      \strng{authorfullhash}{a7fe55f7bbad15c886c2dbb76b863894}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We present a Julia package, {DisjunctiveProgramming}.jl, that extends the functionality in {JuMP}.jl to allow modeling problems via logical propositions and disjunctive constraints. Such models can then be reformulated into Mixed-Integer Programs ({MIPs}) that can be solved with the various {MIP} solvers supported by {JuMP}. To do so, logical propositions are converted to Conjunctive Normal Form ({CNF}) and reformulated into equivalent algebraic constraints. Disjunctions are reformulated into mixed-integer constraints via the reformulation technique speciﬁed by the user (Big-M or Hull reformulations). The package supports reformulations for disjunctions containing linear, quadratic, and nonlinear constraints.}
+      \field{eprinttype}{arxiv}
+      \field{langid}{english}
+      \field{number}{{arXiv}:2304.10492}
+      \field{shorttitle}{{DisjunctiveProgramming}.jl}
+      \field{title}{{DisjunctiveProgramming}.jl: Generalized Disjunctive Programming Models and Algorithms for {JuMP}}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \verb{eprint}
+      \verb 2304.10492 [cs]
+      \endverb
+      \verb{file}
+      \verb Perez et al. - 2023 - DisjunctiveProgramming.jl Generalized Disjunctive.pdf:/home/htroppen/git/Zotero/storage/G4V7DK5A/Perez et al. - 2023 - DisjunctiveProgramming.jl Generalized Disjunctive.pdf:application/pdf
+      \endverb
+      \keyw{Computer Science - Logic in Computer Science,Computer Science - Mathematical Software}
+    \endentry
+    \entry{price_extreme_2002}{article}{}
+      \name{author}{4}{}{%
+        {{hash=fe3494bd65314367ed3c94e048f1af17}{%
+           family={Price},
+           familyi={P\bibinitperiod},
+           given={Nathan\bibnamedelima D.},
+           giveni={N\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=a40e7eac287da694d61c34d105388334}{%
+           family={Famili},
+           familyi={F\bibinitperiod},
+           given={Iman},
+           giveni={I\bibinitperiod}}}%
+        {{hash=e14e295568eab746295f8bfb6797a1b3}{%
+           family={Beard},
+           familyi={B\bibinitperiod},
+           given={Daniel\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=602bb2352ab8de3f4a1815d96d352a2b}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima Ø.},
+           giveni={B\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+      }
+      \strng{namehash}{ed6d2750dedb7f610cb020dd52189cfa}
+      \strng{fullhash}{ed6d2750dedb7f610cb020dd52189cfa}
+      \strng{bibnamehash}{ed6d2750dedb7f610cb020dd52189cfa}
+      \strng{authorbibnamehash}{ed6d2750dedb7f610cb020dd52189cfa}
+      \strng{authornamehash}{ed6d2750dedb7f610cb020dd52189cfa}
+      \strng{authorfullhash}{ed6d2750dedb7f610cb020dd52189cfa}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biophysical Journal}
+      \field{langid}{english}
+      \field{shortjournal}{Biophysical Journal}
+      \field{title}{Extreme Pathways and Kirchhoff's Second Law}
+      \field{year}{2002}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/S0006-3495(02)75297-1
+      \endverb
+      \verb{file}
+      \verb Price et al. - 2002 - Extreme Pathways and Kirchhoff's Second Law.pdf:/home/hannah/git/Zotero/storage/7MCDQWKX/Price et al. - 2002 - Extreme Pathways and Kirchhoff's Second Law.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{intro_computational_systems_biology}{book}{}
+      \name{author}{1}{}{%
+        {{hash=d0e6b851bbcb2ef1d16d49ea16a0d3cc}{%
+           family={Raman},
+           familyi={R\bibinitperiod},
+           given={Karthik},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{2}{%
+        {Chapman}%
+        {Hall/{CRC}}%
+      }
+      \strng{namehash}{d0e6b851bbcb2ef1d16d49ea16a0d3cc}
+      \strng{fullhash}{d0e6b851bbcb2ef1d16d49ea16a0d3cc}
+      \strng{bibnamehash}{d0e6b851bbcb2ef1d16d49ea16a0d3cc}
+      \strng{authorbibnamehash}{d0e6b851bbcb2ef1d16d49ea16a0d3cc}
+      \strng{authornamehash}{d0e6b851bbcb2ef1d16d49ea16a0d3cc}
+      \strng{authorfullhash}{d0e6b851bbcb2ef1d16d49ea16a0d3cc}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{shorttitle}{An Introduction to Computational Systems Biology}
+      \field{title}{An Introduction to Computational Systems Biology: Systems-Level Modelling of Cellular Networks}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1201/9780429486951
+      \endverb
+      \verb{file}
+      \verb Raman - 2021 - An Introduction to Computational Systems Biology .pdf:/home/hannah/git/Zotero/storage/IXFYXIL7/Raman - 2021 - An Introduction to Computational Systems Biology .pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{fba_applications_and_challenges}{article}{}
+      \name{author}{2}{}{%
+        {{hash=d0e6b851bbcb2ef1d16d49ea16a0d3cc}{%
+           family={Raman},
+           familyi={R\bibinitperiod},
+           given={Karthik},
+           giveni={K\bibinitperiod}}}%
+        {{hash=66c048622dcf4f7a9dfc4c5e40aaea81}{%
+           family={Chandra},
+           familyi={C\bibinitperiod},
+           given={Nagasuma},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{fb2c4be74ccd87cc48f26821ac0875a6}
+      \strng{fullhash}{fb2c4be74ccd87cc48f26821ac0875a6}
+      \strng{bibnamehash}{fb2c4be74ccd87cc48f26821ac0875a6}
+      \strng{authorbibnamehash}{fb2c4be74ccd87cc48f26821ac0875a6}
+      \strng{authornamehash}{fb2c4be74ccd87cc48f26821ac0875a6}
+      \strng{authorfullhash}{fb2c4be74ccd87cc48f26821ac0875a6}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Systems level modelling and simulations of biological processes are proving to be invaluable in obtaining a quantitative and dynamic perspective of various aspects of cellular function. In particular, constraint-based analyses of metabolic networks have gained considerable popularity for simulating cellular metabolism, of which flux balance analysis ({FBA}), is most widely used. Unlike mechanistic simulations that depend on accurate kinetic data, which are scarcely available, {FBA} is based on the principle of conservation of mass in a network, which utilizes the stoichiometric matrix and a biologically relevant objective function to identify optimal reaction flux distributions. {FBA} has been used to analyse genome-scale reconstructions of several organisms; it has also been used to analyse the effect of perturbations, such as gene deletions or drug inhibitions in silico. This article reviews the usefulness of {FBA} as a tool for gaining biological insights, advances in methodology enabling integration of regulatory information and thermodynamic constraints, and finally addresses the challenges that lie ahead. Various use scenarios and biological insights obtained from {FBA}, and applications in fields such metabolic engineering and drug target identification, are also discussed. Genome-scale constraint-based models have an immense potential for building and testing hypotheses, as well as to guide experimentation.}
+      \field{journaltitle}{Briefings in Bioinformatics}
+      \field{shortjournal}{Briefings in Bioinformatics}
+      \field{shorttitle}{Flux balance analysis of biological systems}
+      \field{title}{Flux balance analysis of biological systems: applications and challenges}
+      \field{volume}{10}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1093/bib/bbp011
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/htroppen/git/Zotero/storage/DKRJ22JP/Raman and Chandra - 2009 - Flux balance analysis of biological systems appli.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{cornelis_metabolic_nodate}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=b752f3eeaedd727f0a8ba7ddd9428f19}{%
+           family={Reimers},
+           familyi={R\bibinitperiod},
+           given={Arne\bibnamedelima C.},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{b752f3eeaedd727f0a8ba7ddd9428f19}
+      \strng{fullhash}{b752f3eeaedd727f0a8ba7ddd9428f19}
+      \strng{bibnamehash}{b752f3eeaedd727f0a8ba7ddd9428f19}
+      \strng{authorbibnamehash}{b752f3eeaedd727f0a8ba7ddd9428f19}
+      \strng{authornamehash}{b752f3eeaedd727f0a8ba7ddd9428f19}
+      \strng{authorfullhash}{b752f3eeaedd727f0a8ba7ddd9428f19}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Metabolic Networks, Thermodynamic Constraints, and Matroid Theory}
+      \field{type}{Dissertation}
+      \field{year}{2014}
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.17169/refubium-15314
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.17169/refubium-15314
+      \endverb
+    \endentry
+    \entry{improving_phenotype_predictions}{article}{}
+      \name{author}{6}{}{%
+        {{hash=1b646aa8527a73d5ddab5c7e70054811}{%
+           family={Sánchez},
+           familyi={S\bibinitperiod},
+           given={Benjamín\bibnamedelima J.},
+           giveni={B\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=57f7f0240f141850db99567185d1a24c}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Cheng},
+           giveni={C\bibinitperiod}}}%
+        {{hash=8987a1bb789628cfab52567ec6ebfd99}{%
+           family={Nilsson},
+           familyi={N\bibinitperiod},
+           given={Avlant},
+           giveni={A\bibinitperiod}}}%
+        {{hash=834b35b58ff288384eb2b0693f85a803}{%
+           family={Lahtvee},
+           familyi={L\bibinitperiod},
+           given={Petri-Jaan},
+           giveni={P\bibinithyphendelim J\bibinitperiod}}}%
+        {{hash=c1863fc4d0ea312ba80cf85f4b697ad6}{%
+           family={Kerkhoven},
+           familyi={K\bibinitperiod},
+           given={Eduard\bibnamedelima J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=7367c4123d321556d38803b11cd83308}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{62c896fd3a53226d65e5651ede781f72}
+      \strng{fullhash}{62c896fd3a53226d65e5651ede781f72}
+      \strng{bibnamehash}{62c896fd3a53226d65e5651ede781f72}
+      \strng{authorbibnamehash}{62c896fd3a53226d65e5651ede781f72}
+      \strng{authornamehash}{62c896fd3a53226d65e5651ede781f72}
+      \strng{authorfullhash}{62c896fd3a53226d65e5651ede781f72}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Genome-scale metabolic models ({GEMs}) are widely used to calculate metabolic phenotypes. They rely on defining a set of constraints, the most common of which is that the production of metabolites and/or growth are limited by the carbon source uptake rate. However, enzyme abundances and kinetics, which act as limitations on metabolic fluxes, are not taken into account. Here, we present {GECKO}, a method that enhances a {GEM} to account for enzymes as part of reactions, thereby ensuring that each metabolic flux does not exceed its maximum capacity, equal to the product of the enzyme's abundance and turnover number. We applied {GECKO} to a Saccharomyces cerevisiae {GEM} and demonstrated that the new model could correctly describe phenotypes that the previous model could not, particularly under high enzymatic pressure conditions, such as yeast growing on different carbon sources in excess, coping with stress, or overexpressing a specific pathway. {GECKO} also allows to directly integrate quantitative proteomics data; by doing so, we significantly reduced flux variability of the model, in over 60\% of metabolic reactions. Additionally, the model gives insight into the distribution of enzyme usage between and within metabolic pathways. The developed method and model are expected to increase the use of model-based design in metabolic engineering.}
+      \field{journaltitle}{Molecular Systems Biology}
+      \field{shortjournal}{Mol Syst Biol}
+      \field{title}{Improving the phenotype predictions of a yeast genome-scale metabolic model by incorporating enzymatic constraints}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.15252/msb.20167411
+      \endverb
+      \verb{file}
+      \verb Full Text:/home/hannah/Zotero/storage/EIEMEWHF/Sánchez et al. - 2017 - Improving the phenotype predictions of a yeast gen.pdf:application/pdf
+      \endverb
+      \keyw{enzyme kinetics,flux balance analysis,Genome,Fungal,Kinetics,Metabolic Engineering,Metabolic Networks and Pathways,Models,Biological,molecular crowding,Phenotype,proteomics,Saccharomyces cerevisiae,Systems Biology}
+    \endentry
+    \entry{elimination_infeasible_loops}{article}{}
+      \name{author}{3}{}{%
+        {{hash=cf23408e4d8f3853e52cc41dab51d1b3}{%
+           family={Schellenberger},
+           familyi={S\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=61beaf2f99876923aa52a2c5ad1b9c7f}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Nathan\bibnamedelima E.},
+           giveni={N\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=602bb2352ab8de3f4a1815d96d352a2b}{%
+           family={Palsson},
+           familyi={P\bibinitperiod},
+           given={Bernhard\bibnamedelima Ø.},
+           giveni={B\bibinitperiod\bibinitdelim Ø\bibinitperiod}}}%
+      }
+      \strng{namehash}{f82abe44117e2d303e987fe1d7bb2811}
+      \strng{fullhash}{f82abe44117e2d303e987fe1d7bb2811}
+      \strng{bibnamehash}{f82abe44117e2d303e987fe1d7bb2811}
+      \strng{authorbibnamehash}{f82abe44117e2d303e987fe1d7bb2811}
+      \strng{authornamehash}{f82abe44117e2d303e987fe1d7bb2811}
+      \strng{authorfullhash}{f82abe44117e2d303e987fe1d7bb2811}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The constraint-based reconstruction and analysis ({COBRA}) framework has been widely used to study steady-state flux solutions in genome-scale metabolic networks. One shortcoming of current {COBRA} methods is the possible violation of the loop law in the computed steady-state flux solutions. The loop law is analogous to Kirchhoff's second law for electric circuits, and states that at steady state there can be no net flux around a closed network cycle. Although the consequences of the loop law have been known for years, it has been computationally difficult to work with. Therefore, the resulting loop-law constraints have been overlooked. Here, we present a general mixed integer programming approach called loopless {COBRA} (ll-{COBRA}), which can be used to eliminate all steady-state flux solutions that are incompatible with the loop law. We apply this approach to improve flux predictions on three common {COBRA} methods: flux balance analysis, flux variability analysis, and Monte Carlo sampling of the flux space. Moreover, we demonstrate that the imposition of loop-law constraints with ll-{COBRA} improves the consistency of simulation results with experimental data. This method provides an additional constraint for many {COBRA} methods, enabling the acquisition of more realistic simulation results.}
+      \field{journaltitle}{Biophysical Journal}
+      \field{number}{3}
+      \field{shortjournal}{Biophys J}
+      \field{title}{Elimination of Thermodynamically Infeasible Loops in Steady-State Metabolic Models}
+      \field{volume}{100}
+      \field{year}{2011}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/j.bpj.2010.12.3707
+      \endverb
+      \verb{file}
+      \verb Full Text:/home/hannah/Zotero/storage/ZSLQ6KW5/Schellenberger et al. - 2011 - Elimination of Thermodynamically Infeasible Loops .pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{enumerate_extreme_rays}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=c790c3ed69528be6f4ca4a329c8a811a}{%
+           family={Terzer},
+           familyi={T\bibinitperiod},
+           given={Marco},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {{ETH} Zurich}%
+      }
+      \strng{namehash}{c790c3ed69528be6f4ca4a329c8a811a}
+      \strng{fullhash}{c790c3ed69528be6f4ca4a329c8a811a}
+      \strng{bibnamehash}{c790c3ed69528be6f4ca4a329c8a811a}
+      \strng{authorbibnamehash}{c790c3ed69528be6f4ca4a329c8a811a}
+      \strng{authornamehash}{c790c3ed69528be6f4ca4a329c8a811a}
+      \strng{authorfullhash}{c790c3ed69528be6f4ca4a329c8a811a}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{Large scale methods to enumerate extreme rays and elementary modes}
+      \field{type}{Doctoral Thesis}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.3929/ethz-a-005945733
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/hannah/git/Zotero/storage/LDGC28ZJ/Terzer - 2009 - Large scale methods to enumerate extreme rays and .pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{turner_adaptive_2023}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5a8d8b77cef37ded3cef9f4690d80b5a}{%
+           family={Turner},
+           familyi={T\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+        {{hash=52ebb73e351f82fe6d8bdbd3064ba270}{%
+           family={Koch},
+           familyi={K\bibinitperiod},
+           given={Thorsten},
+           giveni={T\bibinitperiod}}}%
+        {{hash=f15a0124bc149ef6cf7246c0fcfda20f}{%
+           family={Serrano},
+           familyi={S\bibinitperiod},
+           given={Felipe},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0b9de64c3f531e0389543e79558f1589}{%
+           family={Winkler},
+           familyi={W\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{ef459642d040afca514c6e08ed93091e}
+      \strng{fullhash}{ef459642d040afca514c6e08ed93091e}
+      \strng{bibnamehash}{ef459642d040afca514c6e08ed93091e}
+      \strng{authorbibnamehash}{ef459642d040afca514c6e08ed93091e}
+      \strng{authornamehash}{ef459642d040afca514c6e08ed93091e}
+      \strng{authorfullhash}{ef459642d040afca514c6e08ed93091e}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Cutting plane selection is a subroutine used in all modern mixed-integer linear programming solvers with the goal of selecting a subset of generated cuts that induce optimal solver performance. These solvers have millions of parameter combinations, and so are excellent candidates for parameter tuning. Cut selection scoring rules are usually weighted sums of different measurements, where the weights are parameters. We present a parametric family of mixed-integer linear programs together with infinitely many family-wide valid cuts. Some of these cuts can induce integer optimal solutions directly after being applied, while others fail to do so even if an infinite amount are applied. We show for a specific cut selection rule, that any finite grid search of the parameter space will always miss all parameter values, which select integer optimal inducing cuts in an infinite amount of our problems. We propose a variation on the design of existing graph convolutional neural networks, adapting them to learn cut selection rule parameters. We present a reinforcement learning framework for selecting cuts, and train our design using said framework over {MIPLIB} 2017 and a neural network verification data set. Our framework and design show that adaptive cut selection does substantially improve performance over a diverse set of instances, but that finding a single function describing such a rule is difficult. Code for reproducing all experiments is available at https://github.com/Opt-Mucca/Adaptive-Cutsel-{MILP}.}
+      \field{journaltitle}{Open Journal of Mathematical Optimization}
+      \field{langid}{english}
+      \field{title}{Adaptive Cut Selection in Mixed-Integer Linear Programming}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.5802/ojmo.25
+      \endverb
+      \verb{file}
+      \verb Turner et al. - 2023 - Adaptive Cut Selection in Mixed-Integer Linear Pro.pdf:/home/hannah/git/Zotero/storage/AS55XSEW/Turner et al. - 2023 - Adaptive Cut Selection in Mixed-Integer Linear Pro.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{understanding_lp}{book}{}
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{series}{Universitext}
+      \field{title}{Understanding and Using Linear Programming}
+      \field{year}{2007}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-3-540-30717-4
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/htroppen/git/Zotero/storage/GSBLUXYK/2007 - Understanding and Using Linear Programming.pdf:application/pdf
+      \endverb
+      \keyw{optimization,linear optimization,algorithm,Computer,computer science,linear algebra,linear programming,programming}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
