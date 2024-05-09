@@ -1,0 +1,7 @@
+bins,count,optimal_loopless_fba_sum,optimal_combinatorial_benders_big_m_sum,optimal_combinatorial_benders_big_m_0_5_sum,timelimit_loopless_fba_sum,timelimit_combinatorial_benders_big_m_sum,timelimit_combinatorial_benders_big_m_0_5_sum,error_loopless_fba_sum,error_combinatorial_benders_big_m_sum,error_combinatorial_benders_big_m_0_5_sum,bins_string
+1,11,11,7,7,0,0,0,0,4,4,0-10
+2,6,6,5,5,0,0,0,0,1,1,10-60
+3,1,1,1,1,0,0,0,0,0,0,60-300
+4,2,2,2,2,0,0,0,0,0,0,300-600
+6,2,2,2,2,0,0,0,0,0,0,1200-1800
+7,59,0,45,45,59,3,2,0,11,12,1800-Inf

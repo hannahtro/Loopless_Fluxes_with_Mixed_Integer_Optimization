@@ -1,0 +1,12 @@
+solving_strategy,optimal,timelimit,error
+ll_fba,0,11,0
+cb_big_m,0,11,0
+cb_indicator,0,11,0
+0_1,0,11,0
+0_2,0,11,0
+0_5,1,10,0
+2_0,0,11,0
+0_1,0,10,1
+0_2,0,6,5
+0_5,0,10,1
+2_0,0,8,3
