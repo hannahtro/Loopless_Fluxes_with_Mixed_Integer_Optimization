@@ -1,0 +1,57 @@
+%Nicht anfassen, so ist der Dokumentenaufbau
+\documentclass[a4paper, 12pt]{article}
+\input{settings/packages}
+% \input{settings/page}
+
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\selectlanguage{english}
+
+\input{Chapters/Cover}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%Ab hier Inhalt einfügen%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{roman}
+\input{Chapters/Abstract}
+\input{Chapters/Zusammenfassung}
+
+\newpage
+% Inhaltsverzeichnis
+\thispagestyle{plain}
+\setstretch{1.25} % Zeilenabstand
+\microtypesetup{protrusion=false}
+\tableofcontents
+\microtypesetup{protrusion=true}
+\thispagestyle{plain} % Kein Header aber mit Seitenanzahl
+
+\newpage
+\pagestyle{fancy}
+% \fancyhead{} % Clears the standard fancy style
+% \fancyhead[R]{\rightmark} %Kopfzeile rechts
+% \fancyhead[L]{\leftmark}
+% \fancyhead[L]{\rmshape\nouppercase{\leftmark}} %Kopfzeile links
+
+\setstretch{1.25}
+\pagenumbering{arabic}
+
+\input{Chapters/Introduction}
+\newpage
+\input{Chapters/optimization}
+\newpage
+\input{Chapters/molecular_networks}
+\clearpage
+\input{Chapters/Methods}
+\input{Chapters/Discussion}
+\input{Chapters/Conclusion}
+
+% \newpage
+\pagestyle{plain}
+\input{endofdocument}
+
+% \input{Chapters/Eigenständigkeitserklärung}
+
+\input{Chapters/Appendix}
+
+\end{document} 
