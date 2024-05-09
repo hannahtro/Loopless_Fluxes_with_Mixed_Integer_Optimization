@@ -1,0 +1,10 @@
+organism,type,objective,dual_bound,termination,time_limit,time_s,nodes
+iAF692,loopless_fba,0.0268,0.0268,OPTIMAL,1800,4.51,351
+iAF692,loopless_fba_nullspace,0.0256,0.0268,TIME_LIMIT,1800,1800.0,575
+iAF692,loopless_indicator_fba,0.0268,0.0268,OPTIMAL,1800,1285.4,11532
+iJR904,loopless_fba,0.9219,0.9219,OPTIMAL,1800,114.67,7614
+iJR904,loopless_fba_nullspace,0.9219,0.9219,OPTIMAL,1800,172.86,641
+iJR904,loopless_indicator_fba,0.0,0.9219,TIME_LIMIT,1800,1800.0,31243
+iML1515,loopless_fba,0.865,0.877,TIME_LIMIT,1800,1800.0,12098
+iML1515,loopless_fba_nullspace,NaN,NaN,TIME_LIMIT,1800,1800.06,15
+iML1515,loopless_indicator_fba,NaN,NaN,TIME_LIMIT,1800,1800.38,6776

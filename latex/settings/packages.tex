@@ -1,0 +1,193 @@
+\usepackage[utf8]{inputenc} % Kodierung
+\usepackage[T1]{fontenc} % Explizite Nennung des Fonts
+%\usepackage{tgschola}
+%\usepackage{utopia}
+\usepackage{helvet}
+
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+
+\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+% \usepackage[disable]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+% \newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+% \newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+% \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+% \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+%\renewcommand\familydefault{\sfdefault} 
+\usepackage[english,ngerman]{babel} % Sprache %ngermen
+
+\usepackage{datetime}
+\newdateformat{myformat}{\THEDAY{. }\monthname[\THEMONTH] \THEYEAR}
+
+\usepackage{graphicx} % immer benötigt für das Einbinden von Graphiken
+\usepackage{caption} % Beschriftung von Bildern 
+\usepackage{subcaption}
+
+\usepackage{blindtext} % Wenn man das Layout prüfen will, kann hier mit \blindtext Text eingefügt werden.
+
+\usepackage{parskip} % Für den Abstand zwischen 2 Absätzen.
+%\setlength{\parskip}{12pt plus80pt minus10pt} % Genaue Einstellung von parskip
+
+\usepackage{lmodern}
+
+%Literaturverzeichnis
+\usepackage[style=trad-abbrv,backend=biber, backref=false]{biblatex}
+ % Biber backend für Literaturverzeichnis
+% \addbibresource{bibliography.bib} % Einbinden der Literatur.
+%\DeclareLanguageMapping{english}{english-apa} % Anpassen Spracheinstellungen im Literaturverzeichnis.
+
+\usepackage[activate={true,nocompatibility},
+	final,
+	tracking=true,
+	kerning=true,
+	expansion=true,
+	spacing=true,
+	factor=1050,
+	stretch=25,
+	shrink=10]{microtype} % Für die Feineinstellung der Zeichensetzung.
+
+\usepackage[right=3 cm, left=3cm, top=2.5 cm, bottom=3 cm]{geometry} % Seitenränder
+  \linespread{1.25}
+
+\usepackage{appendix}
+\usepackage{setspace}
+\usepackage{fancyhdr} % Für schönere Kopf-/Fußzeilen und Fußnoten.
+\pagestyle{fancy}
+
+\usepackage[rflt]{floatflt} % Bild in Text
+\usepackage[]{graphicx} %Bilder %change draft to final
+\usepackage{subcaption} % Bildunterschrift
+\usepackage{booktabs} % für Tabellen
+\usepackage{pbox} % für Boxen
+\usepackage{tabulary} %für Tabellen
+\usepackage{comment} % für Kommentare 
+\usepackage{amsmath,amssymb}
+% \usepackage{upgreek} 
+% \let\mu\upmu 
+
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage[nocomma,short]{optidef}
+\usepackage{gensymb}
+
+\usepackage{rotating}
+\usepackage{makecell}
+\usepackage{tabto}
+\usepackage{beramono}
+
+% \usepackage{minted}
+
+\usepackage[nocomma,short]{optidef}
+\newcommand*{\matr}[1]{\mathbfit{#1}}
+\newcommand*{\tran}{^{\mkern-1.5mu\mathsf{T}}}
+
+% \usepackage{mdframed}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{problem}{Problem}
+
+\usepackage{verbatim} % Text ohne Formatierung ausgeben
+\usepackage{fancyvrb} % Verbatim konfigurieren
+\usepackage{csquotes} % Für ordentlichen Anführungszeichen
+
+%\usepackage{floatpag} %suppress pagenumber
+%\captionsetup[sub]{font=small,labelfont={bf,sf}}
+\captionsetup[sub]{font=footnotesize, labelfont=normalsize}
+% placing figure at top of page
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+
+\newcommand{\rom}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\usepackage[hidelinks]{hyperref} % Klickbare aber nicht markierte Links im PDF
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref} 
+\usepackage{nameref}
+\Crefname{problem}{Problem}{Problems}
+\crefname{problem}{Problem}{Problems}
+\Crefname{constraint}{Constraint}{Constraints}
+\crefname{constraint}{Constraint}{Constraints}
+\Crefname{table}{Table}{Tables}
+\crefdefaultlabelformat{(#2#1#3)}
+% \creflabelformat{problem}{#2\textup{#1}#3}
+\creflabelformat{section}{#2\textup{#1}#3}
+\creflabelformat{theorem}{#2\textup{#1}#3}
+\creflabelformat{figure}{#2\textup{#1}#3}
+\creflabelformat{algorithm}{#2\textup{#1}#3}
+\creflabelformat{table}{#2\textup{#1}#3}
+\creflabelformat{apptab}{#2\textup{#1}#3}
+
+\crefname{appfig}{Appendix Figure}{Appendix Figures}
+\crefname{apptab}{Appendix Table}{Appendix Tables}
+\Crefname{appfig}{Appendix Figure}{Appendix Figures}
+\Crefname{apptab}{Appendix Table}{Appendix Tables}
+
+% \creflabelformat{constraint}{#2\textup{#1}#3}
+% \creflabelformat{equation}{#2\textup{#1}#3}
+\crefrangelabelformat{constraint}{(#3#1#4--#5\crefstripprefix{#1}{#2}#6)}
+
+% \usepackage{algorithmicx}
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+\usepackage{makecell}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+
+\usepackage{float}
+
+\newcommand{\RomanNumeralCaps}[1]{\MakeUppercase{\romannumeral #1}}
+
+\usepackage{chngcntr}
+% \counterwithin{figure}{subsection}
+% \counterwithin{table}{section}
+% \counterwithin{equation}{section}
+
+\usepackage[nottoc]{tocbibind}% load before tocbasic
+\usepackage[titles]{tocloft}
+\usepackage{tocbasic}
+\usepackage{scrbase}
+\renewcommand*{\tableofcontents}{\listoftoc[{\contentsname}]{toc}}
+\renewcommand*{\listoffigures}{\listoftoc[{\listfigurename}]{lof}}
+\renewcommand*{\listoftables}{\listoftoc[{\listtablename}]{lot}}
+\cftsetindents{figure}{1.5em}{3.5em}
+
+\DeclareNewTOC[
+  type=myequation,
+  name=Equation,
+  listname={\Large List of Equations},
+  tocentrynumwidth=2.3em,% like figures and tables
+  tocentryindent=1.5em,% like figures and tables
+]{equ}
+\newcommand{\myequations}[1]{%
+  \addxcontentsline{equ}{myequation}[\theequation]{#1}}
+\setuptoc{equ}{leveldown,totoc}
+
+\DeclareNewTOC[
+  type=myproblem,
+  name=Problem,
+  listname={\Large List of Problems},
+  tocentrynumwidth=2.3em,% like figures and tables
+  tocentryindent=1.5em,% like figures and tables
+]{pro}
+\newcommand{\myproblems}[1]{%
+%   \addxcontentsline{pro}{myproblem}[\theproblem]{#1}}
+  \addcontentsline{pro}{myproblem}{#1}}
+\setuptoc{pro}{leveldown}
+
+% \usepackage{tocloft}
+% \usepackage[titles]{tocloft}
+% \newcommand{\listequationsname}{List of Equations}
+% \newlistof{myequations}{equ}{\listequationsname}
+% \newcommand{\myequations}[1]{%
+% \addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+% \newcommand{\listproblemname}{List of Mathematical Programs}
+% \newlistof{myproblems}{pro}{\listproblemsname}
+% \newcommand{\myproblems}[1]{%
+% \addcontentsline{pro}{myproblems}{\protect\numberline{\theproblem}#1}\par}
+
+\usepackage{enumitem}
+\usepackage{acro}

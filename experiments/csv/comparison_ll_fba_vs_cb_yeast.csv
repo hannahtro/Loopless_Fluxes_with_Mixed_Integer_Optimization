@@ -1,0 +1,4 @@
+organism,time_limit,termination_no_good_cuts,objective_value_no_good_cuts,time_no_good_cuts,termination_cb,objective_value_cb,time_cb,termination_cb_big_m,objective_value_cb_big_m,time_cb_big_m
+Ambrosiozyma_kashinagacola,7200,TIME_LIMIT,NaN,1800,TIME_LIMIT,NaN,1800,TIME_LIMIT,0.0,7200.152755975723
+Ambrosiozyma_monospora,7200,TIME_LIMIT,0.0,1800,TIME_LIMIT,0.0,1800,TIME_LIMIT,0.0,7202.43004488945
+Arxula_adeninivorans,7200,TIME_LIMIT,NaN,1800,TIME_LIMIT,NaN,1800,TIME_LIMIT,0.09605546057993096,7218.471863031387

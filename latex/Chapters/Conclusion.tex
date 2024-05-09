@@ -1,0 +1,29 @@
+\clearpage
+\thispagestyle{plain}
+\section{Conclusion}
+
+% Summary of results
+In this thesis we analyzed and discussed several reformulations of the ll-FBA problem. 
+We compared solving different variants of ll-FBA with \textsf{SCIP} directly including the big-M reformulation and the convex-hull formulation. With the big-M reformulation with an optimal constant $M$, we were able to solve most BiGG instances. \\
+We analyzed the performance if we detect cycles prior to solving the big-M reformulation of ll-FBA with blocking cycles with no-good cuts. We experiment with the number of blocked cycles added and observe that some BiGG instances are solved faster. However, the performance varies for different organisms and seeds and is often worse than solving the big-M reformulation of ll-FBA without blocking cycles.\\
+We have seen how to apply intersection cuts to the ll-FBA problem in theory. As the solution to the relaxed problem is not a basic feasible solution in the original model, we were not able to include intersection cuts into the experiments.
+\\
+We experimented with decomposing the ll-FBA problem into a master and a subproblem, and compared solving it with no-good cuts and with combinatorial Benders' cuts. With no-good cuts we were only able to solve few BiGG instances to optimality and the big-M reformulation of ll-FBA outperforms it. With combinatorial Benders' cuts, we solve more BiGG instances and much faster than with the big-M reformulation of ll-FBA. However, the performance of the combinatorial Benders' approach depends strongly on the number of cuts added per iteration. \todo[inline]{mention errors} On the yeast models, which are larger than most BiGG models we used, neither with the big-M reformulation nor with most combinatorial Benders' setups are we able to solve instances to optimality. Only with one combinatorial Benders' setup, we are able to solve one instance in the given time limit. 
+The combinatorial Benders' approach is flexible and can be extended easily, as long as we can decompose the problem into a master and a subproblem such that the binary variables do not appear in the subproblem and can be assigned in the master problem. If enzyme data is available, we can easily include it into the model by updating the stoichiometric matrix $S$ which captures the network structure. If the enzyme abundance is limited, the combinatorial Benders' approach is of interest, as the FBA solution is likely to contain less loops and therefore we require less iterations to solve the problem.
+
+The goal of this thesis was to compare the performance of different reformulations. The different solution strategies could be fine tuned and optimized, which is left for future work. For the blocking cycles approach, the number of blocked cycles should be linked to the instance size and we would have to test more instances. \\ 
+In order to test the performance of solving ll-FBA with intersection cuts, the problem to the relaxed problem has to be a basic feasible solution in the original problem. Otherwise we would have to translate the cut into the transformed problem and prove the meaning of the cut in the problem in a lower dimension. \todo[inline]{terrible} 
+
+\thispagestyle{plain}
+On the tested instances, the combinatorial Benders' approach is the most performant of the tested methods. Currently, we use \textsf{JuMP} to build the master problem, which builds a model in every iteration. Using a constraint handler in \textsf{SCIP} directly should increase the running time, as the model is reused throughout the solving procedure. \todo[inline]{mention table in the appendix} In several combinatorial Benders' setups, we see errors in the solution process ... \todo[inline]{mention which ones} As with the decomposition, the numerically tricky part is pushed to the subproblem which is a linear program, we could experiment with using exact LP to deal with the numerical instability \cite{eifler_combining_2023}.
+\\ We have seen that with the combinatorial Benders' approach, we can extend the model and incorporate additional data. It would be interesting to use the combinatorial Benders' decomposition on the st-FBA problem, an extension to ll-FBA where the Gibbs free energy of a subset of reactions is contrained and energy consuming cycles are valid solutions.
+% \todo[inline]{future work: improve cut, separation}
+% \todo[inline]{constraint handler}
+% possible extension to st FBA
+% exact LP
+% \todo[inline]{move numerically tricky part to LP (MIS search), could use exact LP to MIS search to deal with numerical instability}
+% TFBA
+% mention Gurobi ? 
+% mention MA thesis ?
+
+
