@@ -1,0 +1,238 @@
+\clearpage
+\section{Results}
+\todo[inline]{how to handle suboptimally solved instances}
+\unsure[inline]{font for BiGG, SCIP, ll-FBA etc?}
+
+In this section we present the results of the computational experiments. The performance of the baseline model is shown in \cref{section:methods_ll_fba_variants}. We experiment with blocking cycles, no-good cuts, combinatorial Benders' cuts and disjunctive programming.
+
+\subsection{FBA and ll-FBA Variants} \label{section:methods_ll_fba_variants}
+First, we look at the performance of the different ll-FBA variants. We compare the running time and number of solved BiGG instances of ll-FBA (indicator) (\cref{problem:thermo_fba_indicator}), of ll-FBA (\cref{problem:thermo_fba_bigM}) and of ll-FBA (nullspace) \cref{problem:thermo_fba_bigM} with the nullspace constraint (see \cref{section:llfba_variants}).\\
+The results are shown in \cref{fig:ll_fba_comparion}.
+ll-FBA solves around $60\%$ of instances, whereas ll-FBA (nullspace) solves around $30\%$. With ll-FBA (indicator) we solve around $30\%$ of the instances. \cref{tab:ll_fba_comparison} shows that for \textsf{iMM1415} and \textsf{iJN746}, ll-FBA with indicator formulation solves much faster than with big-M formulation. 
+% ll FBA solves 22 and does not solve 15
+
+\begin{figure}[h!]
+    \caption{performance of ll-FBA variants}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Images/fba_variants_comparison_plot.pdf}
+    \label{fig:ll_fba_comparion}
+    \subcaption*{The results are shown in \cref{tab:ll_fba_comparison} and in \cref{tab:ll_fba_indicator}}
+\end{figure}
+\todo[inline]{update label to "ll-FBA", change to latex font}
+
+For the other experiments, we only look at \cref{problem:thermo_fba_indicator} and \cref{problem:thermo_fba_bigM} \todo[inline]{explain why}.
+
+% \begin{table}[!ht]
+%     \centering
+%     \begin{tabular}{|l|l|l|l|l|l|l|l|}
+%     \hline
+%         \thead{organism} & \thead{type} & \thead{objective} & \thead{dual bound} & \thead{termination} & \thead{time limit} & \thead{time (s)} & \thead{nodes} \\ \hline
+%         iAF692 & loopless\_fba & 0.0268 & 0.0268 & OPTIMAL & 1800 & 4.51 & 351 \\ \hline
+%         iAF692 & loopless\_fba\_nullspace & 0.0256 & 0.0268 & TIME\_LIMIT & 1800 & 1800.0 & 575 \\ \hline
+%         iAF692 & loopless\_indicator\_fba & 0.0268 & 0.0268 & OPTIMAL & 1800 & 1285.4 & 11532 \\ \hline
+%         iJR904 & loopless\_fba & 0.9219 & 0.9219 & OPTIMAL & 1800 & 114.67 & 7614 \\ \hline
+%         iJR904 & loopless\_fba\_nullspace & 0.9219 & 0.9219 & OPTIMAL & 1800 & 172.86 & 641 \\ \hline
+%         iJR904 & loopless\_indicator\_fba & 0.0 & 0.9219 & TIME\_LIMIT & 1800 & 1800.0 & 31243 \\ \hline
+%         iML1515 & loopless\_fba & 0.865 & 0.877 & TIME\_LIMIT & 1800 & 1800.0 & 12098 \\ \hline
+%         iML1515 & loopless\_fba\_nullspace & NaN & NaN & TIME\_LIMIT & 1800 & 1800.06 & 15 \\ \hline
+%         iML1515 & loopless\_indicator\_fba & NaN & NaN & TIME\_LIMIT & 1800 & 1800.38 & 6776 \\ \hline
+%     \end{tabular}
+% \end{table}
+
+\subsection{Blocking Cycles in FBA}
+We experiment with blocking cycles in ll-FBA (\cref{problem:thermo_fba_bigM}) as explained in \cref{section:blocking_cycles} on a subset of BiGG instances. 
+The cycle search is limited by 600 minutes. \todo[inline]{check running time of instances}
+We then compare ll-FBA to 8 different setups. We block any 10, 20, 50 and 100 cycles prior to solving ll-FBA, and we block the same number of cycles by adding the shortest cycles detected. 
+We solve each setup with five different \textsf{SCIP} seeds for each organism. The results are shown in \cref{fig:cff_comparison}.
+
+\begin{figure}[h!]
+    \caption{running time of ll-FBA and ll-FBA with blocked cycles}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Images/cff_comparison_boxplot.pdf}
+    \label{fig:cff_comparison}
+    \subcaption*{The results are shown in \cref{tab:cff} and \cref{tab:cff_shortest_cycles}.}
+\end{figure}
+\todo[inline]{remove "time\_" from legend, use latex font, change order of hues}
+\todo[inline]{mention small instance variability}
+
+% \begin{table}[!ht]
+%     \centering
+%     \begin{tabular}{|l|l|l|l|l|l|}
+%     \hline
+%     \thead{\textbf{iAF692}} & \thead{objective} & \thead{status} & \thead{blocked cycles} & \thead{time (s)} & \thead{nodes} \\ \hline
+%         loopless\_fba\_blocked & 0.0268 & OPTIMAL & 50 & 7.33 & 1699 \\ \hline
+%         loopless\_fba\_blocked & 0.0268 & OPTIMAL & 100 & 6.51 & 818 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles & 0.0268 & OPTIMAL & 50 & 7.34 & 1528 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles & 0.0268 & OPTIMAL & 100 & 6.39 & 917 \\ \hline
+%     \end{tabular}
+% \end{table}
+
+% \begin{table}[!ht]
+%     \centering
+%     \begin{tabular}{|l|l|l|l|l|l|}
+%     \hline
+%     \thead{\textbf{iJR904}} & \thead{objective} & \thead{status} & \thead{blocked cycles} & \thead{time (s)} & \thead{nodes} \\ \hline
+%         loopless\_fba\_blocked & 0.9219 & OPTIMAL & 50 & 92.41 & 6505 \\ \hline
+%         loopless\_fba\_blocked & 0.9219 & OPTIMAL & 100 & 48.27 & 2314 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles & 0.9219 & OPTIMAL & 50 & 73.95 & 5777 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles & 0.9219 & OPTIMAL & 100 & 30.22 & 365 \\ \hline
+%     \end{tabular}
+% \end{table}
+
+% \begin{sidewaystable}
+%     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+%     \hline
+%         \thead{\textbf{iAF692}} & \thead{objective} & \thead{dual} & \thead{status} & \thead{blocked cycles} & \thead{ceiling} & \thead{block limit} & \thead{time (s)} & \thead{nodes} \\ \hline
+%         loopless\_fba & 0.0268 & 0.0268 & OPTIMAL & ~ & ~ & ~ & 4.51 & 351 \\ \hline
+%         loopless\_fba\_nullspace & 0.0256 & 0.0268 & TIME\_LIMIT & ~ & ~ & ~ & 1800.0 & 575 \\ \hline
+%         loopless\_indicator\_fba & 0.0268 & 0.0268 & OPTIMAL & ~ & ~ & ~ & 1285.4 & 11532 \\ \hline
+%         loopless\_indicator\_fba\_blocked\_same\_objective & 0.0268 & 0.0268 & OPTIMAL & 0 & 50 & 500 & 1286.58 & 11532 \\ \hline
+%         loopless\_indicator\_fba\_blocked\_same\_objective & 0.0268 & 0.0268 & OPTIMAL & 0 & 100 & 500 & 1269.63 & 11532 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0268 & 0.0268 & OPTIMAL & 0 & 50 & 100 & 4.53 & 351 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0268 & 0.0268 & OPTIMAL & 0 & 100 & 100 & 4.51 & 351 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0268 & 0.0268 & OPTIMAL & 0 & 200 & 100 & 4.51 & 351 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0268 & 0.0268 & OPTIMAL & 0 & 500 & 100 & 4.5 & 351 \\ \hline
+%         loopless\_fba\_blocked & 0.0268 & 0.0268 & OPTIMAL & 7 & 50 & 100 & 6.08 & 949 \\ \hline
+%         loopless\_fba\_blocked & 0.0268 & 0.0268 & OPTIMAL & 7 & 100 & 100 & 6.09 & 949 \\ \hline
+%         loopless\_fba\_blocked & 0.0268 & 0.0268 & OPTIMAL & 7 & 200 & 100 & 6.1 & 949 \\ \hline
+%         loopless\_fba\_blocked & 0.0268 & 0.0268 & OPTIMAL & 7 & 500 & 100 & 6.07 & 949 \\ \hline
+%         loopless\_fba\_blocked00 & 0.0268 & 0.0268 & OPTIMAL & 50 & 10000 & 50 & 7.34 & 1699 \\ \hline
+%         loopless\_fba\_blocked00 & 0.0268 & 0.0268 & OPTIMAL & 100 & 10000 & 100 & 6.49 & 818 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles00 & 0.0268 & 0.0268 & OPTIMAL & 50 & 10000 & 50 & 7.76 & 1528 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles00 & 0.0268 & 0.0268 & OPTIMAL & 100 & 10000 & 100 & 6.38 & 917 \\ \hline
+%     \end{tabular}
+
+
+%     \vspace{5mm}
+
+%     \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+%     \hline
+%         \thead{\textbf{iJR904}} & \thead{objective} & \thead{dual} & \thead{status} & \thead{blocked cycles} & \thead{ceiling} & \thead{block limit} & \thead{time (s)} & \thead{nodes} \\ \hline
+%         loopless\_fba & 0.9219 & 0.9219 & OPTIMAL & ~ & ~ & ~ & 114.67 & 7614 \\ \hline
+%         loopless\_fba\_nullspace & 0.9219 & 0.9219 & OPTIMAL & ~ & ~ & ~ & 172.86 & 641 \\ \hline
+%         loopless\_indicator\_fba & 0.0 & 0.9219 & TIME\_LIMIT & ~ & ~ & ~ & 1800.0 & 31243 \\ \hline
+%         loopless\_indicator\_fba\_blocked\_same\_objective & 0.0 & 0.9219 & TIME\_LIMIT & 0 & 50 & 500 & 1800.0 & 28423 \\ \hline
+%         loopless\_indicator\_fba\_blocked\_same\_objective & 0.0 & 0.9219 & TIME\_LIMIT & 0 & 100 & 500 & 1800.0 & 28283 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.9219 & 0.9219 & OPTIMAL & 0 & 50 & 100 & 115.01 & 7614 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.9219 & 0.9219 & OPTIMAL & 0 & 100 & 100 & 114.7 & 7614 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.9219 & 0.9219 & OPTIMAL & 0 & 200 & 100 & 114.14 & 7614 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.9219 & 0.9219 & OPTIMAL & 0 & 500 & 100 & 110.62 & 7614 \\ \hline
+%         loopless\_fba\_blocked & 0.9219 & 0.9219 & OPTIMAL & 13 & 50 & 100 & 89.4 & 4804 \\ \hline
+%         loopless\_fba\_blocked & 0.9219 & 0.9219 & OPTIMAL & 20 & 100 & 100 & 45.61 & 881 \\ \hline
+%         loopless\_fba\_blocked & 0.9219 & 0.9219 & OPTIMAL & 60 & 200 & 100 & 101.19 & 28 \\ \hline
+%         loopless\_fba\_blocked & 0.9219 & 0.9219 & OPTIMAL & 100 & 500 & 100 & 48.43 & 2314 \\ \hline
+%         loopless\_fba\_blocked00 & 0.9219 & 0.9219 & OPTIMAL & 50 & 10000 & 50 & 99.55 & 6505 \\ \hline
+%         loopless\_fba\_blocked00 & 0.9219 & 0.9219 & OPTIMAL & 100 & 10000 & 100 & 48.28 & 2314 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles00 & 0.9219 & 0.9219 & OPTIMAL & 50 & 10000 & 50 & 74.12 & 5777 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles & 0.9219 & 0.9219 & OPTIMAL & 13 & 50 & 100 & 87.25 & 2792 \\ \hline
+%     \end{tabular}
+% \end{sidewaystable}
+
+% \begin{sidewaystable}
+%     \centering
+%     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+%     \hline
+%         \thead{\textbf{iML1515}} & \thead{objective} & \thead{dual} & \thead{status} & \thead{blocked cycles} & \thead{ceiling} & \thead{block limit} & \thead{time (s)} & \thead{nodes} \\ \hline
+%        loopless\_fba & 0.865 & 0.877 & TIME\_LIMIT & ~ & ~ & ~ & 1800.0 & 12098 \\ \hline
+%         loopless\_fba\_nullspace & NaN & NaN & TIME\_LIMIT & ~ & ~ & ~ & 1800.06 & 15 \\ \hline
+%         loopless\_indicator\_fba & NaN & NaN & TIME\_LIMIT & ~ & ~ & ~ & 1800.38 & 6776 \\ \hline
+%         loopless\_indicator\_fba\_blocked\_same\_objective & NaN & NaN & TIME\_LIMIT & 50 & 50 & 500 & 1800.0 & 8902 \\ \hline
+%         loopless\_indicator\_fba\_blocked\_same\_objective & NaN & NaN & TIME\_LIMIT & 100 & 100 & 500 & 1800.56 & 6828 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0 & 0.877 & TIME\_LIMIT & 50 & 50 & 100 & 1800.0 & 41468 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0 & 0.877 & TIME\_LIMIT & 100 & 100 & 100 & 1800.0 & 51433 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0 & 0.877 & TIME\_LIMIT & 100 & 200 & 100 & 1800.0 & 52372 \\ \hline
+%         loopless\_fba\_blocked\_same\_objective & 0.0 & 0.877 & TIME\_LIMIT & 100 & 500 & 100 & 1800.05 & 52039 \\ \hline
+%         loopless\_fba\_blocked & 0.0 & 0.877 & TIME\_LIMIT & 50 & 50 & 100 & 1800.0 & 45557 \\ \hline
+%         loopless\_fba\_blocked & 0.0 & 0.877 & TIME\_LIMIT & 100 & 100 & 100 & 1800.0 & 41023 \\ \hline
+%         loopless\_fba\_blocked & 0.0 & 0.877 & TIME\_LIMIT & 100 & 200 & 100 & 1800.0 & 40683 \\ \hline
+%         loopless\_fba\_blocked & 0.0 & 0.877 & TIME\_LIMIT & 100 & 500 & 100 & 1800.0 & 40864 \\ \hline
+%         loopless\_fba\_blocked\_shortest\_cycles & 0.2277 & 0.877 & TIME\_LIMIT & 50 & 50 & 100 & 1800.04 & 48769 \\ \hline
+%     \end{tabular}
+% \end{sidewaystable}
+
+\newpage
+\subsection{Cutting Planes}
+% \subsection{No-Good Cuts}
+We first present a comparison of \cref{problem:thermo_fba_bigM} with no-good cuts (see \cref{section:no_good_cuts}). While \cref{problem:thermo_fba_bigM} solves around $60 \%$, we solve only $8\%$ with no-good cuts. \cref{fig:no_good_cuts_comparison_plot} shows the running time and the number of solved instances.\\
+As with no-good cuts, we only block one assignment of binary variables $\bold a$ per iteration, it requires many cuts to arrive at the integer hull.
+
+\begin{figure}[h!]
+    \caption{runtime of ll-FBA and ll-FBA with no-good cuts}
+    \centering
+    \includegraphics[width=1.0\textwidth]{Images/no_good_cuts_comparison_plot.pdf}
+    \label{fig:no_good_cuts_comparison_plot}
+    \subcaption*{The results are shown in \cref{tab:no_good_cuts}}
+\end{figure}
+
+% \subsection{Combinatorial Benders' Cuts}
+Next, we look at the comparison of the ll-FBA variants with combinatorial Benders' cuts. We experiment with different formulations of the master problem and add one cut per iteration. \cref{fig:comparison_solved_instances_indicator_and_big_m_as_MP} shows ... 
+\todo[inline]{more detail on MP}
+
+\begin{figure}[h!]
+    \caption{solved instances by CB (big-M), CB (indicator) and CB (indicator and big-M)}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/comparison_solved_instances_indicator_and_big_m.pdf}
+    \label{fig:comparison_solved_instances_indicator_and_big_m_as_MP}
+\end{figure}
+\todo[inline]{add ll FBA to plot}
+
+\newpage
+Next, we look at the comparison of \cref{problem:thermo_fba_indicator} with combinatorial Benders' cuts (see \cref{section:cb}). 
+In \cref{fig:mis_comparison_solved_instances}...
+
+\begin{figure}[h!]
+    \caption{solved instances by CB (indicator) and ll-FBA}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/mis_comparison_solved_instances.pdf}
+    \label{fig:mis_comparison_solved_instances}
+\end{figure}
+
+In \cref{fig:mis_comparison_time_vs_iterations}, we see that with several cuts per iteration, the number of iterations is reduced while the time spent in the MIS search is larger.  
+\todo[inline]{check blue points, not in legend}
+
+\begin{figure}[h!]
+    \caption{solved instances by CB (indicator) and ll-FBA}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/mis_comparison_time_vs_iterations.pdf}
+    \label{fig:mis_comparison_time_vs_iterations}
+\end{figure}
+
+Next, we compare \cref{problem:thermo_fba_bigM} with combinatorial Benders' cuts (see \cref{section:cb}) by experimenting with the number of cuts added per iteration. \todo[inline]{detail on MIS, meaning of label}
+
+\begin{figure}[h!]
+    \caption{solved instances by CB (big-M) and ll-FBA}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/mis_comparison_solved_instances_big_m.pdf}
+    \label{fig:mis_comparison_solved_instances_big_m}
+\end{figure}
+\todo[inline]{add less cuts}
+
+\begin{figure}[h!]
+    \caption{solved instances by CB (big-M) and ll-FBA}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/mis_comparison_time_vs_iterations_big_m.pdf}
+    \label{fig:mis_comparison_time_vs_iterations_big_m}
+\end{figure}
+
+\todo[inline]{note on yeast models}
+
+\begin{figure}[h!]
+    \caption{solved GECKO instances by CB (big-M), CB (big-M MIS 5\%) and ll-FBA}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/comparison_solved_instances_gecko_1.0e-8.pdf}
+    \label{fig:comparison_gecko}
+\end{figure}
+
+% \subsection{Intersection Cuts}
+\clearpage
+\subsection{Disjunctive Programming}
+
+\begin{figure}[h!]
+    \caption{solved instances by DP.jl, ll-FBA and CB}
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/comparison_dp.pdf}
+    \label{fig:}
+\end{figure}
+
+\todo[inline]{instances with smaller objective value are considered as NOT SOLVED, update plot}
+

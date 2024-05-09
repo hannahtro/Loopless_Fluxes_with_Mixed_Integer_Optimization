@@ -1,0 +1,254 @@
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ meaning of program}{2}{section*.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ update vector, matrix notation in thesis, use variables consistently, check when to use if and when iff, which words to write in italic}{2}{section*.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ remove?}{2}{section*.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ sign}{2}{section*.7}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ update in entire section, often one index used for row of matrix}{3}{section*.8}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add 0 matrix, add diag}{3}{section*.9}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ all matrices bold and capitalized to differentiate btw matrix and vector?}{3}{section*.10}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ vectors bold}{3}{section*.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ verify}{4}{section*.12}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ does ball have to be open? subset of euclidean space}{4}{section*.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ remove polytope from examples}{4}{section*.14}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ x positive ?}{4}{section*.15}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ to have an \textit {underdetermined} system of linear equations which allows to have many solutions}{4}{section*.16}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ there can be many solutions regardless: e.g. a half space -> many solutions (M.)}{4}{section*.17}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ redundant (M.)}{5}{section*.18}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ sufficient introduction?}{5}{section*.19}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ why orthogonal line to objective function has the same objective values}{5}{section*.20}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ remove grid?}{5}{section*.22}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ split x into nonpositive and nonnegative parts}{5}{section*.23}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ and that each vertex is corresponds to a basis, wrong words (M.)}{6}{section*.24}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ $\lambda _i (x_i)$ correct?}{7}{section*.25}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ other requirements needed?}{7}{section*.26}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite: following mostly taken from \cite {aps_mosek_nodate}}{8}{section*.27}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add dimensions to all variables, mention other shapes of primal}{8}{section*.28}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ define (M.)}{10}{section*.31}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ formulated as decision problem NP-complete; solution verifiable in polynomial time}{10}{section*.32}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ correct?}{11}{section*.33}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ can mention that cuts separate x from the hull (M.)}{11}{section*.34}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ difference btw DP and GDP}{11}{section*.35}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ Boolean variable for each disjunct?}{12}{section*.36}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ how to write problem in dp form?}{12}{section*.38}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ more detail, why solution is optimal, convex hull etc}{13}{section*.40}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ numerical issues, finding good cut can be expensive}{14}{section*.41}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ example + visualization}{14}{section*.42}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ correct without transpose?}{15}{section*.43}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ write M as matrix, vector or constant}{15}{section*.44}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ define properly (M.)}{16}{section*.45}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ensure that method section is correct}{17}{section*.46}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ not necessarily polytope}{17}{section*.47}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ verify correctness, ACTIVE CONSTRAINTS != EXTREME RAYS (n-D)}{18}{section*.48}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ differentiate point from vector in notation?}{18}{section*.49}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ update $\tilde x$}{19}{section*.51}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ confusing to have two x?}{19}{section*.52}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ power number in bold or not}{20}{section*.53}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ do we need transpose here?}{20}{section*.54}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain why x is cut off}{20}{section*.55}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ should -1 be eps?}{20}{section*.56}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ does opt sense matter?}{20}{section*.57}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use bar or tilde in intersection cuts? tilde already used for combinatorial benders}{20}{section*.58}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ polyhedral P vs primal P vs optimization problem}{20}{section*.59}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ update: basis defining x and basis for P}{20}{section*.60}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ index of v and G differ as they do not have the same length}{21}{section*.61}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ explain pde approach}{21}{section*.62}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ correct?}{21}{section*.63}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ quick note on thermodynamics}{21}{section*.64}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fix labels}{22}{section*.66}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ should it be two?}{24}{section*.67}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ example}{25}{section*.69}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ give example for infeasible solution, specify bounds etc}{26}{section*.71}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ how to present paper? Mention complexity of ll-FBA}{26}{section*.72}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ counter example}{26}{section*.73}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ other cases?}{26}{section*.74}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ compare to parsimonous fba}{26}{section*.75}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ or bound?}{28}{section*.76}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ mention dimensions? for all i in}{28}{section*.77}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ care about the sign only so any delta mu can be scaled}{29}{section*.78}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ rephrase following section}{29}{section*.79}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite}{29}{section*.80}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ not considered -> not important since (M.)}{29}{section*.81}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ explain more}{30}{section*.82}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ mention not using $\Delta \mu $}{30}{section*.83}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ used in this thesis ?}{30}{section*.84}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ correct wording}{30}{section*.85}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain why this is ok (M.)}{30}{section*.86}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite proofs, especially complexity proof}{30}{section*.87}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ why S not in constraints (30)-(31)?}{31}{section*.88}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ why model exists, advantages, disadvantages, compare to ll-FBA and TFBA (M.)}{31}{section*.89}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ cite ?}{31}{section*.90}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ use 0 as zero matrix ?? (M.)}{32}{section*.91}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ present enzyme types, which enzyme used in code}{32}{section*.92}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ put FBA and ll-FBA in standard form}{34}{section*.93}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ mention big-M value}{34}{section*.94}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain why indicators constraints can be used in CB}{34}{section*.95}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ technical setup, julia, github link}{34}{section*.96}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use notation of optimization section}{36}{section*.97}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ move fundamental parts to optimization chapter}{36}{section*.98}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fix reference}{36}{section*.99}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ rephrase section}{37}{section*.101}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ standard form defined earlier requires $x \geq 0$}{37}{section*.102}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ What do MIS mean? reactions in cycle?}{39}{section*.103}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ pseudo code}{39}{section*.104}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ dualize package}{39}{section*.105}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ constraint handler}{39}{section*.106}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference optimization section more}{39}{section*.107}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use $\delta $ instead of -1, 1}{39}{section*.108}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ define A, b (to understand what $\tilde A$) means later}{40}{section*.109}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ include interval -1, 1}{40}{section*.110}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ add two more plots for other S-free sets}{40}{section*.111}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add $C_3$? can be tilted}{40}{section*.112}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ projected into space of $(v_i \Delta \mu _i)$}{40}{section*.113}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ make figure nice, correct labels, colour interior of polytope, do not call it 2D, fix cut off extreme ray}{40}{section*.115}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain what happens if lambda is zero or very small, or if lines are almost parallel \\ explain the geometric meaning of infinity case}{41}{section*.116}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ write about possible usage of intersection cut}{42}{section*.117}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ include var types}{42}{section*.118}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ change font size}{42}{section*.119}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ explain}{43}{section*.120}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ meaning of constraints}{43}{section*.121}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how to handle suboptimally solved instances}{44}{section*.122}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ unsure subsection for CycleFreeFlux ?}{44}{section*.123}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add less cuts}{44}{section*.127}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{red}{}{red!25}{\leavevmode {\color {red!25}o}}\ add indicator and indicator + big M ?}{44}{section*.129}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ note on yeast models}{44}{section*.130}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ instances with smaller objective value are considered as NOT SOLVED, update plot}{44}{section*.133}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ do not enumerate single subsections, only multiple}{48}{section*.134}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use AE or BE consistently}{48}{section*.135}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ vectors in bold}{48}{section*.136}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ align all problems that are on the same page}{48}{section*.137}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ use Problem instead of Equation}{48}{section*.138}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ cite A B instead of cite A cite B}{48}{section*.139}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ how to ref Eq 2 (b) correctly}{48}{section*.140}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ ref section without brackets}{48}{section*.141}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ bold a should look like normal a in bold}{48}{section*.142}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ page with abbreviations}{48}{section*.143}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ o.v. does not match for iAF692}{57}{section*.155}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ fix rounding when NaN in column}{57}{section*.156}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ reference equations and design tables}{57}{section*.157}%
+\defcounter {refsection}{0}\relax 
+\contentsline {todo}{\color@fb@x {}{black}{}{orange}{\leavevmode {\color {orange}o}}\ add less cuts}{58}{section*.159}%

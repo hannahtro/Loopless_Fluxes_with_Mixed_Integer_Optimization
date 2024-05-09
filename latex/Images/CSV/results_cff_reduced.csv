@@ -1,0 +1,10 @@
+time_loopless_fba,time_loopless_fba_blocked_10,time_loopless_fba_blocked_20,time_loopless_fba_blocked_50,time_loopless_fba_blocked_100,time_loopless_fba_blocked_shortest_cycles_10,time_loopless_fba_blocked_shortest_cycles_20,time_loopless_fba_blocked_shortest_cycles_50,time_loopless_fba_blocked_shortest_cycles_100,organism
+0.0,6.0,4.0,7.0,14.0,5.0,4.0,7.0,14.0,iAF692
+9.0,29.0,30.0,20.0,16.0,40.0,39.0,27.0,72.0,iJR904
+1800.0,1800.0,1800.0,1800.0,1800.0,1800.0,1800.0,1800.0,1800.0,iML1515
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,e_coli_core
+1800.0,134.0,89.0,163.0,79.0,1800.0,280.0,53.0,37.0,iNJ661
+0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,iCN900
+473.0,411.0,101.0,70.0,82.0,163.0,125.0,370.0,69.0,iEK1008
+650.0,880.0,781.0,1689.0,1800.0,656.0,1111.0,548.0,1165.0,iMM904
+1710.0,1178.0,1800.0,854.0,685.0,1800.0,1800.0,1800.0,1565.0,iSFV_1184

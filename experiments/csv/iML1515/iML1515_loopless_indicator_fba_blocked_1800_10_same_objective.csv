@@ -1,0 +1,2 @@
+objective_value,dual_bound,solution,time,termination,nodes,num_blocked_cycles
+NaN,NaN,NaN,1854.126145,TIME_LIMIT,0,10
