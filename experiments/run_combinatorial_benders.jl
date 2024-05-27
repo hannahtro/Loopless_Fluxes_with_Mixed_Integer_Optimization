@@ -54,26 +54,15 @@ organisms = [
     "Ashbya_aceri"
 ]
 
-time_limit = 1800
+time_limit = 14440
 fast = true
 json = true
 yeast = true
 
-# mis_numbers = [0.1, 0.2]# , 2] #[0, 5, 10, 20, 30]
-# for organism in organisms
-#     for mis in mis_numbers
-#         @show organism, mis
-#         run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast $mis`) # CB
-#     end
-# end
-
-# run(`sbatch -A optimi batch_cb.sh $"yHMPu5000035696_Hanseniaspora_singularis" $time_limit $fast $json $yeast $0.2`) 
-# run(`sbatch -A optimi batch_cb.sh $"yHMPu5000035696_Hanseniaspora_singularis" $time_limit $fast $json $yeast $0.5`) 
-# run(`sbatch -A optimi batch_cb.sh $"yHMPu5000035695_Hanseniaspora_pseudoguilliermondii" $time_limit $fast $json $yeast $0.2`) 
-run(`sbatch -A optimi batch_cb.sh $"yHMPu5000035695_Hanseniaspora_pseudoguilliermondii" $time_limit $fast $json $yeast $2.0`) # still does not terminate
-# run(`sbatch -A optimi batch_cb.sh $"Eremothecium_sinecaudum" $time_limit $fast $json $yeast $2.0`) 
-# run(`sbatch -A optimi batch_cb.sh $"Starmerella_bombicola_JCM9596" $time_limit $fast $json $yeast $2.0`) 
-# run(`sbatch -A optimi batch_cb.sh $"Eremothecium_gossypii" $time_limit $fast $json $yeast $0.1`) 
-# run(`sbatch -A optimi batch_cb.sh $"Eremothecium_gossypii" $time_limit $fast $json $yeast $0.2`) 
-# run(`sbatch -A optimi batch_cb.sh $"Ashbya_aceri" $time_limit $fast $json $yeast $0.2`) 
-# run(`sbatch -A optimi batch_cb.sh $"Ashbya_aceri" $time_limit $fast $json $yeast $2.0`) 
+mis_numbers = [0, 0.1, 0.2]# , 2] #[0, 5, 10, 20, 30]
+for organism in organisms
+    for mis in mis_numbers
+        @show organism, mis
+        run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast $mis`) # CB
+    end
+end

@@ -43,19 +43,19 @@ using DelimitedFiles
 
 organisms = [
     "Hanseniaspora_uvarum",
-#    "yHMPu5000035696_Hanseniaspora_singularis",
-#    "yHMPu5000034963_Hanseniaspora_clermontiae",
-#    "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
-#    "yHMPu5000035684_Kloeckera_hatyaiensis",
-#    "Eremothecium_sinecaudum",
-#    "yHMPu5000035659_Saturnispora_dispora",
-#    "Tortispora_caseinolytica",
-#    "Starmerella_bombicola_JCM9596",
-#    "Eremothecium_gossypii",
-#    "Ashbya_aceri"
+   "yHMPu5000035696_Hanseniaspora_singularis",
+   "yHMPu5000034963_Hanseniaspora_clermontiae",
+   "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+   "yHMPu5000035684_Kloeckera_hatyaiensis",
+   "Eremothecium_sinecaudum",
+   "yHMPu5000035659_Saturnispora_dispora",
+   "Tortispora_caseinolytica",
+   "Starmerella_bombicola_JCM9596",
+   "Eremothecium_gossypii",
+   "Ashbya_aceri"
 ]
 
-time_limit = 1800
+time_limit = 14440
 fast = true
 json = true
 yeast = true
@@ -64,3 +64,4 @@ for organism in organisms
     @show organism
     run(`sbatch batch_ll_fba.sh $organism $time_limit $fast $json $yeast`)
 end
+
