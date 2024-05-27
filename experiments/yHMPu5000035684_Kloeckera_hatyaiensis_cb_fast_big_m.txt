@@ -1,0 +1,1 @@
+ErrorException("SCIPsolve(o) yielded SCIP code SCIP_MAXDEPTHLEVEL")

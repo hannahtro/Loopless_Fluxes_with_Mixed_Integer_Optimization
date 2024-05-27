@@ -1,0 +1,5 @@
+WARNING: LP solution value is above SCIP's infinity value
+organism = "yHMPu5000035659_Saturnispora_dispora"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+time_taken = 14458.595174074173
