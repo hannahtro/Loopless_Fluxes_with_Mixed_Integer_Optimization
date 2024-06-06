@@ -1,0 +1,5 @@
+WARNING: LP solution value is below SCIP's -infinity value
+organism = "yHMPu5000035684_Kloeckera_hatyaiensis"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+time_taken = 14461.169433116913

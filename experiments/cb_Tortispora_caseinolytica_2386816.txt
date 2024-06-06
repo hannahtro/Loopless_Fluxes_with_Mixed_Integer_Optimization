@@ -1,0 +1,22 @@
+ERROR: LoadError: Unable to find compatible target in system image.
+Stacktrace:
+ [1] _include_from_serialized(pkg::Base.PkgId, path::String, ocachepath::String, depmods::Vector{Any})
+   @ Base ./loading.jl:1011
+ [2] _tryrequire_from_serialized(pkg::Base.PkgId, path::String, ocachepath::String)
+   @ Base ./loading.jl:1407
+ [3] _require(pkg::Base.PkgId, env::String)
+   @ Base ./loading.jl:1781
+ [4] _require_prelocked(uuidkey::Base.PkgId, env::String)
+   @ Base ./loading.jl:1625
+ [5] macro expansion
+   @ ./loading.jl:1613 [inlined]
+ [6] macro expansion
+   @ ./lock.jl:267 [inlined]
+ [7] require(into::Module, mod::Symbol)
+   @ Base ./loading.jl:1576
+ [8] include(fname::String)
+   @ Base.MainInclude ./client.jl:478
+ [9] top-level scope
+   @ ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/experiments/combinatorial_benders.jl:1
+in expression starting at /home/htc/htroppen/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:2
+in expression starting at /home/htc/htroppen/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/experiments/combinatorial_benders.jl:1

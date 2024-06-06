@@ -1,0 +1,5 @@
+WARNING: LP solution value is below SCIP's -infinity value
+organism = "Ashbya_aceri"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+time_taken = 14457.6025121212
