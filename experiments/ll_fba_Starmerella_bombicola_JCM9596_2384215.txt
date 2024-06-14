@@ -1,4 +1,0 @@
-organism = "Starmerella_bombicola_JCM9596"
-(time_limit, json, yeast) = (14440, true, true)
-max_reactions = Any[]
-time_taken = 14457.383084058762

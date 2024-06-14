@@ -1,4 +1,0 @@
-organism = "Hanseniaspora_uvarum"
-(time_limit, json, yeast) = (14440, true, true)
-max_reactions = Any[]
-time_taken = 14463.188323020935

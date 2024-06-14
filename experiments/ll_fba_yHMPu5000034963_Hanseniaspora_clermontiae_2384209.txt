@@ -1,5 +1,0 @@
-WARNING: LP solution value is below SCIP's -infinity value
-organism = "yHMPu5000034963_Hanseniaspora_clermontiae"
-(time_limit, json, yeast) = (14440, true, true)
-max_reactions = Any[]
-time_taken = 14460.96796298027

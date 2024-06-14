@@ -1,4 +1,0 @@
-organism = "Eremothecium_sinecaudum"
-(time_limit, json, yeast) = (14440, true, true)
-max_reactions = Any[]
-time_taken = 14457.516274929047
