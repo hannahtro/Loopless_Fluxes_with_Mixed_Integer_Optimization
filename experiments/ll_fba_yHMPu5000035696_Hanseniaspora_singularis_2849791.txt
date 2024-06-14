@@ -1,0 +1,101 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Error: invalid user locale; possible fix is to set the system environment
+       variable 'LC_ALL' to a valid locale (e.g., to 'C')
+Set parameter TimeLimit to value 14440
+Set parameter TimeLimit to value 14440
+Gurobi Optimizer version 11.0.2 build v11.0.2rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
+
+CPU model: Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz, instruction set [SSE2|AVX]
+Thread count: 32 physical cores, 64 logical processors, using up to 32 threads
+
+Optimize a model with 25937 rows, 12554 columns and 62205 nonzeros
+Model fingerprint: 0xf4ba40cb
+Variable types: 9270 continuous, 3284 integer (3284 binary)
+Coefficient statistics:
+  Matrix range     [3e-05, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e-01, 1e+03]
+Presolve removed 16765 rows and 5997 columns
+Presolve time: 0.13s
+Presolved: 9172 rows, 6557 columns, 29248 nonzeros
+Variable types: 4202 continuous, 2355 integer (2355 binary)
+
+Root relaxation: objective 8.246661e-02, 7089 iterations, 2.25 seconds (0.96 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.08247    0  108          -    0.08247      -     -    4s
+     0     0    0.08247    0  111          -    0.08247      -     -    6s
+     0     0    0.08247    0  106          -    0.08247      -     -    7s
+     0     0    0.08247    0  105          -    0.08247      -     -    8s
+     0     0    0.08247    0   65          -    0.08247      -     -    8s
+     0     0    0.08247    0   60          -    0.08247      -     -    9s
+     0     0    0.08247    0   61          -    0.08247      -     -    9s
+     0     0    0.08247    0   57          -    0.08247      -     -    9s
+     0     0    0.08247    0   57          -    0.08247      -     -    9s
+     0     0    0.08247    0   57          -    0.08247      -     -    9s
+H    0     0                      -0.0000000    0.08247      -     -   10s
+     0     0    0.08247    0   50   -0.00000    0.08247      -     -   10s
+     0     0    0.08247    0   46   -0.00000    0.08247      -     -   10s
+     0     0    0.08247    0   41   -0.00000    0.08247      -     -   11s
+     0     0    0.08247    0   41   -0.00000    0.08247      -     -   11s
+     0     1    0.08247    0   41   -0.00000    0.08247      -     -   13s
+     4     1    0.08247    3   49   -0.00000    0.08247      -   154   15s
+    23    15    0.08247    9   85   -0.00000    0.08247      -   146   20s
+H   34    30                       0.0000000    0.08247      -   126   22s
+H   38    30                       0.0000000    0.08247      -   119   22s
+    48    58    0.07427   11   87    0.00000    0.08247      -   112   25s
+   110   116    0.01733   13   84    0.00000    0.08247      -   186   30s
+   243   238    0.01733   14   98    0.00000    0.08247      -   174   36s
+   453   478    0.01733   17   82    0.00000    0.08247      -   145   40s
+   812   794    0.01733   22   92    0.00000    0.08247      -   127   97s
+H  825   794                       0.0415370    0.08247  98.5%   126   97s
+   969   804    0.08247   14  116    0.04154    0.08247  98.5%   115  101s
+  1047   824    0.08247   14   77    0.04154    0.08247  98.5%   114  134s
+H 1051   824                       0.0810184    0.08247  1.79%   114  134s
+  1088   806 infeasible   15         0.08102    0.08247  1.79%   115  136s
+  1332   961    0.08247   15  109    0.08102    0.08247  1.79%   119  140s
+  1705  1233     cutoff   19         0.08102    0.08247  1.79%   119  145s
+  1979  1498    0.08247   21   50    0.08102    0.08247  1.79%   125  150s
+  2190  1702    0.08247   25   55    0.08102    0.08247  1.79%   122  157s
+  2693  2129 infeasible   37         0.08102    0.08247  1.79%   114  162s
+  3127  2153    0.08247   42   64    0.08102    0.08247  1.79%   108  165s
+H 3632   504                       0.0816828    0.08247  0.96%   102  169s
+  3633   353    0.08172   43   41    0.08168    0.08247  0.96%   102  171s
+  3635   354    0.08246   57  105    0.08168    0.08246  0.96%   101  175s
+  3642   359    0.08245   34   24    0.08168    0.08245  0.94%   101  180s
+  3649   364    0.08172   23    8    0.08168    0.08244  0.93%   101  186s
+  3707   432    0.08244   20    7    0.08168    0.08244  0.93%   107  190s
+  3952   601    0.08244   24   11    0.08168    0.08244  0.93%   102  195s
+  4666  1741    0.08244   39   15    0.08168    0.08244  0.93%  91.0  203s
+  5733  3960    0.08244   63   15    0.08168    0.08244  0.93%  79.5  211s
+H 8531  1841                       0.0824433    0.08244  0.00%  63.8  236s
+H 8532  1841                       0.0824587    0.08246  0.00%  63.8  236s
+H 8539  1841                       0.0824653    0.08247  0.00%  63.7  236s
+H 8554  1841                       0.0824658    0.08247  0.00%  63.6  236s
+
+Cutting planes:
+  Gomory: 31
+  Cover: 4
+  Implied bound: 3
+  Clique: 2
+  Flow cover: 4
+  Relax-and-lift: 1
+
+Explored 8564 nodes (567407 simplex iterations) in 236.80 seconds (62.98 work units)
+Thread count was 32 (of 64 available processors)
+
+Solution count 10: 0.0824658 0.0824653 0.0824587 ... -0
+No other solutions better than 0.0824658
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.246580384028e-02, best bound 8.246580384028e-02, gap 0.0000%
+
+User-callback calls 58308, time in user-callback 1.19 sec
+organism = "yHMPu5000035696_Hanseniaspora_singularis"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+time_taken = 283.9294090270996

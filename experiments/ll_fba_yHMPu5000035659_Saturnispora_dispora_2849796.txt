@@ -1,0 +1,69 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Error: invalid user locale; possible fix is to set the system environment
+       variable 'LC_ALL' to a valid locale (e.g., to 'C')
+Set parameter TimeLimit to value 14440
+Set parameter TimeLimit to value 14440
+Gurobi Optimizer version 11.0.2 build v11.0.2rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
+
+CPU model: Intel(R) Xeon(R) CPU E5-4640 0 @ 2.40GHz, instruction set [SSE2|AVX]
+Thread count: 32 physical cores, 64 logical processors, using up to 32 threads
+
+Optimize a model with 25076 rows, 12269 columns and 59635 nonzeros
+Model fingerprint: 0xe6ff2ca9
+Variable types: 9129 continuous, 3140 integer (3140 binary)
+Coefficient statistics:
+  Matrix range     [3e-05, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e-01, 1e+03]
+Presolve removed 17022 rows and 6357 columns
+Presolve time: 0.12s
+Presolved: 8054 rows, 5912 columns, 25834 nonzeros
+Variable types: 3718 continuous, 2194 integer (2194 binary)
+
+Root relaxation: objective 8.383446e-02, 5898 iterations, 0.89 seconds (0.64 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.08383    0   64          -    0.08383      -     -    2s
+     0     0    0.08383    0   62          -    0.08383      -     -    3s
+     0     0    0.08383    0   47          -    0.08383      -     -    3s
+     0     0    0.08383    0   46          -    0.08383      -     -    3s
+     0     0    0.08383    0   45          -    0.08383      -     -    4s
+     0     0    0.08383    0   45          -    0.08383      -     -    4s
+     0     0    0.08383    0   37          -    0.08383      -     -    4s
+     0     0    0.08383    0   25          -    0.08383      -     -    4s
+     0     0    0.08383    0   24          -    0.08383      -     -    5s
+     0     2    0.08383    0   21          -    0.08383      -     -    6s
+    83   102   -0.00000    7   56          -    0.08383      -  60.6   10s
+   979   895 infeasible   26               -    0.08383      -  37.9   15s
+  3019  1665 infeasible   63               -    0.08383      -  26.4   20s
+* 3359  1743              81      -0.0000000    0.08383      -  25.4   20s
+H 3632  1646                       0.0000000    0.08383      -  25.0   22s
+H 3637  1646                       0.0000000    0.08383      -  25.0   22s
+  3854  1742    0.08383   10   30    0.00000    0.08383      -  25.5   25s
+H 4122  1756                       0.0727782    0.08383  15.2%  25.8   46s
+H 4134  1756                       0.0838221    0.08383  0.01%  25.7   46s
+H 4142  1756                       0.0838312    0.08383  0.00%  25.7   46s
+
+Cutting planes:
+  Gomory: 13
+  Implied bound: 2
+  MIR: 2
+  Flow cover: 1
+
+Explored 4175 nodes (124353 simplex iterations) in 46.13 seconds (15.35 work units)
+Thread count was 32 (of 64 available processors)
+
+Solution count 6: 0.0838312 0.0838221 0.0727782 ... -0
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.383118274334e-02, best bound 8.383445965982e-02, gap 0.0039%
+
+User-callback calls 15490, time in user-callback 0.05 sec
+organism = "yHMPu5000035659_Saturnispora_dispora"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+time_taken = 82.13945317268372
