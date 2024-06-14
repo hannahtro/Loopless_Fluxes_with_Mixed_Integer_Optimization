@@ -171,7 +171,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     "termination" => "ERROR",
                     "objective_value" => NaN,
                     "time" => NaN, 
-                    "time_limit" => 1800,
+                    "time_limit" => time_limit,
                     "thermo_feasible" => false,
                     "iter" => missing,
                     "cuts" => missing,
@@ -209,7 +209,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     "termination" => "ERROR",
                     "objective_value" => NaN,
                     "time" => NaN, 
-                    "time_limit" => 1800,
+                    "time_limit" => time_limit,
                     "thermo_feasible" => false,
                     "iter" => missing,
                     "cuts" => missing,
@@ -247,7 +247,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     "termination" => "ERROR",
                     "objective_value" => NaN,
                     "time" => NaN, 
-                    "time_limit" => 1800,
+                    "time_limit" => time_limit,
                     "thermo_feasible" => false,
                     "iter" => missing,
                     "cuts" => missing,
@@ -287,7 +287,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     "termination" => "ERROR",
                     "objective_value" => NaN,
                     "time" => NaN, 
-                    "time_limit" => 1800,
+                    "time_limit" => time_limit,
                     "thermo_feasible" => false,
                     "iter" => missing,
                     "cuts" => missing,
@@ -327,7 +327,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     "termination" => "ERROR",
                     "objective_value" => NaN,
                     "time" => NaN, 
-                    "time_limit" => 1800,
+                    "time_limit" => time_limit,
                     "thermo_feasible" => false,
                     "iter" => missing,
                     "cuts" => missing,
@@ -376,7 +376,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                         "termination" => "ERROR",
                         "objective_value" => missing,
                         "time" => NaN, 
-                        "time_limit" => 1800,
+                        "time_limit" => time_limit,
                         "thermo_feasible" => missing,
                         "iter" => missing,
                         "cuts" => missing,
@@ -416,7 +416,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                         "termination" => "ERROR",
                         "objective_value" => missing,
                         "time" => NaN, 
-                        "time_limit" => 1800,
+                        "time_limit" => time_limit,
                         "thermo_feasible" => missing,
                         "iter" => missing,
                         "cuts" => missing,
@@ -471,7 +471,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
     for name in column_names 
         if occursin("time", name) && !occursin("time_limit", name)
             @show name
-            df[!, name] = [((item >= 1800) && !isnan(item)) ? 1800 : item for item in df[!, name]]
+            df[!, name] = [((item >= time_limit) && !isnan(item)) ? time_limit : item for item in df[!, name]]
             df[!, name] = [isnan(item) ? item : Int(round(item, digits=0)) for item in df[!, name]]
             df[!, name] = [isnan(item) ? missing : item for item in df[!, name]]
         end 
@@ -482,7 +482,11 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
     # @show df[!, [:time_ll_fba, :time_no_good_cuts, :time_cb]]
     
     if yeast
-        file_name = "results_yeast_" * solver * ".csv"
+        if time_limit == 1800
+            file_name = "results_yeast_" * solver * ".csv"
+        else 
+            file_name = "results_yeast_" * solver * "_" * string(time_limit) * ".csv"
+        end
     else
         file_name = "results_bigg_" * solver * ".csv"
     end 
@@ -633,8 +637,8 @@ organisms = [
     "iYS1720",
     "iZ_1308"
 ]
-mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
-solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true)
+# mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
+# solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)
 # sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
@@ -684,5 +688,8 @@ organisms = [
     "Starmerella_bombicola_JCM9596",
     "Eremothecium_gossypii",
     "Ashbya_aceri"]
-mis_numbers = [0.1, 0.2, 0.5, 2.0]
-solver_data(organisms, time_limit=1800, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
+# mis_numbers = [0.1, 0.2, 0.5, 2.0]
+# solver_data(organisms, time_limit=1800, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
+
+mis_numbers = [0.1, 0.2]
+solver_data(organisms, time_limit=14440, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
