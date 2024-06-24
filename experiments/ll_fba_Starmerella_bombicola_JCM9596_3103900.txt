@@ -1,0 +1,76 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Error: invalid user locale; possible fix is to set the system environment
+       variable 'LC_ALL' to a valid locale (e.g., to 'C')
+Set parameter IntFeasTol to value 1e-06
+Set parameter TimeLimit to value 14440
+Set parameter IntFeasTol to value 1e-06
+Set parameter TimeLimit to value 14440
+Gurobi Optimizer version 11.0.2 build v11.0.2rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
+
+CPU model: Intel(R) Xeon(R) Gold 6342 CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 96 logical processors, using up to 32 threads
+
+Optimize a model with 27517 rows, 13362 columns and 66214 nonzeros
+Model fingerprint: 0x6c32afa0
+Variable types: 9885 continuous, 3477 integer (3477 binary)
+Coefficient statistics:
+  Matrix range     [3e-05, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e-01, 1e+03]
+Presolve removed 17926 rows and 6431 columns
+Presolve time: 0.07s
+Presolved: 9591 rows, 6931 columns, 30777 nonzeros
+Variable types: 4424 continuous, 2507 integer (2507 binary)
+
+Root relaxation: objective 6.662452e-02, 7409 iterations, 0.92 seconds (1.05 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.06662    0  122          -    0.06662      -     -    2s
+     0     0    0.06662    0  138          -    0.06662      -     -    2s
+     0     0    0.06662    0   77          -    0.06662      -     -    4s
+     0     0    0.06662    0   77          -    0.06662      -     -    4s
+     0     0    0.06662    0   78          -    0.06662      -     -    4s
+     0     0    0.06662    0   72          -    0.06662      -     -    4s
+     0     0    0.06662    0   68          -    0.06662      -     -    5s
+     0     0    0.06662    0   68          -    0.06662      -     -    5s
+     0     0    0.06662    0   68          -    0.06662      -     -    5s
+     0     2    0.06662    0   64          -    0.06662      -     -    7s
+    41    66   -0.00000    6   78          -    0.06662      -  96.2   10s
+   385   429   -0.00000   12  107          -    0.06662      -   107   15s
+  1187  1230   -0.00000   27   94          -    0.06662      -  81.8   20s
+  3557  2819   -0.00000   84   85          -    0.06662      -  54.0   25s
+  8358  4410   -0.00000  185   64          -    0.06662      -  34.9   30s
+*12291  4361             372       0.0028183    0.06662  2264%  28.4   33s
+ 12749  4258     cutoff  302         0.00282    0.06662  2264%  28.1   38s
+H12772  1703                       0.0666222    0.06662  0.00%  28.1   38s
+H12784  1703                       0.0666229    0.06662  0.00%  28.1   38s
+
+Cutting planes:
+  Gomory: 36
+  Cover: 3
+  Flow cover: 2
+  Inf proof: 1
+
+Explored 12817 nodes (383330 simplex iterations) in 38.93 seconds (18.08 work units)
+Thread count was 32 (of 96 available processors)
+
+Solution count 3: 0.0666229 0.0666222 0.00281827 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.662287472897e-02, best bound 6.662447491864e-02, gap 0.0024%
+
+User-callback calls 29591, time in user-callback 0.03 sec
+organism = "Starmerella_bombicola_JCM9596"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("IntFeasTol")) = 1.0e-5
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("IntFeasTol")) = 1.0e-6
+time_taken = 59.39930701255798

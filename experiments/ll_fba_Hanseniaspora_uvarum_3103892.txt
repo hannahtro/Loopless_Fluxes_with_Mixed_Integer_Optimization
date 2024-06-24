@@ -1,0 +1,79 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Error: invalid user locale; possible fix is to set the system environment
+       variable 'LC_ALL' to a valid locale (e.g., to 'C')
+Set parameter IntFeasTol to value 1e-06
+Set parameter TimeLimit to value 14440
+Set parameter IntFeasTol to value 1e-06
+Set parameter TimeLimit to value 14440
+Gurobi Optimizer version 11.0.2 build v11.0.2rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
+
+CPU model: Intel(R) Xeon(R) Gold 6342 CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 96 logical processors, using up to 32 threads
+
+Optimize a model with 26185 rows, 12662 columns and 62884 nonzeros
+Model fingerprint: 0x755edc2b
+Variable types: 9343 continuous, 3319 integer (3319 binary)
+Coefficient statistics:
+  Matrix range     [3e-05, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e-01, 1e+03]
+Presolve removed 16981 rows and 6044 columns
+Presolve time: 0.07s
+Presolved: 9204 rows, 6618 columns, 29399 nonzeros
+Variable types: 4230 continuous, 2388 integer (2388 binary)
+
+Root relaxation: objective 8.246686e-02, 7446 iterations, 0.98 seconds (1.10 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.08247    0   97          -    0.08247      -     -    1s
+     0     0    0.08247    0   87          -    0.08247      -     -    2s
+     0     0    0.08247    0   63          -    0.08247      -     -    3s
+     0     0    0.08247    0   62          -    0.08247      -     -    3s
+     0     0    0.08247    0   54          -    0.08247      -     -    3s
+     0     0    0.08247    0   55          -    0.08247      -     -    3s
+     0     0    0.08247    0   55          -    0.08247      -     -    4s
+     0     2    0.08247    0   54          -    0.08247      -     -    5s
+   271   316   -0.00000   13   69          -    0.08247      -  60.8   10s
+  1639  1484   -0.00000   59   63          -    0.08247      -  42.7   15s
+  3163  2436   -0.00000   93   73          -    0.08247      -  38.9   20s
+  4565  3111   -0.00000  127   62          -    0.08247      -  36.8   25s
+* 7027  2027             288      -0.0000000    0.08247      -  32.0   29s
+  7536  1680     cutoff  207        -0.00000    0.08247      -  31.0   30s
+H 7560  1680                       0.0000000    0.08247      -  30.9   30s
+H 7576  1680                       0.0000000    0.08247      -  30.9   30s
+H 7594  1680                       0.0000000    0.08247      -  30.9   30s
+H 7927  1806                       0.0000001    0.08247      -  31.9   33s
+  8000  2027    0.08247   12  102    0.00000    0.08247      -  32.0   39s
+H 8134  2027                       0.0133712    0.08247   517%  32.8   39s
+H 8392  1766                       0.0810224    0.08247  1.78%  33.8   54s
+H 8393  1766                       0.0824647    0.08247  0.00%  33.8   54s
+H 8409  1766                       0.0824659    0.08247  0.00%  33.9   54s
+
+Cutting planes:
+  Gomory: 27
+  Cover: 3
+  Implied bound: 1
+
+Explored 8428 nodes (304775 simplex iterations) in 54.96 seconds (23.74 work units)
+Thread count was 32 (of 96 available processors)
+
+Solution count 9: 0.0824659 0.0824647 0.0810224 ... -0
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.246594385744e-02, best bound 8.246685944669e-02, gap 0.0011%
+
+User-callback calls 26597, time in user-callback 0.07 sec
+organism = "Hanseniaspora_uvarum"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("IntFeasTol")) = 1.0e-5
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("IntFeasTol")) = 1.0e-6
+time_taken = 76.05168199539185

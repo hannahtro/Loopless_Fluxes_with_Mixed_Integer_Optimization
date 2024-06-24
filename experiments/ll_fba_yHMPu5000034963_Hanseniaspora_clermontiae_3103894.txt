@@ -1,0 +1,83 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Error: invalid user locale; possible fix is to set the system environment
+       variable 'LC_ALL' to a valid locale (e.g., to 'C')
+Set parameter IntFeasTol to value 1e-06
+Set parameter TimeLimit to value 14440
+Set parameter IntFeasTol to value 1e-06
+Set parameter TimeLimit to value 14440
+Gurobi Optimizer version 11.0.2 build v11.0.2rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
+
+CPU model: Intel(R) Xeon(R) Gold 6342 CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 96 logical processors, using up to 32 threads
+
+Optimize a model with 26220 rows, 12677 columns and 62971 nonzeros
+Model fingerprint: 0xaa09a706
+Variable types: 9353 continuous, 3324 integer (3324 binary)
+Coefficient statistics:
+  Matrix range     [3e-05, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e-01, 1e+03]
+Presolve removed 16856 rows and 5995 columns
+Presolve time: 0.08s
+Presolved: 9364 rows, 6682 columns, 30027 nonzeros
+Variable types: 4286 continuous, 2396 integer (2396 binary)
+
+Root relaxation: objective 8.246686e-02, 6899 iterations, 0.89 seconds (0.98 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.08247    0  132          -    0.08247      -     -    2s
+     0     0    0.08247    0  147          -    0.08247      -     -    2s
+     0     0    0.08247    0   90          -    0.08247      -     -    3s
+     0     0    0.08247    0   96          -    0.08247      -     -    3s
+     0     0    0.08247    0   81          -    0.08247      -     -    4s
+     0     0    0.08247    0   81          -    0.08247      -     -    4s
+     0     0    0.08247    0   76          -    0.08247      -     -    4s
+     0     0    0.08247    0   76          -    0.08247      -     -    4s
+     0     0    0.08247    0   75          -    0.08247      -     -    4s
+     0     0    0.08247    0   75          -    0.08247      -     -    4s
+     0     0    0.08247    0   74          -    0.08247      -     -    5s
+     0     0    0.08247    0   74          -    0.08247      -     -    5s
+     0     2    0.08247    0   72          -    0.08247      -     -    7s
+    13    24    0.01828    4  102          -    0.08247      -   139   10s
+   113   144    0.01828    7  105          -    0.08247      -  93.6   15s
+   590   638    0.01828   21  117          -    0.08247      -  84.7   20s
+  1364  1302    0.01828   46  141          -    0.08247      -  70.0   25s
+  2901  2269    0.01828   77  115          -    0.08247      -  56.3   30s
+  4755  3397    0.01828  104  113          -    0.08247      -  45.6   36s
+* 6407  1852             282      -0.0000000    0.08247      -  38.8   39s
+  6804  1664    0.01828  136  106   -0.00000    0.08247      -  37.6   40s
+H 6828  1664                       0.0000002    0.08247      -  37.7   40s
+  7190  1967    0.01828  144  110    0.00000    0.08247      -  38.5   47s
+H 7521  1771                       0.0299898    0.08247   175%  38.8   62s
+H 7522  1771                       0.0824643    0.08247  0.00%  38.8   62s
+
+Cutting planes:
+  Gomory: 18
+  Cover: 4
+  Implied bound: 4
+  Flow cover: 2
+  Inf proof: 1
+
+Explored 7558 nodes (316109 simplex iterations) in 62.47 seconds (22.31 work units)
+Thread count was 32 (of 96 available processors)
+
+Solution count 4: 0.0824643 0.0299898 1.53719e-07 -0 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 8.246434947943e-02, best bound 8.246685932028e-02, gap 0.0030%
+
+User-callback calls 24988, time in user-callback 0.10 sec
+organism = "yHMPu5000034963_Hanseniaspora_clermontiae"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("IntFeasTol")) = 1.0e-5
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("IntFeasTol")) = 1.0e-6
+time_taken = 85.81914114952087
