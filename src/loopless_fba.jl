@@ -1,6 +1,6 @@
 using COBREXA, Serialization
 using DataFrames, CSV, JSON
-using SCIP, JuMP, GLPK, HiGHS
+using SCIP, JuMP, GLPK, HiGHS, Gurobi
 
 include("loopless_constraints.jl")
 include("optimization_model.jl")
@@ -8,7 +8,7 @@ include("optimization_model.jl")
 """
 compute dual gap with time limit of loopless FBA
 """
-function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false, scip_tol=1.0e-6)
+function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_formulation=false, type="loopless_fba", json=true, yeast=false, optimizer=SCIP.Optimizer, max_reactions=[], print_objective=false, tol=1.0e-6)
     # build model
     if yeast 
         molecular_model = load_model("../molecular_models/" * organism * ".xml")
@@ -26,6 +26,20 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
     end
 
     model = make_optimization_model(molecular_model, optimizer)
+    if optimizer == Gurobi.Optimizer
+        @show MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol"), tol)
+        @show MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol"), tol)
+
+        MOI.set(model, MOI.RawOptimizerAttribute("FeasibilityTol"), tol)
+        MOI.set(model, MOI.RawOptimizerAttribute("OptimalityTol"), tol)
+
+        @show MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol"), tol)
+        @show MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol"), tol)
+
+    elseif optimizer == SCIP.Optimizer
+        MOI.set(model, MOI.RawOptimizerAttribute("numerics/feastol"), tol)
+        @show MOI.get(model, MOI.RawOptimizerAttribute("numerics/feastol"))
+    end
     S = stoichiometry(molecular_model)
     lb, ub = bounds(molecular_model)
     # model = build_fba_model(S, lb, ub, max_reactions=max_reactions)
