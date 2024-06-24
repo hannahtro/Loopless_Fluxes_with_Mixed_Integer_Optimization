@@ -27,14 +27,14 @@ function loopless_fba_data(organism; time_limit=1800, silent=true, nullspace_for
 
     model = make_optimization_model(molecular_model, optimizer)
     if optimizer == Gurobi.Optimizer
-        @show MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol"), tol)
-        @show MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol"), tol)
+        @show MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol"))
+        @show MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol"))
 
         MOI.set(model, MOI.RawOptimizerAttribute("FeasibilityTol"), tol)
         MOI.set(model, MOI.RawOptimizerAttribute("OptimalityTol"), tol)
 
-        @show MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol"), tol)
-        @show MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol"), tol)
+        @show MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol"))
+        @show MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol"))
 
     elseif optimizer == SCIP.Optimizer
         MOI.set(model, MOI.RawOptimizerAttribute("numerics/feastol"), tol)
