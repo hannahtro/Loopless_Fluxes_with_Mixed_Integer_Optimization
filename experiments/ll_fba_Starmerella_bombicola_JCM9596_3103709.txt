@@ -1,0 +1,96 @@
+Set parameter GURO_PAR_SPECIAL
+Set parameter TokenServer to value "optportal"
+Error: invalid user locale; possible fix is to set the system environment
+       variable 'LC_ALL' to a valid locale (e.g., to 'C')
+Set parameter TimeLimit to value 14440
+Set parameter TimeLimit to value 14440
+Gurobi Optimizer version 11.0.2 build v11.0.2rc0 (linux64 - "Debian GNU/Linux 12 (bookworm)")
+
+CPU model: Intel(R) Xeon(R) Gold 6342 CPU @ 2.80GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 96 logical processors, using up to 32 threads
+
+Optimize a model with 27517 rows, 13362 columns and 66214 nonzeros
+Model fingerprint: 0x6c32afa0
+Variable types: 9885 continuous, 3477 integer (3477 binary)
+Coefficient statistics:
+  Matrix range     [3e-05, 1e+03]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [7e-01, 1e+03]
+Presolve removed 17926 rows and 6431 columns
+Presolve time: 0.07s
+Presolved: 9591 rows, 6931 columns, 30777 nonzeros
+Variable types: 4424 continuous, 2507 integer (2507 binary)
+
+Root relaxation: objective 6.662452e-02, 7409 iterations, 0.95 seconds (1.05 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.06662    0  110          -    0.06662      -     -    2s
+     0     0    0.06662    0  124          -    0.06662      -     -    2s
+     0     0    0.06662    0   73          -    0.06662      -     -    4s
+     0     0    0.06662    0   71          -    0.06662      -     -    4s
+     0     0    0.06662    0   69          -    0.06662      -     -    4s
+     0     0    0.06662    0   68          -    0.06662      -     -    4s
+     0     0    0.06662    0   63          -    0.06662      -     -    4s
+     0     0    0.06662    0   59          -    0.06662      -     -    4s
+     0     0    0.06662    0   52          -    0.06662      -     -    5s
+     0     0    0.06662    0   52          -    0.06662      -     -    5s
+     0     0    0.06662    0   53          -    0.06662      -     -    5s
+     0     0    0.06662    0   53          -    0.06662      -     -    5s
+     0     2    0.06662    0   52          -    0.06662      -     -    7s
+    23    36    0.03739    5  302          -    0.06662      -   336   11s
+   138   148    0.00282    8   63          -    0.06662      -   221   15s
+   461   469    0.00282   18   99          -    0.06662      -   131   20s
+  1120  1098    0.00282   45   98          -    0.06662      -  92.7   25s
+  2148  1819   -0.00000   66   98          -    0.06662      -  72.5   30s
+  3635  2515   -0.00000   98   76          -    0.06662      -  59.2   35s
+  6041  3468   -0.00000  135   88          -    0.06662      -  48.7   40s
+H 9495  4221                      -0.0000000    0.06662      -  39.4   44s
+  9648  4282     cutoff  198        -0.00000    0.06662      -  39.2   46s
+H 9654  4282                       0.0000000    0.06662      -  39.1   46s
+H 9655  4282                       0.0000000    0.06662      -  39.2   46s
+H 9738  4281                       0.0000000    0.06662      -  39.0   46s
+H10158  4572                       0.0000000    0.06662      -  38.6   47s
+ 10375  4787    0.06662   48  125    0.00000    0.06662      -  38.3   50s
+H10739  4742                       0.0019000    0.06662  3406%  37.8   66s
+H10740  4525                       0.0028180    0.06662  2264%  37.8   66s
+H10750  1742                       0.0584690    0.06662  13.9%  37.8   66s
+ 11087  2030    0.06662   61   95    0.05847    0.06662  13.9%  40.8   70s
+ 11453   792    0.06662   66   86    0.05847    0.06662  13.9%  42.0   77s
+ 11462   798    0.06660   63   21    0.05847    0.06660  13.9%  42.0   80s
+ 11475   812    0.06660   14   26    0.05847    0.06660  13.9%   2.3   85s
+ 11611   895    0.06621   19   25    0.05847    0.06660  13.9%   3.4   90s
+ 11712   951    0.06053   20   41    0.05847    0.06660  13.9%   4.4   95s
+ 11873  1030    0.06621   23   38    0.05847    0.06660  13.9%   6.3  113s
+H11874   989                       0.0659914    0.06660  0.92%   6.3  113s
+H11881   949                       0.0666208    0.06662  0.00%   6.3  113s
+
+Cutting planes:
+  Gomory: 23
+  Cover: 7
+  Implied bound: 5
+  Clique: 1
+  MIR: 3
+  Flow cover: 33
+  Relax-and-lift: 4
+
+Explored 11916 nodes (578856 simplex iterations) in 113.26 seconds (66.21 work units)
+Thread count was 32 (of 96 available processors)
+
+Solution count 10: 0.0666208 0.0659914 0.058469 ... -0
+No other solutions better than 0.0666208
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.662080737442e-02, best bound 6.662080737442e-02, gap 0.0000%
+
+User-callback calls 43517, time in user-callback 0.09 sec
+organism = "Starmerella_bombicola_JCM9596"
+(time_limit, json, yeast) = (14440, true, true)
+max_reactions = Any[]
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("OptimalityTol")) = 1.0e-6
+MOI.get(model, MOI.RawOptimizerAttribute("FeasibilityTol")) = 1.0e-6
+time_taken = 134.08693504333496
