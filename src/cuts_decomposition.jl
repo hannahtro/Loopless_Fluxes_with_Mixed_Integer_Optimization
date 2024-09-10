@@ -7,134 +7,6 @@ include("utils.jl")
 include("optimization_model.jl")
 include("loopless_constraints.jl")
 
-# """
-# add an additional cycle to block until the solution is thermodynamically feasible
-# """
-# function no_good_cuts(model, internal_rxn_idxs, S; time_limit=1800)
-#     x = model[:x]
-#     m, num_reactions = size(S)
-
-#     # TODO: replace by build master problem
-#     # add indicator variables 
-#     build_master_problem(model, internal_rxn_idxs)
-#     # a = @variable(model, a[1:length(internal_rxn_idxs)], Bin)
-#     # for (cidx, ridx) in enumerate(internal_rxn_idxs)
-#     #     # add indicator 
-#     #     @constraint(model, a[cidx] => {x[ridx] >= -0.000001})
-#     #     @constraint(model, !a[cidx] => {x[ridx] <= 0.000001})
-#     # end
-#     # @objective(model, Max, 0)
-
-#     start_time = time()
-#     dual_bounds = []
-
-#     objective_value, dual_bound, solution, _, termination = optimize_model(model)
-
-#     if termination != MOI.OPTIMAL
-#         end_time = time()
-#         time_taken = end_time - start_time
-#         return objective_value, dual_bounds, solution, time_taken, termination, 0
-#     end
-
-#     solution_a = solution[num_reactions+1:end]
-#     push!(dual_bounds, dual_bound)
-#     solutions = [round.(solution, digits=5)]
-#     cuts = []
-
-#     iter = 1
-#     while !thermo_feasible_mu(internal_rxn_idxs, solution_a, S) && time()-start_time < time_limit
-#         @show iter
-#         @assert isapprox(round.(solution_a), solution_a, atol=1e-4)
-
-#         C = [i for i in 1:length(internal_rxn_idxs)]
-#         add_combinatorial_benders_cut(model, solution_a, C, cuts)
-#         # Z = []
-#         # O = []
-#         # for (idx, ridx) in enumerate(internal_rxn_idxs)
-#         #     if solution_a[idx] > 1e-4 
-#         #         push!(O, idx)
-#         #     else 
-#         #         push!(Z, idx)
-#         #     end
-#         # end 
-
-#         # cut = @constraint(model, sum(a[O]) + sum([1-a[i] for i in Z]) <= length(internal_rxn_idxs) - 1)
-#         # @assert !(cut in cuts)
-#         # push!(cuts,[cut])
-
-#         objective_value, dual_bound, solution, _, termination = optimize_model(model, time_limit=time_limit)
-        
-#         if termination != MOI.OPTIMAL
-#             if termination == MOI.TIME_LIMIT
-#                 @warn "master problem cannot be solved"
-#             end
-#             end_time = time()
-#             time_taken = end_time - start_time
-#             feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-#             return objective_value, dual_bounds, solution, time_taken, termination, iter, feasible
-#         end
-
-#         solution = round.(solution, digits=5)
-#         solution_a = solution[num_reactions+1:end]
-
-#         @assert solutions[end][num_reactions+1:end] != solution_a # ensures that solutions differ
-#         # @assert sum(solution_a[O]) + sum([1-solution_a[i] for i in Z]) <= length(internal_rxn_idxs) - 1
-#         @assert !(solution in solutions)
-#         push!(solutions,solution)
-#         push!(dual_bounds, dual_bound)
-#         iter += 1
-#     end
-
-#     end_time = time()
-#     time_taken = end_time - start_time
-#     # @show time_taken
-#     feasible = thermo_feasible_mu(internal_rxn_idxs, solution_a, S)
-#     if time_taken < time_limit
-#         @assert feasible
-#     end
-#     return objective_value, dual_bounds, solution, time_taken, termination, iter, feasible
-# end
-
-# function no_good_cuts_data(organism; time_limit=1800, csv=true)
-#     model = deserialize("../molecular_models/" * organism * ".js")
-#     print_model(model, "organism")
-
-#     S = stoichiometry(model)
-#     m, num_reactions = size(S)
-
-#     lb, ub = bounds(model)
-#     internal_rxn_idxs = [
-#         ridx for (ridx, rid) in enumerate(variables(model)) if
-#         !is_boundary(reaction_stoichiometry(model, rid))
-#     ]
-
-#     model = build_fba_model(S, lb, ub)
-#     objective_value, dual_bounds, solution, time, termination, iter, thermo_feasible = no_good_cuts(model, internal_rxn_idxs, S, time_limit=time_limit)
-#     @show thermo_feasible
-
-#     if termination == MOI.OPTIMAL
-#         thermo_feasible = thermo_feasible_mu(internal_rxn_idxs, solution[num_reactions+1:end], S)
-#     else 
-#         thermo_feasible = false
-#     end
-
-#     df = DataFrame(
-#         objective_value=objective_value, 
-#         dual_bounds=[dual_bounds],
-#         solution=[solution], 
-#         time=time, 
-#         termination=termination,
-#         time_limit=time_limit, 
-#         thermo_feasible=thermo_feasible,
-#         iter=iter)
-
-#     type = "no_good_cuts"
-#     file_name = joinpath(@__DIR__,"../experiments/csv/" * organism * "_" * type * "_" * string(time_limit) * ".csv")
-#     if csv
-#         CSV.write(file_name, df, append=false, writeheader=true)
-#     end
-# end
-
 """
 build master problem of combinatorial Benders decomposition with FBA constraints and indicator variables,
 maps indicator variables to flux direction
@@ -242,8 +114,7 @@ end
 """
 returns a minimal infeasible subset of reactions for a given solution and stoichiometric matrix
 """
-# TODO: compute several MISs at once
-function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true, time_limit=1800, silent=true, multiple_mis=0, mis_solver=HiGHS.Optimizer, presolve_mis_solver=true)
+function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast=true, time_limit=1800, silent=true, multiple_mis=0, mis_solver=HiGHS.Optimizer, presolve_mis_solver=true, max_density=Inf)
     if !fast
         # not a MIS
         # C = [idx for (idx,val) in enumerate(solution_a) if val==1]
@@ -301,7 +172,6 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
             push!(C_list, C)
         end  
 
-        # @show multiple_mis
         if multiple_mis > 0 && !isempty(C)
             for i in 1:multiple_mis
                 if i > multiple_mis
@@ -323,7 +193,7 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
                     push!(C_list, C)
                 end
             end
-        end # TODO: return unique(C_list)
+        end
         # print(mis_model)
         # # λ'Aμ ≥ λ'b should be violated
         # # λ solution to sub problem, A constructed in fast MIS search, 
@@ -332,6 +202,10 @@ function compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs; fast
     end
     # @show C_list
     # @show unique(C_list)
+    @show [length(mis) for mis in unique(C_list)]
+    if !isinf(max_density)
+        C_list = [mis for mis in unique(C_list) if length(mis) <= max_density]
+    end
     return unique(C_list), termination_mis
 end
 
@@ -441,7 +315,7 @@ end
 solve problem by splitting it into a master problem with indicator variables and a linear sub problem based 
 on a solution to the master problem and minimal infeasible subsets. The sub problem 
 """
-function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0, big_m=false, save_model=false, subproblem_solver=HiGHS.Optimizer, mis_solver=HiGHS.Optimizer, indicator=false, presolve_mis_solver=true)
+function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=Inf, fast=true, time_limit=1800, silent=true, multiple_mis=0, big_m=false, save_model=false, subproblem_solver=HiGHS.Optimizer, mis_solver=HiGHS.Optimizer, indicator=false, presolve_mis_solver=true, max_density=Inf)
     @assert indicator || big_m 
 
     _, num_reactions = size(S)
@@ -515,7 +389,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     S_int = Array(S[:, internal_rxn_idxs])
     # @show size(S_int)
     start_time = time()
-    C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, multiple_mis=multiple_mis, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver)
+    C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, multiple_mis=multiple_mis, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver, max_density=max_density)
     end_time = time()
     push!(times_mis_problem, end_time - start_time)
     @show length(C_list)
@@ -584,7 +458,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
 
         # check termination status of MIS computation
         start_time = time()
-        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver)
+        C_list, mis_model_termination = compute_MIS(solution_a, S_int, solution_master, internal_rxn_idxs, fast=fast, time_limit=time_limit, silent=silent, multiple_mis=multiple_mis, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver, max_density=max_density)
         end_time = time()
         push!(times_mis_problem, end_time - start_time)
         @show length(C_list)
@@ -671,7 +545,7 @@ function combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max
     return objective_value_master, objective_values, dual_bounds, solution, x, a, G, μ, time_taken, termination_sub, iter, cuts, times_master_problem, times_sub_problem, times_mis_problem
 end
 
-function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, subproblem_solver=HiGHS.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0, big_m=false, indicator=true, mis_solver=HiGHS.Optimizer, presolve_mis_solver=true, set_maxorigsol=false)
+function combinatorial_benders_data(organism; time_limit=1800, json=true, max_iter=Inf, fast=true, silent=true, optimizer=SCIP.Optimizer, subproblem_solver=HiGHS.Optimizer, store_optimal_solution=false, scip_tol=1.0e-6, yeast=false, multiple_mis=0, big_m=false, indicator=true, mis_solver=HiGHS.Optimizer, presolve_mis_solver=true, set_maxorigsol=false, max_density=Inf)
     @show fast
     @assert multiple_mis >= 0
     if big_m && indicator
@@ -710,7 +584,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     end
     # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
-    objective_value, objective_values, dual_bounds, solution, x, a, G, μ, time, termination, iter, cuts, times_master_problem, times_sub_problem, times_mis_problem = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m, subproblem_solver=subproblem_solver, indicator=indicator, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver)
+    objective_value, objective_values, dual_bounds, solution, x, a, G, μ, time, termination, iter, cuts, times_master_problem, times_sub_problem, times_mis_problem = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m, subproblem_solver=subproblem_solver, indicator=indicator, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver, max_density=max_density)
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
     
     if store_optimal_solution
@@ -766,6 +640,9 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     end
     if optimizer != SCIP.Optimizer
         type = type * "_" * replace(string(optimizer), ".Optimizer"=>"")
+    end
+    if !isinf(max_density)
+        type = type * "_" * string(max_density) * "_max_density"
     end
     file_name = "json/" * organism * "_" * type * "_" * string(time_limit) * ".json"
     if json 
