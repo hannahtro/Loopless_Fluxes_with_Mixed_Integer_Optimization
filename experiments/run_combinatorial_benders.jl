@@ -59,17 +59,21 @@ fast = true
 json = true
 yeast = true
 
-# mis_numbers = [0, 0.1, 0.2]# , 2] #[0, 5, 10, 20, 30]
-# for organism in organisms
-#     for mis in mis_numbers
-#         @show organism, mis
-#         run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast $mis`) # CB
-#     end
-# end
+mis_numbers = [0.5]# , 2] #[0, 5, 10, 20, 30]
+densities = [5, 10, 15]
+max_cut = Inf
+for organism in organisms
+    for mis in mis_numbers
+        for max_density in densities
+            @show organism, mis, max_density
+            run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast $mis $max_density $max_cuts`) # CB
+        end
+    end
+end
 
-run(`sbatch -A optimi batch_cb.sh $"yHMPu5000034963_Hanseniaspora_clermontiae" $time_limit $fast $json $yeast $0`)
+# run(`sbatch -A optimi batch_cb.sh $"yHMPu5000034963_Hanseniaspora_clermontiae" $time_limit $fast $json $yeast $0`)
 
-run(`sbatch -A optimi batch_cb.sh $"Hanseniaspora_uvarum" $time_limit $fast $json $yeast $0.1`)
-run(`sbatch -A optimi batch_cb.sh $"Tortispora_caseinolytica" $time_limit $fast $json $yeast $0.1`)
+# run(`sbatch -A optimi batch_cb.sh $"Hanseniaspora_uvarum" $time_limit $fast $json $yeast $0.1`)
+# run(`sbatch -A optimi batch_cb.sh $"Tortispora_caseinolytica" $time_limit $fast $json $yeast $0.1`)
 
-run(`sbatch -A optimi batch_cb.sh $"Hanseniaspora_uvarum" $time_limit $fast $json $yeast $0.2`)
+# run(`sbatch -A optimi batch_cb.sh $"Hanseniaspora_uvarum" $time_limit $fast $json $yeast $0.2`)
