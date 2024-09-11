@@ -5,7 +5,7 @@ using StatsBase
 """
 compare ll-FBA, no good cuts and fast combinatorial Benders
 """
-function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fba=false, cobrexa=false, cb=false, cb_big_m=false, cb_indicator_and_big_m=false, yeast=false, nullspace=false, mis_indicator=false, mis_big_m=false, ll_fba_indicator=false, mis_numbers=[], time_limit=1800, solver="SCIP")
+function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fba=false, cobrexa=false, cb=false, cb_big_m=false, cb_indicator_and_big_m=false, yeast=false, nullspace=false, mis_indicator=false, mis_big_m=false, ll_fba_indicator=false, mis_numbers=[], cut_densities=[], distinct_cuts=false, time_limit=1800, solver="SCIP")
     @show mis_numbers
     if solver == "" || solver == "SCIP"
         file = string(time_limit) * ".json"
@@ -115,6 +115,30 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
             df[!, "times_master_problem_mis_" * string(mis)] = Union{Float64,Missing}[]
             df[!, "times_sub_problem_mis_" * string(mis)] = Union{Float64,Missing}[]
             df[!, "times_mis_problem_mis_" * string(mis)] = Union{Float64,Missing}[]
+            if distinct_cuts
+                df[!, "termination_cb_mis_" * string(mis) * "_distinct_cuts"] = Union{String,Missing}[] 
+                df[!, "objective_value_cb_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[] 
+                df[!, "time_cb_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[] 
+                df[!, "feasibility_cb_mis_" * string(mis) * "_distinct_cuts"] = Union{Bool,Missing}[]
+                df[!, "cuts_cb_mis_" * string(mis) * "_distinct_cuts"] = Union{Int64,Missing}[]
+                df[!, "iter_cb_mis_" * string(mis) * "_distinct_cuts"] = Union{Int64,Missing}[]
+                df[!, "times_master_problem_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+                df[!, "times_sub_problem_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+                df[!, "times_mis_problem_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+            end 
+            if !isempty(cut_densities)
+                for density in cut_densities
+                    df[!, "termination_cb_mis_" * string(mis) * "_density_" * string(density)] = Union{String,Missing}[] 
+                    df[!, "objective_value_cb_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[] 
+                    df[!, "time_cb_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[] 
+                    df[!, "feasibility_cb_mis_" * string(mis) * "_density_" * string(density)] = Union{Bool,Missing}[]
+                    df[!, "cuts_cb_mis_" * string(mis) * "_density_" * string(density)] = Union{Int64,Missing}[]
+                    df[!, "iter_cb_mis_" * string(mis) * "_density_" * string(density)] = Union{Int64,Missing}[]
+                    df[!, "times_master_problem_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                    df[!, "times_sub_problem_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                    df[!, "times_mis_problem_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                end
+            end
         end
         if mis_big_m
             df[!, "termination_cb_big_m_mis_" * string(mis)] = Union{String,Missing}[] 
@@ -126,6 +150,30 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
             df[!, "times_master_problem_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
             df[!, "times_sub_problem_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
             df[!, "times_mis_problem_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
+            if distinct_cuts
+                df[!, "termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{String,Missing}[] 
+                df[!, "objective_value_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[] 
+                df[!, "time_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[] 
+                df[!, "feasibility_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Bool,Missing}[]
+                df[!, "cuts_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Int64,Missing}[]
+                df[!, "iter_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Int64,Missing}[]
+                df[!, "times_master_problem_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+                df[!, "times_sub_problem_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+                df[!, "times_mis_problem_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+            end 
+            if !isempty(cut_densities)
+                for density in cut_densities
+                    df[!, "termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{String,Missing}[] 
+                    df[!, "objective_value_cb_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[] 
+                    df[!, "time_cb_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[] 
+                    df[!, "feasibility_cb_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Bool,Missing}[]
+                    df[!, "cuts_cb_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Int64,Missing}[]
+                    df[!, "iter_cb_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Int64,Missing}[]
+                    df[!, "times_master_problem_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                    df[!, "times_sub_problem_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                    df[!, "times_mis_problem_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                end
+            end
         end 
     end 
     
@@ -406,6 +454,86 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                 dict_organism[Symbol("times_master_problem_mis_" * string(mis))] = geomean(dict["times_master_problem"])
                 dict_organism[Symbol("times_sub_problem_mis_" * string(mis))] = geomean(dict["times_sub_problem"])
                 dict_organism[Symbol("times_mis_problem_mis_" * string(mis))] = geomean(dict["times_mis_problem"])
+                if distinct_cuts                    
+                    try 
+                        dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_" * string(mis) * "_mis_distinct_cuts_" * file))
+                    catch e 
+                        dict = Dict{String, Any}(
+                            "termination" => "ERROR",
+                            "objective_value" => missing,
+                            "time" => NaN, 
+                            "time_limit" => time_limit,
+                            "thermo_feasible" => missing,
+                            "iter" => missing,
+                            "cuts" => missing,
+                            "times_master_problem" => NaN,
+                            "times_sub_problem" => NaN,
+                            "times_mis_problem" => NaN
+                        )
+                    end 
+    
+                    if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
+                        if dict["time"] >= dict["time_limit"]
+                            dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_distinct_cuts")] = "TIME_LIMIT"
+                        else 
+                            dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_distinct_cuts")] = "INFEASIBLE"
+                        end
+                    elseif !ismissing(dict["thermo_feasible"]) && dict["thermo_feasible"] == true
+                        dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_distinct_cuts")] = "OPTIMAL"
+                    else 
+                        dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_distinct_cuts")] = dict["termination"]
+                    end
+                    
+                    dict_organism[Symbol("objective_value_cb_mis_" * string(mis) * "_distinct_cuts")] = dict["objective_value"]
+                    dict_organism[Symbol("time_cb_mis_" * string(mis) * "_distinct_cuts")] = dict["time"]
+                    dict_organism[Symbol("feasibility_cb_mis_" * string(mis) * "_distinct_cuts")] = dict["thermo_feasible"]
+                    dict_organism[Symbol("cuts_cb_mis_" * string(mis) * "_distinct_cuts")] = dict["cuts"]
+                    dict_organism[Symbol("iter_cb_mis_" * string(mis) * "_distinct_cuts")] = dict["iter"]
+                    dict_organism[Symbol("times_master_problem_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_master_problem"])
+                    dict_organism[Symbol("times_sub_problem_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_sub_problem"])
+                    dict_organism[Symbol("times_mis_problem_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_mis_problem"])
+                end 
+                if !isempty(cut_densities)
+                    for density in cut_densities
+                        try 
+                            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_" * string(mis) * "_mis_" * string(density) * "_max_density_" * file))
+                        catch e 
+                            dict = Dict{String, Any}(
+                                "termination" => "ERROR",
+                                "objective_value" => missing,
+                                "time" => NaN, 
+                                "time_limit" => time_limit,
+                                "thermo_feasible" => missing,
+                                "iter" => missing,
+                                "cuts" => missing,
+                                "times_master_problem" => NaN,
+                                "times_sub_problem" => NaN,
+                                "times_mis_problem" => NaN
+                            )
+                        end 
+        
+                        if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
+                            if dict["time"] >= dict["time_limit"]
+                                dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_density_" * string(density))] = "TIME_LIMIT"
+                            else 
+                                dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_density_" * string(density))] = "INFEASIBLE"
+                            end
+                        elseif !ismissing(dict["thermo_feasible"]) && dict["thermo_feasible"] == true
+                            dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_density_" * string(density))] = "OPTIMAL"
+                        else 
+                            dict_organism[Symbol("termination_cb_mis_" * string(mis) * "_density_" * string(density))] = dict["termination"]
+                        end
+                        
+                        dict_organism[Symbol("objective_value_cb_mis_" * string(mis) * "_density_" * string(density))] = dict["objective_value"]
+                        dict_organism[Symbol("time_cb_mis_" * string(mis) * "_density_" * string(density))] = dict["time"]
+                        dict_organism[Symbol("feasibility_cb_mis_" * string(mis) * "_density_" * string(density))] = dict["thermo_feasible"]
+                        dict_organism[Symbol("cuts_cb_mis_" * string(mis) * "_density_" * string(density))] = dict["cuts"]
+                        dict_organism[Symbol("iter_cb_mis_" * string(mis) * "_density_" * string(density))] = dict["iter"]
+                        dict_organism[Symbol("times_master_problem_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_master_problem"])
+                        dict_organism[Symbol("times_sub_problem_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_sub_problem"])
+                        dict_organism[Symbol("times_mis_problem_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_mis_problem"])
+                    end
+                end
             end 
             if mis_big_m
                 try
@@ -446,6 +574,86 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                 dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis))] = geomean(dict["times_master_problem"])
                 dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis))] = geomean(dict["times_sub_problem"])
                 dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis))] = geomean(dict["times_mis_problem"])
+                if distinct_cuts                    
+                    try 
+                        dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_big_m_" * string(mis) * "_mis_distinct_cuts_" * file))
+                    catch e 
+                        dict = Dict{String, Any}(
+                            "termination" => "ERROR",
+                            "objective_value" => missing,
+                            "time" => NaN, 
+                            "time_limit" => time_limit,
+                            "thermo_feasible" => missing,
+                            "iter" => missing,
+                            "cuts" => missing,
+                            "times_master_problem" => NaN,
+                            "times_sub_problem" => NaN,
+                            "times_mis_problem" => NaN
+                        )
+                    end 
+    
+                    if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
+                        if dict["time"] >= dict["time_limit"]
+                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = "TIME_LIMIT"
+                        else 
+                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = "INFEASIBLE"
+                        end
+                    elseif !ismissing(dict["thermo_feasible"]) && dict["thermo_feasible"] == true
+                        dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = "OPTIMAL"
+                    else 
+                        dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = dict["termination"]
+                    end
+                    
+                    dict_organism[Symbol("objective_value_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = dict["objective_value"]
+                    dict_organism[Symbol("time_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = dict["time"]
+                    dict_organism[Symbol("feasibility_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = dict["thermo_feasible"]
+                    dict_organism[Symbol("cuts_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = dict["cuts"]
+                    dict_organism[Symbol("iter_cb_big_m_mis_" * string(mis) * "_distinct_cuts")] = dict["iter"]
+                    dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_master_problem"])
+                    dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_sub_problem"])
+                    dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_mis_problem"])
+                end
+                if !isempty(cut_densities)
+                    for density in cut_densities
+                        try 
+                            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_big_m_" * string(mis) * "_mis_" * string(density) * "_max_density_" * file))
+                        catch e 
+                            dict = Dict{String, Any}(
+                                "termination" => "ERROR",
+                                "objective_value" => missing,
+                                "time" => NaN, 
+                                "time_limit" => time_limit,
+                                "thermo_feasible" => missing,
+                                "iter" => missing,
+                                "cuts" => missing,
+                                "times_master_problem" => NaN,
+                                "times_sub_problem" => NaN,
+                                "times_mis_problem" => NaN
+                            )
+                        end 
+        
+                        if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
+                            if dict["time"] >= dict["time_limit"]
+                                dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = "TIME_LIMIT"
+                            else 
+                                dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = "INFEASIBLE"
+                            end
+                        elseif !ismissing(dict["thermo_feasible"]) && dict["thermo_feasible"] == true
+                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = "OPTIMAL"
+                        else 
+                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["termination"]
+                        end
+                        
+                        dict_organism[Symbol("objective_value_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["objective_value"]
+                        dict_organism[Symbol("time_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["time"]
+                        dict_organism[Symbol("feasibility_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["thermo_feasible"]
+                        dict_organism[Symbol("cuts_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["cuts"]
+                        dict_organism[Symbol("iter_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["iter"]
+                        dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_master_problem"])
+                        dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_sub_problem"])
+                        dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_mis_problem"])
+                    end
+                end
             end
         end 
 
@@ -493,7 +701,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
     CSV.write("csv/" * file_name, df, append=false, writeheader=true)
 end
 
-function sub_csv(file_out, file_in="results_bigg_SCIP.csv"; nullspace=false, ll_fba=false, cb=false, cb_big_m=false, cb_indicator_and_big_m=false, objective_values=true, mis_indicator=false, mis_big_m=false, mis_numbers=[], no_good_cuts=false, no_good_cuts_big_m=false, ch=false, ch_mis=false, ll_fba_indicator=false)
+function sub_csv(file_out, file_in="results_bigg_SCIP.csv"; nullspace=false, ll_fba=false, cb=false, cb_big_m=false, cb_indicator_and_big_m=false, objective_values=true, mis_indicator=false, mis_big_m=false, mis_numbers=[], no_good_cuts=false, no_good_cuts_big_m=false, ch=false, ch_mis=false, ll_fba_indicator=false, cut_densities=[], distinct_cuts=false)
     df = CSV.read("csv/" * file_in, DataFrame)
 
     cols = ["organism"]
@@ -547,11 +755,27 @@ function sub_csv(file_out, file_in="results_bigg_SCIP.csv"; nullspace=false, ll_
                 if objective_values
                     append!(cols, ["objective_value_cb_mis_" * string(mis)])
                 end
+                if mis == 2.0
+                    for density in cut_densities
+                        append!(cols, ["termination_cb_mis_" * string(mis) * "_density_" * string(density), "time_cb_mis_" * string(mis) * "_density_" * string(density)])
+                    end 
+                    if distinct_cuts
+                        append!(cols, ["termination_cb_mis_" * string(mis) * "_distinct_cuts", "time_cb_mis_" * string(mis) * "_distinct_cuts"])
+                    end
+                end
             end 
             if mis_big_m
                 append!(cols, ["termination_cb_big_m_mis_" * string(mis), "time_cb_big_m_mis_" * string(mis)])
                 if objective_values
                     append!(cols, ["objective_value_cb_big_m_mis_" * string(mis)])
+                end
+                if mis == 0.5
+                    for density in cut_densities
+                        append!(cols, ["termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density), "time_cb_big_m_mis_" * string(mis) * "_density_" * string(density)])
+                    end 
+                    if distinct_cuts
+                        append!(cols, ["termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts", "time_cb_big_m_mis_" * string(mis) * "_distinct_cuts"])
+                    end
                 end
             end 
         end 
@@ -637,8 +861,9 @@ organisms = [
     "iYS1720",
     "iZ_1308"
 ]
-# mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
-# solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true)
+mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
+cut_densities = [5, 10, 15]
+solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true, cut_densities=cut_densities, distinct_cuts=true)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)
 # sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
@@ -652,6 +877,7 @@ organisms = [
 # sub_csv("results_bigg_SCIP_no_good_cuts_indicator.csv", no_good_cuts=true, cb=true, objective_values=true)
 
 # sub_csv("results_bigg_SCIP_indicator_and_big_m.csv", cb=true, cb_big_m=true, cb_indicator_and_big_m=true, objective_values=false)
+sub_csv("results_bigg_SCIP_cut_selection.csv", cb=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, objective_values=false, mis_numbers=mis_numbers, cut_densities=cut_densities, distinct_cuts=true)
 
 # CONSTRAINT HANDLER
 # organisms = [
@@ -675,21 +901,21 @@ organisms = [
 # ]
 # sub_csv("results_bigg_ch_vs_cb_big_m.csv", cb_big_m=true, ch=true, ch_mis=true, objective_values=true)
 
-println(" ")
-organisms = [
-    "Hanseniaspora_uvarum",
-    "yHMPu5000035696_Hanseniaspora_singularis",
-    "yHMPu5000034963_Hanseniaspora_clermontiae",
-    "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
-    "yHMPu5000035684_Kloeckera_hatyaiensis",
-    "Eremothecium_sinecaudum",
-    "yHMPu5000035659_Saturnispora_dispora",
-    "Tortispora_caseinolytica",
-    "Starmerella_bombicola_JCM9596",
-    "Eremothecium_gossypii",
-    "Ashbya_aceri"]
-# mis_numbers = [0.1, 0.2, 0.5, 2.0]
-# solver_data(organisms, time_limit=1800, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
+# println(" ")
+# organisms = [
+#     "Hanseniaspora_uvarum",
+#     "yHMPu5000035696_Hanseniaspora_singularis",
+#     "yHMPu5000034963_Hanseniaspora_clermontiae",
+#     "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+#     "yHMPu5000035684_Kloeckera_hatyaiensis",
+#     "Eremothecium_sinecaudum",
+#     "yHMPu5000035659_Saturnispora_dispora",
+#     "Tortispora_caseinolytica",
+#     "Starmerella_bombicola_JCM9596",
+#     "Eremothecium_gossypii",
+#     "Ashbya_aceri"]
+# # mis_numbers = [0.1, 0.2, 0.5, 2.0]
+# # solver_data(organisms, time_limit=1800, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
 
-mis_numbers = [0.1, 0.2]
-solver_data(organisms, time_limit=14440, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
+# mis_numbers = [0.1, 0.2]
+# solver_data(organisms, time_limit=14440, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
