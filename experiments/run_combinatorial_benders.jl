@@ -60,7 +60,7 @@ fast = true
 json = true
 yeast = false
 
-mis_numbers = [0.5]# , 2] #[0, 5, 10, 20, 30]
+mis_numbers = [2.0]# , 2] #[0, 5, 10, 20, 30]
 densities = [5, 10, 15]
 max_cuts = 1000
 for organism in organisms

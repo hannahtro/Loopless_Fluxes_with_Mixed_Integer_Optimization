@@ -1,0 +1,20 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iECB_1328
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iECB_1328
+----------------------------------
+number of metabolites : 1951
+number of reactions : 2748
+number of genes : 1329
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 55
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2748 flux variables and 5105 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [6, 7, 11, 11, 11, 11, 11, 11, 11, 19, 19, 20, 19, 20, 19, 19, 30, 16, 17, 16, 16, 17, 17, 16, 16, 17, 16, 16, 17, 18, 16]
+AssertionError("!(isempty(C_list_filtered))")

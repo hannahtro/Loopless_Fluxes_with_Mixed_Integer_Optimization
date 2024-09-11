@@ -1,0 +1,31 @@
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:452
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iLB1027_lipid
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iLB1027_lipid
+----------------------------------
+number of metabolites : 2172
+number of reactions : 4456
+number of genes : 1027
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 89
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 4456 flux variables and 8868 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [3, 3, 19, 3, 4, 6, 3, 423, 3, 15, 126, 21, 3, 24, 38, 34, 10, 4, 24, 35, 4, 36, 34, 4, 19, 15, 29, 46, 10, 134, 282, 4, 71, 4, 15, 18, 13, 3, 16, 10, 6]
+length(C_list) = 22
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [6, 4, 3, 8, 4, 3, 3, 4, 3, 18, 5, 6, 6, 8, 5, 55, 6, 7, 3, 53, 4, 4, 6, 273, 6, 121]
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+termination_master = MathOptInterface.TIME_LIMIT
+termination = MathOptInterface.INFEASIBLE
+objective_value = missing
