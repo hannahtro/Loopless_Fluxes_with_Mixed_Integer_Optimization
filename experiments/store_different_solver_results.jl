@@ -125,6 +125,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                 df[!, "times_master_problem_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
                 df[!, "times_sub_problem_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
                 df[!, "times_mis_problem_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+                # df[!, "times_filtering_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
             end 
             if !isempty(cut_densities)
                 for density in cut_densities
@@ -137,6 +138,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     df[!, "times_master_problem_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
                     df[!, "times_sub_problem_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
                     df[!, "times_mis_problem_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                    # df[!, "times_filtering_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
                 end
             end
         end
@@ -150,6 +152,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
             df[!, "times_master_problem_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
             df[!, "times_sub_problem_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
             df[!, "times_mis_problem_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
+            # df[!, "times_filtering_big_m_mis_" * string(mis)] = Union{Float64,Missing}[]
             if distinct_cuts
                 df[!, "termination_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{String,Missing}[] 
                 df[!, "objective_value_cb_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[] 
@@ -160,6 +163,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                 df[!, "times_master_problem_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
                 df[!, "times_sub_problem_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
                 df[!, "times_mis_problem_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
+                # df[!, "times_filtering_big_m_mis_" * string(mis) * "_distinct_cuts"] = Union{Float64,Missing}[]
             end 
             if !isempty(cut_densities)
                 for density in cut_densities
@@ -172,6 +176,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     df[!, "times_master_problem_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
                     df[!, "times_sub_problem_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
                     df[!, "times_mis_problem_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
+                    # df[!, "times_filtering_big_m_mis_" * string(mis) * "_density_" * string(density)] = Union{Float64,Missing}[]
                 end
             end
         end 
@@ -468,7 +473,8 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                             "cuts" => missing,
                             "times_master_problem" => NaN,
                             "times_sub_problem" => NaN,
-                            "times_mis_problem" => NaN
+                            "times_mis_problem" => NaN,
+                            # "times_filtering" => NaN
                         )
                     end 
     
@@ -492,6 +498,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     dict_organism[Symbol("times_master_problem_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_master_problem"])
                     dict_organism[Symbol("times_sub_problem_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_sub_problem"])
                     dict_organism[Symbol("times_mis_problem_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_mis_problem"])
+                    # dict_organism[Symbol("times_filtering_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_filtering"])
                 end 
                 if !isempty(cut_densities)
                     for density in cut_densities
@@ -508,7 +515,8 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                                 "cuts" => missing,
                                 "times_master_problem" => NaN,
                                 "times_sub_problem" => NaN,
-                                "times_mis_problem" => NaN
+                                "times_mis_problem" => NaN,
+                                # "times_filtering" => NaN
                             )
                         end 
         
@@ -532,6 +540,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                         dict_organism[Symbol("times_master_problem_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_master_problem"])
                         dict_organism[Symbol("times_sub_problem_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_sub_problem"])
                         dict_organism[Symbol("times_mis_problem_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_mis_problem"])
+                        # dict_organism[Symbol("times_filtering_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_filtering"])
                     end
                 end
             end 
@@ -588,7 +597,8 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                             "cuts" => missing,
                             "times_master_problem" => NaN,
                             "times_sub_problem" => NaN,
-                            "times_mis_problem" => NaN
+                            "times_mis_problem" => NaN,
+                            # "times_filtering" => NaN
                         )
                     end 
     
@@ -612,6 +622,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                     dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_master_problem"])
                     dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_sub_problem"])
                     dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_mis_problem"])
+                    # dict_organism[Symbol("times_filtering_big_m_mis_" * string(mis) * "_distinct_cuts")] = geomean(dict["times_filtering"])
                 end
                 if !isempty(cut_densities)
                     for density in cut_densities
@@ -628,7 +639,8 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                                 "cuts" => missing,
                                 "times_master_problem" => NaN,
                                 "times_sub_problem" => NaN,
-                                "times_mis_problem" => NaN
+                                "times_mis_problem" => NaN,
+                                # "times_filtering" => NaN
                             )
                         end 
         
@@ -652,6 +664,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                         dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_master_problem"])
                         dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_sub_problem"])
                         dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_mis_problem"])
+                        # dict_organism[Symbol("times_filtering_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_filtering"])
                     end
                 end
             end
