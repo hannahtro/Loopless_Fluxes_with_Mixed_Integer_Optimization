@@ -890,7 +890,7 @@ solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m
 # sub_csv("results_bigg_SCIP_no_good_cuts_indicator.csv", no_good_cuts=true, cb=true, objective_values=true)
 
 # sub_csv("results_bigg_SCIP_indicator_and_big_m.csv", cb=true, cb_big_m=true, cb_indicator_and_big_m=true, objective_values=false)
-sub_csv("results_bigg_SCIP_cut_selection.csv", cb=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, objective_values=false, mis_numbers=mis_numbers, cut_densities=cut_densities, distinct_cuts=true)
+sub_csv("results_bigg_SCIP_cut_selection.csv", ll_fba=true, cb=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, objective_values=false, mis_numbers=mis_numbers, cut_densities=cut_densities, distinct_cuts=true)
 
 # CONSTRAINT HANDLER
 # organisms = [
