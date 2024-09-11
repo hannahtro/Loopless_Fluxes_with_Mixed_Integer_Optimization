@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def load_data(file='csv/results_bigg_SCIP_cut_selection.csv', big_m=False, indicator=True, mis_list=[], remove_easy_instances=False, cut_densities=[], distinct_cuts=False):
+def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis_list=[], remove_easy_instances=False, cut_densities=[], distinct_cuts=False):
     assert big_m != indicator
     # load data 
     df_data = pd.read_csv(file)
@@ -111,7 +111,7 @@ def load_data(file='csv/results_bigg_SCIP_cut_selection.csv', big_m=False, indic
             time_sp_mis_temp.sort()
             time_mis_mis_temp = df_data[df_data["termination_cb_big_m_mis_" + str(mis)] == "OPTIMAL"]["times_mis_problem_big_m_mis_" + str(mis)].to_list()
             if distinct_cuts:
-                iter_cb_mis_distinct_cuts_temp = df_data[df_data["termination_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL"]["iter_cb_big_mmis_" + str(mis) + "_distinct_cuts"].to_list()
+                iter_cb_mis_distinct_cuts_temp = df_data[df_data["termination_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL"]["iter_cb_big_m_mis_" + str(mis) + "_distinct_cuts"].to_list()
                 iter_cb_mis_distinct_cuts_temp.sort()
         
         time_mis_mis_temp.sort()
@@ -225,9 +225,9 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
 
     # plt.show()
     if indicator:
-        plt.savefig("plots/mis_comparison_solved_instances.pdf", format="pdf", bbox_inches="tight")
+        plt.savefig("plots/cut_selection_solved_instances.pdf", format="pdf", bbox_inches="tight")
     if big_m:
-        plt.savefig("plots/mis_comparison_solved_instances_big_m.pdf", format="pdf", bbox_inches="tight")
+        plt.savefig("plots/cut_selection_solved_instances_big_m.pdf", format="pdf", bbox_inches="tight")
     plt.clf()
 
 def build_time_vs_iterations_plot(colors, markerstyles, big_m=False, indicator=True, mis_list=[]):
@@ -281,9 +281,9 @@ def build_time_vs_iterations_plot(colors, markerstyles, big_m=False, indicator=T
 
     # plt.show()
     if indicator:
-        plt.savefig("plots/mis_comparison_time_vs_iterations.pdf", format="pdf", bbox_inches="tight")
+        plt.savefig("plots/cut_selection_time_vs_iterations.pdf", format="pdf", bbox_inches="tight")
     if big_m:
-        plt.savefig("plots/mis_comparison_time_vs_iterations_big_m.pdf", format="pdf", bbox_inches="tight")
+        plt.savefig("plots/cut_selection_time_vs_iterations_big_m.pdf", format="pdf", bbox_inches="tight")
     plt.clf()
 
 # make plots
