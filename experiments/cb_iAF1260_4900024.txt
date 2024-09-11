@@ -1,0 +1,86 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAF1260
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAF1260
+----------------------------------
+number of metabolites : 1668
+number of reactions : 2382
+number of genes : 1261
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 48
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2382 flux variables and 4460 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [2, 67, 18, 18, 3, 18, 18, 4, 20, 2, 2, 15, 2, 3, 12, 14, 2, 11, 15, 12, 11, 7, 2, 3, 40, 40, 41, 11, 11]
+length(C_list) = 10
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [4, 4, 18, 18, 18, 16, 18, 2, 18, 18, 4, 8, 15, 3, 6, 6, 11, 11, 2, 11, 15, 11, 11, 3, 6, 6, 40, 40, 41, 12, 11, 6]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [9, 5, 9, 7, 8, 5, 4, 4, 6, 4, 5, 3, 6, 6, 5, 6, 335, 6, 5, 7, 5, 8, 5, 33, 4]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [2, 39, 17, 18, 19, 7, 17, 55, 17, 6, 17, 6, 14, 12, 140, 10, 11, 11, 9, 11, 15, 12, 21, 6, 10, 6, 2, 10, 38, 40, 39, 11, 11]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [4, 6, 19, 18, 18, 3, 18, 18, 3, 18, 8, 6, 15, 9, 63, 6, 12, 17, 13, 11, 16, 12, 11, 4, 3, 6, 7, 88, 13, 39, 40, 11, 11]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [6, 6, 20, 20, 20, 3, 7, 20, 10, 20, 4, 8, 17, 8, 3, 6, 11, 12, 18, 11, 19, 11, 11, 10, 6, 5, 42, 42, 43, 11, 15]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [9, 7, 18, 18, 18, 4, 18, 6, 20, 12, 18, 4, 8, 15, 4, 7, 6, 13, 12, 8, 13, 15, 12, 12, 3, 3, 3, 12, 6, 40, 40, 41, 12, 12, 9]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [2, 7, 4, 7, 4, 3, 3, 3, 3, 4, 5, 3, 4, 4, 4, 6, 4, 3, 3, 5, 4, 4, 5, 5, 2]
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [9, 9, 18, 18, 18, 8, 19, 9, 18, 12, 20, 4, 4, 15, 6, 4, 6, 12, 12, 11, 12, 15, 12, 12, 8, 9, 6, 8, 8, 41, 40, 42, 13, 12]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+[length(mis) for mis = unique(C_list)] = [10, 9, 18, 8, 18, 11, 8, 12, 18, 9, 18, 17, 7, 15, 12, 8, 8, 12, 12, 8, 12, 15, 107, 12, 8, 71, 9, 14, 49, 4, 4, 11, 8, 12, 12, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+[length(mis) for mis = unique(C_list)] = [4, 9, 18, 18, 18, 6, 18, 5, 18, 6, 18, 4, 9, 15, 11, 15, 12, 12, 6, 109, 17, 13, 12, 6, 7, 10, 40, 40, 42, 12, 12]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+[length(mis) for mis = unique(C_list)] = [2, 4, 5, 17, 3, 5, 3, 8, 3, 3, 6, 3, 31, 3, 10, 13, 11, 3, 11, 3, 11, 11, 8, 4, 4, 10, 3, 6, 8, 3, 11, 11]
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+[length(mis) for mis = unique(C_list)] = [11, 6, 17, 17, 17, 9, 6, 17, 17, 8, 17, 8, 6, 14, 3, 8, 6, 11, 11, 3, 11, 18, 11, 12, 23, 4, 9, 7, 4, 9, 11, 11]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+[length(mis) for mis = unique(C_list)] = [10, 6, 17, 139, 6, 6, 7, 6, 17, 10, 6, 8, 8, 14, 10, 10, 7, 11, 11, 8, 11, 14, 14, 13, 11, 6, 7, 9, 7, 7, 6, 11, 12, 9]
+AssertionError("!(isempty(C_list_filtered))")

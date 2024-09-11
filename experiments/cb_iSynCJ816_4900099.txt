@@ -1,0 +1,33 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:504
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:452
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iSynCJ816
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iSynCJ816
+----------------------------------
+number of metabolites : 928
+number of reactions : 1044
+number of genes : 816
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 21
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 1044 flux variables and 2032 variables in total
+master problem solved
+feasible = true
+[length(mis) for mis = unique(C_list)] = [29, 7, 1, 2, 14, 10, 18, 18, 16, 19, 24, 11, 15, 17]
+length(C_list) = 2
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [29, 7, 1, 2, 14, 10, 18, 18, 16, 19, 24, 11, 15, 17]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+termination_master = MathOptInterface.INFEASIBLE
+termination = MathOptInterface.INFEASIBLE
+objective_value = missing
