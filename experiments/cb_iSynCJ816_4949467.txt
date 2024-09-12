@@ -1,0 +1,33 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:486
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iSynCJ816
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iSynCJ816
+----------------------------------
+number of metabolites : 928
+number of reactions : 1044
+number of genes : 816
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 21
+max_cuts = 16
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 1044 flux variables and 2032 variables in total
+master problem solved
+feasible = true
+[length(mis) for mis = unique(C_list)] = [29, 7, 1, 2, 14, 10, 18, 18, 16, 19, 24, 11, 15, 17]
+length(C_list) = 14
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [1]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+termination_master = MathOptInterface.INFEASIBLE
+BoundsError((missing, Any[0.0, 0.0], Any[0.0, 0.0], missing, missing, missing, missing, missing, 0.031416893005371094, MathOptInterface.INFEASIBLE, 2, Any[(Any[], Any[686], 1), (Any[129], Any[686], 2), (Any[1, 285, 323, 785, 871], Any[786, 791], 7), (Any[285, 323, 341, 443, 785, 871, 897], Any[698, 786, 791], 10), (Any[19, 63, 70, 74, 277, 285, 323, 785, 871], Any[786, 791], 11), (Any[23, 323, 707, 785, 871, 883, 921, 925, 933, 939, 940, 941], Any[786, 791], 14), (Any[279, 323, 471, 482, 720, 785, 871, 920, 921, 925, 939, 940, 941], Any[786, 791], 15), (Any[323, 541, 560, 707, 772, 785, 871, 887, 921, 925, 933, 939, 940, 941], Any[786, 791], 16), (Any[75, 279, 323, 341, 443, 760, 785, 897, 920, 921, 925, 939, 940, 941], Any[698, 786, 791], 17), (Any[75, 102, 323, 404, 413, 707, 760, 772, 785, 921, 925, 933, 939, 940, 941], Any[105, 786, 791], 18), (Any[282, 287, 324, 341, 443, 700, 703, 785, 875, 878, 879, 897, 937], Any[334, 502, 698, 786, 791], 18), (Any[282, 287, 324, 541, 550, 558, 700, 703, 772, 785, 875, 878, 879, 887, 937], Any[334, 502, 786, 791], 19), (Any[254, 271, 273, 282, 287, 324, 412, 424, 443, 647, 754, 765, 772, 785, 849, 875, 879, 937], Any[307, 333, 334, 502, 786, 791], 24), (Any[95, 96, 247, 254, 271, 273, 274, 282, 287, 324, 341, 443, 534, 581, 659, 691, 697, 706, 772, 785, 865, 875, 879, 899, 937], Any[334, 502, 786, 791], 29), (Any[686], Any[], 1)], Any[3.320275068283081, 0.8341760635375977, 0.03127098083496094], Any[0.02431011199951172, 0.004992008209228516], Any[3.565300941467285, 0.1606740951538086]), 16)
