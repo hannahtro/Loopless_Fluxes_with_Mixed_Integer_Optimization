@@ -39,7 +39,6 @@ organisms = [
     "iYS1720",
     "iZ_1308",
 ]
-
 """organisms = [
     "Hanseniaspora_uvarum",
     "yHMPu5000035696_Hanseniaspora_singularis",   
@@ -61,7 +60,7 @@ json = true
 yeast = false
 
 mis_numbers = [0.5]# , 2] #[0, 5, 10, 20, 30]
-densities = [5]#, 10, 15]
+densities = [5, 10, 15, 20]
 max_cuts = 1000
 for organism in organisms
     for mis in mis_numbers

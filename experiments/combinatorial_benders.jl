@@ -9,12 +9,12 @@ json = parse(Bool, ARGS[4])
 yeast = parse(Bool, ARGS[5])
 mis = parse(Float64, ARGS[6])
 max_density = parse(Int64, ARGS[7])
-max_cuts = parse(Int64, ARGS[8])
+max_cuts = parse(Float64, ARGS[8])
 @show time_limit, fast, json, yeast
 
 type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, indicator=false, big_m=true, multiple_mis=mis, distinct_cuts=true)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, indicator=false, big_m=true, multiple_mis=mis, distinct_cuts=false, max_density=max_density)
 catch e 
     println(e)
     file = organism * "_" * type

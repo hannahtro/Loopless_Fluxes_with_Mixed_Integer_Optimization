@@ -1,0 +1,36 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:486
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iSynCJ816
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iSynCJ816
+----------------------------------
+number of metabolites : 928
+number of reactions : 1044
+number of genes : 816
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 5
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1044 flux variables and 2032 variables in total
+master problem solved
+feasible = true
+[length(mis) for mis = unique(C_list)] = [1, 3, 4, 6]
+length(C_list) = 4
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [5, 3, 3, 4, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [18, 3, 1, 4, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+termination_master = MathOptInterface.INFEASIBLE
+BoundsError((missing, Any[0.0, 0.0, 0.0], Any[0.0, 0.0, 0.0], missing, missing, missing, missing, missing, 0.01596999168395996, MathOptInterface.INFEASIBLE, 3, Any[(Any[], Any[686], 1), (Any[1], Any[453, 464], 3), (Any[451, 613], Any[500, 731], 4), (Any[4, 802, 817], Any[6, 807, 812], 6), (Any[724, 895], Any[428, 447, 489], 5), (Any[469, 919], Any[1], 3), (Any[453, 464], Any[1], 3), (Any[454, 895], Any[428, 451], 4), (Any[109, 812], Any[4, 802], 4), (Any[565, 573], Any[1], 3), (Any[686], Any[], 1), (Any[413, 605], Any[469, 919], 4), (Any[201, 890], Any[469, 919], 4)], Any[1.6566359996795654, 0.012865066528320312, 0.06715703010559082, 0.015832185745239258], Any[0.023892879486083984, 0.00615692138671875, 0.004606962203979492], Any[3.377535104751587, 0.1358938217163086, 0.08388400077819824]), 16)
