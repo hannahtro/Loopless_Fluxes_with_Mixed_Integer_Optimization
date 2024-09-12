@@ -113,6 +113,27 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
             if distinct_cuts:
                 iter_cb_mis_distinct_cuts_temp = df_data[df_data["termination_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL"]["iter_cb_big_m_mis_" + str(mis) + "_distinct_cuts"].to_list()
                 iter_cb_mis_distinct_cuts_temp.sort()
+
+        for density in cut_densities:
+            if indicator:
+                iter_cb_mis_density_temp = df_data[df_data["termination_cb_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL"]["iter_cb_mis_" + str(mis) + "_density_" + str(density)].to_list()
+                iter_cb_mis_density_temp.sort()
+                time_cb_mis_density_temp = df_data[df_data["termination_cb_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL"]["time_cb_mis_" + str(mis) + "_density_" + str(density)].to_list()
+            if big_m:
+                iter_cb_mis_density_temp = df_data[df_data["termination_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL"]["iter_cb_big_m_mis_" + str(mis) + "_density_" + str(density)].to_list()
+                iter_cb_mis_density_temp.sort()
+                time_cb_mis_density_temp = df_data[df_data["termination_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL"]["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)].to_list()
+
+            time_cb_mis_density_temp.sort()
+            time_cb_mis_density_temp.append(1800)
+            instances_cb_mis_density_temp = len(time_cb_mis_density_temp) + 1
+            instances_cb_mis_density_temp = np.arange(1, instances_cb_mis_density_temp)
+
+            print(len(time_cb_mis_density_temp), len(instances_cb_mis_density_temp), len(iter_cb_mis_density_temp))
+
+            data["time_cb_mis_" + str(mis) + "_density_" + str(density)] = time_cb_mis_density_temp
+            data["instances_cb_mis_" + str(mis) + "_density_" + str(density)] = instances_cb_mis_density_temp
+            data["iter_cb_mis_" + str(mis) + "_density_" + str(density)] = iter_cb_mis_density_temp
         
         time_mis_mis_temp.sort()
         data["time_cb_mis_" + str(mis)] = time_cb_mis_temp
@@ -167,6 +188,9 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
         if distinct_cuts:
             axs[0].plot(data["time_cb_mis_" + str(mis) + "_distinct_cuts"], data["instances_cb_mis_" + str(mis) + "_distinct_cuts"], color=colors[idx+1], linestyle=linestyles[idx+1])
 
+        for didx, density in enumerate(cut_densities):
+            axs[0].plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[didx+2])
+
     axs[0].set_ylabel(r"$\textbf{solved instances}$")
     axs[0].set_xlabel(r"$\textbf{time (s)}$")
     axs[0].grid(True)
@@ -186,6 +210,9 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
 
         if distinct_cuts:
             axs[1].plot(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"])+1), label="CB distinct cuts (" + method + " " + str(mis) + "\%)", color=colors[idx+1], linestyle=linestyles[idx+1])
+
+        for didx, density in enumerate(cut_densities):
+            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)])+1), label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)", color=colors[didx+2], linestyle=linestyles[didx+2])
 
     axs[1].set_ylabel(r"$\textbf{solved instances}$")
     axs[1].set_xlabel(r"$\textbf{iterations}$")
@@ -306,11 +333,11 @@ colors = [
         #   'turquoise',
           'brown',
           'olive',
+          'darkturquoise',
           'plum',
         #   '#984ea3', # purple
         #   'turquoise',
           'darkmagenta',
-          'darkturquoise',
           ]
 linestyles = [
             # "dashdot", 
