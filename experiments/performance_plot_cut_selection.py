@@ -88,7 +88,7 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
         if distinct_cuts:
             time_cb_mis_distinct_cuts_temp.sort()
             time_cb_mis_distinct_cuts_temp.append(1800)
-            instances_cb_mis_distinct_cuts_temp = len(time_cb_mis_temp) + 1
+            instances_cb_mis_distinct_cuts_temp = len(time_cb_mis_distinct_cuts_temp) + 1
             instances_cb_mis_distinct_cuts_temp = np.arange(1, instances_cb_mis_distinct_cuts_temp)
 
         if indicator:
@@ -121,8 +121,11 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
         data["time_mp_mis_" + str(mis)] = time_mp_mis_temp
         data["time_sp_mis_" + str(mis)] = time_sp_mis_temp
         data["time_mis_mis_" + str(mis)] = time_mis_mis_temp
-        data["time_cb_mis_" + str(mis) + "_distinct_cuts"] = time_cb_mis_distinct_cuts_temp
-        data["iter_cb_mis_" + str(mis) + "_distinct_cuts"] = iter_cb_mis_distinct_cuts_temp
+
+        if distinct_cuts:
+            data["time_cb_mis_" + str(mis) + "_distinct_cuts"] = time_cb_mis_distinct_cuts_temp
+            data["iter_cb_mis_" + str(mis) + "_distinct_cuts"] = iter_cb_mis_distinct_cuts_temp
+            data["instances_cb_mis_" + str(mis) + "_distinct_cuts"] = instances_cb_mis_distinct_cuts_temp
 
     return data 
 
@@ -153,11 +156,16 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
         axs[0].plot(data["time_ll_fba"], data["instances_ll_fba"], color='#377eb8', label="ll-FBA (big-M)", linestyle='dashdot', linewidth=2.0)
         axs[0].plot(data["time_cb"], data["instances_cb"], color='orange', linestyle=(0, (3, 1, 1, 1, 1, 1)), linewidth=2.0)
 
+    print(data)
     for idx, mis in enumerate(mis_list):
         if big_m:
             axs[0].plot(data["time_cb_mis_" + str(mis)], data["instances_cb_mis_" + str(mis)], color=colors[idx], linestyle=linestyles[idx])
+
         if indicator:
             axs[0].plot(data["time_cb_mis_" + str(mis)], data["instances_cb_mis_" + str(mis)], color=colors[idx], linestyle=linestyles[idx])
+
+        if distinct_cuts:
+            axs[0].plot(data["time_cb_mis_" + str(mis) + "_distinct_cuts"], data["instances_cb_mis_" + str(mis) + "_distinct_cuts"], color=colors[idx+1], linestyle=linestyles[idx+1])
 
     axs[0].set_ylabel(r"$\textbf{solved instances}$")
     axs[0].set_xlabel(r"$\textbf{time (s)}$")
@@ -171,15 +179,13 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
     
     for idx, mis in enumerate(mis_list):
         if big_m:
-            if mis == 0.5:
-                axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[idx], linestyle=linestyles[idx], linewidth=2.0)
-            else:
-                axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[idx], linestyle=linestyles[idx])
+            axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[idx], linestyle=linestyles[idx])
+            
         if indicator:
-            if mis == 2.0:
-                axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[idx], linestyle=linestyles[idx], linewidth=2.0)
-            else:
-                axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[idx], linestyle=linestyles[idx])
+            axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[idx], linestyle=linestyles[idx])
+
+        if distinct_cuts:
+            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"])+1), label="CB distinct cuts (" + method + " " + str(mis) + "\%)", color=colors[idx+1], linestyle=linestyles[idx+1])
 
     axs[1].set_ylabel(r"$\textbf{solved instances}$")
     axs[1].set_xlabel(r"$\textbf{iterations}$")
