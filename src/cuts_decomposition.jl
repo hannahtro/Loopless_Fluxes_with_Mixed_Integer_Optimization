@@ -235,8 +235,8 @@ function filter_C(C_list, max_density, max_cuts, distinct_cuts)
         # filter C sets that include less indices than max_density
         if !isinf(max_density)
             C_list_filtered = [mis for mis in unique(C_list) if length(mis) <= max_density]
-            if !isempty(C_list)
-                @assert !isempty(C_list_filtered)
+            # if all sets are larger than the density, use default mis setup
+            if !isempty(C_list_filtered)
                 C_list = C_list_filtered
             end
         end
@@ -594,7 +594,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     @show fast
     
     @assert max_density >= 2
-    @assert max_cuts >= 1
+    @assert max_cuts > 0
 
     if big_m && indicator
         @warn "indicator and big M formulation in master problem"
@@ -633,9 +633,19 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     # MOI.set(master_problem, MOI.RawOptimizerAttribute("presolving/maxrounds"), 0)
 
     @assert multiple_mis >= 0
+    @assert multiple_mis <= 100
     multiple_mis_perc = float(multiple_mis)
     multiple_mis = Int(round(0.01 * multiple_mis * num_reactions))
     @show multiple_mis
+
+    if !isinf(max_cuts)
+        max_cuts_perc = float(max_cuts)
+        max_cuts = Int(round(0.01 * max_cuts * num_reactions))
+        @show max_cuts
+        @assert max_cuts >= 0
+        @assert max_cuts <= 100
+        @assert multiple_mis >= max_cuts
+    end
 
     objective_value, objective_values, dual_bounds, solution, x, a, G, μ, time, termination, iter, cuts, times_master_problem, times_sub_problem, times_mis_problem, times_filtering = combinatorial_benders(master_problem, internal_rxn_idxs, S, lb, ub; max_iter=max_iter, fast=fast, silent=silent, time_limit=time_limit, multiple_mis=multiple_mis, big_m=big_m, subproblem_solver=subproblem_solver, indicator=indicator, mis_solver=mis_solver, presolve_mis_solver=presolve_mis_solver, max_density=max_density, max_cuts=max_cuts, distinct_cuts=distinct_cuts)
     # optimal_solution = get_scip_solutions(master_problem.moi_backend.optimizer.model, number=1)
@@ -703,7 +713,7 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
         type = type * "_" * string(max_density) * "_max_density"
     end
     if !isinf(max_cuts)
-        type = type * "_" * string(max_cuts) * "_max_cuts"
+        type = type * "_" * string(max_cuts_perc) * "_max_cuts"
     end
     if distinct_cuts
         type = type * "_distinct_cuts"

@@ -1,3 +1,0 @@
-AssertionError("!(isempty(C_list_filtered))")
-AssertionError("!(isempty(C_list_filtered))")
-AssertionError("!(isempty(C_list_filtered))")
