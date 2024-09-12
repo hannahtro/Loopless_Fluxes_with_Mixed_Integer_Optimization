@@ -875,7 +875,7 @@ organisms = [
     "iZ_1308"
 ]
 mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
-cut_densities = [5, 10, 15]
+cut_densities = [5, 10, 15, 20]
 solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true, cut_densities=cut_densities, distinct_cuts=true)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)

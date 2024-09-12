@@ -1,4 +1,0 @@
-UndefVarError(:max_density_max_density)
-UndefVarError(:max_density_max_density)
-UndefVarError(:max_density_max_density)
-UndefVarError(:max_density_max_density)
