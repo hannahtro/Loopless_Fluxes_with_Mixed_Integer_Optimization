@@ -1,0 +1,30 @@
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:486
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iLB1027_lipid
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iLB1027_lipid
+----------------------------------
+number of metabolites : 2172
+number of reactions : 4456
+number of genes : 1027
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 89
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 4456 flux variables and 8868 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [3, 3, 19, 3, 4, 6, 3, 423, 3, 15, 126, 21, 3, 24, 38, 34, 10, 4, 24, 35, 4, 36, 34, 4, 19, 15, 29, 46, 10, 134, 282, 4, 71, 4, 15, 18, 13, 3, 16, 10, 6]
+length(C_list) = 22
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [3, 4, 5, 3, 6, 5, 6, 6, 4, 3, 3, 6, 570, 207, 12, 202, 5, 71, 68, 124, 7, 7]
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+termination_master = MathOptInterface.TIME_LIMIT
+BoundsError((missing, Any[0.35960670777573717, 0.3596067077757493], Any[0.35960670777573717, 0.3596067077757493], missing, missing, missing, missing, missing, 1800.0559251308441, MathOptInterface.INFEASIBLE, 2, Any[(Any[], Any[4188, 4293, 4301], 3), (Any[31], Any[59, 60], 3), (Any[9, 58], Any[60], 3), (Any[3684, 4006, 4372], Any[4345], 4), (Any[6, 3873, 3902, 3980], Any[353, 3978], 6), (Any[3596, 3600], Any[3650], 3), (Any[4006, 4372], Any[4345], 3), (Any[14, 16, 337, 3900, 3919, 3943, 4056, 4265, 4284, 4390, 4392], Any[25, 388, 3937, 4038], 15), (Any[3577, 3601], Any[3650], 3), (Any[337, 3900, 3919, 3943, 4056, 4353, 4392], Any[25, 388, 3937], 10), (Any[3596, 3600], Any[911, 3650], 4), (Any[9], Any[30, 59, 60], 4), (Any[9, 83], Any[60, 84], 4), (Any[48, 49, 337, 3900, 3919, 3943, 4056, 4265, 4284, 4390, 4392], Any[25, 388, 3937, 4038], 15), (Any[945, 1405, 2556, 3859, 3866, 4006, 4372, 4409], Any[4167, 4345], 10), (Any[402, 4006, 4372], Any[4345], 4), (Any[4006, 4372], Any[20, 4345], 4), (Any[78, 337, 3606, 3900, 3919, 3943, 4056, 4265, 4284, 4390, 4392], Any[25, 388, 3937, 4038], 15), (Any[81, 110, 112, 337, 3736, 3900, 3919, 3943, 4056, 4392], Any[25, 388, 3937], 13), (Any[9, 83], Any[88], 3), (Any[31, 86, 149, 393, 476, 1529, 2371, 3140, 3702], Any[88], 10), (Any[31, 86, 365, 3483, 3495], Any[88], 6), (Any[4188, 4293, 4301], Any[], 3), (Any[302, 402], Any[133, 401], 4), (Any[9, 353, 3875], Any[11, 3903], 5), (Any[59, 86], Any[84], 3), (Any[3615, 3632, 3662], Any[3633, 3641, 3659], 6), (Any[9, 59, 83], Any[31, 84], 5), (Any[60, 353, 3875], Any[11, 58, 3903], 6), (Any[3654, 3658, 3661], Any[3633, 3641, 3659], 6), (Any[59, 88], Any[31, 84], 4), (Any[59, 60], Any[31], 3), (Any[83], Any[58, 84], 3), (Any[3651, 3652, 3660], Any[3633, 3641, 3659], 6), (Any[25, 55, 59, 60, 112, 2014, 3444, 3662, 4187, 4276, 4292], Any[31], 12), (Any[59, 60, 3681, 4143], Any[31], 5), (Any[1273, 3615, 3632, 3662], Any[3633, 3641, 3659], 7), (Any[88, 353, 3875], Any[11, 58, 84, 3903], 7)], Any[63.15806198120117, 20.003041982650757, 1800.0170040130615], Any[0.043428897857666016, 0.020862817764282227], Any[13.222567081451416, 9.246718883514404]), 16)
