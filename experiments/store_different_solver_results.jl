@@ -738,10 +738,10 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
                         # dict_organism[Symbol("times_filtering_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_filtering"])
                     end
                 end
-                if !isempty(cut_densities)
-                    for density in cut_densities
+                if !isempty(max_cuts)
+                    for m in max_cuts
                         try 
-                            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_big_m_" * string(mis) * "_mis_" * string(density) * "_max_density_" * file))
+                            dict = JSON.parse(open("json/" * organism * "_combinatorial_benders_fast_big_m_" * string(mis) * "_mis_" * string(m) * "_max_cuts_" * file))
                         catch e 
                             dict = Dict{String, Any}(
                                 "termination" => "ERROR",
@@ -760,24 +760,24 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
         
                         if dict["termination"] == "INFEASIBLE" || dict["termination"] == "TIME_LIMIT"
                             if dict["time"] >= dict["time_limit"]
-                                dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = "TIME_LIMIT"
+                                dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = "TIME_LIMIT"
                             else 
-                                dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = "INFEASIBLE"
+                                dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = "INFEASIBLE"
                             end
                         elseif !ismissing(dict["thermo_feasible"]) && dict["thermo_feasible"] == true
-                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = "OPTIMAL"
+                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = "OPTIMAL"
                         else 
-                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["termination"]
+                            dict_organism[Symbol("termination_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = dict["termination"]
                         end
                         
-                        dict_organism[Symbol("objective_value_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["objective_value"]
-                        dict_organism[Symbol("time_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["time"]
-                        dict_organism[Symbol("feasibility_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["thermo_feasible"]
-                        dict_organism[Symbol("cuts_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["cuts"]
-                        dict_organism[Symbol("iter_cb_big_m_mis_" * string(mis) * "_density_" * string(density))] = dict["iter"]
-                        dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_master_problem"])
-                        dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_sub_problem"])
-                        dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_mis_problem"])
+                        dict_organism[Symbol("objective_value_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = dict["objective_value"]
+                        dict_organism[Symbol("time_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = dict["time"]
+                        dict_organism[Symbol("feasibility_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = dict["thermo_feasible"]
+                        dict_organism[Symbol("cuts_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = dict["cuts"]
+                        dict_organism[Symbol("iter_cb_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = dict["iter"]
+                        dict_organism[Symbol("times_master_problem_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = geomean(dict["times_master_problem"])
+                        dict_organism[Symbol("times_sub_problem_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = geomean(dict["times_sub_problem"])
+                        dict_organism[Symbol("times_mis_problem_big_m_mis_" * string(mis) * "_max_cuts_" * string(m))] = geomean(dict["times_mis_problem"])
                         # dict_organism[Symbol("times_filtering_big_m_mis_" * string(mis) * "_density_" * string(density))] = geomean(dict["times_filtering"])
                     end
                 end
