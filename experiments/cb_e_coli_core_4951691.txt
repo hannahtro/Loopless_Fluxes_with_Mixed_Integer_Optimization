@@ -1,0 +1,24 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+e_coli_core
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+e_coli_core
+----------------------------------
+number of metabolites : 72
+number of reactions : 95
+number of genes : 137
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 1
+max_cuts = 0
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 95 flux variables and 170 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [2]
+length(C_list) = 0
+sub problem solved
+iter = 1
+AssertionError("feasible")
