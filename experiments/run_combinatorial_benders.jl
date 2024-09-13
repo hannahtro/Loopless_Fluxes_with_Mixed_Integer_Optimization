@@ -39,6 +39,7 @@ organisms = [
     "iYS1720",
     "iZ_1308",
 ]
+
 """organisms = [
     "Hanseniaspora_uvarum",
     "yHMPu5000035696_Hanseniaspora_singularis",   
@@ -59,15 +60,18 @@ fast = true
 json = true
 yeast = false
 
-mis_numbers = [2.0]# , 2] #[0, 5, 10, 20, 30]
-densities = [5, 10, 15, 20]
-max_cuts = 1000
+mis_numbers = [1, 2, 5]# , 2] #[0, 5, 10, 20, 30]
+#densities = [5, 10, 15, 20]
+max_density = 1000
+max_cuts = [0.5]
 for organism in organisms
     for mis in mis_numbers
-        for max_density in densities
-            @show organism, mis, max_density
-            run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast $mis $max_density $max_cuts`) # CB
-        end
+#        for max_density in densities
+		for max_cut in max_cuts
+	            @show organism, mis, max_density, max_cut
+	            run(`sbatch -A optimi batch_cb.sh $organism $time_limit $fast $json $yeast $mis $max_density $max_cut`) # CB
+		end
+#        end
     end
 end
 
