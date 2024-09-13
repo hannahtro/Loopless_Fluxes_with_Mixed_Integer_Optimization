@@ -7,6 +7,7 @@ compare ll-FBA, no good cuts and fast combinatorial Benders
 """
 function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fba=false, cobrexa=false, cb=false, cb_big_m=false, cb_indicator_and_big_m=false, yeast=false, nullspace=false, mis_indicator=false, mis_big_m=false, ll_fba_indicator=false, mis_numbers=[], cut_densities=[], distinct_cuts=false, time_limit=1800, solver="SCIP", max_cuts=[])
     @show mis_numbers
+    @show max_cuts
     if solver == "" || solver == "SCIP"
         file = string(time_limit) * ".json"
     else 
