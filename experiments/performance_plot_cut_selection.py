@@ -6,9 +6,9 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
     assert big_m != indicator
     # load data 
     df_data = pd.read_csv(file)
-    print(list(df_data.columns.values))
+    # print(list(df_data.columns.values))
     if remove_easy_instances:
-        df_data[(df_data.time_ll_fba <= 15)]
+        df_data = df_data[(df_data.time_ll_fba >= 15)]
 
     data = {}
 
@@ -186,9 +186,9 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
     return data 
 
 
-def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, indicator=True, all_subplots=False, mis_list=[], distinct_cuts=False, cut_densities=[], time_limit=1800, max_cuts=[]):
+def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, indicator=True, all_subplots=False, mis_list=[], distinct_cuts=False, cut_densities=[], time_limit=1800, max_cuts=[], remove_easy_instances=False):
     print("LOAD DATA")
-    data = load_data(big_m=big_m, indicator=indicator, mis_list=mis_list, distinct_cuts=distinct_cuts, cut_densities=cut_densities, time_limit=time_limit, max_cuts=max_cuts)
+    data = load_data(big_m=big_m, indicator=indicator, mis_list=mis_list, distinct_cuts=distinct_cuts, cut_densities=cut_densities, time_limit=time_limit, max_cuts=max_cuts, remove_easy_instances=remove_easy_instances)
     print(data.keys())
 
     print("BUILD PLOT")
@@ -201,7 +201,6 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
         method = "big-M"
     elif indicator:
         method = "indicator"
-
 
     # create solved instances plot
     if all_subplots:
@@ -218,31 +217,31 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
 
     if big_m:
         mis = 0.5
-        axs[0].plot(data["time_cb_mis_" + str(mis)], data["instances_cb_mis_" + str(mis)], color=colors[0], linestyle=linestyles[0])
+        axs[0].plot(data["time_cb_mis_" + str(mis)], data["instances_cb_mis_" + str(mis)], color=colors[0], linestyle=linestyles[0], linewidth=2.0)
 
         if distinct_cuts:
             axs[0].plot(data["time_cb_mis_" + str(mis) + "_distinct_cuts"], data["instances_cb_mis_" + str(mis) + "_distinct_cuts"], color=colors[1], linestyle=linestyles[1])
 
         for didx, density in enumerate(cut_densities):
-            axs[0].plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[didx+2])
+            axs[0].plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[2])
 
-        for idx, (mis, m) in enumerate([(0.5, 0.2), (0.5, 0.3), (0.5, 0.4)]): #(1.0, 0.5), (2, 0.5), (5.0, 0.5)
+        for idx, (mis, m) in enumerate([(0.5, 0.2), (0.5, 0.3), (0.5, 0.4), (1.0, 0.5), (2.0, 0.5), (5.0, 0.5)]):
             print(mis, m)         
-            axs[0].plot(data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], data["instances_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], color=colors[idx+4], linestyle=linestyles[didx+4])  
-
+            axs[0].plot(data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], data["instances_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], color=colors[idx+6], linestyle=linestyles[6])  
 
     if indicator: 
         mis = 2.0
-        axs[0].plot(data["time_cb_mis_" + str(mis)], data["instances_cb_mis_" + str(mis)], color=colors[0], linestyle=linestyles[0])
+        axs[0].plot(data["time_cb_mis_" + str(mis)], data["instances_cb_mis_" + str(mis)], color=colors[0], linestyle=linestyles[0], linewidth=2.0)
         
         if distinct_cuts:
             axs[0].plot(data["time_cb_mis_" + str(mis) + "_distinct_cuts"], data["instances_cb_mis_" + str(mis) + "_distinct_cuts"], color=colors[1], linestyle=linestyles[1])
 
         for didx, density in enumerate(cut_densities):
-            axs[0].plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[didx+2])       
-        for idx, (mis, m) in enumerate([(2.0, 0.5), (2.0, 1.0), (2.0, 1.5)]): #, (3.0, 2.0), (4.0, 2.0), (5.0, 2.0)
+            axs[0].plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[2])       
+
+        for idx, (mis, m) in enumerate([(2.0, 0.5), (2.0, 1.0), (2.0, 1.5), (3.0, 2.0), (4.0, 2.0), (5.0, 2.0)]):
             print(mis, m)         
-            axs[0].plot(data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], data["instances_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], color=colors[idx+4], linestyle=linestyles[didx+4])  
+            axs[0].plot(data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], data["instances_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], color=colors[idx+6], linestyle=linestyles[6])  
 
 
     axs[0].set_ylabel(r"$\textbf{solved instances}$")
@@ -257,31 +256,31 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
     
     if big_m:
         mis = 0.5
-        axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[0], linestyle=linestyles[0])
+        axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[0], linestyle=linestyles[0], linewidth=2.0)
 
         if distinct_cuts:
             axs[1].plot(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"])+1), label="CB distinct cuts (" + method + " " + str(mis) + "\%)", color=colors[1], linestyle=linestyles[1])
 
         for didx, density in enumerate(cut_densities):
-            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)])+1), label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)", color=colors[didx+2], linestyle=linestyles[didx+2])
+            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)])+1), label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)", color=colors[didx+2], linestyle=linestyles[2])
 
-        for idx, (mis, m) in enumerate([(0.5, 0.2), (0.5, 0.3), (0.5, 0.4)]): #(1.0, 0.5), (2, 0.5), (5.0, 0.5)
+        for idx, (mis, m) in enumerate([(0.5, 0.2), (0.5, 0.3), (0.5, 0.4), (1.0, 0.5), (2.0, 0.5), (5.0, 0.5)]):
             print(mis, m)
-            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)])+1), label="CB max cuts " + str(m) + " (" + method + " " + str(mis) + "\%)", color=colors[idx+4], linestyle=linestyles[idx+4])
+            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)])+1), label="CB max cuts " + str(m) + " (" + method + " " + str(mis) + "\%)", color=colors[idx+6], linestyle=linestyles[6])
         
     if indicator:
         mis = 2.0
-        axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[0], linestyle=linestyles[0])
+        axs[1].plot(data["iter_cb_mis_" + str(mis)], np.arange(1, len(data["iter_cb_mis_" + str(mis)])+1), label="CB (" + method + " " + str(mis) + "\%)", color=colors[0], linestyle=linestyles[0], linewidth=2.0)
         
         if distinct_cuts:
             axs[1].plot(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_distinct_cuts"])+1), label="CB distinct cuts (" + method + " " + str(mis) + "\%)", color=colors[1], linestyle=linestyles[1])
 
         for didx, density in enumerate(cut_densities):
-            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)])+1), label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)", color=colors[didx+2], linestyle=linestyles[didx+2])
+            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_density_" + str(density)])+1), label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)", color=colors[didx+2], linestyle=linestyles[2])
 
-        for idx, (mis, m) in enumerate([(2.0, 0.5), (2.0, 1.0), (2.0, 1.5)]): #, (3.0, 2.0), (4.0, 2.0), (5.0, 2.0)
+        for idx, (mis, m) in enumerate([(2.0, 0.5), (2.0, 1.0), (2.0, 1.5), (3.0, 2.0), (4.0, 2.0), (5.0, 2.0)]):
             print(mis, m)
-            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)])+1), label="CB max cuts " + str(m) + " (" + method + " " + str(mis) + "\%)", color=colors[idx+4], linestyle=linestyles[idx+4])
+            axs[1].plot(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], np.arange(1, len(data["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)])+1), label="CB max cuts " + str(m) + " (" + method + " " + str(mis) + "\%)", color=colors[idx+6], linestyle=linestyles[6])
        
     axs[1].set_ylabel(r"$\textbf{solved instances}$")
     axs[1].set_xlabel(r"$\textbf{iterations}$")
@@ -307,23 +306,22 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
 
 # make plots
 colors = [
-          'black', 
-        #   'salmon',
-        #   'turquoise',
-          'brown',
-          'olive',
-          'darkturquoise',
-          'plum',
-        #   '#984ea3', # purple
-        #   'turquoise',
-          'darkmagenta',
-          '#377eb8', # blue
-        '#ff7f00', # orange
-        '#4daf4a', # green
-          'indigo', # gray
-        '#e41a1c', # red
-          'goldenrod', # yellow
-          '#f781bf', # pink
+            'black', 
+            'brown',
+            'olive',
+            'darkturquoise',
+            'plum',
+            'darkmagenta',
+            '#377eb8', # blue
+            '#ff7f00', # orange
+            '#4daf4a', # green
+            'indigo', # gray
+            '#e41a1c', # red
+            'goldenrod', # yellow
+            '#f781bf', # pink
+            'salmon',
+            'turquoise',
+            '#984ea3', # purple
           ]
 linestyles = [
             # "dashdot", 
@@ -349,8 +347,33 @@ linestyles = [
 markerstyles = ['o', 's', 'p', 'D', 'd', 'o', 'o']
 
 ### indicator mis plots 
-build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, indicator=True, all_subplots=False, mis_list=[2.0,3,4,5], distinct_cuts=True, cut_densities=[5,10,15,20], time_limit=300, max_cuts=[0.5,1.0,1.5,2.0])
+build_solved_instances_plot(
+    colors, 
+    linestyles, 
+    markerstyles, 
+    big_m=False, 
+    indicator=True, 
+    all_subplots=False, 
+    mis_list=[0.5,1.0,2.0,3.0,4.0,5.0], distinct_cuts=True, 
+    cut_densities=[5,10,15,20], 
+    time_limit=300, 
+    max_cuts=[0.5,1.0,1.5,2.0],
+    remove_easy_instances=True
+    )
 # build_time_vs_iterations_plot(colors, markerstyles, big_m=False, indicator=True, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0, 20.0])
 
-build_solved_instances_plot(colors, linestyles, markerstyles, big_m=True, indicator=False, all_subplots=False, mis_list=[0.5,1,2,5], distinct_cuts=True, cut_densities=[5,10,15,20], time_limit=300, max_cuts=[0.2,0.3,0.4,0.5])
+build_solved_instances_plot(
+    colors, 
+    linestyles, 
+    markerstyles, 
+    big_m=True, 
+    indicator=False, 
+    all_subplots=False, 
+    mis_list=[0.5,1.0,2.0,5.0], 
+    distinct_cuts=True, 
+    cut_densities=[5,10,15,20], 
+    time_limit=300, 
+    max_cuts=[0.2,0.3,0.4,0.5],
+    remove_easy_instances=True
+    )
 # build_time_vs_iterations_plot(colors, markerstyles, big_m=True, indicator=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
