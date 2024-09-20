@@ -16,7 +16,7 @@ start_time = time()
 
 type = "loopless_fba"
 try 
-    loopless_fba_data(organism, silent=false, time_limit=time_limit, nullspace_formulation=false, json=json, yeast=yeast, optimizer=Gurobi.Optimizer)
+    loopless_fba_data(organism, silent=false, time_limit=time_limit, nullspace_formulation=false, json=json, yeast=yeast, optimizer=SCIP.Optimizer)
 catch e 
     println(e)
     file = organism * "_" * type
