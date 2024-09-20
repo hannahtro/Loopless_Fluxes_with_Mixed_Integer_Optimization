@@ -1,0 +1,79 @@
+presolving:
+(round 1, fast)       345 del vars, 2089 del conss, 0 add conss, 1674 chg bounds, 0 chg sides, 11 chg coeffs, 0 upgd conss, 12 impls, 0 clqs
+(round 2, fast)       494 del vars, 2328 del conss, 0 add conss, 1739 chg bounds, 1 chg sides, 29 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
+(round 3, fast)       528 del vars, 2366 del conss, 0 add conss, 1750 chg bounds, 2 chg sides, 39 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
+(round 4, fast)       534 del vars, 2370 del conss, 0 add conss, 1752 chg bounds, 3 chg sides, 42 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
+   (0.0s) running MILP presolver
+   (0.0s) MILP presolver (21 rounds): 746 aggregations, 421 fixings, 6 bound changes
+(round 5, medium)     1702 del vars, 4014 del conss, 326 add conss, 1758 chg bounds, 3 chg sides, 42 chg coeffs, 0 upgd conss, 16 impls, 0 clqs
+(round 6, fast)       1702 del vars, 4014 del conss, 326 add conss, 1758 chg bounds, 4 chg sides, 43 chg coeffs, 0 upgd conss, 29 impls, 0 clqs
+(round 7, exhaustive) 1702 del vars, 4015 del conss, 326 add conss, 1758 chg bounds, 5 chg sides, 43 chg coeffs, 0 upgd conss, 29 impls, 0 clqs
+(round 8, exhaustive) 1702 del vars, 4015 del conss, 326 add conss, 1758 chg bounds, 5 chg sides, 43 chg coeffs, 135 upgd conss, 29 impls, 0 clqs
+   (0.0s) sparsify finished: 5/1336 (0.4%) nonzeros canceled - in total 5 canceled nonzeros, 6 changed coefficients, 0 added nonzeros
+(round 9, exhaustive) 1702 del vars, 4015 del conss, 326 add conss, 1758 chg bounds, 5 chg sides, 49 chg coeffs, 135 upgd conss, 209 impls, 0 clqs
+   (0.0s) probing cycle finished: starting next cycle
+   (0.0s) dualsparsify: 151 nonzeros canceled
+(round 10, exhaustive) 1702 del vars, 4015 del conss, 326 add conss, 1759 chg bounds, 5 chg sides, 270 chg coeffs, 135 upgd conss, 340 impls, 0 clqs
+(round 11, fast)       1702 del vars, 4021 del conss, 331 add conss, 1771 chg bounds, 6 chg sides, 272 chg coeffs, 135 upgd conss, 340 impls, 0 clqs
+(round 12, fast)       1714 del vars, 4021 del conss, 331 add conss, 1773 chg bounds, 6 chg sides, 272 chg coeffs, 135 upgd conss, 340 impls, 0 clqs
+(round 13, fast)       1716 del vars, 4023 del conss, 331 add conss, 1773 chg bounds, 8 chg sides, 274 chg coeffs, 135 upgd conss, 342 impls, 0 clqs
+(round 14, exhaustive) 1716 del vars, 4023 del conss, 331 add conss, 1773 chg bounds, 8 chg sides, 274 chg coeffs, 138 upgd conss, 342 impls, 0 clqs
+(round 15, medium)     1717 del vars, 4023 del conss, 331 add conss, 1773 chg bounds, 8 chg sides, 274 chg coeffs, 138 upgd conss, 349 impls, 0 clqs
+(round 16, medium)     1717 del vars, 4024 del conss, 331 add conss, 1773 chg bounds, 8 chg sides, 274 chg coeffs, 138 upgd conss, 349 impls, 0 clqs
+   (0.1s) probing: 50/161 (31.1%) - 0 fixings, 0 aggregations, 131 implications, 1 bound changes
+   (0.1s) probing aborted: 50/50 successive totally useless probings
+   (0.1s) dualsparsify: 7 nonzeros canceled
+(round 17, exhaustive) 1717 del vars, 4024 del conss, 331 add conss, 1773 chg bounds, 8 chg sides, 287 chg coeffs, 138 upgd conss, 349 impls, 0 clqs
+(round 18, exhaustive) 1717 del vars, 4024 del conss, 331 add conss, 1775 chg bounds, 8 chg sides, 287 chg coeffs, 139 upgd conss, 349 impls, 0 clqs
+(round 19, fast)       1718 del vars, 4024 del conss, 331 add conss, 1775 chg bounds, 8 chg sides, 287 chg coeffs, 139 upgd conss, 351 impls, 0 clqs
+   (0.1s) probing: 55/161 (34.2%) - 0 fixings, 0 aggregations, 131 implications, 1 bound changes
+   (0.1s) probing aborted: 50/50 successive totally useless probings
+   (0.1s) symmetry computation started: requiring (bin +, int -, cont +), (fixed: bin -, int +, cont -)
+   (0.1s) symmetry computation finished: 10 generators found (max: 1500, log10 of symmetry group size: 3.7) (symcode time: 0.00)
+(round 20, exhaustive) 1718 del vars, 4024 del conss, 338 add conss, 1775 chg bounds, 8 chg sides, 287 chg coeffs, 139 upgd conss, 351 impls, 0 clqs
+presolving (21 rounds: 21 fast, 12 medium, 9 exhaustive):
+ 1721 deleted vars, 4025 deleted constraints, 338 added constraints, 1775 tightened bounds, 0 added holes, 8 changed sides, 287 changed coefficients
+ 351 implications, 0 cliques
+presolved problem has 352 variables (158 bin, 0 int, 0 impl, 194 cont) and 327 constraints
+    133 constraints of type <varbound>
+    187 constraints of type <linear>
+      7 constraints of type <orbitope>
+Presolving Time: 0.06
+
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+p 0.1s|     1 |     0 |    66 |     - |   locks|   0 | 352 | 327 | 320 |   0 |  0 |   0 |   0 | 5.917475e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   378 |     - |    16M |   0 | 352 | 327 | 320 |   0 |  0 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   378 |     - |    16M |   0 | 352 | 327 | 320 |   0 |  0 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   418 |     - |    16M |   0 | 352 | 327 | 330 |  10 |  1 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   421 |     - |    16M |   0 | 352 | 327 | 331 |  11 |  2 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   434 |     - |    16M |   0 | 352 | 327 | 334 |  14 |  3 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   459 |     - |    16M |   0 | 352 | 327 | 348 |  28 |  4 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   465 |     - |    16M |   0 | 352 | 327 | 349 |  29 |  5 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   471 |     - |    16M |   0 | 352 | 327 | 351 |  31 |  6 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.1s|     1 |     0 |   479 |     - |    16M |   0 | 352 | 327 | 353 |  33 |  7 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.2s|     1 |     0 |   490 |     - |    17M |   0 | 352 | 327 | 356 |  36 |  8 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.2s|     1 |     0 |   505 |     - |    17M |   0 | 352 | 327 | 361 |  41 |  9 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.2s|     1 |     0 |   508 |     - |    17M |   0 | 352 | 327 | 363 |  43 | 10 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+  0.2s|     1 |     0 |   512 |     - |    17M |   0 | 352 | 327 | 366 |  46 | 11 |   0 |   0 | 5.067807e+01 | 0.000000e+00 |    Inf | unknown
+L 0.2s|     1 |     0 |   778 |     - |    rens|   0 | 352 | 327 | 366 |  46 | 11 |   0 |   0 | 5.067807e+01 | 5.067807e+01 |   0.00%| unknown
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  0.2s|     1 |     0 |   778 |     - |    17M |   0 | 352 | 327 | 366 |  46 | 11 |   0 |   0 | 5.067807e+01 | 5.067807e+01 |   0.00%| unknown
+
+SCIP Status        : problem is solved [optimal solution found]
+Solving Time (sec) : 0.25
+Solving Nodes      : 1
+Primal Bound       : +5.06780726115424e+01 (3 solutions)
+Dual Bound         : +5.06780726115424e+01
+Gap                : 0.00 %
+organism = "iIS312"
+(time_limit, json, yeast) = (1800, true, false)
+
+iIS312
+----------------------------------
+number of metabolites : 606
+number of reactions : 519
+number of genes : 312
+
+max_reactions = Any[]
+MOI.get(model, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+time_taken = 20.16013193130493

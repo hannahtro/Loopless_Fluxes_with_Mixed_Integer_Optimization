@@ -1,0 +1,74 @@
+presolving:
+(round 1, fast)       986 del vars, 5227 del conss, 0 add conss, 4281 chg bounds, 211 chg sides, 1024 chg coeffs, 0 upgd conss, 89 impls, 0 clqs
+(round 2, fast)       1279 del vars, 5611 del conss, 0 add conss, 4505 chg bounds, 221 chg sides, 1226 chg coeffs, 0 upgd conss, 90 impls, 0 clqs
+(round 3, fast)       1391 del vars, 5697 del conss, 0 add conss, 4564 chg bounds, 244 chg sides, 1403 chg coeffs, 0 upgd conss, 92 impls, 0 clqs
+(round 4, fast)       1425 del vars, 5705 del conss, 0 add conss, 4576 chg bounds, 249 chg sides, 1484 chg coeffs, 0 upgd conss, 94 impls, 0 clqs
+(round 5, fast)       1426 del vars, 5705 del conss, 0 add conss, 4581 chg bounds, 257 chg sides, 1489 chg coeffs, 0 upgd conss, 94 impls, 0 clqs
+   (0.0s) running MILP presolver
+   (0.3s) MILP presolver (21 rounds): 1583 aggregations, 402 fixings, 43 bound changes
+(round 6, medium)     3411 del vars, 10295 del conss, 1713 add conss, 4624 chg bounds, 257 chg sides, 1492 chg coeffs, 0 upgd conss, 94 impls, 0 clqs
+(round 7, fast)       3412 del vars, 10297 del conss, 1713 add conss, 4624 chg bounds, 258 chg sides, 1500 chg coeffs, 0 upgd conss, 124 impls, 0 clqs
+(round 8, exhaustive) 3412 del vars, 10297 del conss, 1713 add conss, 4624 chg bounds, 258 chg sides, 1500 chg coeffs, 778 upgd conss, 124 impls, 0 clqs
+   (0.3s) sparsify finished: 176/8378 (2.1%) nonzeros canceled - in total 176 canceled nonzeros, 224 changed coefficients, 0 added nonzeros
+(round 9, exhaustive) 3412 del vars, 10297 del conss, 1713 add conss, 4624 chg bounds, 258 chg sides, 1724 chg coeffs, 779 upgd conss, 1124 impls, 0 clqs
+   (0.4s) sparsify finished: 18/8202 (0.2%) nonzeros canceled - in total 194 canceled nonzeros, 252 changed coefficients, 0 added nonzeros
+(round 10, exhaustive) 3412 del vars, 10297 del conss, 1713 add conss, 4629 chg bounds, 258 chg sides, 1768 chg coeffs, 779 upgd conss, 1125 impls, 0 clqs
+   (0.4s) sparsify finished: 10/8184 (0.1%) nonzeros canceled - in total 204 canceled nonzeros, 269 changed coefficients, 0 added nonzeros
+   (0.5s) probing cycle finished: starting next cycle
+   (0.5s) dualsparsify: 661 nonzeros canceled
+(round 11, exhaustive) 3412 del vars, 10297 del conss, 1713 add conss, 4631 chg bounds, 259 chg sides, 2824 chg coeffs, 779 upgd conss, 10755 impls, 0 clqs
+(round 12, fast)       3412 del vars, 10310 del conss, 1721 add conss, 4658 chg bounds, 260 chg sides, 2828 chg coeffs, 779 upgd conss, 10758 impls, 0 clqs
+(round 13, fast)       3433 del vars, 10310 del conss, 1721 add conss, 4681 chg bounds, 260 chg sides, 2828 chg coeffs, 779 upgd conss, 10758 impls, 0 clqs
+(round 14, exhaustive) 3433 del vars, 10310 del conss, 1721 add conss, 4687 chg bounds, 261 chg sides, 2828 chg coeffs, 788 upgd conss, 10758 impls, 0 clqs
+   (0.5s) probing: 54/792 (6.8%) - 0 fixings, 0 aggregations, 9634 implications, 2 bound changes
+   (0.5s) probing aborted: 50/50 successive totally useless probings
+   (0.5s) dualsparsify: 70 nonzeros canceled
+(round 15, exhaustive) 3433 del vars, 10310 del conss, 1721 add conss, 4687 chg bounds, 261 chg sides, 2943 chg coeffs, 788 upgd conss, 10778 impls, 0 clqs
+   (0.5s) probing: 59/792 (7.4%) - 0 fixings, 0 aggregations, 9634 implications, 2 bound changes
+   (0.5s) probing aborted: 50/50 successive totally useless probings
+   (0.5s) dualsparsify: 1 nonzeros canceled
+   (0.5s) symmetry computation started: requiring (bin +, int -, cont +), (fixed: bin -, int +, cont -)
+   (0.5s) symmetry computation finished: 68 generators found (max: 1500, log10 of symmetry group size: 28.3) (symcode time: 0.01)
+(round 16, exhaustive) 3433 del vars, 10310 del conss, 1765 add conss, 4689 chg bounds, 261 chg sides, 2946 chg coeffs, 788 upgd conss, 10778 impls, 0 clqs
+(round 17, fast)       3445 del vars, 10310 del conss, 1765 add conss, 4689 chg bounds, 261 chg sides, 2946 chg coeffs, 788 upgd conss, 10778 impls, 0 clqs
+   (0.5s) probing: 64/792 (8.1%) - 0 fixings, 0 aggregations, 9634 implications, 2 bound changes
+   (0.5s) probing aborted: 50/50 successive totally useless probings
+presolving (18 rounds: 18 fast, 9 medium, 8 exhaustive):
+ 3445 deleted vars, 10310 deleted constraints, 1765 added constraints, 4689 tightened bounds, 0 added holes, 261 changed sides, 2946 changed coefficients
+ 10778 implications, 0 cliques
+presolved problem has 1765 variables (792 bin, 0 int, 0 impl, 973 cont) and 1750 constraints
+    780 constraints of type <varbound>
+    926 constraints of type <linear>
+     44 constraints of type <orbitope>
+Presolving Time: 0.52
+
+ time | node  | left  |LP iter|LP it/n|mem/heur|mdpt |vars |cons |rows |cuts |sepa|confs|strbr|  dualbound   | primalbound  |  gap   | compl. 
+  0.6s|     1 |     0 |  2379 |     - |    54M |   0 |1765 |1754 |1706 |   0 |  0 |   4 |   0 | 1.360225e+00 |      --      |    Inf | unknown
+  3.0s|     1 |     0 | 22379 |     - |    54M |   0 |1765 |1754 |1704 |   0 |  0 |   4 |   0 | 1.360225e+00 |      --      |    Inf | unknown
+(node 1) unresolved numerical troubles in LP 11 -- using pseudo solution instead (loop 1)
+  136s|     1 |     2 |794944 |     - |    55M |   0 |1765 |1754 |1791 |  87 |  1 |   4 |   0 | 1.360225e+00 |      --      |    Inf | unknown
+r 166s|    25 |     2 |  1014k|9191.3 |ziroundi|   8 |1765 |1760 |1791 |  87 |  1 |  10 |   0 | 1.360225e+00 | 0.000000e+00 |    Inf |  33.23%
+(node 26) numerical troubles in LP 116 -- unresolved
+(node 41) numerical troubles in LP 148 -- unresolved
+(node 43) numerical troubles in LP 157 -- unresolved
+(node 66) numerical troubles in LP 213 -- unresolved
+ 1691s|   100 |    15 |  9505k|87994.4 |    60M |  42 |1765 |1684 |1911 | 214 |  1 |  38 |   0 | 1.360225e+00 | 0.000000e+00 |    Inf |  68.26%
+
+SCIP Status        : solving was interrupted [time limit reached]
+Solving Time (sec) : 1800.00
+Solving Nodes      : 119
+Primal Bound       : +0.00000000000000e+00 (1 solutions)
+Dual Bound         : +1.36022498698640e+00
+Gap                : infinite
+organism = "iYS854"
+(time_limit, json, yeast) = (1800, true, false)
+
+iYS854
+----------------------------------
+number of metabolites : 1335
+number of reactions : 1455
+number of genes : 866
+
+max_reactions = Any[]
+MOI.get(model, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+time_taken = 1813.2753190994263
