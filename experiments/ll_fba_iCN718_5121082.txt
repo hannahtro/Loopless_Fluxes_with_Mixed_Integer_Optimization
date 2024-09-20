@@ -1,0 +1,23 @@
+presolving:
+(round 1, fast)       2343 del vars, 4972 del conss, 0 add conss, 4173 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 887 impls, 0 clqs
+(round 2, fast)       3020 del vars, 5414 del conss, 0 add conss, 4588 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 887 impls, 0 clqs
+(round 3, fast)       3106 del vars, 5475 del conss, 0 add conss, 4697 chg bounds, 32 chg sides, 0 chg coeffs, 0 upgd conss, 887 impls, 0 clqs
+(round 4, fast)       3123 del vars, 5489 del conss, 0 add conss, 4770 chg bounds, 32 chg sides, 0 chg coeffs, 0 upgd conss, 887 impls, 0 clqs
+(round 5, fast)       3125 del vars, 5491 del conss, 0 add conss, 4845 chg bounds, 32 chg sides, 0 chg coeffs, 0 upgd conss, 887 impls, 0 clqs
+presolving (6 rounds: 6 fast, 1 medium, 0 exhaustive):
+ 3126 deleted vars, 5813 deleted constraints, 0 added constraints, 4882 tightened bounds, 0 added holes, 32 changed sides, 321 changed coefficients
+ 887 implications, 0 cliques
+presolving detected infeasibility
+Presolving Time: 0.04
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.06
+Solving Nodes      : 0
+Primal Bound       : -1.00000000000000e+20 (objective limit, 0 solutions)
+Dual Bound         : -1.00000000000000e+20
+Gap                : 0.00 %
+organism = "iCN718"
+(time_limit, json, yeast) = (1800, true, false)
+objective function : x[845]
+(objective_loopless_fba, termination_loopless_fba) = (NaN, MathOptInterface.INFEASIBLE)
+time_taken = 16.948702812194824
