@@ -1,0 +1,12 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iEKO11_1354
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+
+iEKO11_1354
+----------------------------------
+number of metabolites : 1972
+number of reactions : 2778
+number of genes : 1354
+
+objective function : x[35]
+feasible = false

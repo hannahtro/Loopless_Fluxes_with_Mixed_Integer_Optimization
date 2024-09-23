@@ -1,0 +1,12 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iECNA114_1301
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+
+iECNA114_1301
+----------------------------------
+number of metabolites : 1927
+number of reactions : 2718
+number of genes : 1301
+
+objective function : x[16]
+feasible = false
