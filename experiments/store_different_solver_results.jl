@@ -635,10 +635,81 @@ organisms = [
     # "iSynCJ816",
     "iYO844",
     "iYS1720",
-    "iZ_1308"
+    "iZ_1308",
+    "iAF1260b",
+    "iAF987",
+    "iAM_Pb448",
+    "iAM_Pc455",
+    "iAM_Pf480",
+    "iAM_Pk459",
+    "iAM_Pv461",
+    "iAT_PLT_636",
+    "iB21_1397",
+    "iBWG_1329",
+    "ic_1306",
+    "iCHOv1",
+    "iCHOv1_DG44",
+    "iCN718",
+    "iE2348C_1286",
+    "iEC042_1314",
+    "iEC1344_C",
+    "iEC1349_Crooks",
+    "iEC1356_Bl21DE3",
+    "iEC1364_W",
+    "iEC1368_DH5a",
+    "iEC1372_W3110",
+    "iEC55989_1330",
+    "iECABU_c1320",
+    "iECBD_1354",
+    "iECD_1391",
+    "iECDH10B_1368",
+    "iEcDH1_1363",
+    "iECDH1ME8569_1439",
+    "iEcE24377_1341",
+    "iECED1_1282",
+    "iECH74115_1262",
+    "iEcHS_1320",
+    "iECIAI1_1343",
+    "iECIAI39_1322",
+    "iECNA114_1301",
+    "iECO103_1326",
+    "iECO111_1330",
+    "iECO26_1355",
+    "iECOK1_1307",
+    "iEcolC_1368",
+    "iECP_1309",
+    "iECs_1301",
+    "iECS88_1305",
+    "iECSE_1348",
+    "iECSF_1327",
+    "iEcSMS35_1347",
+    "iECSP_1301",
+    "iECUMN_1333",
+    "iECW_1372",
+    "iEKO11_1354",
+    "iG2583_1286",
+    "iIS312",
+    "iIS312_Epimastigote",
+    "iIS312_Trypomastigote",
+    "iIT341",
+    "iJN1463",
+    "iJN678",
+    "iLF82_1304",
+    "iLJ478",
+    "iNRG857_1313",
+    "iPC815",
+    "iSBO_1134",
+    "iSSON_1240",
+    "iUMN146_1321",
+    "iUMNK88_1353",
+    "iUTI89_1310",
+    "iWFL_1372",
+    "iY75_1357",
+    "iYL1228",
+    "iYS854"
 ]
-# mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
-# solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true)
+mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
+solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=false, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)
 # sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
@@ -675,21 +746,21 @@ organisms = [
 # ]
 # sub_csv("results_bigg_ch_vs_cb_big_m.csv", cb_big_m=true, ch=true, ch_mis=true, objective_values=true)
 
-println(" ")
-organisms = [
-    "Hanseniaspora_uvarum",
-    "yHMPu5000035696_Hanseniaspora_singularis",
-    "yHMPu5000034963_Hanseniaspora_clermontiae",
-    "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
-    "yHMPu5000035684_Kloeckera_hatyaiensis",
-    "Eremothecium_sinecaudum",
-    "yHMPu5000035659_Saturnispora_dispora",
-    "Tortispora_caseinolytica",
-    "Starmerella_bombicola_JCM9596",
-    "Eremothecium_gossypii",
-    "Ashbya_aceri"]
+# println(" ")
+# organisms = [
+#     "Hanseniaspora_uvarum",
+#     "yHMPu5000035696_Hanseniaspora_singularis",
+#     "yHMPu5000034963_Hanseniaspora_clermontiae",
+#     "yHMPu5000035695_Hanseniaspora_pseudoguilliermondii",
+#     "yHMPu5000035684_Kloeckera_hatyaiensis",
+#     "Eremothecium_sinecaudum",
+#     "yHMPu5000035659_Saturnispora_dispora",
+#     "Tortispora_caseinolytica",
+#     "Starmerella_bombicola_JCM9596",
+#     "Eremothecium_gossypii",
+#     "Ashbya_aceri"]
 # mis_numbers = [0.1, 0.2, 0.5, 2.0]
 # solver_data(organisms, time_limit=1800, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
 
-mis_numbers = [0.1, 0.2]
-solver_data(organisms, time_limit=14440, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
+# mis_numbers = [0.1, 0.2]
+# solver_data(organisms, time_limit=14440, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
