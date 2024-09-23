@@ -38,7 +38,7 @@ organisms = [
     # "iYO844",
     # "iYS1720",
     # "iZ_1308",
-#    "iAF1260b",
+    "iAF1260b",
     "iAF987",    
     "iAM_Pb448",
     "iAM_Pc455",
