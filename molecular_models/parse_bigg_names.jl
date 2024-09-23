@@ -55,7 +55,7 @@ used_organisms = [
 
 for i in organisms
     if !(string(i) in used_organisms)
-        println("'" * i * "',")
+        println(i)
 	    println(f, i)
     end
 end
