@@ -1,0 +1,63 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAT_PLT_636
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAT_PLT_636
+----------------------------------
+number of metabolites : 738
+number of reactions : 1008
+number of genes : 636
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 20
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1008 flux variables and 1895 variables in total
+master problem solved
+feasible = true
+length(C_list) = 15
+sub problem solved
+iter = 1
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 8
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.0
+thermo_feasible = true

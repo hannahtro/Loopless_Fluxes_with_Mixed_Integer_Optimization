@@ -1,0 +1,94 @@
+WARNING: Dual bound 0.982438 is smaller than the objective of the primal solution 0.982478. The solution might not be optimal.
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iUTI89_1310
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iUTI89_1310
+----------------------------------
+number of metabolites : 1940
+number of reactions : 2725
+number of genes : 1310
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 136
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 2725 flux variables and 5059 variables in total
+master problem solved
+feasible = false
+length(C_list) = 36
+sub problem solved
+iter = 1
+length(C_list) = 41
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 25
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 35
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 25
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 20
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 67
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 16
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9824784386660127
+thermo_feasible = true

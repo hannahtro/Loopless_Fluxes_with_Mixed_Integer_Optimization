@@ -130,7 +130,7 @@ fast = true
 json = true
 yeast = false
 
-mis_numbers = [0] #, 0.1, 0.5, 2.0, 5.0, 10.0]
+mis_numbers = [0.1, 0.5, 2.0, 5.0, 10.0]
 for organism in organisms
     for mis in mis_numbers
         @show organism, mis

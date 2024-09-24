@@ -1,0 +1,29 @@
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:568
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCN718
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCN718
+----------------------------------
+number of metabolites : 888
+number of reactions : 1015
+number of genes : 709
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 51
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1015 flux variables and 1902 variables in total
+master problem solved
+feasible = false
+length(C_list) = 22
+sub problem solved
+iter = 1
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+termination_master = MathOptInterface.INFEASIBLE
+termination = MathOptInterface.INFEASIBLE
+objective_value = missing

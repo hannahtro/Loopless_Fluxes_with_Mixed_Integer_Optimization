@@ -1,0 +1,201 @@
+WARNING: Dual bound 0.602098 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.647367 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.580205 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.656964 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.654939 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.627398 is smaller than the objective of the primal solution 0.627829. The solution might not be optimal.
+WARNING: Dual bound 0.617061 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.619383 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.656964 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.651402. The solution might not be optimal.
+WARNING: Dual bound 0.616917 is smaller than the objective of the primal solution 0.647367. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.647382. The solution might not be optimal.
+WARNING: Dual bound 0.616416 is smaller than the objective of the primal solution 0.616733. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.647367 is smaller than the objective of the primal solution 0.658671. The solution might not be optimal.
+WARNING: Dual bound 0.617092 is smaller than the objective of the primal solution 0.651246. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.636206. The solution might not be optimal.
+WARNING: Dual bound 0.619383 is smaller than the objective of the primal solution 0.644266. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.609826 is smaller than the objective of the primal solution 0.658258. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.657524. The solution might not be optimal.
+WARNING: Dual bound 0.62849 is smaller than the objective of the primal solution 0.658317. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658694. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.555952 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.630227 is smaller than the objective of the primal solution 0.638332. The solution might not be optimal.
+WARNING: Dual bound 0.647367 is smaller than the objective of the primal solution 0.658701. The solution might not be optimal.
+WARNING: Dual bound 0.555952 is smaller than the objective of the primal solution 0.653921. The solution might not be optimal.
+WARNING: Dual bound 0.619383 is smaller than the objective of the primal solution 0.65349. The solution might not be optimal.
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAM_Pc455
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAM_Pc455
+----------------------------------
+number of metabolites : 907
+number of reactions : 1074
+number of genes : 455
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 54
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1074 flux variables and 2043 variables in total
+master problem solved
+feasible = false
+length(C_list) = 16
+sub problem solved
+iter = 1
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 26
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 26
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 35
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 30
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 31
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 26
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 31
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 20
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 20
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 29
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 28
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 17
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 18
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 19
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 20
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 21
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 22
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 23
+length(C_list) = 30
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 24
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 25
+length(C_list) = 29
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 26
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 27
+length(C_list) = 26
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 28
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 29
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 30
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 31
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 32
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 33
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 34
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 35
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 36
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 37
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 38
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 39
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 40
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 41
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 42
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 43
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 44
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 45
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 45
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.6534897654161302
+thermo_feasible = true

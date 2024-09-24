@@ -1,0 +1,371 @@
+WARNING: Dual bound 0.650602 is smaller than the objective of the primal solution 0.656717. The solution might not be optimal.
+WARNING: Dual bound 0.579412 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.653896 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.658512 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.655014 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.652067 is smaller than the objective of the primal solution 0.657947. The solution might not be optimal.
+WARNING: Dual bound 0.64616 is smaller than the objective of the primal solution 0.657661. The solution might not be optimal.
+WARNING: Dual bound 0.655386 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.652119 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.641879 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.642958 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.645281 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.647366 is smaller than the objective of the primal solution 0.654706. The solution might not be optimal.
+WARNING: Dual bound 0.654833 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.6527 is smaller than the objective of the primal solution 0.657858. The solution might not be optimal.
+WARNING: Dual bound 0.645181 is smaller than the objective of the primal solution 0.657123. The solution might not be optimal.
+WARNING: Dual bound 0.647366 is smaller than the objective of the primal solution 0.658668. The solution might not be optimal.
+WARNING: Dual bound 0.644941 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.647109 is smaller than the objective of the primal solution 0.657859. The solution might not be optimal.
+WARNING: Dual bound 0.645889 is smaller than the objective of the primal solution 0.658692. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.658667. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.657656. The solution might not be optimal.
+WARNING: Dual bound 0.58833 is smaller than the objective of the primal solution 0.590413. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.657676. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.637706. The solution might not be optimal.
+WARNING: Dual bound 0.552858 is smaller than the objective of the primal solution 0.62591. The solution might not be optimal.
+WARNING: Dual bound 0.553676 is smaller than the objective of the primal solution 0.565795. The solution might not be optimal.
+WARNING: Dual bound 0.576227 is smaller than the objective of the primal solution 0.580204. The solution might not be optimal.
+WARNING: Dual bound 0.619381 is smaller than the objective of the primal solution 0.620265. The solution might not be optimal.
+WARNING: Dual bound 0.552413 is smaller than the objective of the primal solution 0.639689. The solution might not be optimal.
+WARNING: Dual bound 0.588427 is smaller than the objective of the primal solution 0.646919. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.647358. The solution might not be optimal.
+WARNING: Dual bound 0.560572 is smaller than the objective of the primal solution 0.56497. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.636914. The solution might not be optimal.
+WARNING: Dual bound 0.575772 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.619381 is smaller than the objective of the primal solution 0.657455. The solution might not be optimal.
+WARNING: Dual bound 0.619381 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.619381 is smaller than the objective of the primal solution 0.639683. The solution might not be optimal.
+WARNING: Dual bound 0.586784 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.569507 is smaller than the objective of the primal solution 0.650754. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.636302. The solution might not be optimal.
+WARNING: Dual bound 0.590362 is smaller than the objective of the primal solution 0.649705. The solution might not be optimal.
+WARNING: Dual bound 0.554161 is smaller than the objective of the primal solution 0.582839. The solution might not be optimal.
+WARNING: Dual bound 0.563831 is smaller than the objective of the primal solution 0.626814. The solution might not be optimal.
+WARNING: Dual bound 0.553299 is smaller than the objective of the primal solution 0.645691. The solution might not be optimal.
+WARNING: Dual bound 0.647855 is smaller than the objective of the primal solution 0.658692. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.658699. The solution might not be optimal.
+WARNING: Dual bound 0.590362 is smaller than the objective of the primal solution 0.592249. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.638395. The solution might not be optimal.
+WARNING: Dual bound 0.572478 is smaller than the objective of the primal solution 0.589584. The solution might not be optimal.
+WARNING: Dual bound 0.654636 is smaller than the objective of the primal solution 0.656922. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.635617. The solution might not be optimal.
+WARNING: Dual bound 0.630225 is smaller than the objective of the primal solution 0.647359. The solution might not be optimal.
+WARNING: Dual bound 0.619381 is smaller than the objective of the primal solution 0.645159. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.65341. The solution might not be optimal.
+WARNING: Dual bound 0.580204 is smaller than the objective of the primal solution 0.583823. The solution might not be optimal.
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: variable 239 does not have binary value: 0.999999
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:230
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: variable 765 does not have binary value: 0.999999
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:230
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:568
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAM_Pb448
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAM_Pb448
+----------------------------------
+number of metabolites : 903
+number of reactions : 1067
+number of genes : 448
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 53
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1067 flux variables and 2031 variables in total
+master problem solved
+feasible = false
+length(C_list) = 11
+sub problem solved
+iter = 1
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 17
+length(C_list) = 25
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 18
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 19
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 20
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 21
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 22
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 23
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 24
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 25
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 26
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 27
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 28
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 29
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 30
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 31
+length(C_list) = 28
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 32
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 33
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 34
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 35
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 36
+length(C_list) = 31
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 37
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 38
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 39
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 40
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 41
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 42
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 43
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 44
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 45
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 46
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 47
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 48
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 49
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 50
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 51
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 52
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 53
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 54
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 55
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 56
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 57
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 58
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 59
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 60
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 61
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 62
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 63
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 64
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 65
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 66
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 67
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 68
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 69
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 70
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 71
+length(C_list) = 19
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 72
+length(C_list) = 20
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 73
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 74
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 75
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 76
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 77
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 78
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 79
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 80
+termination_master = MathOptInterface.TIME_LIMIT
+termination = MathOptInterface.INFEASIBLE
+objective_value = missing
