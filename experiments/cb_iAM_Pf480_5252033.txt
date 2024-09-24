@@ -1,0 +1,113 @@
+WARNING: Dual bound 0.686316 is smaller than the objective of the primal solution 0.687159. The solution might not be optimal.
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAM_Pf480
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAM_Pf480
+----------------------------------
+number of metabolites : 909
+number of reactions : 1083
+number of genes : 480
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 5
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 1083 flux variables and 2058 variables in total
+master problem solved
+feasible = false
+length(C_list) = 5
+sub problem solved
+iter = 1
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 17
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 18
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 19
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 20
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 21
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 22
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 23
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 24
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 25
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 25
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.6871743525718493
+thermo_feasible = true
