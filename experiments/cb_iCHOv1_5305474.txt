@@ -1,0 +1,15 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCHOv1
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCHOv1
+----------------------------------
+number of metabolites : 4456
+number of reactions : 6663
+number of genes : 1766
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 200
+max_cuts = 133
+AssertionError("max_cuts <= 100")

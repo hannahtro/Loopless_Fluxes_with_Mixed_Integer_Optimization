@@ -1,0 +1,31 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iIS312_Trypomastigote
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iIS312_Trypomastigote
+----------------------------------
+number of metabolites : 606
+number of reactions : 520
+number of genes : 312
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 26
+max_cuts = 10
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 520 flux variables and 995 variables in total
+master problem solved
+feasible = true
+[length(mis) for mis = unique(C_list)] = [4, 4, 5, 6, 56, 4]
+length(C_list) = 6
+sub problem solved
+iter = 1
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 1
+termination = MathOptInterface.OPTIMAL
+objective_value = 53.03632988597188
+thermo_feasible = true

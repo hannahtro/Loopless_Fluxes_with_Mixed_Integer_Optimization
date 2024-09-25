@@ -1,0 +1,91 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iEC55989_1330
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iEC55989_1330
+----------------------------------
+number of metabolites : 1953
+number of reactions : 2756
+number of genes : 1330
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 138
+max_cuts = 55
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2756 flux variables and 5121 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [6, 11, 7, 2, 2, 6, 14, 2, 8, 3, 69, 63, 60, 2, 30, 7, 2, 2, 2, 4, 3, 11, 2, 2, 2, 2, 17, 17, 18, 18, 18, 17, 17, 14, 14, 15, 14, 15, 14, 14, 11, 11, 14, 14, 15, 11, 11, 11, 11, 11, 2, 16, 15, 14, 14, 14, 6, 4]
+length(C_list) = 55
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [4, 4, 2, 2, 3, 5, 4, 2, 2, 4, 3, 3, 77, 5, 4, 3, 4, 3, 4, 6, 10, 4, 3, 4, 5, 4, 4, 3, 17, 3, 4, 3, 3, 3, 3, 4, 7, 4, 7, 2, 3, 13, 3, 5]
+length(C_list) = 44
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [4, 3, 2, 4, 7, 2, 98, 25, 4, 3, 67, 3, 62, 3, 2, 2, 6, 67]
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [5, 6, 6, 2, 20, 5, 3, 3, 9, 3, 2, 7, 5, 6, 8, 4, 7, 13, 16, 65]
+length(C_list) = 20
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [2, 2, 3, 2, 4, 4, 4, 5, 2, 4, 3, 4, 10, 3, 5, 5, 10, 4]
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [5, 6, 57, 4, 6, 5, 7, 14, 6, 7]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [2, 4, 2, 3, 3, 3, 7, 4, 4, 4, 5, 13, 5]
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [4, 2, 3, 3, 3, 3, 5, 5, 7, 3]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [2, 3, 4, 4, 4, 16, 4, 5, 5, 12, 4, 21]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+[length(mis) for mis = unique(C_list)] = [4, 6, 5, 5, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+[length(mis) for mis = unique(C_list)] = [3, 4, 3, 4, 8, 46, 6, 7, 5, 4, 37, 5, 4, 163, 9]
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+[length(mis) for mis = unique(C_list)] = [4, 4, 3, 5, 4, 5, 5, 20, 6, 27, 5, 6, 7]
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+[length(mis) for mis = unique(C_list)] = [2, 2, 41, 6, 3, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 13
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9824785095794041
+thermo_feasible = true

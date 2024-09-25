@@ -1,0 +1,51 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iECSF_1327
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iECSF_1327
+----------------------------------
+number of metabolites : 1951
+number of reactions : 2742
+number of genes : 1327
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 137
+max_cuts = 55
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2742 flux variables and 5093 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [2, 7, 67, 11, 81, 11, 16, 11, 11, 21, 19, 18, 17, 18, 17, 17, 14, 15, 15, 14, 19, 14, 14, 14, 15, 15, 14, 15, 14, 15, 14, 14, 14, 16, 23, 2, 17, 2, 2, 3, 6, 2, 12, 2, 2, 2, 40, 7, 2, 2, 4, 7, 42, 41, 2, 41, 2, 4, 96, 10, 10, 12, 11, 11, 10, 14, 82, 2, 3, 3, 10, 57]
+length(C_list) = 55
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [2, 17, 4, 2, 3, 3, 3, 3, 4, 6, 3, 2, 4, 4, 3, 3, 2, 3, 4, 3, 3, 5, 4, 5, 4, 3, 4, 4, 4]
+length(C_list) = 29
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [5, 2, 4, 3, 3, 3, 4, 3, 5, 6, 4, 3, 4, 5, 6, 4, 37, 15, 3, 4]
+length(C_list) = 20
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [2, 3, 2, 4, 3, 4, 5, 4, 9, 3, 2, 4, 91, 3, 5, 4, 7, 2, 10, 8, 4]
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [2, 2, 2, 7, 3, 2, 3, 8, 2, 5, 2, 14, 5, 8, 8, 4, 8]
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [4, 5, 50, 2, 2, 7, 13, 12, 122, 11, 145, 11, 3]
+length(C_list) = 13
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 6
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9824785410722503
+thermo_feasible = true

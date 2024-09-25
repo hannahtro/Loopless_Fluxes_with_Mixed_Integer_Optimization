@@ -1,0 +1,83 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iB21_1397
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iB21_1397
+----------------------------------
+number of metabolites : 1943
+number of reactions : 2741
+number of genes : 1337
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 137
+max_cuts = 55
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2741 flux variables and 5091 variables in total
+master problem solved
+feasible = true
+[length(mis) for mis = unique(C_list)] = [6, 2, 2, 3, 4, 2, 2, 4, 2, 6, 3, 3, 2, 2, 13, 7, 40, 46, 50, 49, 48, 49, 7, 5, 7, 16, 15, 47, 3, 80, 41, 41, 57, 8, 6, 20, 20, 4, 21, 20, 21, 20, 20, 11, 13, 13, 13, 13, 13, 13, 13, 13, 2, 54, 4, 9, 6, 10]
+length(C_list) = 55
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [4, 2, 2, 3, 2, 3, 4, 7, 3, 3, 2, 5, 3, 4, 2, 4, 3, 5, 3, 3, 3, 2, 3, 127, 3, 5, 4, 3, 3, 3, 5]
+length(C_list) = 31
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [2, 3, 8, 3, 3, 2, 6, 5, 15, 4, 4, 4, 6, 4, 6, 11, 5, 4, 3, 3, 22, 8, 19]
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [4, 4, 3, 4, 5, 2, 5, 5, 7, 2, 46, 24, 2, 24, 2, 6, 17, 3, 7, 15, 2]
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [4, 3, 3, 4, 17, 14, 4, 3, 7, 4, 2, 2, 4, 4, 196, 5, 6, 4]
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [4, 9, 6, 2, 7, 6, 28, 5, 6, 2]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [4, 2, 3, 7, 6, 78, 8, 7, 28]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [2, 3, 3, 6, 3, 4, 3, 3, 4, 4, 4]
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [3, 3, 2, 3, 44, 103, 48, 49, 5, 3, 5, 5, 4, 9, 5]
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+[length(mis) for mis = unique(C_list)] = [3, 3, 2, 4, 11, 4, 2, 3, 4, 4, 5, 3, 5, 7]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+[length(mis) for mis = unique(C_list)] = [4, 3, 15, 5, 4, 166, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+[length(mis) for mis = unique(C_list)] = [2, 3, 5, 3]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 12
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9756145870852999
+thermo_feasible = true
