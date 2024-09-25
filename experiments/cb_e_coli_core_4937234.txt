@@ -1,4 +1,0 @@
-ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
-e_coli_core
-(time_limit, fast, json, yeast) = (1800, true, true, false)
-UndefVarError(:max_density_max_density)
