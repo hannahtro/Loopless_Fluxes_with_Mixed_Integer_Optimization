@@ -1,0 +1,143 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iAM_Pv461
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iAM_Pv461
+----------------------------------
+number of metabolites : 909
+number of reactions : 1078
+number of genes : 461
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 216
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 1078 flux variables and 2048 variables in total
+master problem solved
+feasible = false
+length(C_list) = 40
+sub problem solved
+iter = 1
+length(C_list) = 62
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 34
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 59
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+length(C_list) = 48
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+length(C_list) = 72
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+length(C_list) = 22
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+length(C_list) = 47
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+length(C_list) = 31
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 17
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 18
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 19
+length(C_list) = 30
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 20
+length(C_list) = 23
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 21
+length(C_list) = 41
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 22
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 23
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 24
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 25
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 26
+length(C_list) = 24
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 27
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 28
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 28
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.687175171292408
+thermo_feasible = true

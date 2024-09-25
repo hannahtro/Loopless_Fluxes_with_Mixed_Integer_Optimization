@@ -1,0 +1,59 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iYL1228
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iYL1228
+----------------------------------
+number of metabolites : 1658
+number of reactions : 2262
+number of genes : 1229
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 452
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2262 flux variables and 4233 variables in total
+master problem solved
+feasible = false
+length(C_list) = 48
+sub problem solved
+iter = 1
+length(C_list) = 48
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 57
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 39
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 53
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 39
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 36
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 33
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 8
+termination = MathOptInterface.OPTIMAL
+objective_value = 1.0426375216763366
+thermo_feasible = true
