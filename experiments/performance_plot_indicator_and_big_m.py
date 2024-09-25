@@ -229,4 +229,4 @@ colors = ['#377eb8', '#ff7f00', '#4daf4a', '#999999', '#984ea3', '#e41a1c', '#de
 linestyles = ["dashdot", "dashed", "dotted", (0, (3, 1, 1, 1, 1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (3, 10, 1, 10)), (0, (1, 10)), (0, (5, 10)), (0, (3, 1, 1, 1)), (0, (3, 5, 1, 5))]
 markerstyles = ['o', 'v', '^', 's', 'p', 'D', 'd', 'p', 'D']
 
-build_solved_instances_plot(colors, linestyles, markerstyles, big_m=True, indicator=True, indicator_and_big_m=True, all_subplots=False, extended=True, ll_fba=True, ll_fba_indicator=True)
+build_solved_instances_plot(colors, linestyles, markerstyles, big_m=True, indicator=True, indicator_and_big_m=False, all_subplots=False, extended=True, ll_fba=True, ll_fba_indicator=True)
