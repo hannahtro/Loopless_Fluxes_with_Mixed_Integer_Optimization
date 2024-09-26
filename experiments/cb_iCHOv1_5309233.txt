@@ -1,0 +1,33 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCHOv1
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCHOv1
+----------------------------------
+number of metabolites : 4456
+number of reactions : 6663
+number of genes : 1766
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 133
+max_cuts = 67
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 6663 flux variables and 12684 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [8, 3, 209, 4, 5, 6, 3, 4, 10, 4, 4, 3, 7, 7, 2, 11, 3, 5, 8, 4, 3, 6, 3, 110, 103, 116, 4, 16, 6, 8, 9, 4, 4, 12, 3, 4, 4, 4, 216, 15, 5, 16, 4, 12, 242, 4, 6, 4, 13, 3, 8, 12, 4, 21]
+length(C_list) = 54
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [6, 3, 4, 6, 5, 6, 5, 8, 21, 10, 14, 24, 6, 12, 361, 146, 15, 3, 4, 6, 3, 7, 6, 183, 3, 14, 5, 3, 4, 3, 680, 154, 4, 4, 16, 70, 13, 4, 5, 4, 23, 92, 236, 10, 12, 4, 20, 39, 41, 71, 5, 17, 6, 11, 4, 7]
+length(C_list) = 56
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [8, 3, 4, 4, 8, 9, 3, 6, 12, 3, 5, 4, 439, 4, 4, 4, 6, 23, 3, 6, 5, 4, 5, 38, 3, 38, 7, 6, 4, 10, 17, 3, 4, 4, 11, 6, 4, 331, 29, 279, 39, 4, 4, 4, 4, 7, 4, 5, 4, 6, 9, 6, 7, 16]
+length(C_list) = 54
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.03236897160314543
