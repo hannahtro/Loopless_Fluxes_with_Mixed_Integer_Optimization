@@ -1,0 +1,87 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iEC1356_Bl21DE3
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iEC1356_Bl21DE3
+----------------------------------
+number of metabolites : 1918
+number of reactions : 2740
+number of genes : 1356
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 137
+max_cuts = 14
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 2740 flux variables and 5136 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [3, 2, 2, 3, 3, 3, 3, 3, 4, 4, 3, 2, 9, 3, 2, 2, 2, 3, 4, 8, 4, 3, 4, 2, 3, 3, 5, 47, 7, 4, 4, 79, 2, 2]
+length(C_list) = 14
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [4, 3, 8, 2, 2, 2, 2, 4, 3, 5, 3, 4, 3, 4, 5, 6, 4, 4, 4, 3, 130, 4, 4, 4, 2, 7, 7, 23, 113, 11, 59, 5, 4, 4, 5, 3, 4, 4, 19, 4, 9, 3, 3, 4]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [2, 4, 4, 3, 3, 4, 4, 3, 3, 5, 4, 5, 3, 3, 4, 4, 2, 15, 5, 5, 4, 9, 4, 6, 73, 3, 3, 4, 15, 4, 5, 5, 121, 4, 5, 4, 4, 7, 4, 4, 5, 27, 4, 4, 5, 4, 5, 4]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [2, 2, 3, 4, 3, 10, 5, 4, 4, 6, 3, 4, 6, 4, 4, 3, 7, 2, 3, 3, 4, 5, 6, 33, 4, 5, 39, 4, 9, 6, 5, 8, 3, 7, 4, 5, 4]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [2, 8, 5, 13, 3, 3, 2, 2, 5, 18, 17, 6, 8, 2, 9, 7, 11, 6, 12, 8, 7, 4, 7, 7, 4, 6, 97, 8]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [2, 2, 2, 2, 3, 3, 4, 20, 2, 5, 3, 5, 3, 4, 2, 320, 7, 3, 106, 4, 2, 3, 3, 14, 4, 4, 123, 2]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [3, 3, 4, 8, 9, 104, 190, 7, 4, 4, 6, 7, 7, 13, 11, 4, 4, 5]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [2, 5, 7, 39, 6, 38, 8, 6, 10, 13, 7, 7, 9, 7, 7, 49, 8]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [8, 6, 22, 7, 9, 8, 13, 9, 10, 7, 11, 64, 9, 43, 9, 9, 67, 107, 8, 74, 11, 111, 16, 9, 12, 305]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+[length(mis) for mis = unique(C_list)] = [2, 4, 5, 60, 8, 52, 5, 5]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+[length(mis) for mis = unique(C_list)] = [3, 4, 3, 4, 4, 4, 44, 60, 127]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+[length(mis) for mis = unique(C_list)] = [3, 4, 4, 2, 3, 4, 6, 5, 4, 3, 19, 13, 5, 4, 4, 6, 7, 5]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+[length(mis) for mis = unique(C_list)] = [4, 7, 7, 6, 3, 6, 4, 7, 4, 10, 3, 7, 4, 8, 6, 7, 221, 4, 8, 7, 9, 9, 4, 288, 8, 18, 8, 4, 9, 7, 11]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 13
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9767013604875483
+thermo_feasible = true

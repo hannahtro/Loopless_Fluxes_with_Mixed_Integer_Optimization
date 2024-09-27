@@ -1,0 +1,35 @@
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:486
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCN718
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCN718
+----------------------------------
+number of metabolites : 888
+number of reactions : 1015
+number of genes : 709
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 10
+max_cuts = 5
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1015 flux variables and 1902 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [6, 1, 3, 9, 5, 6, 9]
+length(C_list) = 5
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [9, 5, 4, 5, 32, 32]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [13, 1, 2, 10, 7, 4, 10]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+termination_master = MathOptInterface.INFEASIBLE
+BoundsError((missing, Any[1.313591292364552, 1.3135912923645503, 1.3135912923645496], Any[1.313591292364552, 1.3135912923645503, 1.3135912923645496], missing, missing, missing, missing, missing, 0.04370713233947754, MathOptInterface.INFEASIBLE, 3, Any[(Any[], Any[809], 1), (Any[521, 525], Any[701], 3), (Any[141, 704, 860], Any[149, 702], 5), (Any[381, 856], Any[377, 383, 660, 855], 6), (Any[60, 198, 761, 762], Any[14, 53], 6), (Any[141, 649], Any[737, 740], 4), (Any[660, 854], Any[737, 740, 855], 5), (Any[14, 53], Any[44, 60, 198], 5), (Any[49, 53, 61, 404, 641, 760], Any[44, 60, 424], 9), (Any[14, 20, 23, 53, 73, 80, 88, 100, 274, 334, 381, 382, 490, 653, 791, 796, 819, 822], Any[57, 60, 95, 198, 256, 294, 352, 428, 559, 560, 597, 706, 761, 762], 32), (Any[809], Any[], 1), (Any[648], Any[39], 2), (Any[102, 839], Any[533, 856], 4), (Any[141, 350, 648, 649, 711], Any[39, 530], 7), (Any[49, 53, 61, 641, 737, 740, 760], Any[44, 60, 660], 10)], Any[1.707078218460083, 0.11580705642700195, 0.11116886138916016, 0.014822006225585938], Any[0.02105998992919922, 0.005305051803588867, 0.0035719871520996094], Any[3.1288809776306152, 0.07561016082763672, 0.0935049057006836]), 16)

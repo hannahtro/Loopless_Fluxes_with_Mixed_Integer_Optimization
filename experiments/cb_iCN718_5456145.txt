@@ -1,0 +1,31 @@
+┌ Warning: master problem cannot be solved
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:486
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCN718
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCN718
+----------------------------------
+number of metabolites : 888
+number of reactions : 1015
+number of genes : 709
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 51
+max_cuts = 5
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 1015 flux variables and 1902 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [6, 1, 3, 9, 5, 6, 9, 3, 5, 7, 5, 69, 3, 4, 4, 4, 7, 6, 2, 4, 10, 5]
+length(C_list) = 5
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [10, 1, 9, 4, 9, 4, 4, 8, 9, 4, 3, 47, 4, 10, 4, 10, 11, 11, 4, 10, 11, 8, 4, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+termination_master = MathOptInterface.INFEASIBLE
+BoundsError((missing, Any[1.313591292364552, 1.3135912923645554], Any[1.313591292364552, 1.3135912923645554], missing, missing, missing, missing, missing, 0.04808998107910156, MathOptInterface.INFEASIBLE, 2, Any[(Any[], Any[809], 1), (Any[648], Any[39], 2), (Any[521, 525], Any[701], 3), (Any[761, 762], Any[44], 3), (Any[747], Any[22, 748], 3), (Any[809], Any[], 1), (Any[228], Any[17, 69], 3), (Any[48, 102], Any[533, 759], 4), (Any[121], Any[134, 737, 740], 4), (Any[102], Any[533, 737, 740], 4)], Any[1.7020869255065918, 0.20426392555236816, 0.014510869979858398], Any[0.021670818328857422, 0.0038018226623535156], Any[3.3199238777160645, 0.3023800849914551]), 16)
