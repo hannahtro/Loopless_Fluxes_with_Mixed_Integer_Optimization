@@ -1,0 +1,62 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iECP_1309
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iECP_1309
+----------------------------------
+number of metabolites : 1941
+number of reactions : 2739
+number of genes : 1309
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 14
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 2739 flux variables and 5087 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [4, 2, 2, 2, 2, 4, 2, 2, 2, 2, 2]
+length(C_list) = 11
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [3, 3, 3, 3, 2, 2, 2, 2, 4, 2, 3]
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [4, 3, 4, 4, 3, 3, 3, 4, 2, 4, 3, 2]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [4, 3, 2, 3, 3, 3, 3, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [2, 4, 3, 4, 4, 4, 4, 3, 4, 16]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [3, 6, 3, 8, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [2, 2, 3, 2, 2, 3, 2, 14]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [2, 3, 3, 2, 3, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [3, 15, 8, 4, 4, 3]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 9
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.9824784386660076
+thermo_feasible = true

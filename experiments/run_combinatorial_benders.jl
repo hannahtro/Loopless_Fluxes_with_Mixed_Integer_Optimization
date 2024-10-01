@@ -131,11 +131,11 @@ fast = true
 json = true
 yeast = false
 
-mis_numbers = [0.5]#1, 2, 5] #3, 4, 5]# , 2] #[0, 5, 10, 20, 30]
+mis_numbers = [2.0]#1, 2, 5] #3, 4, 5]# , 2] #[0, 5, 10, 20, 30]
 #densities = [5, 10, 15, 20]
 max_density = 1000
 # max_cuts = [0.2, 0.3, 0.4] #0.5]#0.5, 1.0, 1.5]
-max_cuts = 0.2
+max_cut = 0.2
 for organism in organisms
     for mis in mis_numbers
 #        for max_density in densities
