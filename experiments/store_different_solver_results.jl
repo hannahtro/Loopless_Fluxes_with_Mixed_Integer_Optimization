@@ -830,8 +830,7 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
 end
 
 function sub_csv(file_out, file_in="results_bigg_SCIP.csv"; nullspace=false, ll_fba=false, cb=false, cb_big_m=false, cb_indicator_and_big_m=false, objective_values=true, mis_indicator=false, mis_big_m=false, mis_numbers=[], no_good_cuts=false, no_good_cuts_big_m=false, ch=false, ch_mis=false, ll_fba_indicator=false, cut_densities=[], distinct_cuts=false)
-    df = CSV.read("csv/" * file_in, DataFrame)
-
+    df = CSV.read("csv/" * file_in, DataFrame)    
     cols = ["organism"]
 
     if ll_fba 
@@ -1063,7 +1062,7 @@ organisms = [
 mis_numbers = [0.1, 0.5, 1.0, 2.0, 3, 4, 5, 10, 20, 30]
 cut_densities = [5, 10, 15, 20]
 max_cuts = [0.5, 1.0, 1.5, 2.0, 0.2, 0.3, 0.4, 0.5]
-solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true, cut_densities=cut_densities, distinct_cuts=true, max_cuts=max_cuts)
+# solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=false, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true, cut_densities=cut_densities, distinct_cuts=true, max_cuts=max_cuts)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)
 # sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
