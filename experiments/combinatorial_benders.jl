@@ -14,7 +14,7 @@ max_cuts = parse(Float64, ARGS[8])
 
 type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, indicator=false, big_m=true, multiple_mis=mis, distinct_cuts=false, max_cuts=max_cuts)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, indicator=false, big_m=true, multiple_mis=mis, distinct_cuts=true)
 catch e 
     println(e)
     file = organism * "_" * type
