@@ -1,0 +1,86 @@
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:539
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iJN1463
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iJN1463
+----------------------------------
+number of metabolites : 2153
+number of reactions : 2927
+number of genes : 1462
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 59
+(indicator, big_m) = (true, false)
+INDICATOR ADDED
+model with 2927 flux variables and 5473 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [2, 4, 4, 2, 4, 6, 5, 3, 3, 3, 132, 2, 5, 6, 4, 314, 6, 4, 8, 5, 6, 213, 6, 8, 5, 10, 3, 6]
+length(C_list) = 16
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [2, 3, 3, 2, 11, 2, 63, 53, 3, 5, 5, 5, 26, 6, 3, 27]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [3, 7, 6, 6, 10, 3, 8, 5, 3, 4, 7, 6, 7, 4, 5, 10, 6, 9, 6, 4, 6, 8, 5, 6]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [3, 3, 5, 6, 6, 12, 6, 6, 7, 4, 23, 8, 5, 10, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [2, 3, 8, 6, 7, 250, 7, 6, 6, 8, 7, 13, 7, 3, 7, 7, 6, 6, 6, 6, 7, 19, 8, 64, 6, 9, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [2, 4, 10, 10, 4, 6, 9, 8, 8, 3, 8, 4, 5, 13, 4, 4, 4, 4, 3, 4, 9, 4, 13, 6, 5, 3, 4, 6, 5, 5, 4, 4, 5, 8]
+length(C_list) = 21
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [2, 7, 7, 23, 6, 7, 6, 4, 11, 7, 7, 6, 7, 7, 9, 9, 11, 8, 55, 6, 11, 8, 8, 15, 73, 3, 6, 7, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [6, 3, 6, 16, 7, 7, 7, 8, 6, 6, 7, 6, 6, 6, 9, 4, 7, 22, 5, 8, 5, 6, 6, 4, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [5, 4, 5, 6, 4, 2, 6, 4, 5, 6, 2, 5, 2, 9, 6, 5, 5, 6, 2, 8, 5, 6, 72, 2, 6, 7, 4, 6]
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+[length(mis) for mis = unique(C_list)] = [6, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 6, 9, 7, 8, 6, 6, 6, 7, 6, 6, 7, 7, 7, 7, 6, 8, 54, 9, 20, 9, 7, 6, 6, 8, 25, 12, 11]
+length(C_list) = 39
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+[length(mis) for mis = unique(C_list)] = [2, 6, 5, 41, 19, 10, 8, 10, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+[length(mis) for mis = unique(C_list)] = [5, 18, 6, 6, 5, 4, 3, 5, 10, 6, 30, 6, 5, 7, 18, 6, 4, 5, 6, 4, 6, 24, 6, 9, 5]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+[length(mis) for mis = unique(C_list)] = Any[]
+length(C_list) = 0
+iter = 12
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.5861175448271679
+thermo_feasible = true
