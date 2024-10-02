@@ -1,0 +1,1732 @@
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iCHOv1_DG44
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iCHOv1_DG44
+----------------------------------
+number of metabolites : 2751
+number of reactions : 3942
+number of genes : 1184
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 20
+(indicator, big_m) = (false, true)
+BIG M ADDED
+model with 3942 flux variables and 7297 variables in total
+master problem solved
+feasible = false
+[length(mis) for mis = unique(C_list)] = [4, 145, 3, 5, 3, 2, 4, 7, 4, 2, 6]
+length(C_list) = 8
+sub problem solved
+iter = 1
+[length(mis) for mis = unique(C_list)] = [6, 5, 4, 3, 4, 6, 2, 4, 8, 4, 3, 4]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+[length(mis) for mis = unique(C_list)] = [3, 5, 3, 4, 4, 8, 4, 3, 7, 246, 4, 3]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+[length(mis) for mis = unique(C_list)] = [8, 5, 4, 3, 6, 4, 6, 8, 4, 4, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+[length(mis) for mis = unique(C_list)] = [4, 4, 9, 6, 5, 3, 5, 6, 4, 5, 7, 6, 5, 7, 6, 5]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+[length(mis) for mis = unique(C_list)] = [5, 6, 4, 5, 6, 3, 3, 41, 4, 7, 5, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+[length(mis) for mis = unique(C_list)] = [6, 7, 9, 3, 6, 5, 5, 4, 4, 22, 5, 7, 9, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+[length(mis) for mis = unique(C_list)] = [10, 8, 6, 5, 9, 3, 5, 4, 25, 4, 7, 272, 11]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+[length(mis) for mis = unique(C_list)] = [7, 3, 10, 3, 4, 3, 4, 4, 6, 4, 7, 8, 4, 4, 4, 5, 4]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 9
+[length(mis) for mis = unique(C_list)] = [4, 5, 3, 17, 3, 7, 6, 14, 4, 4, 6, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 10
+[length(mis) for mis = unique(C_list)] = [4, 9, 9, 6, 4, 5, 3, 5, 4, 4, 3, 10, 8]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 11
+[length(mis) for mis = unique(C_list)] = [6, 5, 5, 5, 3, 5, 3, 5, 4, 3, 4, 7, 8, 8]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 12
+[length(mis) for mis = unique(C_list)] = [4, 8, 3, 5, 7, 4, 4, 5, 8, 6, 3, 8]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 13
+[length(mis) for mis = unique(C_list)] = [4, 4, 4, 6, 6, 4, 4, 9, 4, 6, 8, 4, 5, 144, 3]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 14
+[length(mis) for mis = unique(C_list)] = [13, 20, 6, 6, 5, 4, 6, 3, 51, 13, 6, 7, 8]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 15
+[length(mis) for mis = unique(C_list)] = [6, 4, 4, 9, 5, 3, 3, 5, 4, 5, 6, 3, 12, 6, 6, 5]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 16
+[length(mis) for mis = unique(C_list)] = [6, 4, 5, 10, 3, 5, 3, 4, 8, 3, 4, 248, 6]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 17
+[length(mis) for mis = unique(C_list)] = [9, 5, 5, 7, 7, 8, 3, 6, 5, 5, 11, 5, 4, 12, 3]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 18
+[length(mis) for mis = unique(C_list)] = [3, 8, 8, 5, 8, 3, 3, 48, 8, 4, 6, 8, 8, 6, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 19
+[length(mis) for mis = unique(C_list)] = [3, 7, 197, 4, 105, 3, 6, 152, 4, 7, 6, 3, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 20
+[length(mis) for mis = unique(C_list)] = [12, 5, 4, 6, 29, 6, 6, 5, 4, 4, 3, 8, 7, 7, 8, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 21
+[length(mis) for mis = unique(C_list)] = [7, 4, 4, 3, 5, 6, 4, 3, 8, 4, 5, 5]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 22
+[length(mis) for mis = unique(C_list)] = [8, 6, 5, 6, 13, 11, 7, 6, 10, 7, 6, 106, 6, 9, 8]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 23
+[length(mis) for mis = unique(C_list)] = [5, 24, 9, 7, 15, 10, 4, 4, 9, 4, 6, 306, 9, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 24
+[length(mis) for mis = unique(C_list)] = [6, 198, 7, 7, 6, 7, 6, 7, 7, 9, 4, 4, 7, 8, 10, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 25
+[length(mis) for mis = unique(C_list)] = [6, 152, 3, 5, 4, 4, 3, 195, 7, 7, 75, 6, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 26
+[length(mis) for mis = unique(C_list)] = [4, 4, 8, 5, 4, 8, 5, 7, 10, 9, 31, 8, 5, 4, 5, 7, 28, 117]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 27
+[length(mis) for mis = unique(C_list)] = [4, 219, 6, 6, 8, 4, 4, 9, 5, 246, 4, 6, 102]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 28
+[length(mis) for mis = unique(C_list)] = [7, 14, 358, 4, 7, 7, 10, 4, 7, 7, 3, 7, 8, 7, 10]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 29
+[length(mis) for mis = unique(C_list)] = [5, 5, 4, 17, 8, 13, 3, 4, 7, 6, 11, 25, 6, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 30
+[length(mis) for mis = unique(C_list)] = [3, 6, 8, 3, 7, 4, 4, 19, 8, 5, 5, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 31
+[length(mis) for mis = unique(C_list)] = [4, 168, 7, 7, 7, 3, 6, 8, 6, 4, 8, 5, 5, 292, 11, 9]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 32
+[length(mis) for mis = unique(C_list)] = [6, 9, 7, 12, 6, 4, 7, 9, 8, 4, 6, 93, 6, 7, 305, 6, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 33
+[length(mis) for mis = unique(C_list)] = [10, 5, 6, 6, 98, 9, 8, 3, 7, 86, 7, 5, 69, 178, 3]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 34
+[length(mis) for mis = unique(C_list)] = [16, 458, 6, 3, 8, 4, 5, 7, 7, 4, 4, 367, 9, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 35
+[length(mis) for mis = unique(C_list)] = [4, 4, 5, 5, 4, 14, 6, 15, 217, 8, 6, 82, 4, 6, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 36
+[length(mis) for mis = unique(C_list)] = [8, 4, 14, 10, 6, 5, 5, 4, 7, 8, 7, 5, 5, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 37
+[length(mis) for mis = unique(C_list)] = [4, 175, 6, 5, 9, 4, 6, 4, 4, 6, 6, 6, 10, 8, 5, 9, 3]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 38
+[length(mis) for mis = unique(C_list)] = [8, 143, 8, 4, 5, 4, 12, 9, 4, 5, 7, 7, 4, 292, 7, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 39
+[length(mis) for mis = unique(C_list)] = [6, 7, 5, 4, 4, 9, 6, 8, 6, 6, 6, 5, 4, 7, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 40
+[length(mis) for mis = unique(C_list)] = [6, 6, 7, 5, 8, 6, 4, 12, 375, 10, 11, 4, 6, 6, 31, 5, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 41
+[length(mis) for mis = unique(C_list)] = [6, 5, 11, 6, 11, 8, 5, 40, 4, 4, 10, 5, 3]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 42
+[length(mis) for mis = unique(C_list)] = [12, 5, 4, 12, 9, 8, 7, 8, 4, 10, 6, 6, 4, 5, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 43
+[length(mis) for mis = unique(C_list)] = [4, 6, 5, 4, 4, 7, 198, 5, 33, 7, 10, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 44
+[length(mis) for mis = unique(C_list)] = [4, 7, 8, 10, 12, 5, 7, 4, 24, 5, 7, 8, 5, 11, 14]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 45
+[length(mis) for mis = unique(C_list)] = [10, 5, 4, 4, 8, 6, 7, 6, 7, 17, 5, 6, 6, 4, 4, 9, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 46
+[length(mis) for mis = unique(C_list)] = [4, 8, 6, 7, 6, 5, 5, 5, 278, 8, 4, 4, 5, 5, 8]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 47
+[length(mis) for mis = unique(C_list)] = [9, 5, 4, 6, 4, 3, 9, 3, 10, 6, 349, 100, 10, 14, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 48
+[length(mis) for mis = unique(C_list)] = [4, 151, 7, 9, 6, 3, 3, 6, 7, 9, 6, 5, 94, 6, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 49
+[length(mis) for mis = unique(C_list)] = [13, 5, 14, 6, 4, 4, 16, 6, 4, 6, 7, 163, 347, 6, 9, 19]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 50
+[length(mis) for mis = unique(C_list)] = [8, 5, 7, 4, 7, 3, 4, 4, 10, 6, 35, 296, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 51
+[length(mis) for mis = unique(C_list)] = [4, 324, 205, 10, 12, 6, 8, 7, 6, 12, 5, 13, 7, 6, 5, 9, 6, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 52
+[length(mis) for mis = unique(C_list)] = [11, 6, 11, 12, 7, 12, 7, 4, 6, 4, 3, 6, 27, 12, 7, 10]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 53
+[length(mis) for mis = unique(C_list)] = [8, 36, 4, 7, 9, 16, 8, 7, 73, 6, 5, 5, 5, 5, 8, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 54
+[length(mis) for mis = unique(C_list)] = [11, 6, 4, 7, 4, 7, 4, 4, 162, 9, 6, 6, 4, 6, 16, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 55
+[length(mis) for mis = unique(C_list)] = [6, 5, 6, 10, 8, 9, 6, 4, 4, 6, 10, 4, 7, 177, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 56
+[length(mis) for mis = unique(C_list)] = [5, 4, 6, 251, 7, 5, 8, 7, 5, 5, 5, 31, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 57
+[length(mis) for mis = unique(C_list)] = [12, 5, 4, 8, 3, 7, 11, 9, 4, 3, 4, 8, 298, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 58
+[length(mis) for mis = unique(C_list)] = [6, 137, 7, 8, 6, 5, 9, 5, 4, 3, 5, 3, 6, 4, 6]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 59
+[length(mis) for mis = unique(C_list)] = [15, 6, 7, 6, 7, 4, 4, 109, 8, 7, 80, 6, 257, 14]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 60
+[length(mis) for mis = unique(C_list)] = [6, 115, 6, 11, 8, 6, 4, 10, 8, 4, 5, 5, 5, 4, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 61
+[length(mis) for mis = unique(C_list)] = [4, 5, 5, 4, 10, 6, 5, 4, 5, 9, 12, 3, 4, 4, 5, 3]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 62
+[length(mis) for mis = unique(C_list)] = [8, 4, 5, 6, 4, 8, 6, 4, 23, 6, 4, 4, 8, 7, 6, 9]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 63
+[length(mis) for mis = unique(C_list)] = [4, 4, 7, 8, 9, 6, 6, 6, 6, 4, 7, 12, 5, 9, 4, 6, 27]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 64
+[length(mis) for mis = unique(C_list)] = [4, 6, 7, 8, 5, 8, 8, 7, 4, 7, 13, 6, 3, 9]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 65
+[length(mis) for mis = unique(C_list)] = [3, 5, 10, 5, 7, 12, 7, 3, 10, 6, 4, 6, 262, 4, 19, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 66
+[length(mis) for mis = unique(C_list)] = [6, 4, 3, 4, 11, 4, 4, 8, 12, 299, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 67
+[length(mis) for mis = unique(C_list)] = [10, 160, 7, 15, 5, 6, 7, 8, 5, 8, 6, 13, 6, 9]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 68
+[length(mis) for mis = unique(C_list)] = [4, 6, 4, 4, 16, 9, 7, 5, 5, 308, 6, 8, 57, 6, 4, 14]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 69
+[length(mis) for mis = unique(C_list)] = [4, 5, 4, 5, 17, 7, 5, 4, 4, 3, 5, 7, 6, 7]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 70
+[length(mis) for mis = unique(C_list)] = [8, 5, 3, 9, 4, 7, 10, 8, 5, 3, 6, 88, 3]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 71
+[length(mis) for mis = unique(C_list)] = [6, 172, 4, 6, 5, 4, 6, 7, 6, 3, 78]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 72
+[length(mis) for mis = unique(C_list)] = [7, 33, 4, 4, 4, 4, 4, 7, 4, 4, 4, 6, 18, 14, 3, 4]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 73
+[length(mis) for mis = unique(C_list)] = [4, 4, 3, 5, 9, 4, 3, 4, 4, 4, 4, 3, 6, 10, 4]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 74
+[length(mis) for mis = unique(C_list)] = [8, 6, 5, 9, 30, 26, 4, 4, 3, 4, 4, 8, 6, 6, 5, 5, 6]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 75
+[length(mis) for mis = unique(C_list)] = [4, 29, 5, 8, 6, 6, 4, 4, 6, 9, 4, 4, 6, 3, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 76
+[length(mis) for mis = unique(C_list)] = [8, 4, 4, 4, 4, 8, 4, 5, 20, 4, 4, 81, 4, 6, 5, 5]
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 77
+[length(mis) for mis = unique(C_list)] = [4, 12, 6, 4, 7, 4, 4, 5, 8, 4, 6, 6, 33, 19, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 78
+[length(mis) for mis = unique(C_list)] = [6, 5, 6, 6, 8, 4, 4, 11, 5, 11, 7, 7, 6, 360, 77, 27]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 79
+[length(mis) for mis = unique(C_list)] = [6, 339, 4, 9, 3, 7, 4, 4, 195, 10, 7, 5, 5, 6, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 80
+[length(mis) for mis = unique(C_list)] = [10, 5, 6, 7, 8, 7, 5, 7, 13, 4, 4, 311, 4, 63, 24, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 81
+[length(mis) for mis = unique(C_list)] = [6, 4, 4, 4, 6, 4, 7, 4, 4, 17, 6, 10, 4, 6, 4, 4]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 82
+[length(mis) for mis = unique(C_list)] = [4, 67, 5, 7, 7, 7, 35, 4, 9, 8, 5, 4, 4, 239, 4, 6]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 83
+[length(mis) for mis = unique(C_list)] = [5, 12, 8, 4, 7, 7, 12, 11, 7, 7, 6, 6, 5, 6, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 84
+[length(mis) for mis = unique(C_list)] = [3, 4, 9, 7, 12, 4, 3, 13, 9, 4, 29, 6, 22]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 85
+[length(mis) for mis = unique(C_list)] = [6, 6, 5, 26, 3, 5, 10, 4, 135, 4, 6, 12, 6, 12, 7]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 86
+[length(mis) for mis = unique(C_list)] = [5, 8, 10, 9, 7, 7, 7, 6, 5, 86, 8, 4, 7, 7, 11]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 87
+[length(mis) for mis = unique(C_list)] = [7, 5, 7, 9, 3, 11, 10, 141, 13, 11, 4, 4, 11, 5, 67]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 88
+[length(mis) for mis = unique(C_list)] = [4, 4, 4, 5, 4, 6, 6, 9, 13, 4, 7, 10]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 89
+[length(mis) for mis = unique(C_list)] = [8, 4, 9, 8, 6, 8, 9, 4, 4, 7, 9, 8, 4, 4, 6, 4, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 90
+[length(mis) for mis = unique(C_list)] = [11, 5, 5, 8, 6, 7, 6, 9, 12, 8, 8, 9, 3, 5, 18, 9]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 91
+[length(mis) for mis = unique(C_list)] = [4, 4, 8, 13, 10, 6, 8, 9, 8, 7, 4, 5, 10, 9]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 92
+[length(mis) for mis = unique(C_list)] = [10, 5, 4, 9, 10, 12, 9, 7, 18, 10, 6, 6, 5, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 93
+[length(mis) for mis = unique(C_list)] = [23, 9, 9, 14, 5, 6, 4, 5, 12, 6, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 94
+[length(mis) for mis = unique(C_list)] = [18, 5, 14, 4, 8, 7, 6, 12, 7, 10, 14, 16, 8, 6, 10]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 95
+[length(mis) for mis = unique(C_list)] = [6, 9, 8, 6, 10, 11, 10, 4, 6, 8, 6, 5, 6, 8, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 96
+[length(mis) for mis = unique(C_list)] = [5, 4, 7, 36, 7, 6, 7, 6, 8, 8, 16, 4, 11, 6, 8, 8]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 97
+[length(mis) for mis = unique(C_list)] = [8, 9, 3, 6, 4, 6, 5, 4, 7, 8, 4, 3, 253, 9, 3, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 98
+[length(mis) for mis = unique(C_list)] = [4, 8, 10, 4, 12, 4, 13, 4, 4, 7, 4, 6, 5, 6, 13]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 99
+[length(mis) for mis = unique(C_list)] = [8, 4, 16, 7, 7, 7, 6, 8, 4, 7, 7, 5, 6, 13, 11, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 100
+[length(mis) for mis = unique(C_list)] = [10, 4, 3, 5, 4, 8, 6, 4, 4, 9, 5, 6, 6, 4, 26, 40]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 101
+[length(mis) for mis = unique(C_list)] = [6, 4, 13, 11, 7, 6, 7, 6, 11, 4, 15, 11, 4, 5, 49, 8, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 102
+[length(mis) for mis = unique(C_list)] = [7, 9, 7, 4, 7, 4, 9, 6, 116]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 103
+[length(mis) for mis = unique(C_list)] = [8, 58, 11, 10, 8, 18, 6, 9, 7, 12, 8, 8, 323, 9, 6]
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 104
+[length(mis) for mis = unique(C_list)] = [5, 5, 5, 7, 4, 5, 5, 11, 12, 5, 13, 5, 5, 340, 5, 5, 5, 6]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 105
+[length(mis) for mis = unique(C_list)] = [4, 4, 3, 7, 4, 4, 4, 4, 4, 16, 4, 4, 7, 4, 6, 4]
+length(C_list) = 12
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 106
+[length(mis) for mis = unique(C_list)] = [4, 10, 6, 8, 10, 7, 4, 32, 6, 268, 6, 4, 19, 96, 7, 7, 6, 104]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 107
+[length(mis) for mis = unique(C_list)] = [4, 120, 6, 6, 5, 4, 4, 6, 45, 4, 6, 6, 5, 6, 5, 3]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 108
+[length(mis) for mis = unique(C_list)] = [3, 8, 6, 7, 7, 8, 6, 13, 6, 31, 6, 4, 174, 6, 8, 11]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 109
+[length(mis) for mis = unique(C_list)] = [20, 4, 6, 4, 10, 6, 5, 8, 6, 6, 4, 4, 103, 10, 8, 7]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 110
+[length(mis) for mis = unique(C_list)] = [5, 7, 202, 7, 3, 8, 9, 5, 6, 8, 318, 14, 5, 7, 8]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 111
+[length(mis) for mis = unique(C_list)] = [4, 31, 6, 6, 4, 6, 4, 6, 287, 4, 5, 4, 6, 4, 7]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 112
+[length(mis) for mis = unique(C_list)] = [8, 4, 8, 6, 4, 15, 4, 4, 9, 8, 5, 19, 6, 4, 3]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 113
+[length(mis) for mis = unique(C_list)] = [14, 6, 7, 6, 6, 17, 7, 7, 6, 15, 6, 15, 5, 5, 214, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 114
+[length(mis) for mis = unique(C_list)] = [32, 5, 5, 3, 3, 5, 5, 4, 4, 4, 4, 5, 5, 10, 4, 6, 3]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 115
+[length(mis) for mis = unique(C_list)] = [10, 4, 13, 4, 8, 4, 11, 4, 6, 15, 5, 291, 6, 7, 13]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 116
+[length(mis) for mis = unique(C_list)] = [10, 69, 5, 5, 8, 4, 3, 7, 5, 8, 3, 3, 5, 6, 6, 4, 33]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 117
+[length(mis) for mis = unique(C_list)] = [3, 5, 4, 5, 4, 9, 4, 10, 9, 5, 6, 4, 5, 6]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 118
+[length(mis) for mis = unique(C_list)] = [16, 5, 7, 3, 12, 3, 6, 3, 462, 4, 5, 6, 8, 6, 3, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 119
+[length(mis) for mis = unique(C_list)] = [7, 8, 7, 9, 3, 9, 4, 4, 4, 4, 247, 7, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 120
+[length(mis) for mis = unique(C_list)] = [8, 70, 5, 4, 4, 6, 6, 3, 7, 333, 5, 4, 5, 6, 7, 12]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 121
+[length(mis) for mis = unique(C_list)] = [18, 5, 4, 11, 4, 6, 4, 6, 9, 14, 3, 334, 140, 6, 7]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 122
+[length(mis) for mis = unique(C_list)] = [7, 5, 4, 6, 4, 7, 5, 8, 51, 4, 6, 7, 4, 5, 12, 18, 10, 8]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 123
+[length(mis) for mis = unique(C_list)] = [8, 4, 9, 6, 12, 11, 7, 5, 9, 8, 261, 28, 12]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 124
+[length(mis) for mis = unique(C_list)] = [9, 6, 4, 7, 5, 5, 7, 9, 4, 6, 4, 281, 7, 18, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 125
+[length(mis) for mis = unique(C_list)] = [4, 6, 4, 9, 16, 4, 7, 10, 7, 4, 7, 7, 6, 12, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 126
+[length(mis) for mis = unique(C_list)] = [9, 54, 16, 6, 7, 4, 8, 4, 4, 4, 6, 5, 5, 122, 29]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 127
+[length(mis) for mis = unique(C_list)] = [14, 4, 26, 3, 7, 6, 3, 6, 239, 39, 5, 11, 11, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 128
+[length(mis) for mis = unique(C_list)] = [5, 4, 4, 6, 6, 5, 6, 5, 5, 4, 4, 177, 6, 8, 18, 6]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 129
+[length(mis) for mis = unique(C_list)] = [33, 5, 4, 9, 6, 9, 6, 6, 7, 5, 11, 9, 5, 8, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 130
+[length(mis) for mis = unique(C_list)] = [6, 228, 4, 12, 4, 11, 5, 6, 6, 92, 7, 5, 191, 129, 6, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 131
+[length(mis) for mis = unique(C_list)] = [24, 8, 13, 6, 4, 8, 20, 3, 3, 5, 11, 5, 11, 6, 5]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 132
+[length(mis) for mis = unique(C_list)] = [13, 6, 6, 9, 4, 9, 4, 3, 4, 9, 4, 4, 409, 6, 5, 125, 4, 8]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 133
+[length(mis) for mis = unique(C_list)] = [4, 6, 9, 6, 4, 8, 6, 14, 5, 6, 4, 7, 27, 9, 4, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 134
+[length(mis) for mis = unique(C_list)] = [12, 8, 4, 7, 4, 14, 9, 7, 4, 7, 6, 7, 7, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 135
+[length(mis) for mis = unique(C_list)] = [4, 4, 6, 4, 8, 6, 6, 6, 8, 14, 16, 5, 54, 9, 6, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 136
+[length(mis) for mis = unique(C_list)] = [6, 5, 6, 3, 4, 7, 18, 4, 6, 4, 6, 5, 6, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 137
+[length(mis) for mis = unique(C_list)] = [8, 4, 5, 22, 4, 5, 5, 4, 3, 6, 4, 8, 387, 7, 16, 7, 5]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 138
+[length(mis) for mis = unique(C_list)] = [9, 4, 9, 6, 17, 6, 6, 5, 4, 7, 9, 118, 4, 6, 8, 4, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 139
+[length(mis) for mis = unique(C_list)] = [6, 4, 6, 4, 4, 5, 8, 4, 6, 6, 7, 4, 4, 17, 4, 12, 14]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 140
+[length(mis) for mis = unique(C_list)] = [4, 168, 3, 11, 8, 5, 4, 8, 4, 7, 5, 16, 4, 11, 261, 8]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 141
+[length(mis) for mis = unique(C_list)] = [4, 4, 5, 4, 7, 7, 4, 6, 13, 7, 5, 3, 4, 6, 4, 5]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 142
+[length(mis) for mis = unique(C_list)] = [7, 5, 4, 6, 4, 4, 4, 6, 6, 18, 4, 6, 4, 8]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 143
+[length(mis) for mis = unique(C_list)] = [4, 162, 5, 4, 5, 4, 8, 4, 5, 4, 36, 7, 4, 59, 7, 7, 42]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 144
+[length(mis) for mis = unique(C_list)] = [10, 6, 4, 4, 6, 8, 5, 7, 4, 6, 4, 5, 6, 6, 5, 8]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 145
+[length(mis) for mis = unique(C_list)] = [19, 6, 3, 7, 4, 18, 6, 18, 22, 5, 6, 20, 161, 4, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 146
+[length(mis) for mis = unique(C_list)] = [13, 33, 3, 7, 5, 10, 4, 24, 9, 12, 10, 4, 4, 6, 13, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 147
+[length(mis) for mis = unique(C_list)] = [6, 6, 7, 7, 7, 4, 7, 4, 5, 5, 4, 11, 7, 5]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 148
+[length(mis) for mis = unique(C_list)] = [22, 27, 8, 3, 3, 3, 7, 11, 6, 8, 5, 5, 6, 5, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 149
+[length(mis) for mis = unique(C_list)] = [6, 6, 12, 7, 4, 3, 4, 8, 13, 6, 368, 11, 8, 5, 6, 69, 5, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 150
+[length(mis) for mis = unique(C_list)] = [7, 240, 8, 64, 6, 7, 4, 38, 14, 9, 5, 4, 4, 5, 6, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 151
+[length(mis) for mis = unique(C_list)] = [8, 6, 6, 6, 8, 4, 4, 4, 150, 4, 9, 5, 5, 6, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 152
+[length(mis) for mis = unique(C_list)] = [4, 5, 4, 7, 4, 8, 4, 9, 6, 12, 8, 8, 7, 6, 5]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 153
+[length(mis) for mis = unique(C_list)] = [16, 5, 6, 8, 9, 5, 7, 7, 5, 8, 7, 5, 188, 6, 5, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 154
+[length(mis) for mis = unique(C_list)] = [8, 5, 5, 6, 9, 4, 4, 5, 6, 23, 5, 3, 4, 6, 7, 81]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 155
+[length(mis) for mis = unique(C_list)] = [7, 6, 7, 6, 8, 11, 6, 4, 14, 5, 5, 164, 6, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 156
+[length(mis) for mis = unique(C_list)] = [4, 4, 6, 6, 6, 5, 8, 7, 6, 6, 4, 10, 6, 16]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 157
+[length(mis) for mis = unique(C_list)] = [4, 6, 14, 4, 4, 4, 6, 3, 47, 7, 7, 8, 6, 10]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 158
+[length(mis) for mis = unique(C_list)] = [9, 7, 6, 4, 8, 6, 7, 291, 8, 9, 9, 159, 7, 9]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 159
+[length(mis) for mis = unique(C_list)] = [14, 9, 5, 5, 5, 4, 5, 6, 7, 4, 7, 7, 149, 3, 5]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 160
+[length(mis) for mis = unique(C_list)] = [13, 5, 4, 4, 13, 9, 8, 9, 10, 6, 4, 6, 11]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 161
+[length(mis) for mis = unique(C_list)] = [8, 4, 4, 4, 7, 187, 5, 6, 4, 5, 4, 95, 6, 4, 5, 5, 12, 4]
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 162
+[length(mis) for mis = unique(C_list)] = [11, 5, 5, 4, 6, 7, 11, 5, 14, 4, 5, 10, 4, 6, 114, 5, 7]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 163
+[length(mis) for mis = unique(C_list)] = [5, 5, 8, 4, 3, 8, 6, 4, 4, 4, 12, 232, 69, 7]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 164
+[length(mis) for mis = unique(C_list)] = [11, 5, 4, 4, 4, 6, 4, 33, 4, 4, 4, 3, 3, 6, 7, 6, 4]
+length(C_list) = 11
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 165
+[length(mis) for mis = unique(C_list)] = [6, 7, 10, 3, 7, 5, 4, 9, 4, 9, 8, 6, 18, 7, 6, 3, 9]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 166
+[length(mis) for mis = unique(C_list)] = [3, 273, 4, 5, 4, 4, 3, 21, 4, 5, 7, 4, 148, 6, 29, 7]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 167
+[length(mis) for mis = unique(C_list)] = [3, 12, 5, 8, 5, 5, 6, 9, 4, 7, 12, 7, 5, 6, 10, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 168
+[length(mis) for mis = unique(C_list)] = [7, 6, 8, 5, 5, 7, 10, 5, 4, 6, 3, 5, 71, 5, 5, 4]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 169
+[length(mis) for mis = unique(C_list)] = [5, 8, 4, 5, 4, 9, 4, 3, 5, 4, 7, 7, 5, 7, 9, 4]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 170
+[length(mis) for mis = unique(C_list)] = [17, 8, 9, 20, 7, 8, 9, 8, 9, 9, 4, 266, 76, 9, 5, 16]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 171
+[length(mis) for mis = unique(C_list)] = [13, 8, 8, 7, 7, 9, 3, 8, 12, 6, 4, 7, 9, 59, 13, 5]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 172
+[length(mis) for mis = unique(C_list)] = [10, 6, 4, 4, 10, 4, 8, 10, 8, 5, 9, 6, 9, 6, 9]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 173
+[length(mis) for mis = unique(C_list)] = [6, 4, 6, 10, 4, 7, 10, 7, 10, 22, 9, 6, 5, 10, 8]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 174
+[length(mis) for mis = unique(C_list)] = [4, 6, 4, 4, 4, 9, 5, 9, 4, 9, 9, 7, 263, 7, 28]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 175
+[length(mis) for mis = unique(C_list)] = [9, 9, 6, 4, 3, 7, 4, 6, 212, 8, 6, 3, 7, 338, 9, 5]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 176
+[length(mis) for mis = unique(C_list)] = [9, 7, 5, 16, 7, 3, 19, 4, 31, 11, 9, 8, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 177
+[length(mis) for mis = unique(C_list)] = [4, 51, 8, 7, 6, 10, 6, 5, 12, 4, 6, 6, 324, 5]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 178
+[length(mis) for mis = unique(C_list)] = [13, 4, 7, 23, 8, 9, 5, 7, 5, 6, 5, 8, 11, 6, 6, 6, 8]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 179
+[length(mis) for mis = unique(C_list)] = [7, 9, 50, 8, 18, 10, 7, 9, 10, 9, 11, 9, 6, 6, 3, 10]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 180
+[length(mis) for mis = unique(C_list)] = [6, 5, 9, 9, 4, 7, 10, 3, 255, 6, 3, 5, 4, 6, 4, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 181
+[length(mis) for mis = unique(C_list)] = [5, 4, 4, 6, 4, 4, 8, 4, 6, 5, 8, 6, 7, 9, 4, 6, 7]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 182
+[length(mis) for mis = unique(C_list)] = [6, 6, 12, 5, 11, 5, 8, 3, 8, 8, 4, 4, 14, 5, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 183
+[length(mis) for mis = unique(C_list)] = [8, 5, 4, 5, 4, 6, 4, 8, 6, 12, 6, 4, 6, 6, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 184
+[length(mis) for mis = unique(C_list)] = [9, 4, 7, 6, 10, 11, 5, 4, 9, 10, 9, 6, 10, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 185
+[length(mis) for mis = unique(C_list)] = [18, 7, 9, 9, 9, 13, 5, 9, 20, 6, 8, 10, 5, 4, 6, 33, 9, 9, 3]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 186
+[length(mis) for mis = unique(C_list)] = [6, 6, 6, 8, 4, 10, 8, 4, 9, 6, 5, 7, 20, 3]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 187
+[length(mis) for mis = unique(C_list)] = [12, 6, 7, 9, 9, 16, 9, 8, 9, 9, 9, 13, 7, 9, 12]
+length(C_list) = 15
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 188
+[length(mis) for mis = unique(C_list)] = [6, 12, 4, 5, 7, 4, 16, 4, 10, 4, 10, 11, 8, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 189
+[length(mis) for mis = unique(C_list)] = [4, 6, 6, 3, 7, 4, 6, 8, 4, 4, 3, 7, 4, 8, 29]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 190
+[length(mis) for mis = unique(C_list)] = [4, 4, 4, 7, 4, 6, 8, 7, 4, 3, 9, 200, 7, 6, 6, 15]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 191
+[length(mis) for mis = unique(C_list)] = [6, 6, 6, 6, 7, 8, 7, 11, 7, 7, 8, 9, 11, 11, 7, 4]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 192
+[length(mis) for mis = unique(C_list)] = [7, 93, 4, 4, 4, 8, 4, 5, 6, 4, 6, 5, 5, 10, 6, 11]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 193
+[length(mis) for mis = unique(C_list)] = [15, 8, 13, 6, 11, 8, 8, 8, 8, 4, 6, 6, 7, 169, 3, 6, 6, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 194
+[length(mis) for mis = unique(C_list)] = [4, 8, 7, 11, 11, 4, 4, 6, 14, 7, 7, 6, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 195
+[length(mis) for mis = unique(C_list)] = [17, 6, 4, 12, 7, 5, 7, 210, 4, 6, 288, 4, 7, 6, 9, 3]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 196
+[length(mis) for mis = unique(C_list)] = [9, 6, 6, 6, 12, 4, 4, 7, 10, 4, 8, 8, 6, 4, 6, 4, 3]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 197
+[length(mis) for mis = unique(C_list)] = [8, 6, 5, 6, 13, 6, 5, 6, 7, 9, 5, 6, 4, 5, 6, 5, 6, 36]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 198
+[length(mis) for mis = unique(C_list)] = [6, 7, 13, 6, 8, 8, 9, 6, 6, 9, 7, 4, 8, 155, 11, 102, 11]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 199
+[length(mis) for mis = unique(C_list)] = [8, 7, 7, 12, 7, 5, 4, 10, 9, 5, 8, 325, 25, 10]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 200
+[length(mis) for mis = unique(C_list)] = [19, 41, 8, 4, 14, 8, 12, 10, 9, 6, 7, 270, 237, 390, 5]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 201
+[length(mis) for mis = unique(C_list)] = [3, 12, 6, 7, 8, 9, 12, 10, 7, 4, 5, 5, 7, 34, 7, 8]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 202
+[length(mis) for mis = unique(C_list)] = [3, 9, 8, 8, 6, 5, 12, 4, 5, 8, 10, 5, 13, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 203
+[length(mis) for mis = unique(C_list)] = [3, 6, 4, 4, 9, 5, 8, 14, 7, 11, 6, 10, 6, 7, 4, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 204
+[length(mis) for mis = unique(C_list)] = [5, 4, 40, 8, 5, 5, 13, 6, 12, 6, 5, 502, 6, 4, 15, 8, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 205
+[length(mis) for mis = unique(C_list)] = [7, 7, 6, 6, 7, 11, 9, 12, 7, 4, 7, 7, 5, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 206
+[length(mis) for mis = unique(C_list)] = [6, 6, 14, 5, 4, 3, 5, 4, 7, 10, 86, 477, 5, 6, 4, 7]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 207
+[length(mis) for mis = unique(C_list)] = [16, 238, 7, 6, 4, 5, 4, 6, 6, 9, 9, 4, 6, 4, 6, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 208
+[length(mis) for mis = unique(C_list)] = [4, 6, 4, 4, 5, 12, 8, 6, 10, 8, 6, 6, 46, 8, 6, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 209
+[length(mis) for mis = unique(C_list)] = [6, 5, 5, 4, 10, 11, 4, 7, 6, 5, 8, 7, 6, 6, 5, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 210
+[length(mis) for mis = unique(C_list)] = [15, 4, 4, 6, 4, 7, 6, 3, 10, 8, 5, 324, 4, 29, 8, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 211
+[length(mis) for mis = unique(C_list)] = [4, 11, 7, 9, 16, 5, 5, 22, 11, 204, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 212
+[length(mis) for mis = unique(C_list)] = [6, 6, 4, 4, 7, 7, 6, 6, 10, 7, 5, 4, 7, 6, 7, 9]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 213
+[length(mis) for mis = unique(C_list)] = [4, 6, 9, 8, 9, 8, 14, 8, 9, 3, 8, 9, 6, 10, 11]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 214
+[length(mis) for mis = unique(C_list)] = [13, 4, 7, 4, 7, 6, 4, 42, 11, 4, 7, 14, 3, 9, 4]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 215
+[length(mis) for mis = unique(C_list)] = [4, 8, 8, 6, 4, 6, 9, 14, 11, 5, 4, 204, 8, 33, 4, 7]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 216
+[length(mis) for mis = unique(C_list)] = [9, 4, 7, 9, 5, 4, 4, 4, 270, 6, 7, 5, 93, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 217
+[length(mis) for mis = unique(C_list)] = [7, 7, 5, 13, 5, 11, 6, 4, 5, 193, 4, 5, 5, 7, 7, 8, 9]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 218
+[length(mis) for mis = unique(C_list)] = [8, 8, 7, 7, 7, 12, 6, 5, 5, 11, 6, 8, 4, 7, 4, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 219
+[length(mis) for mis = unique(C_list)] = [7, 4, 5, 4, 8, 8, 6, 5, 7, 7, 131, 223, 8, 6, 121]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 220
+[length(mis) for mis = unique(C_list)] = [5, 4, 4, 6, 6, 7, 5, 5, 10, 15, 6, 5, 77, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 221
+[length(mis) for mis = unique(C_list)] = [6, 53, 4, 8, 6, 5, 6, 6, 4, 8, 6, 86, 6, 5]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 222
+[length(mis) for mis = unique(C_list)] = [4, 5, 6, 4, 8, 4, 6, 8, 7, 4, 6, 4, 6, 8, 11]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 223
+[length(mis) for mis = unique(C_list)] = [8, 7, 11, 8, 7, 7, 4, 9, 6, 4, 8, 8, 419, 7, 95, 13, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 224
+[length(mis) for mis = unique(C_list)] = [6, 7, 3, 11, 9, 9, 9, 7, 246, 4, 7, 6, 6, 8, 8, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 225
+[length(mis) for mis = unique(C_list)] = [4, 67, 5, 7, 6, 9, 4, 16, 17, 6, 5, 4, 5, 14, 6, 4, 7]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 226
+[length(mis) for mis = unique(C_list)] = [17, 7, 7, 4, 7, 7, 10, 8, 6, 11, 7, 21, 98, 7]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 227
+[length(mis) for mis = unique(C_list)] = [6, 8, 6, 4, 4, 9, 7, 11, 4, 371, 6, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 228
+[length(mis) for mis = unique(C_list)] = [11, 4, 4, 4, 6, 8, 9, 4, 6, 253, 11, 4, 5, 12, 10, 13]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 229
+[length(mis) for mis = unique(C_list)] = [7, 6, 8, 8, 5, 12, 4, 3, 6, 7, 4, 5, 4, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 230
+[length(mis) for mis = unique(C_list)] = [6, 7, 4, 6, 8, 5, 7, 7, 4, 4, 9, 9, 136, 6, 6, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 231
+[length(mis) for mis = unique(C_list)] = [7, 8, 4, 7, 7, 11, 10, 5, 5, 4, 11, 405, 9, 7, 11]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 232
+[length(mis) for mis = unique(C_list)] = [6, 4, 188, 8, 288, 92, 7, 5, 7, 7, 9, 5, 9, 442, 7, 16, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 233
+[length(mis) for mis = unique(C_list)] = [8, 77, 69, 9, 4, 9, 4, 5, 4, 5, 6, 296, 6, 7, 5]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 234
+[length(mis) for mis = unique(C_list)] = [9, 6, 4, 7, 5, 5, 10, 6, 5, 10, 6, 7, 8, 6, 10]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 235
+[length(mis) for mis = unique(C_list)] = [9, 8, 6, 7, 7, 4, 4, 4, 4, 7, 6, 39, 7, 6, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 236
+[length(mis) for mis = unique(C_list)] = [20, 68, 4, 4, 6, 9, 7, 7, 4, 8, 6, 55, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 237
+[length(mis) for mis = unique(C_list)] = [12, 5, 8, 10, 3, 6, 10, 31, 4, 5, 7, 9, 10, 335, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 238
+[length(mis) for mis = unique(C_list)] = [6, 6, 4, 4, 4, 5, 6, 7, 6, 16, 4, 6, 8, 5, 8, 5, 7]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 239
+[length(mis) for mis = unique(C_list)] = [3, 77, 7, 5, 7, 4, 8, 6, 4, 36, 7, 6, 15, 313, 4, 5, 8]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 240
+[length(mis) for mis = unique(C_list)] = [7, 11, 4, 4, 4, 4, 5, 3, 19, 13, 4, 6, 7, 210, 9, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 241
+[length(mis) for mis = unique(C_list)] = [9, 32, 7, 8, 4, 6, 6, 9, 10, 11, 5, 5, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 242
+[length(mis) for mis = unique(C_list)] = [10, 8, 6, 12, 6, 4, 10, 39, 8, 7, 4, 8, 6, 10, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 243
+[length(mis) for mis = unique(C_list)] = [7, 43, 6, 4, 6, 5, 4, 47, 6, 6, 5, 8, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 244
+[length(mis) for mis = unique(C_list)] = [10, 4, 8, 34, 7, 7, 6, 8, 4, 12, 4, 7, 9, 15, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 245
+[length(mis) for mis = unique(C_list)] = [7, 4, 7, 4, 4, 7, 8, 5, 5, 9, 260, 4, 6, 11]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 246
+[length(mis) for mis = unique(C_list)] = [5, 6, 5, 8, 13, 4, 7, 5, 6, 370, 7, 6, 8, 6, 6, 8, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 247
+[length(mis) for mis = unique(C_list)] = [4, 6, 51, 9, 8, 4, 8, 8, 7, 44, 8, 8, 7, 8, 6, 5]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 248
+[length(mis) for mis = unique(C_list)] = [8, 7, 4, 8, 4, 5, 3, 4, 61, 6, 6, 289, 4, 6, 4]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 249
+[length(mis) for mis = unique(C_list)] = [30, 107, 9, 10, 11, 4, 6, 12, 7, 13, 11, 9, 7, 8, 4, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 250
+[length(mis) for mis = unique(C_list)] = [10, 6, 4, 8, 4, 8, 6, 9, 10, 8, 6, 6, 6, 470, 6, 6, 8, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 251
+[length(mis) for mis = unique(C_list)] = [9, 8, 48, 13, 5, 12, 10, 8, 10, 4, 8, 279, 10, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 252
+[length(mis) for mis = unique(C_list)] = [6, 12, 5, 55, 12, 14, 11, 339, 11, 8, 9, 8, 8, 10]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 253
+[length(mis) for mis = unique(C_list)] = [5, 4, 8, 8, 10, 14, 6, 10, 5, 5, 182, 11, 11, 143, 5, 36, 59]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 254
+[length(mis) for mis = unique(C_list)] = [8, 8, 9, 108, 6, 9, 5, 13, 10, 9, 9, 8, 13, 9, 7, 9]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 255
+[length(mis) for mis = unique(C_list)] = [11, 10, 8, 8, 4, 8, 4, 4, 8, 10, 10, 5, 4, 6, 9, 6, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 256
+[length(mis) for mis = unique(C_list)] = [8, 7, 11, 5, 6, 9, 5, 7, 12, 175, 187, 51, 9, 9]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 257
+[length(mis) for mis = unique(C_list)] = [5, 6, 9, 7, 8, 10, 11, 6, 12, 13, 10, 302, 13, 9, 4, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 258
+[length(mis) for mis = unique(C_list)] = [21, 6, 4, 6, 7, 6, 4, 4, 8, 7, 8, 16, 7, 10, 32, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 259
+[length(mis) for mis = unique(C_list)] = [8, 8, 6, 10, 8, 7, 9, 9, 11, 4, 8, 5, 4, 14, 110, 13]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 260
+[length(mis) for mis = unique(C_list)] = [9, 10, 3, 4, 6, 4, 6, 4, 299, 11, 7, 350, 5, 4, 10, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 261
+[length(mis) for mis = unique(C_list)] = [14, 5, 4, 6, 4, 8, 7, 8, 5, 23, 11, 8, 391, 38]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 262
+[length(mis) for mis = unique(C_list)] = [4, 7, 4, 7, 10, 7, 7, 8, 6, 9, 6, 10, 6, 20, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 263
+[length(mis) for mis = unique(C_list)] = [8, 6, 156, 3, 7, 7, 8, 10, 12, 9, 6, 8, 5, 4, 25, 4, 15]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 264
+[length(mis) for mis = unique(C_list)] = [6, 93, 9, 4, 12, 3, 6, 6, 14, 13, 5, 9, 9, 6, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 265
+[length(mis) for mis = unique(C_list)] = [26, 7, 4, 4, 4, 4, 4, 5, 9, 6, 12, 6, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 266
+[length(mis) for mis = unique(C_list)] = [8, 230, 5, 7, 5, 11, 8, 7, 9, 9, 10, 6, 8, 6, 5, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 267
+[length(mis) for mis = unique(C_list)] = [4, 5, 6, 10, 4, 31, 23, 7, 12, 11, 13, 14, 6, 4, 5, 6, 6, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 268
+[length(mis) for mis = unique(C_list)] = [12, 3, 11, 10, 5, 6, 11, 6, 4, 4, 13, 12, 10, 7, 5]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 269
+[length(mis) for mis = unique(C_list)] = [6, 70, 8, 9, 6, 9, 5, 5, 6, 8, 4, 10, 5, 8, 231, 4, 6, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 270
+[length(mis) for mis = unique(C_list)] = [23, 4, 13, 8, 6, 10, 10, 12, 13, 4, 3, 9, 6, 17, 10, 533, 10]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 271
+[length(mis) for mis = unique(C_list)] = [4, 7, 5, 162, 5, 4, 4, 8, 7, 10, 9, 193, 4, 6, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 272
+[length(mis) for mis = unique(C_list)] = [6, 10, 6, 9, 6, 9, 14, 9, 9, 4, 9, 11, 303, 5, 4]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 273
+[length(mis) for mis = unique(C_list)] = [7, 5, 7, 8, 8, 7, 13, 6, 7, 4, 13, 5, 9, 9, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 274
+[length(mis) for mis = unique(C_list)] = [8, 6, 3, 6, 7, 5, 4, 11, 3, 4, 6, 8, 7, 6, 6, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 275
+[length(mis) for mis = unique(C_list)] = [4, 4, 5, 7, 7, 7, 7, 6, 11, 5, 7, 6, 6, 8, 6, 15, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 276
+[length(mis) for mis = unique(C_list)] = [8, 6, 4, 3, 9, 4, 6, 9, 4, 7, 136, 6, 9, 6, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 277
+[length(mis) for mis = unique(C_list)] = [15, 6, 11, 5, 6, 7, 6, 15, 9, 8, 6, 7, 6, 7, 6, 6]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 278
+[length(mis) for mis = unique(C_list)] = [9, 5, 4, 27, 5, 4, 5, 7, 5, 255, 8, 8, 20, 197, 6, 4, 4, 4]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 279
+[length(mis) for mis = unique(C_list)] = [4, 6, 6, 15, 4, 8, 17, 7, 11, 14, 7, 5, 6, 15, 14, 16]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 280
+[length(mis) for mis = unique(C_list)] = [4, 4, 8, 7, 9, 5, 4, 7, 4, 9, 7, 6, 5, 4, 74, 7]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 281
+[length(mis) for mis = unique(C_list)] = [15, 7, 5, 4, 10, 10, 11, 7, 6, 4, 142, 8, 102, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 282
+[length(mis) for mis = unique(C_list)] = [8, 7, 6, 5, 7, 7, 6, 4, 4, 6, 9, 6, 6, 374, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 283
+[length(mis) for mis = unique(C_list)] = [4, 103, 8, 5, 4, 4, 11, 6, 5, 8, 11, 9, 6, 4, 5, 8]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 284
+[length(mis) for mis = unique(C_list)] = [9, 7, 8, 11, 9, 7, 17, 13, 9, 9, 7, 9, 15, 8, 6, 16, 8, 15]
+length(C_list) = 18
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 285
+[length(mis) for mis = unique(C_list)] = [6, 6, 7, 8, 8, 6, 7, 4, 8, 5, 7, 6, 6, 30, 139]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 286
+[length(mis) for mis = unique(C_list)] = [8, 233, 6, 6, 4, 8, 5, 6, 9, 5, 11, 128, 7, 4, 11, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 287
+[length(mis) for mis = unique(C_list)] = [6, 18, 9, 7, 7, 9, 10, 7, 22, 7, 16, 4, 4, 6, 14]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 288
+[length(mis) for mis = unique(C_list)] = [13, 5, 8, 7, 5, 4, 7, 5, 4, 277, 4, 4, 14, 5, 4, 4]
+length(C_list) = 10
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 289
+[length(mis) for mis = unique(C_list)] = [7, 4, 10, 7, 9, 3, 7, 5, 8, 10, 7, 7, 10, 213, 5, 6, 8, 12]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 290
+[length(mis) for mis = unique(C_list)] = [7, 6, 109, 4, 6, 7, 9, 7, 4, 6, 4, 7, 9, 21, 8]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 291
+[length(mis) for mis = unique(C_list)] = [5, 4, 9, 118, 8, 18, 5, 8, 8, 4, 8, 11, 14, 5, 7, 76]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 292
+[length(mis) for mis = unique(C_list)] = [8, 322, 4, 4, 9, 6, 10, 21, 6, 9, 9, 4, 10, 6, 4, 5, 6, 9, 242]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 293
+[length(mis) for mis = unique(C_list)] = [8, 6, 7, 11, 6, 6, 9, 11, 4, 6, 6, 157, 24, 23, 26]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 294
+[length(mis) for mis = unique(C_list)] = [10, 5, 9, 4, 7, 8, 4, 10, 4, 5, 6, 4, 5, 11, 7, 6]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 295
+[length(mis) for mis = unique(C_list)] = [7, 98, 7, 7, 271, 51, 5, 9, 11, 6, 4, 8, 9, 263, 5, 12, 6, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 296
+[length(mis) for mis = unique(C_list)] = [13, 49, 7, 3, 7, 6, 10, 4, 4, 20, 14, 101, 5, 6, 12, 11]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 297
+[length(mis) for mis = unique(C_list)] = [4, 6, 7, 4, 8, 6, 11, 79, 5, 5, 5, 30, 4, 7, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 298
+[length(mis) for mis = unique(C_list)] = [4, 6, 14, 8, 4, 4, 13, 12, 102, 4, 3, 9, 436, 4, 5]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 299
+[length(mis) for mis = unique(C_list)] = [20, 8, 4, 6, 11, 7, 6, 10, 15, 8, 11, 8, 6, 7, 4, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 300
+[length(mis) for mis = unique(C_list)] = [4, 4, 10, 9, 9, 6, 6, 4, 188, 7, 8, 362, 6, 7, 6, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 301
+[length(mis) for mis = unique(C_list)] = [9, 89, 5, 9, 8, 7, 7, 51, 9, 4, 51, 287, 5, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 302
+[length(mis) for mis = unique(C_list)] = [16, 4, 6, 3, 14, 10, 7, 10, 131, 9, 4, 7, 9, 8, 6, 8, 10]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 303
+[length(mis) for mis = unique(C_list)] = [4, 8, 16, 5, 12, 5, 7, 3, 7, 9, 7, 4, 5, 6, 34, 6, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 304
+[length(mis) for mis = unique(C_list)] = [13, 13, 9, 7, 7, 7, 8, 13, 6, 5, 293, 35, 6, 8]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 305
+[length(mis) for mis = unique(C_list)] = [8, 7, 11, 5, 7, 9, 3, 3, 287, 9, 5, 8, 6, 12, 19]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 306
+[length(mis) for mis = unique(C_list)] = [7, 9, 10, 10, 172, 11, 13, 4, 8, 11, 14, 12, 11, 9, 13, 8]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 307
+[length(mis) for mis = unique(C_list)] = [6, 8, 9, 5, 7, 5, 10, 10, 4, 4, 8, 9, 21, 9, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 308
+[length(mis) for mis = unique(C_list)] = [11, 4, 4, 8, 4, 8, 5, 9, 10, 9, 8, 6, 7, 6, 6, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 309
+[length(mis) for mis = unique(C_list)] = [8, 10, 19, 8, 8, 7, 8, 5, 10, 10, 6, 7, 8, 311, 12, 4, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 310
+[length(mis) for mis = unique(C_list)] = [4, 117, 15, 7, 11, 8, 8, 8, 7, 10, 8, 10, 7, 4, 200, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 311
+[length(mis) for mis = unique(C_list)] = [9, 18, 8, 137, 10, 9, 9, 11, 11, 4, 6, 4, 8, 12]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 312
+[length(mis) for mis = unique(C_list)] = [4, 6, 7, 8, 6, 5, 26, 7, 7, 5, 4, 22, 7, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 313
+[length(mis) for mis = unique(C_list)] = [4, 260, 14, 6, 6, 3, 7, 12, 9, 12, 10, 5, 25, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 314
+[length(mis) for mis = unique(C_list)] = [13, 6, 9, 10, 4, 6, 8, 7, 8, 5, 6, 10, 7, 13, 6, 5]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 315
+[length(mis) for mis = unique(C_list)] = [20, 8, 17, 6, 6, 6, 7, 5, 9, 15, 6, 9, 7, 14, 5, 5]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 316
+[length(mis) for mis = unique(C_list)] = [6, 7, 6, 8, 4, 7, 10, 4, 8, 9, 9, 7, 6, 449, 6, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 317
+[length(mis) for mis = unique(C_list)] = [7, 6, 13, 7, 6, 4, 8, 4, 9, 9, 12, 5, 9, 25, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 318
+[length(mis) for mis = unique(C_list)] = [3, 4, 5, 9, 15, 8, 4, 8, 10, 322, 9, 9, 6, 7, 6, 23, 10]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 319
+[length(mis) for mis = unique(C_list)] = [4, 11, 11, 7, 13, 3, 15, 12, 7, 6, 7, 4, 6, 8]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 320
+[length(mis) for mis = unique(C_list)] = [6, 9, 9, 5, 7, 12, 9, 5, 8, 7, 11, 8, 8, 4, 5, 4, 9, 13]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 321
+[length(mis) for mis = unique(C_list)] = [15, 6, 7, 9, 13, 4, 10, 7, 25, 14, 6, 7, 8, 4, 5, 8, 10, 12]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 322
+[length(mis) for mis = unique(C_list)] = [9, 7, 8, 6, 7, 7, 13, 6, 6, 9, 8, 7, 10, 6, 8, 8]
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 323
+[length(mis) for mis = unique(C_list)] = [9, 9, 15, 9, 7, 7, 6, 15, 6, 7, 4, 6, 6, 7]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 324
+[length(mis) for mis = unique(C_list)] = [9, 7, 64, 6, 14, 11, 13, 12, 5, 5, 9, 169, 9, 10]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 325
+[length(mis) for mis = unique(C_list)] = [7, 5, 6, 4, 4, 10, 8, 6, 10, 8, 11, 6, 8, 24, 4, 7, 6, 6, 11]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 326
+[length(mis) for mis = unique(C_list)] = [5, 32, 11, 10, 8, 6, 12, 9, 38, 7, 8, 5, 5, 7, 7, 8]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 327
+[length(mis) for mis = unique(C_list)] = [9, 7, 8, 6, 7, 6, 9, 9, 6, 6, 10, 110, 8, 8]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 328
+[length(mis) for mis = unique(C_list)] = [4, 7, 4, 4, 9, 9, 7, 7, 10, 105, 9, 6, 21, 43, 7, 7, 5]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 329
+[length(mis) for mis = unique(C_list)] = [4, 4, 9, 6, 7, 8, 8, 4, 7, 9, 6, 6, 28, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 330
+[length(mis) for mis = unique(C_list)] = [7, 7, 6, 9, 12, 6, 8, 8, 8, 11, 6, 7, 8, 6, 4, 6, 3]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 331
+[length(mis) for mis = unique(C_list)] = [10, 192, 4, 6, 14, 4, 4, 7, 12, 4, 4, 4, 7, 8, 13, 12]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 332
+[length(mis) for mis = unique(C_list)] = [6, 4, 5, 6, 5, 5, 4, 4, 72, 13, 5, 6, 5, 4]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 333
+[length(mis) for mis = unique(C_list)] = [7, 25, 5, 15, 5, 10, 7, 4, 10, 5, 7, 5, 12, 4, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 334
+[length(mis) for mis = unique(C_list)] = [20, 25, 8, 6, 4, 10, 4, 10, 8, 10, 8, 29, 177, 5, 14, 10]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 335
+[length(mis) for mis = unique(C_list)] = [4, 8, 8, 16, 4, 8, 6, 6, 4, 8, 7, 72, 7, 13, 13]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 336
+[length(mis) for mis = unique(C_list)] = [5, 5, 4, 4, 3, 9, 12, 4, 9, 8, 4, 8, 7, 8, 6]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 337
+[length(mis) for mis = unique(C_list)] = [8, 5, 11, 7, 8, 6, 7, 4, 8, 12, 6, 18, 8, 9]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 338
+[length(mis) for mis = unique(C_list)] = [4, 4, 11, 4, 4, 7, 7, 5, 10, 10, 7, 10, 6, 11, 11, 9]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 339
+[length(mis) for mis = unique(C_list)] = [22, 6, 11, 4, 4, 12, 11, 4, 10, 9, 13, 10, 45, 18, 11]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 340
+[length(mis) for mis = unique(C_list)] = [4, 13, 9, 4, 16, 4, 7, 20, 8, 9, 12, 27, 9, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 341
+[length(mis) for mis = unique(C_list)] = [4, 6, 14, 9, 9, 12, 3, 6, 8, 12, 12, 8, 13, 15, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 342
+[length(mis) for mis = unique(C_list)] = [6, 5, 5, 4, 9, 4, 10, 9, 9, 12, 8, 6, 4, 4, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 343
+[length(mis) for mis = unique(C_list)] = [8, 6, 7, 6, 14, 7, 6, 9, 7, 4, 308, 521, 11, 6]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 344
+[length(mis) for mis = unique(C_list)] = [17, 8, 7, 9, 10, 12, 7, 7, 8, 9, 6, 7, 8, 8, 5, 11]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 345
+[length(mis) for mis = unique(C_list)] = [4, 7, 8, 5, 5, 5, 4, 4, 6, 10, 8, 8, 115, 7, 9, 8, 6]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 346
+[length(mis) for mis = unique(C_list)] = [4, 7, 6, 8, 19, 3, 4, 22, 12, 9, 9, 9, 7, 45, 15, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 347
+[length(mis) for mis = unique(C_list)] = [21, 4, 8, 11, 6, 10, 4, 8, 6, 6, 6, 9, 4, 12, 13]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 348
+[length(mis) for mis = unique(C_list)] = [8, 7, 5, 7, 15, 8, 8, 8, 12, 13, 6, 7, 25, 6, 8]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 349
+[length(mis) for mis = unique(C_list)] = [9, 6, 62, 4, 8, 21, 8, 8, 6, 8, 4, 4, 4, 9, 9, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 350
+[length(mis) for mis = unique(C_list)] = [6, 6, 7, 3, 8, 5, 4, 15, 4, 5, 3, 5, 43, 8, 6, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 351
+[length(mis) for mis = unique(C_list)] = [7, 9, 8, 18, 4, 8, 7, 4, 10, 4, 7, 14, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 352
+[length(mis) for mis = unique(C_list)] = [3, 5, 8, 8, 8, 8, 4, 13, 315, 7, 6, 5, 5, 8, 5, 13]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 353
+[length(mis) for mis = unique(C_list)] = [8, 4, 9, 8, 8, 7, 4, 4, 7, 9, 10, 9, 8, 4, 14, 39]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 354
+[length(mis) for mis = unique(C_list)] = [11, 8, 5, 4, 7, 11, 10, 7, 10, 5, 6, 9, 6, 9, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 355
+[length(mis) for mis = unique(C_list)] = [4, 7, 7, 10, 4, 7, 9, 5, 4, 5, 5, 6, 206, 9, 5, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 356
+[length(mis) for mis = unique(C_list)] = [14, 6, 6, 8, 4, 8, 9, 10, 8, 9, 7, 7, 5, 5, 8, 8, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 357
+[length(mis) for mis = unique(C_list)] = [16, 4, 9, 9, 8, 10, 7, 9, 7, 9, 399, 9, 7, 395, 4, 8, 10, 52]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 358
+[length(mis) for mis = unique(C_list)] = [18, 4, 8, 6, 4, 5, 4, 5, 10, 4, 4, 4, 6, 4, 6, 6]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 359
+[length(mis) for mis = unique(C_list)] = [10, 9, 11, 6, 8, 7, 7, 6, 9, 373, 7, 8, 9, 9, 8, 9, 12]
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 360
+[length(mis) for mis = unique(C_list)] = [8, 5, 9, 7, 8, 15, 6, 3, 9, 11, 8, 4, 5, 6, 6]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 361
+[length(mis) for mis = unique(C_list)] = [45, 4, 5, 3, 13, 5, 13, 19, 7, 7, 8, 4, 3]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 362
+[length(mis) for mis = unique(C_list)] = [7, 5, 12, 7, 7, 4, 7, 6, 6, 7, 4, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 363
+[length(mis) for mis = unique(C_list)] = [11, 10, 4, 7, 9, 12, 6, 4, 4, 65, 6, 6, 6, 7, 4]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 364
+[length(mis) for mis = unique(C_list)] = [12, 16, 12, 8, 6, 6, 17, 81, 7, 4, 7, 4, 15, 12, 4, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 365
+[length(mis) for mis = unique(C_list)] = [9, 4, 6, 6, 9, 8, 11, 4, 5, 6, 274, 411, 10, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 366
+[length(mis) for mis = unique(C_list)] = [6, 8, 10, 8, 87, 13, 10, 3, 8, 291, 7, 7, 4, 4, 13, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 367
+[length(mis) for mis = unique(C_list)] = [6, 5, 5, 7, 5, 6, 4, 4, 5, 4, 355, 8, 11, 4]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 368
+[length(mis) for mis = unique(C_list)] = [4, 7, 7, 4, 9, 9, 11, 122, 4, 3, 10, 9, 6, 8, 10]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 369
+[length(mis) for mis = unique(C_list)] = [8, 4, 6, 9, 5, 9, 6, 11, 9, 293, 7, 7, 6, 4, 22, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 370
+[length(mis) for mis = unique(C_list)] = [6, 8, 8, 5, 6, 5, 5, 4, 3, 10, 7, 7, 11, 4, 8]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 371
+[length(mis) for mis = unique(C_list)] = [5, 4, 3, 4, 5, 9, 8, 7, 7, 4, 10]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 372
+[length(mis) for mis = unique(C_list)] = [14, 9, 10, 5, 20, 14, 8, 11, 232, 6, 6, 265, 8, 9, 6]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 373
+[length(mis) for mis = unique(C_list)] = [4, 7, 8, 13, 5, 7, 9, 230, 8, 11, 153, 9, 7, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 374
+[length(mis) for mis = unique(C_list)] = [8, 6, 4, 8, 8, 6, 8, 12, 8, 6, 9, 7, 10, 3, 16, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 375
+[length(mis) for mis = unique(C_list)] = [4, 145, 3, 4, 4, 15, 16, 10, 7, 4, 9, 6, 7, 4, 19]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 376
+[length(mis) for mis = unique(C_list)] = [26, 4, 8, 4, 12, 7, 9, 5, 9, 7, 8, 7, 8, 5, 4, 7, 8, 5]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 377
+[length(mis) for mis = unique(C_list)] = [6, 6, 5, 4, 6, 9, 5, 5, 4, 8, 4, 10, 10, 5, 4, 6]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 378
+[length(mis) for mis = unique(C_list)] = [4, 9, 5, 4, 4, 7, 6, 6, 25, 5, 8, 3]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 379
+[length(mis) for mis = unique(C_list)] = [8, 6, 14, 8, 6, 10, 9, 3, 5, 4, 6, 5, 7, 150, 13, 9]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 380
+[length(mis) for mis = unique(C_list)] = [9, 6, 4, 10, 7, 9, 8, 7, 5, 14, 7, 7, 4, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 381
+[length(mis) for mis = unique(C_list)] = [9, 60, 9, 7, 7, 4, 13, 4, 17, 4, 4, 10, 245, 4, 117, 9]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 382
+[length(mis) for mis = unique(C_list)] = [8, 8, 13, 7, 8, 4, 9, 7, 72, 6, 7, 7, 7, 9, 9]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 383
+[length(mis) for mis = unique(C_list)] = [8, 4, 7, 4, 6, 5, 5, 7, 5, 8, 5, 5, 6, 4, 7]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 384
+[length(mis) for mis = unique(C_list)] = [17, 13, 6, 12, 10, 12, 6, 11, 393, 12, 7, 5, 13, 6, 6]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 385
+[length(mis) for mis = unique(C_list)] = [8, 6, 3, 5, 6, 7, 4, 9, 4, 6, 5]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 386
+[length(mis) for mis = unique(C_list)] = [23, 5, 23, 10, 7, 4, 11, 9, 7, 12, 7, 6, 14, 8, 7]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 387
+[length(mis) for mis = unique(C_list)] = [6, 8, 6, 7, 8, 6, 5, 3, 6, 6, 11, 12, 8, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 388
+[length(mis) for mis = unique(C_list)] = [19, 4, 10, 9, 6, 13, 10, 10, 10, 8, 6, 7, 19, 7]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 389
+[length(mis) for mis = unique(C_list)] = [12, 8, 7, 9, 9, 7, 8, 8, 4, 4, 9, 7, 4, 7, 11, 13]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 390
+[length(mis) for mis = unique(C_list)] = [15, 4, 6, 4, 9, 4, 9, 22, 13, 9, 6, 6, 11]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 391
+[length(mis) for mis = unique(C_list)] = [3, 50, 8, 10, 10, 7, 4, 6, 4, 7, 4, 5, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 392
+[length(mis) for mis = unique(C_list)] = [6, 220, 6, 7, 9, 18, 7, 4, 17, 9, 4, 7, 8, 8, 6]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 393
+[length(mis) for mis = unique(C_list)] = [5, 7, 14, 15, 14, 11, 7, 7, 8, 15, 12, 25, 7, 6, 10]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 394
+[length(mis) for mis = unique(C_list)] = [8, 112, 5, 17, 4, 24, 6, 8, 5, 385, 6, 4, 6, 7]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 395
+[length(mis) for mis = unique(C_list)] = [10, 6, 57, 10, 6, 8, 7, 6, 7, 6, 13, 7, 7, 6, 7, 76, 8]
+length(C_list) = 17
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 396
+[length(mis) for mis = unique(C_list)] = [5, 183, 3, 7, 4, 8, 5, 6, 5, 11, 12, 77, 180, 9, 9, 12]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 397
+[length(mis) for mis = unique(C_list)] = [6, 5, 4, 6, 7, 5, 12, 10, 9, 5, 9, 6, 6, 4, 6]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 398
+[length(mis) for mis = unique(C_list)] = [13, 7, 6, 8, 10, 5, 4, 11, 12, 11, 4, 12, 10, 5, 4, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 399
+[length(mis) for mis = unique(C_list)] = [6, 221, 10, 4, 7, 4, 8, 113, 13, 7, 6, 121, 4, 5, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 400
+[length(mis) for mis = unique(C_list)] = [6, 6, 4, 4, 10, 4, 7, 8, 9, 4, 9, 8, 14, 13, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 401
+[length(mis) for mis = unique(C_list)] = [6, 7, 7, 6, 5, 10, 4, 5, 6, 7, 9, 6, 17, 12, 22, 14]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 402
+[length(mis) for mis = unique(C_list)] = [4, 6, 10, 9, 8, 12, 7, 11, 4, 5, 200, 12, 8, 5]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 403
+[length(mis) for mis = unique(C_list)] = [6, 7, 6, 7, 4, 5, 10, 82, 12, 8, 13, 15, 10, 15, 14, 12, 8]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 404
+[length(mis) for mis = unique(C_list)] = [16, 10, 8, 13, 4, 10, 8, 10, 4, 4, 262, 8, 11, 4, 4]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 405
+[length(mis) for mis = unique(C_list)] = [14, 4, 6, 14, 13, 5, 6, 6, 14, 4, 10, 4, 5, 6, 8, 52]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 406
+[length(mis) for mis = unique(C_list)] = [16, 9, 7, 6, 8, 13, 12, 12, 13, 8, 7, 7, 8, 7]
+length(C_list) = 14
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 407
+[length(mis) for mis = unique(C_list)] = [5, 5, 10, 7, 9, 4, 6, 18, 6, 4, 16, 5, 8]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 408
+[length(mis) for mis = unique(C_list)] = [9, 8, 24, 11, 6, 19, 6, 6, 33, 5, 6, 27, 13, 9, 6, 9]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 409
+[length(mis) for mis = unique(C_list)] = [10, 11, 10, 54, 12, 8, 8, 10, 7, 4, 7, 10, 11, 9, 9, 14]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 410
+[length(mis) for mis = unique(C_list)] = [8, 93, 8, 6, 13, 9, 8, 6, 7, 4, 6, 7, 4, 5, 6, 11]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 411
+[length(mis) for mis = unique(C_list)] = [4, 18, 4, 4, 9, 9, 3, 8, 7, 4, 4, 4, 20, 3]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 412
+[length(mis) for mis = unique(C_list)] = [4, 6, 11, 241, 10, 14, 9, 16, 11, 12, 11, 3, 8, 6, 7, 9]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 413
+[length(mis) for mis = unique(C_list)] = [5, 4, 14, 6, 13, 14, 12, 11, 3, 113, 5, 6, 5, 4, 6, 5, 11]
+length(C_list) = 7
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 414
+[length(mis) for mis = unique(C_list)] = [27, 4, 6, 6, 10, 8, 9, 17, 11, 21, 11, 5, 10, 94, 10]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 415
+[length(mis) for mis = unique(C_list)] = [8, 5, 6, 9, 8, 16, 7, 5, 7, 11, 124, 8, 3, 8, 5, 16, 9, 14]
+length(C_list) = 4
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 416
+[length(mis) for mis = unique(C_list)] = [11, 4, 7, 6, 8, 4, 8, 4, 4, 4, 74, 4, 4, 9, 5]
+length(C_list) = 8
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 417
+[length(mis) for mis = unique(C_list)] = [16, 9, 7, 7, 9, 16, 16, 7, 18, 11, 9, 12, 7, 8, 249, 13]
+length(C_list) = 16
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 418
+[length(mis) for mis = unique(C_list)] = [11, 7, 13, 3, 8, 55, 12, 11, 30, 9, 20, 6, 5, 9, 4]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 419
+[length(mis) for mis = unique(C_list)] = [7, 6, 6, 11, 12, 14, 10, 16, 4, 5, 7, 26, 3]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 420
+[length(mis) for mis = unique(C_list)] = [10, 117, 14, 10, 6, 15, 6, 4, 5, 4, 8, 17, 494, 6]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 421
+[length(mis) for mis = unique(C_list)] = [6, 4, 6, 5, 4, 10, 5, 6, 5, 5, 4, 5, 6, 5, 6]
+length(C_list) = 9
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 422
+[length(mis) for mis = unique(C_list)] = [8, 8, 6, 3, 6, 10, 4, 3, 7, 7, 7, 7, 11, 15, 7]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 423
+[length(mis) for mis = unique(C_list)] = [10, 52, 4, 8, 8, 7, 7, 3, 12, 9, 5, 6, 6, 11, 10, 9]
+length(C_list) = 3
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 424
+[length(mis) for mis = unique(C_list)] = [10, 440, 6, 6, 8, 3, 7, 6, 11, 3, 17, 11, 11, 9]
+length(C_list) = 2
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 425
+[length(mis) for mis = unique(C_list)] = [6, 6, 9, 11, 10, 4, 9, 6, 7, 6, 10, 6, 6, 17, 6]
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 426
+[length(mis) for mis = unique(C_list)] = [10, 11, 8, 3, 4, 4, 7, 3, 5, 10, 93, 7, 4, 7]
+length(C_list) = 6
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 427
+[length(mis) for mis = unique(C_list)] = [7, 5, 12, 4, 3, 11, 17, 7, 4, 7, 14, 5, 7, 13, 14, 11, 13]
+length(C_list) = 5
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 428
+termination = MathOptInterface.INFEASIBLE
+objective_value = 0.010689973085284509
