@@ -1062,7 +1062,7 @@ organisms = [
 mis_numbers = [0.1, 0.5, 1.0, 2.0, 3, 4, 5, 10, 20, 30]
 cut_densities = [5, 10, 15, 20]
 max_cuts = [0.5, 1.0, 1.5, 2.0, 0.2, 0.3, 0.4, 0.5]
-# solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=false, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true, cut_densities=cut_densities, distinct_cuts=true, max_cuts=max_cuts)
+solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=false, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true, cut_densities=cut_densities, distinct_cuts=true, max_cuts=max_cuts)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)
 # sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
