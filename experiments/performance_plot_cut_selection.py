@@ -6,7 +6,8 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
     assert big_m != indicator
     # load data 
     df_data = pd.read_csv(file)
-    # print(list(df_data.columns.values))
+    print("termination_ll_fba" in list(df_data.columns.values))
+    print("termination_cb_mis_2.0_distinct_cuts" in list(df_data.columns.values))
     if remove_easy_instances:
         df_data = df_data[(df_data.time_ll_fba >= 15)]
 
