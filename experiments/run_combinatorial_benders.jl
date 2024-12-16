@@ -111,6 +111,8 @@ organisms = [
     "iYS854"
 ]
 
+organisms = ["iYS854"]
+
 # organisms = [
 #     "Hanseniaspora_uvarum",
 #     "yHMPu5000035696_Hanseniaspora_singularis",   
@@ -126,7 +128,7 @@ organisms = [
 # ]
 
 time_limit = 1800
-fast = true
+fast = false
 json = true
 yeast = false
 
