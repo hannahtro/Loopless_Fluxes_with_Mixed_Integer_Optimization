@@ -126,7 +126,7 @@ organisms = [
 # ]
 
 time_limit = 1800
-fast = false
+fast = true
 json = true
 yeast = false
 

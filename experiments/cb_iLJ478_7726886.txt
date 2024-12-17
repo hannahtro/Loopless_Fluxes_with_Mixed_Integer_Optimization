@@ -1,0 +1,60 @@
+┌ Warning: indicator and big M formulation in master problem
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:678
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+┌ Warning: flux through non-zero reactions is thermo feasible
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:620
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iLJ478
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+
+iLJ478
+----------------------------------
+number of metabolites : 570
+number of reactions : 652
+number of genes : 482
+
+MOI.get(master_problem, MOI.RawOptimizerAttribute("numerics/feastol")) = 1.0e-6
+multiple_mis = 0
+(indicator, big_m) = (true, true)
+BIG M ADDED
+INDICATOR ADDED
+model with 652 flux variables and 1220 variables in total
+master problem solved
+feasible = true
+length(C_list) = 1
+sub problem solved
+iter = 1
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 2
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 3
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 4
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 5
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 6
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 7
+length(C_list) = 1
+termination_sub = MathOptInterface.INFEASIBLE
+iter = 8
+MIS problem not feasible
+termination_mis = MathOptInterface.INFEASIBLE
+length(C_list) = 0
+iter = 8
+termination = MathOptInterface.OPTIMAL
+objective_value = 0.22840679202946876
+thermo_feasible = true

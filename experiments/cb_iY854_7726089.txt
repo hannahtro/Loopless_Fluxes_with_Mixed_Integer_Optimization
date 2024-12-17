@@ -1,0 +1,7 @@
+┌ Warning: indicator and big M formulation in master problem
+└ @ Main ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/cuts_decomposition.jl:678
+ENV["GRB_LICENSE_FILE"] = "/home/htc/htroppen/gurobi.lic"
+iY854
+(time_limit, fast, json, yeast) = (1800, true, true, false)
+fast = true
+SystemError("opening file \"../molecular_models/iY854.json\"", 2, nothing)
