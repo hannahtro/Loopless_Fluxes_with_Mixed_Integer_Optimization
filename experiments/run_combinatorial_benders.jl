@@ -108,10 +108,8 @@ organisms = [
     "iWFL_1372",
     "iY75_1357",
     "iYL1228",
-    "iYS854"
+#    "iYS854"
 ]
-
-organisms = ["iYS854"]
 
 # organisms = [
 #     "Hanseniaspora_uvarum",

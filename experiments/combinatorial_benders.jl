@@ -12,7 +12,7 @@ mis = parse(Float64, ARGS[6])
 
 type = "cb_fast_big_m"
 try 
-    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, indicator=true, big_m=false)
+    combinatorial_benders_data(organism, time_limit=time_limit, fast=fast, json=json, yeast=yeast, indicator=false, big_m=true)
 catch e 
     println(e)
     file = organism * "_" * type
