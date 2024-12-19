@@ -1,0 +1,8 @@
+iECSE_1348
+
+iECSE_1348
+----------------------------------
+number of metabolites : 1957
+number of reactions : 2768
+number of genes : 1348
+

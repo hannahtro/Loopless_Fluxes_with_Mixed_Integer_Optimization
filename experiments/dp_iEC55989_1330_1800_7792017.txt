@@ -1,0 +1,8 @@
+iEC55989_1330
+
+iEC55989_1330
+----------------------------------
+number of metabolites : 1953
+number of reactions : 2756
+number of genes : 1330
+

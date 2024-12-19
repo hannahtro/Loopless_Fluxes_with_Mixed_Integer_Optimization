@@ -1,0 +1,8 @@
+iNRG857_1313
+
+iNRG857_1313
+----------------------------------
+number of metabolites : 1943
+number of reactions : 2735
+number of genes : 1311
+

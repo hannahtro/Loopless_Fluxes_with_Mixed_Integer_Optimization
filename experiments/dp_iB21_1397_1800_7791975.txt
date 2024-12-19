@@ -1,0 +1,8 @@
+iB21_1397
+
+iB21_1397
+----------------------------------
+number of metabolites : 1943
+number of reactions : 2741
+number of genes : 1337
+

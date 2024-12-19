@@ -1,0 +1,8 @@
+iAM_Pb448
+
+iAM_Pb448
+----------------------------------
+number of metabolites : 903
+number of reactions : 1067
+number of genes : 448
+

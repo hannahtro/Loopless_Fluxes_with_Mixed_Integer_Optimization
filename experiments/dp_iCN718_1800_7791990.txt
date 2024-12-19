@@ -1,0 +1,8 @@
+iCN718
+
+iCN718
+----------------------------------
+number of metabolites : 888
+number of reactions : 1015
+number of genes : 709
+

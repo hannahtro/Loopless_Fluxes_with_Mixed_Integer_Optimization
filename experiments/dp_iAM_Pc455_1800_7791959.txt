@@ -1,0 +1,9 @@
+iAM_Pc455
+
+iAM_Pc455
+----------------------------------
+number of metabolites : 907
+number of reactions : 1074
+number of genes : 455
+
+ErrorException("Unable to use SOS1ToMILPBridge because element 1 in the function has a non-finite domain: MOI.VariableIndex(4889)")

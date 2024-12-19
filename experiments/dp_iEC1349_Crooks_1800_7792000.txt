@@ -1,0 +1,8 @@
+iEC1349_Crooks
+
+iEC1349_Crooks
+----------------------------------
+number of metabolites : 1946
+number of reactions : 2756
+number of genes : 1349
+

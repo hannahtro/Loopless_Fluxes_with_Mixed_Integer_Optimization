@@ -1,0 +1,8 @@
+iECO103_1326
+
+iECO103_1326
+----------------------------------
+number of metabolites : 1958
+number of reactions : 2758
+number of genes : 1327
+

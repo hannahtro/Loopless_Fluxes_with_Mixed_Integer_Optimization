@@ -1,0 +1,8 @@
+iEC1356_Bl21DE3
+
+iEC1356_Bl21DE3
+----------------------------------
+number of metabolites : 1918
+number of reactions : 2740
+number of genes : 1356
+

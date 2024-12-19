@@ -1,0 +1,8 @@
+iBWG_1329
+
+iBWG_1329
+----------------------------------
+number of metabolites : 1949
+number of reactions : 2741
+number of genes : 1329
+

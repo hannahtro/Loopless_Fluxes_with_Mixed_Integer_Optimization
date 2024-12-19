@@ -1,0 +1,8 @@
+iEC042_1314
+
+iEC042_1314
+----------------------------------
+number of metabolites : 1926
+number of reactions : 2714
+number of genes : 1314
+

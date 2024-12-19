@@ -1,0 +1,8 @@
+iAT_PLT_636
+
+iAT_PLT_636
+----------------------------------
+number of metabolites : 738
+number of reactions : 1008
+number of genes : 636
+

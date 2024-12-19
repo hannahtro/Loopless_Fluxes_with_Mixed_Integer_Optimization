@@ -1,0 +1,20 @@
+ERROR: LoadError: ArgumentError: Package DisjunctiveProgramming [0d27d021-0159-4c7d-b4a7-9ccb5d9366cf] is required but does not seem to be installed:
+ - Run `Pkg.instantiate()` to install all recorded dependencies.
+
+Stacktrace:
+ [1] _require(pkg::Base.PkgId, env::String)
+   @ Base ./loading.jl:1739
+ [2] _require_prelocked(uuidkey::Base.PkgId, env::String)
+   @ Base ./loading.jl:1625
+ [3] macro expansion
+   @ ./loading.jl:1613 [inlined]
+ [4] macro expansion
+   @ ./lock.jl:267 [inlined]
+ [5] require(into::Module, mod::Symbol)
+   @ Base ./loading.jl:1576
+ [6] include(fname::String)
+   @ Base.MainInclude ./client.jl:478
+ [7] top-level scope
+   @ ~/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/experiments/disjunctive_programming.jl:2
+in expression starting at /home/htc/htroppen/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/src/disjunctive_programming.jl:1
+in expression starting at /home/htc/htroppen/git/Loopless_Fluxes_with_Mixed_Integer_Optimization/experiments/disjunctive_programming.jl:2

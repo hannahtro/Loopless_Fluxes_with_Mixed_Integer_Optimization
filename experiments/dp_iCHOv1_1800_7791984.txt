@@ -1,0 +1,8 @@
+iCHOv1
+
+iCHOv1
+----------------------------------
+number of metabolites : 4456
+number of reactions : 6663
+number of genes : 1766
+

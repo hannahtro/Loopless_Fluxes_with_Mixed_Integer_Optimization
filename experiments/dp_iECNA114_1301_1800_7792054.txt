@@ -1,0 +1,8 @@
+iECNA114_1301
+
+iECNA114_1301
+----------------------------------
+number of metabolites : 1927
+number of reactions : 2718
+number of genes : 1301
+

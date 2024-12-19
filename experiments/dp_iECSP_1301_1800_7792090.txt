@@ -1,0 +1,8 @@
+iECSP_1301
+
+iECSP_1301
+----------------------------------
+number of metabolites : 1920
+number of reactions : 2712
+number of genes : 1299
+

@@ -1,0 +1,8 @@
+iEcDH1_1363
+
+iEcDH1_1363
+----------------------------------
+number of metabolites : 1949
+number of reactions : 2750
+number of genes : 1363
+

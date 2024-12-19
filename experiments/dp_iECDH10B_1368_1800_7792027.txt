@@ -1,0 +1,8 @@
+iECDH10B_1368
+
+iECDH10B_1368
+----------------------------------
+number of metabolites : 1947
+number of reactions : 2742
+number of genes : 1327
+

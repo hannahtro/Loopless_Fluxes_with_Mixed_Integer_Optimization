@@ -1,0 +1,8 @@
+iIT341
+
+iIT341
+----------------------------------
+number of metabolites : 485
+number of reactions : 554
+number of genes : 339
+

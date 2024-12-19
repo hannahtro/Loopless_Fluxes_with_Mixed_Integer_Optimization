@@ -1,0 +1,8 @@
+iECO26_1355
+
+iECO26_1355
+----------------------------------
+number of metabolites : 1965
+number of reactions : 2780
+number of genes : 1355
+

@@ -1,0 +1,8 @@
+iECS88_1305
+
+iECS88_1305
+----------------------------------
+number of metabolites : 1942
+number of reactions : 2729
+number of genes : 1305
+

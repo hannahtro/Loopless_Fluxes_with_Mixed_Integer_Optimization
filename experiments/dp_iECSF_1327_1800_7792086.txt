@@ -1,0 +1,8 @@
+iECSF_1327
+
+iECSF_1327
+----------------------------------
+number of metabolites : 1951
+number of reactions : 2742
+number of genes : 1327
+

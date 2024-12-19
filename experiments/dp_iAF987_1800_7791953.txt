@@ -1,0 +1,9 @@
+iAF987
+
+iAF987
+----------------------------------
+number of metabolites : 1109
+number of reactions : 1285
+number of genes : 987
+
+ErrorException("Unable to use SOS1ToMILPBridge because element 1 in the function has a non-finite domain: MOI.VariableIndex(5959)")

@@ -1,0 +1,9 @@
+iSSON_1240
+
+iSSON_1240
+----------------------------------
+number of metabolites : 1936
+number of reactions : 2693
+number of genes : 1240
+
+ErrorException("Unable to use SOS1ToMILPBridge because element 1 in the function has a non-finite domain: MOI.VariableIndex(11533)")

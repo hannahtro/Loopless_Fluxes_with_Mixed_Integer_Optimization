@@ -1,0 +1,8 @@
+iECO111_1330
+
+iECO111_1330
+----------------------------------
+number of metabolites : 1959
+number of reactions : 2760
+number of genes : 1328
+

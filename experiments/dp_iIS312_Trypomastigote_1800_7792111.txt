@@ -1,0 +1,8 @@
+iIS312_Trypomastigote
+
+iIS312_Trypomastigote
+----------------------------------
+number of metabolites : 606
+number of reactions : 520
+number of genes : 312
+

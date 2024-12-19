@@ -1,0 +1,8 @@
+iYS854
+
+iYS854
+----------------------------------
+number of metabolites : 1335
+number of reactions : 1455
+number of genes : 866
+

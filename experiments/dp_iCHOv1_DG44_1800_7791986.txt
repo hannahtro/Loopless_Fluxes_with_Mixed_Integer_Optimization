@@ -1,0 +1,9 @@
+iCHOv1_DG44
+
+iCHOv1_DG44
+----------------------------------
+number of metabolites : 2751
+number of reactions : 3942
+number of genes : 1184
+
+ErrorException("Unable to use SOS1ToMILPBridge because element 1 in the function has a non-finite domain: MOI.VariableIndex(16759)")

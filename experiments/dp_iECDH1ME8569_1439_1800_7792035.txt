@@ -1,0 +1,8 @@
+iECDH1ME8569_1439
+
+iECDH1ME8569_1439
+----------------------------------
+number of metabolites : 1950
+number of reactions : 2755
+number of genes : 1439
+

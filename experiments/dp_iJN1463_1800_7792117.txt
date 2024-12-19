@@ -1,0 +1,8 @@
+iJN1463
+
+iJN1463
+----------------------------------
+number of metabolites : 2153
+number of reactions : 2927
+number of genes : 1462
+

@@ -1,0 +1,8 @@
+iECs_1301
+
+iECs_1301
+----------------------------------
+number of metabolites : 1923
+number of reactions : 2720
+number of genes : 1301
+

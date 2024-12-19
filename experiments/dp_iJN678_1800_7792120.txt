@@ -1,0 +1,8 @@
+iJN678
+
+iJN678
+----------------------------------
+number of metabolites : 795
+number of reactions : 863
+number of genes : 622
+

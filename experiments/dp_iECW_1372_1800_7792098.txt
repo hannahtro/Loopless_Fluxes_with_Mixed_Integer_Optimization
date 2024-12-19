@@ -1,0 +1,8 @@
+iECW_1372
+
+iECW_1372
+----------------------------------
+number of metabolites : 1973
+number of reactions : 2782
+number of genes : 1372
+

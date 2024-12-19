@@ -1,0 +1,8 @@
+iECABU_c1320
+
+iECABU_c1320
+----------------------------------
+number of metabolites : 1942
+number of reactions : 2731
+number of genes : 1320
+

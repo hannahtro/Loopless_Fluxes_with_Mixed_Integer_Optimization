@@ -1,0 +1,8 @@
+iAF1260b
+
+iAF1260b
+----------------------------------
+number of metabolites : 1668
+number of reactions : 2388
+number of genes : 1261
+

@@ -1,0 +1,8 @@
+iY75_1357
+
+iY75_1357
+----------------------------------
+number of metabolites : 1953
+number of reactions : 2759
+number of genes : 1358
+

@@ -1,0 +1,8 @@
+iAM_Pc455
+
+iAM_Pc455
+----------------------------------
+number of metabolites : 907
+number of reactions : 1074
+number of genes : 455
+

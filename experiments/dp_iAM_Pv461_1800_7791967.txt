@@ -1,0 +1,8 @@
+iAM_Pv461
+
+iAM_Pv461
+----------------------------------
+number of metabolites : 909
+number of reactions : 1078
+number of genes : 461
+

@@ -1,0 +1,8 @@
+iEKO11_1354
+
+iEKO11_1354
+----------------------------------
+number of metabolites : 1972
+number of reactions : 2778
+number of genes : 1354
+

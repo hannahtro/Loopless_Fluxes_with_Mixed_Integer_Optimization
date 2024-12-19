@@ -1,0 +1,8 @@
+iAM_Pf480
+
+iAM_Pf480
+----------------------------------
+number of metabolites : 909
+number of reactions : 1083
+number of genes : 480
+

@@ -1,0 +1,8 @@
+iCHOv1_DG44
+
+iCHOv1_DG44
+----------------------------------
+number of metabolites : 2751
+number of reactions : 3942
+number of genes : 1184
+

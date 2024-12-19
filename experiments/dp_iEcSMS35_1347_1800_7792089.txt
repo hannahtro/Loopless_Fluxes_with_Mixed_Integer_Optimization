@@ -1,0 +1,8 @@
+iEcSMS35_1347
+
+iEcSMS35_1347
+----------------------------------
+number of metabolites : 1947
+number of reactions : 2746
+number of genes : 1347
+

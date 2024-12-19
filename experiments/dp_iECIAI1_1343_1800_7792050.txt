@@ -1,0 +1,8 @@
+iECIAI1_1343
+
+iECIAI1_1343
+----------------------------------
+number of metabolites : 1968
+number of reactions : 2765
+number of genes : 1343
+

@@ -1,0 +1,8 @@
+iLJ478
+
+iLJ478
+----------------------------------
+number of metabolites : 570
+number of reactions : 652
+number of genes : 482
+

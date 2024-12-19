@@ -1,0 +1,8 @@
+iSBO_1134
+
+iSBO_1134
+----------------------------------
+number of metabolites : 1908
+number of reactions : 2591
+number of genes : 1134
+

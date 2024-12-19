@@ -1,0 +1,8 @@
+iECBD_1354
+
+iECBD_1354
+----------------------------------
+number of metabolites : 1952
+number of reactions : 2748
+number of genes : 1354
+

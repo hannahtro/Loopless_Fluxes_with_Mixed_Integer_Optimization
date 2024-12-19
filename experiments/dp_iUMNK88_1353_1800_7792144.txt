@@ -1,0 +1,8 @@
+iUMNK88_1353
+
+iUMNK88_1353
+----------------------------------
+number of metabolites : 1969
+number of reactions : 2777
+number of genes : 1353
+

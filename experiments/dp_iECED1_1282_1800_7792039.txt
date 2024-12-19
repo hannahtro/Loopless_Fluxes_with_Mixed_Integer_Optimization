@@ -1,0 +1,8 @@
+iECED1_1282
+
+iECED1_1282
+----------------------------------
+number of metabolites : 1929
+number of reactions : 2706
+number of genes : 1279
+

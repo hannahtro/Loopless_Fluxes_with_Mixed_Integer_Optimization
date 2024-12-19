@@ -1,0 +1,8 @@
+iE2348C_1286
+
+iE2348C_1286
+----------------------------------
+number of metabolites : 1919
+number of reactions : 2703
+number of genes : 1287
+

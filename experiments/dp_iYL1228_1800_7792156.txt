@@ -1,0 +1,8 @@
+iYL1228
+
+iYL1228
+----------------------------------
+number of metabolites : 1658
+number of reactions : 2262
+number of genes : 1229
+

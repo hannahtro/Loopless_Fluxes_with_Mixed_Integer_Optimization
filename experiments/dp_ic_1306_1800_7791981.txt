@@ -1,0 +1,8 @@
+ic_1306
+
+ic_1306
+----------------------------------
+number of metabolites : 1936
+number of reactions : 2726
+number of genes : 1307
+

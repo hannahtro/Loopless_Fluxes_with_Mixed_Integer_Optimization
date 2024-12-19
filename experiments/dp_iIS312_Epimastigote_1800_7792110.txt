@@ -1,0 +1,8 @@
+iIS312_Epimastigote
+
+iIS312_Epimastigote
+----------------------------------
+number of metabolites : 606
+number of reactions : 519
+number of genes : 312
+

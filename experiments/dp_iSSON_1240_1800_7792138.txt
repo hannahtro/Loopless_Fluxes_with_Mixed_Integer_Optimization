@@ -1,0 +1,8 @@
+iSSON_1240
+
+iSSON_1240
+----------------------------------
+number of metabolites : 1936
+number of reactions : 2693
+number of genes : 1240
+

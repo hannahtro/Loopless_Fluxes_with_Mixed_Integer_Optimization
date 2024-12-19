@@ -1,0 +1,8 @@
+iIS312
+
+iIS312
+----------------------------------
+number of metabolites : 606
+number of reactions : 519
+number of genes : 312
+

@@ -1,0 +1,8 @@
+iEC1364_W
+
+iEC1364_W
+----------------------------------
+number of metabolites : 1927
+number of reactions : 2764
+number of genes : 1364
+

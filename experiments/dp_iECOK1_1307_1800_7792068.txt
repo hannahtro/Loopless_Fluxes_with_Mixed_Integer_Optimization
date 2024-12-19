@@ -1,0 +1,8 @@
+iECOK1_1307
+
+iECOK1_1307
+----------------------------------
+number of metabolites : 1941
+number of reactions : 2729
+number of genes : 1304
+

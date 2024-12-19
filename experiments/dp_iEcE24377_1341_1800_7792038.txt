@@ -1,0 +1,8 @@
+iEcE24377_1341
+
+iEcE24377_1341
+----------------------------------
+number of metabolites : 1972
+number of reactions : 2763
+number of genes : 1341
+

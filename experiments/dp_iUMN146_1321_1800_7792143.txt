@@ -1,0 +1,8 @@
+iUMN146_1321
+
+iUMN146_1321
+----------------------------------
+number of metabolites : 1942
+number of reactions : 2735
+number of genes : 1319
+

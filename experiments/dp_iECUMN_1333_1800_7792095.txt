@@ -1,0 +1,8 @@
+iECUMN_1333
+
+iECUMN_1333
+----------------------------------
+number of metabolites : 1935
+number of reactions : 2740
+number of genes : 1332
+

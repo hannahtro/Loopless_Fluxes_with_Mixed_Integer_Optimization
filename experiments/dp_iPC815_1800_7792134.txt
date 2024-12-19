@@ -1,0 +1,8 @@
+iPC815
+
+iPC815
+----------------------------------
+number of metabolites : 1552
+number of reactions : 1961
+number of genes : 815
+

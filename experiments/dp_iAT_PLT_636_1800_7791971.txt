@@ -1,0 +1,9 @@
+iAT_PLT_636
+
+iAT_PLT_636
+----------------------------------
+number of metabolites : 738
+number of reactions : 1008
+number of genes : 636
+
+ErrorException("Unable to use SOS1ToMILPBridge because element 1 in the function has a non-finite domain: MOI.VariableIndex(4408)")

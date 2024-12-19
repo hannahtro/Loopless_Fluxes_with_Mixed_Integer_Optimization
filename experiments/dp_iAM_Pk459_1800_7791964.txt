@@ -1,0 +1,8 @@
+iAM_Pk459
+
+iAM_Pk459
+----------------------------------
+number of metabolites : 909
+number of reactions : 1079
+number of genes : 459
+
