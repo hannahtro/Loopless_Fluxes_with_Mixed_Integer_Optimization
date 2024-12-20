@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True, big_m_1000=True, big_m_10000=True, dp_solvers=["HiGHS"], mis_numbers=[0.5], mis_big_m=True):
+def load_data(file='csv/results_bigg_SCIP.csv', file_dp='csv/results_bigg_dp_SCIP.csv', ll_fba=True, hull=True, big_m_1000=True, big_m_10000=True, dp_solvers=["HiGHS"], mis_numbers=[0.5], mis_big_m=True):
     # load data 
     df_data = pd.read_csv(file)
-    # print(df_data)
+    df_data_dp = pd.read_csv(file_dp)
     data = {}
 
     # ll fba data
@@ -22,7 +22,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
     for solver in dp_solvers:
         if hull:
             if solver == "HiGHS":
-                time_dp_hull = df_data[df_data["termination_dp_Hull" ] == "OPTIMAL"]["time_dp_Hull"].to_list()
+                time_dp_hull = df_data_dp[df_data_dp["termination_dp_Hull" ] == "OPTIMAL"]["time_dp_Hull"].to_list()
                 time_dp_hull.sort()
                 time_dp_hull.append(1800)
                 instances_dp_hull = len(time_dp_hull) + 1
@@ -30,7 +30,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
                 data["time_dp_hull"] = time_dp_hull
                 data["instances_dp_hull"] = instances_dp_hull
             else:
-                time_dp_hull_GLPK = df_data[df_data["termination_dp_Hull_GLPK"] == "OPTIMAL"]["time_dp_Hull_GLPK"].to_list()
+                time_dp_hull_GLPK = df_data_dp[df_data_dp["termination_dp_Hull_GLPK"] == "OPTIMAL"]["time_dp_Hull_GLPK"].to_list()
                 time_dp_hull_GLPK.sort()
                 time_dp_hull_GLPK.append(1800)
                 instances_dp_hull_GLPK = len(time_dp_hull_GLPK) + 1
@@ -40,7 +40,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
         
         if big_m_1000:
             if solver == "HiGHS":
-                time_dp_big_m = df_data[df_data["termination_dp_BigM_1000"] == "OPTIMAL"]["time_dp_BigM_1000"].to_list()
+                time_dp_big_m = df_data_dp[df_data_dp["termination_dp_BigM_1000"] == "OPTIMAL"]["time_dp_BigM_1000"].to_list()
                 time_dp_big_m.sort()
                 time_dp_big_m.append(1800)
                 instances_dp_big_m = len(time_dp_big_m) + 1
@@ -48,7 +48,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
                 data["time_dp_big_m"] = time_dp_big_m
                 data["instances_dp_big_m"] = instances_dp_big_m
             else:
-                time_dp_big_m_GLPK = df_data[df_data["termination_dp_BigM_1000_GLPK"] == "OPTIMAL"]["time_dp_BigM_1000_GLPK"].to_list()
+                time_dp_big_m_GLPK = df_data_dp[df_data_dp["termination_dp_BigM_1000_GLPK"] == "OPTIMAL"]["time_dp_BigM_1000_GLPK"].to_list()
                 time_dp_big_m_GLPK.sort()
                 time_dp_big_m_GLPK.append(1800)
                 instances_dp_big_m_GLPK = len(time_dp_big_m_GLPK) + 1
@@ -58,7 +58,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
 
         if big_m_10000:
             if solver == "HiGHS":
-                time_dp_big_m_10000 = df_data[df_data["termination_dp_BigM_10000"] == "OPTIMAL"]["time_dp_BigM_10000"].to_list()
+                time_dp_big_m_10000 = df_data_dp[df_data_dp["termination_dp_BigM_10000"] == "OPTIMAL"]["time_dp_BigM_10000"].to_list()
                 time_dp_big_m_10000.sort()
                 time_dp_big_m_10000.append(1800)
                 instances_dp_big_m_10000 = len(time_dp_big_m_10000) + 1
@@ -66,7 +66,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
                 data["time_dp_big_m_10000"] = time_dp_big_m_10000
                 data["instances_dp_big_m_10000"] = instances_dp_big_m_10000
             else:
-                time_dp_big_m_GLPK_10000 = df_data[df_data["termination_dp_BigM_10000_GLPK"] == "OPTIMAL"]["time_dp_BigM_10000"].to_list()
+                time_dp_big_m_GLPK_10000 = df_data_dp[df_data_dp["termination_dp_BigM_10000_GLPK"] == "OPTIMAL"]["time_dp_BigM_10000"].to_list()
                 time_dp_big_m_GLPK_10000.sort()
                 time_dp_big_m_GLPK_10000.append(1800)
                 instances_dp_big_m_GLPK_10000 = len(time_dp_big_m_GLPK_10000) + 1
@@ -85,7 +85,7 @@ def load_data(file='csv/results_bigg_dp_cleaned_up.csv', ll_fba=True, hull=True,
             data["instances_cb_big_m_mis"] = instances_cb_big_m_mis
     return data 
 
-def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=True, hull=True, big_m_1000=True, big_m_10000=False, mis_big_m=True, file='csv/results_bigg_dp_cleaned_up.csv', save_as='plots/comparison_dp_cleaned_up.pdf'):
+def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=True, hull=True, big_m_1000=True, big_m_10000=False, mis_big_m=True, file='csv/results_bigg_SCIP.csv', file_dp='csv/results_bigg_dp_SCIP.csv', save_as='plots/comparison_dp.pdf'):
     data = load_data(file=file, ll_fba=ll_fba, hull=hull, big_m_1000=big_m_1000, big_m_10000=big_m_10000)
 
     plt.rcParams.update({
@@ -187,8 +187,16 @@ colors = ['#377eb8', '#ff7f00', '#4daf4a', '#984ea3', '#999999', '#e41a1c', '#de
 linestyles = ["-.", "--", "-.", ":", "-", "--", "-", "-", "--"]
 markerstyles = ['o', 'v', '^', 's', 'p', 'D', 'd', 'p', 'D']
 
-build_solved_instances_plot(colors, linestyles, markerstyles)
-build_solved_instances_plot(colors, linestyles, markerstyles, save_as='plots/comparison_dp.pdf', file='csv/results_bigg_dp.csv')
+build_solved_instances_plot(
+    colors, 
+    linestyles, 
+    markerstyles)
+# build_solved_instances_plot(
+#     colors, 
+#     linestyles, 
+#     markerstyles, 
+#     save_as='plots/comparison_dp.pdf', 
+#     file='csv/results_bigg_dp.csv')
 
 # build_time_vs_iterations_plot(colors, markerstyles, big_m=False, indicator=True, mis_list=[5.0, 10.0, 20.0, 30.0])
 # build_solved_instances_plot(colors, linestyles, markerstyles, big_m=True, indicator=False, all_subplots=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
