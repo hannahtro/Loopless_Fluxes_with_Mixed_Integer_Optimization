@@ -112,18 +112,18 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, ind
     
     # big m
     if no_good_cuts:
-        iter_no_good_cuts = df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["iter_no_good_iter"].to_list()
-        iter_no_good_cuts.sort()
-        time_mp_no_good_cuts= df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["times_master_problem_no_good_cuts"].to_list()
-        time_mp_no_good_cuts.sort()
-        time_sp_no_good_cuts = df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["times_sub_problem_no_good_cuts"].to_list()
-        time_sp_no_good_cuts.sort()
-        time_mis_no_good_cuts = df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["times_mis_problem_no_good_cuts"].to_list()
-        time_mis_no_good_cuts.sort()
-        data["iter_no_good_cuts"] = iter_no_good_cuts
-        data["time_mp_no_good_cuts"] = time_mp_no_good_cuts
-        data["time_sp_no_good_cuts"] = time_sp_no_good_cuts
-        data["time_mis_no_good_cuts"] = time_mis_no_good_cuts
+        time_no_good_cuts = df_data[df_data["termination_no_good_cuts_big_m"] == "OPTIMAL"]["time_no_good_cuts_big_m"].to_list()
+        time_no_good_cuts.sort()
+        time_no_good_cuts.append(1800)
+        instances_no_good_cuts = len(time_no_good_cuts) + 1
+        instances_no_good_cuts = np.arange(1, instances_no_good_cuts)
+        data["time_no_good_cuts"] = time_no_good_cuts
+        data["instances_no_good_cuts"] = instances_no_good_cuts
+
+        if extended:
+            iter_no_good_cuts = df_data[df_data["termination_no_good_cuts_big_m"] == "OPTIMAL"]["iter_no_good_iter_big_m"].to_list()
+            iter_no_good_cuts.sort()
+            data["iter_no_good_cuts"] = iter_no_good_cuts
 
     return data 
 
@@ -151,7 +151,10 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, 
     if big_m:
         axs[0].plot(data["time_cb_big_m"], data["instances_cb_big_m"], color=colors[1], linestyle=linestyles[3], label="CB (big-M)")
     if indicator_and_big_m:    
-        axs[0].plot(data["time_cb_indicator_and_big_m"], data["instances_cb_indicator_and_big_m"], color=colors[3], linestyle=linestyles[4], label="CB (indicator + big-M)")
+        axs[0].plot(data["time_cb_indicator_and_big_m"], data["instances_cb_indicator_and_big_m"], color=colors[4], linestyle=linestyles[4], label="CB (indicator + big-M)")
+    if no_good_cuts:
+        print(data["time_no_good_cuts"], data["instances_no_good_cuts"])
+        axs[0].plot(data["time_no_good_cuts"], data["instances_no_good_cuts"], color=colors[3], label="no-good cut", linestyle=linestyles[5])
 
     axs[0].set_ylabel(r"$\textbf{solved instances}$")
     axs[0].set_xlabel(r"$\textbf{time (s)}$")
@@ -162,7 +165,10 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, 
     if big_m:
         axs[1].plot(data["iter_cb_big_m"], np.arange(1, len(data["iter_cb_big_m"])+1), color=colors[1], linestyle=linestyles[3])
     if indicator_and_big_m:    
-        axs[1].plot(data["iter_cb_indicator_and_big_m"], np.arange(1, len(data["iter_cb_indicator_and_big_m"])+1), color=colors[3], linestyle=linestyles[4])
+        axs[1].plot(data["iter_cb_indicator_and_big_m"], np.arange(1, len(data["iter_cb_indicator_and_big_m"])+1), color=colors[4], linestyle=linestyles[4])
+    if no_good_cuts:
+        print(data["iter_no_good_cuts"])
+        axs[1].plot(data["iter_no_good_cuts"], np.arange(1, len(data["iter_no_good_cuts"])+1), color=colors[3], linestyle=linestyles[5])
     
     axs[1].set_ylabel(r"$\textbf{solved instances}$")
     axs[1].set_xlabel(r"$\textbf{iterations}$")
@@ -250,7 +256,7 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, 
 
 # make plots
 colors = ['#377eb8', '#ff7f00', '#4daf4a', '#999999', '#984ea3', '#e41a1c', '#dede00', '#f781bf', '#a65628']
-linestyles = ["dashdot", "dashed", "dotted", (0, (3, 1, 1, 1, 1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (3, 10, 1, 10)), (0, (1, 10)), (0, (5, 10)), (0, (3, 1, 1, 1)), (0, (3, 5, 1, 5))]
+linestyles = ["dashdot", "dashed", "dotted", (0, (3, 1, 1, 1, 1, 1)), (0, (3, 5, 1, 5, 1, 5)), "-", (0, (3, 10, 1, 10)), (0, (1, 10)), (0, (5, 10)), (0, (3, 1, 1, 1)), (0, (3, 5, 1, 5))]
 markerstyles = ['o', 'v', '^', 's', 'p', 'D', 'd', 'p', 'D']
 
 build_solved_instances_plot(
