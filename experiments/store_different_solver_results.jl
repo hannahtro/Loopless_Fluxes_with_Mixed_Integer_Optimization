@@ -712,19 +712,18 @@ mis_numbers = [0.1, 0.5, 1.0, 2.0, 5, 10, 20, 30]
 solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=false, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true, cb_indicator_and_big_m=true, ll_fba_indicator=true)
 
 # sub_csv("results_ll_fba_variants.csv", nullspace=true, ll_fba=true)
-# sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
+sub_csv("results_ll_fba_indicator.csv", ll_fba_indicator=true, ll_fba=true)
 
 # solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m=true, mis_indicator=true, mis_big_m=true, nullspace=true, mis_numbers=mis_numbers, no_good_cuts=true, no_good_cuts_big_m=true)
 # sub_csv("results_bigg_SCIP_llfba_vs_nullspace.csv", nullspace=true, ll_fba=true)
 # sub_csv("results_bigg_SCIP_cb_vs_nullspace.csv", ll_fba=true, cb=true, cb_big_m=true, objective_values=false)
 # sub_csv("results_bigg_SCIP_multiple_mis_indicator.csv", mis_indicator=true, mis_big_m=false, objective_values=false, mis_numbers=mis_numbers)
 # sub_csv("results_bigg_SCIP_multiple_mis_big_m.csv", cb=true, mis_indicator=false, mis_big_m=true, objective_values=false, mis_numbers=mis_numbers)
-# sub_csv("results_bigg_SCIP_no_good_cuts_big_m.csv", ll_fba=true,no_good_cuts_big_m=true, cb_big_m=false, objective_values=false)
+sub_csv("results_bigg_SCIP_no_good_cuts_big_m.csv", ll_fba=true,no_good_cuts_big_m=true, cb_big_m=false, objective_values=false)
 # sub_csv("results_bigg_SCIP_no_good_cuts_indicator.csv", no_good_cuts=true, cb=true, objective_values=true)
+sub_csv("results_bigg_SCIP_indicator_and_big_m.csv", cb=true, cb_big_m=true, cb_indicator_and_big_m=true, objective_values=false)
 
-# sub_csv("results_bigg_SCIP_indicator_and_big_m.csv", cb=true, cb_big_m=true, cb_indicator_and_big_m=true, objective_values=false)
-
-# CONSTRAINT HANDLER
+# CONSTRAINT HANDLER RESULTS
 # organisms = [
 #     "iAF692", # recompute for 1e-5
 #     "iJR904", 
@@ -746,6 +745,7 @@ solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m
 # ]
 # sub_csv("results_bigg_ch_vs_cb_big_m.csv", cb_big_m=true, ch=true, ch_mis=true, objective_values=true)
 
+# YEAST RESULTS
 # println(" ")
 # organisms = [
 #     "Hanseniaspora_uvarum",
@@ -761,6 +761,5 @@ solver_data(organisms, time_limit=1800, yeast=false, cb=true, fba=true, cb_big_m
 #     "Ashbya_aceri"]
 # mis_numbers = [0.1, 0.2, 0.5, 2.0]
 # solver_data(organisms, time_limit=1800, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
-
 # mis_numbers = [0.1, 0.2]
 # solver_data(organisms, time_limit=14440, fba=false, yeast=true, cb=true, cb_big_m=true, mis_numbers=mis_numbers, mis_big_m=true, mis_indicator=true)
