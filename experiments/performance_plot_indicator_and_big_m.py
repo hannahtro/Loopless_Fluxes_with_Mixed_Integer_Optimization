@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, indicator_and_big_m=False, ll_fba=False, ll_fba_indicator=False, extended=False):
+def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, indicator_and_big_m=False, ll_fba=False, ll_fba_indicator=False, extended=False, no_good_cuts=False):
     # load data 
     df_data = pd.read_csv(file)
     # print(df_data)
@@ -101,10 +101,34 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, ind
             data["time_sp_cb_indicator_and_big_m"] = time_sp_cb_indicator_and_big_m
             data["time_mis_cb_indicator_and_big_m"] = time_mis_cb_indicator_and_big_m
 
+    if big_m:
+        time_cb_big_m = df_data[df_data["termination_cb_big_m"] == "OPTIMAL"]["time_cb_big_m"].to_list()
+        time_cb_big_m.sort()
+        time_cb_big_m.append(1800)
+        instances_cb_big_m = len(time_cb_big_m) + 1
+        instances_cb_big_m = np.arange(1, instances_cb_big_m)
+        data["time_cb_big_m"] = time_cb_big_m
+        data["instances_cb_big_m"] = instances_cb_big_m
+    
+    # big m
+    if no_good_cuts:
+        iter_no_good_cuts = df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["iter_no_good_iter"].to_list()
+        iter_no_good_cuts.sort()
+        time_mp_no_good_cuts= df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["times_master_problem_no_good_cuts"].to_list()
+        time_mp_no_good_cuts.sort()
+        time_sp_no_good_cuts = df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["times_sub_problem_no_good_cuts"].to_list()
+        time_sp_no_good_cuts.sort()
+        time_mis_no_good_cuts = df_data[df_data["termination_no_good_cuts"] == "OPTIMAL"]["times_mis_problem_no_good_cuts"].to_list()
+        time_mis_no_good_cuts.sort()
+        data["iter_no_good_cuts"] = iter_no_good_cuts
+        data["time_mp_no_good_cuts"] = time_mp_no_good_cuts
+        data["time_sp_no_good_cuts"] = time_sp_no_good_cuts
+        data["time_mis_no_good_cuts"] = time_mis_no_good_cuts
+
     return data 
 
-def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, ll_fba_indicator=False, big_m=False, file='csv/results_bigg_SCIP.csv', indicator=True, indicator_and_big_m=False, all_subplots=False, extended=False):
-    data = load_data(big_m=big_m, indicator=indicator, indicator_and_big_m=indicator_and_big_m, file=file, ll_fba=ll_fba, ll_fba_indicator=ll_fba_indicator, extended=extended)
+def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, ll_fba_indicator=False, big_m=False, no_good_cuts=False, file='csv/results_bigg_SCIP.csv', indicator=True, indicator_and_big_m=False, all_subplots=False, extended=False):
+    data = load_data(big_m=big_m, indicator=indicator, no_good_cuts=no_good_cuts, indicator_and_big_m=indicator_and_big_m, file=file, ll_fba=ll_fba, ll_fba_indicator=ll_fba_indicator, extended=extended)
 
     plt.rcParams.update({
         "text.usetex": True,
@@ -177,9 +201,9 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, 
     # plt.show()
     if indicator_and_big_m:
         plt.savefig("plots/comparison_solved_instances_indicator_and_big_m.pdf", format="pdf", bbox_inches="tight")
-    if indicator:
+    elif indicator:
         plt.savefig("plots/comparison_solved_instances.pdf", format="pdf", bbox_inches="tight")
-    if big_m:
+    elif big_m:
         plt.savefig("plots/comparison_solved_instances_big_m.pdf", format="pdf", bbox_inches="tight")
     plt.clf()
 
@@ -229,4 +253,17 @@ colors = ['#377eb8', '#ff7f00', '#4daf4a', '#999999', '#984ea3', '#e41a1c', '#de
 linestyles = ["dashdot", "dashed", "dotted", (0, (3, 1, 1, 1, 1, 1)), (0, (3, 5, 1, 5, 1, 5)), (0, (3, 10, 1, 10)), (0, (1, 10)), (0, (5, 10)), (0, (3, 1, 1, 1)), (0, (3, 5, 1, 5))]
 markerstyles = ['o', 'v', '^', 's', 'p', 'D', 'd', 'p', 'D']
 
-build_solved_instances_plot(colors, linestyles, markerstyles, big_m=True, indicator=True, indicator_and_big_m=False, all_subplots=False, extended=True, ll_fba=True, ll_fba_indicator=True)
+build_solved_instances_plot(
+    colors, 
+    linestyles, 
+    markerstyles, 
+    big_m=True, 
+    indicator=True, 
+    indicator_and_big_m=True,
+    no_good_cuts = True,
+    all_subplots=False, 
+    extended=True, 
+    ll_fba=True, 
+    ll_fba_indicator=True)
+
+
