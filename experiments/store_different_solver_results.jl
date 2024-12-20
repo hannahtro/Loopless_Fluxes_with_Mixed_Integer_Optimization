@@ -38,6 +38,9 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
         df[!, "feasibility_no_good_cuts_big_m"] = Union{Bool,Missing}[]
         df[!, "cuts_no_good_cuts_big_m"] = Union{Int64,Missing}[]
         df[!, "iter_no_good_iter_big_m"] = Union{Int64,Missing}[]
+        df[!, "times_master_problem_no_good_cuts_big_m"] = Union{Float64,Missing}[]
+        df[!, "times_sub_problem_no_good_cuts_big_m"] = Union{Float64,Missing}[]
+        df[!, "times_mis_problem_no_good_cuts_big_m"] = Union{Float64,Missing}[]
     end 
 
     if cb 
@@ -236,6 +239,9 @@ function solver_data(organisms; no_good_cuts=false, no_good_cuts_big_m=false, fb
             dict_organism[:feasibility_no_good_cuts_big_m] = dict["thermo_feasible"]
             dict_organism[:cuts_no_good_cuts_big_m] = dict["cuts"]
             dict_organism[:iter_no_good_iter_big_m] = dict["iter"]
+            dict_organism[Symbol("times_master_problem_no_good_cuts_big_m")] = geomean(dict["times_master_problem"])
+            dict_organism[Symbol("times_sub_problem_no_good_cuts_big_m")] = geomean(dict["times_sub_problem"])
+            dict_organism[Symbol("times_mis_problem_no_good_cuts_big_m")] = geomean(dict["times_mis_problem"])
         end 
 
         if cb 
