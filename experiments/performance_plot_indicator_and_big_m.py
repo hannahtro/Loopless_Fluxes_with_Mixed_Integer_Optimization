@@ -153,8 +153,7 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, 
     if indicator_and_big_m:    
         axs[0].plot(data["time_cb_indicator_and_big_m"], data["instances_cb_indicator_and_big_m"], color=colors[4], linestyle=linestyles[4], label="CB (indicator + big-M)")
     if no_good_cuts:
-        print(data["time_no_good_cuts"], data["instances_no_good_cuts"])
-        axs[0].plot(data["time_no_good_cuts"], data["instances_no_good_cuts"], color=colors[3], label="no-good cut", linestyle=linestyles[5])
+        axs[0].plot(data["time_no_good_cuts"], data["instances_no_good_cuts"], color=colors[3], label="no-good cut (big-M)", linestyle=linestyles[5])
 
     axs[0].set_ylabel(r"$\textbf{solved instances}$")
     axs[0].set_xlabel(r"$\textbf{time (s)}$")
@@ -167,7 +166,6 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, ll_fba=False, 
     if indicator_and_big_m:    
         axs[1].plot(data["iter_cb_indicator_and_big_m"], np.arange(1, len(data["iter_cb_indicator_and_big_m"])+1), color=colors[4], linestyle=linestyles[4])
     if no_good_cuts:
-        print(data["iter_no_good_cuts"])
         axs[1].plot(data["iter_no_good_cuts"], np.arange(1, len(data["iter_no_good_cuts"])+1), color=colors[3], linestyle=linestyles[5])
     
     axs[1].set_ylabel(r"$\textbf{solved instances}$")
