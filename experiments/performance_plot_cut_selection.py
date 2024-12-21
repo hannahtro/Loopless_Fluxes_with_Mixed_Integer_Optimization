@@ -2,14 +2,19 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis_list=[], remove_easy_instances=False, cut_densities=[], distinct_cuts=False, time_limit=1800, max_cuts=[]):
+def load_data(file='csv/results_bigg_SCIP.csv', file_cut_selection='csv/results_bigg_cut_selection_SCIP.csv', big_m=False, indicator=True, mis_list=[], remove_easy_instances=False, cut_densities=[], distinct_cuts=False, time_limit=1800, max_cuts=[]):
     assert big_m != indicator
     # load data 
     df_data = pd.read_csv(file)
+    print("termination_cb_mis_2.0" in list(df_data.columns.values))
+    df_data_cut_selection = pd.read_csv(file_cut_selection)
+    df_data_cut_selection = pd.merge(df_data, df_data_cut_selection, on="organism")
+
     print("termination_ll_fba" in list(df_data.columns.values))
-    print("termination_cb_mis_2.0_distinct_cuts" in list(df_data.columns.values))
+    print("termination_cb_mis_2.0_distinct_cuts" in list(df_data_cut_selection.columns.values))
     if remove_easy_instances:
         df_data = df_data[(df_data.time_ll_fba >= 15)]
+        df_data_cut_selection = df_data_cut_selection[(df_data_cut_selection.time_ll_fba >= 15)]
 
     data = {}
 
@@ -81,18 +86,18 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
         iter_cb_mis_temp.sort()
 
         if distinct_cuts:
-            time_cb_mis_distinct_cuts_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["time_cb_mis_" + str(mis) + "_distinct_cuts"].to_list()
+            time_cb_mis_distinct_cuts_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["time_cb_mis_" + str(mis) + "_distinct_cuts"].to_list()
             time_cb_mis_distinct_cuts_temp.sort()
             time_cb_mis_distinct_cuts_temp.append(time_limit)
             instances_cb_mis_distinct_cuts_temp = len(time_cb_mis_distinct_cuts_temp) + 1
             instances_cb_mis_distinct_cuts_temp = np.arange(1, instances_cb_mis_distinct_cuts_temp)
-            iter_cb_mis_distinct_cuts_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["iter_cb_mis_" + str(mis) + "_distinct_cuts"].to_list()
+            iter_cb_mis_distinct_cuts_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["iter_cb_mis_" + str(mis) + "_distinct_cuts"].to_list()
             iter_cb_mis_distinct_cuts_temp.sort()
 
         for density in cut_densities:
-            iter_cb_mis_density_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_density_" + str(density)] <= time_limit)]["iter_cb_mis_" + str(mis) + "_density_" + str(density)].to_list()
+            iter_cb_mis_density_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_density_" + str(density)] <= time_limit)]["iter_cb_mis_" + str(mis) + "_density_" + str(density)].to_list()
             iter_cb_mis_density_temp.sort()
-            time_cb_mis_density_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_density_" + str(density)] <= time_limit) ]["time_cb_mis_" + str(mis) + "_density_" + str(density)].to_list()
+            time_cb_mis_density_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_density_" + str(density)] <= time_limit) ]["time_cb_mis_" + str(mis) + "_density_" + str(density)].to_list()
 
             time_cb_mis_density_temp.sort()
             time_cb_mis_density_temp.append(time_limit)
@@ -114,18 +119,18 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
         iter_cb_mis_temp.sort()
 
         if distinct_cuts:
-            time_cb_mis_distinct_cuts_temp = df_data[(df_data["termination_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data["time_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["time_cb_big_m_mis_" + str(mis) + "_distinct_cuts"].to_list()
+            time_cb_mis_distinct_cuts_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data_cut_selection["time_cb_big_m_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["time_cb_big_m_mis_" + str(mis) + "_distinct_cuts"].to_list()
             time_cb_mis_distinct_cuts_temp.sort()
             time_cb_mis_distinct_cuts_temp.append(time_limit)
             instances_cb_mis_distinct_cuts_temp = len(time_cb_mis_distinct_cuts_temp) + 1
             instances_cb_mis_distinct_cuts_temp = np.arange(1, instances_cb_mis_distinct_cuts_temp)
-            iter_cb_mis_distinct_cuts_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["iter_cb_mis_" + str(mis) + "_distinct_cuts"].to_list()
+            iter_cb_mis_distinct_cuts_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_distinct_cuts"] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_distinct_cuts"] <= time_limit)]["iter_cb_mis_" + str(mis) + "_distinct_cuts"].to_list()
             iter_cb_mis_distinct_cuts_temp.sort()
 
         for density in cut_densities:
-            iter_cb_mis_density_temp = df_data[(df_data["termination_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] <= time_limit)]["iter_cb_big_m_mis_" + str(mis) + "_density_" + str(density)].to_list()
+            iter_cb_mis_density_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data_cut_selection["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] <= time_limit)]["iter_cb_big_m_mis_" + str(mis) + "_density_" + str(density)].to_list()
             iter_cb_mis_density_temp.sort()
-            time_cb_mis_density_temp = df_data[(df_data["termination_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] <= time_limit) ]["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)].to_list()
+            time_cb_mis_density_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] == "OPTIMAL") & (df_data_cut_selection["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)] <= time_limit) ]["time_cb_big_m_mis_" + str(mis) + "_density_" + str(density)].to_list()
 
             time_cb_mis_density_temp.sort()
             time_cb_mis_density_temp.append(time_limit)
@@ -150,12 +155,12 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
         for mis in mis_list:
             for m in max_cuts:
                 try:
-                    time_cb_mis_max_cut_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
+                    time_cb_mis_max_cut_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
                     time_cb_mis_max_cut_temp.sort()
                     time_cb_mis_max_cut_temp.append(time_limit)
                     instances_cb_mis_max_cuts_temp = len(time_cb_mis_max_cut_temp) + 1
                     instances_cb_mis_max_cuts_temp = np.arange(1, instances_cb_mis_max_cuts_temp)
-                    iter_cb_mis_max_cuts_temp = df_data[(df_data["termination_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
+                    iter_cb_mis_max_cuts_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data_cut_selection["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["iter_cb_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
                     iter_cb_mis_max_cuts_temp.sort()
 
                     data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] = time_cb_mis_max_cut_temp
@@ -169,12 +174,12 @@ def load_data(file='csv/results_bigg_SCIP.csv', big_m=False, indicator=True, mis
         for mis in mis_list:
             for m in max_cuts:
                 try:
-                    time_cb_mis_max_cut_temp = df_data[(df_data["termination_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data["time_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["time_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
+                    time_cb_mis_max_cut_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data_cut_selection["time_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["time_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
                     time_cb_mis_max_cut_temp.sort()
                     time_cb_mis_max_cut_temp.append(time_limit)
                     instances_cb_mis_max_cuts_temp = len(time_cb_mis_max_cut_temp) + 1
                     instances_cb_mis_max_cuts_temp = np.arange(1, instances_cb_mis_max_cuts_temp)
-                    iter_cb_mis_max_cuts_temp = df_data[(df_data["termination_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data["time_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["iter_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
+                    iter_cb_mis_max_cuts_temp = df_data_cut_selection[(df_data_cut_selection["termination_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] == "OPTIMAL") & (df_data_cut_selection["time_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)] <= time_limit)]["iter_cb_big_m_mis_" + str(mis) + "_max_cuts_" + str(m)].to_list()
                     iter_cb_mis_max_cuts_temp.sort()
 
                     data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)] = time_cb_mis_max_cut_temp
@@ -378,4 +383,5 @@ build_solved_instances_plot(
     max_cuts=[0.2,0.3,0.4,0.5],
     remove_easy_instances=True
     )
+
 # build_time_vs_iterations_plot(colors, markerstyles, big_m=True, indicator=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
