@@ -1,6 +1,6 @@
 using DataFrames, JSON, CSV
 using Statistics
-using Query
+# using Query
 
 include("store_different_solver_results.jl")
 
@@ -155,69 +155,69 @@ count_errors(
     filter_instances=true
 )
 
-# count_errors(
-#     intervals=[0, 10, 600, 1800], 
-#     solving_strategies=["ll_fba", "ll_fba_indicator", "cb_big_m", "cb"], 
-#     save_as="sum_termination_status_bigg.csv",
-#     read_from="results_bigg_SCIP.csv",
-#     bins_column="time_ll_fba"
-# )
+count_errors(
+    intervals=[0, 10, 600, 1800], 
+    solving_strategies=["ll_fba", "ll_fba_indicator", "cb_big_m", "cb"], 
+    save_as="sum_termination_status_bigg.csv",
+    read_from="results_bigg_SCIP.csv",
+    bins_column="time_ll_fba"
+)
 
-# count_errors(
-#     intervals=[0, 10, 600, 1800], 
-#     solving_strategies=[
-#         "ll_fba", 
-#         "cb_big_m", 
-#         "cb_big_m_mis_0_1", 
-#         "cb_big_m_mis_0_5", 
-#         "cb_big_m_mis_1_0", 
-#         "cb_big_m_mis_2_0", 
-#         "cb_big_m_mis_5_0", 
-#         "cb_big_m_mis_10_0", 
-#         "cb_big_m_mis_20_0", 
-#         "cb_big_m_mis_30_0"], 
-#     save_as="sum_termination_status_mis_big_m.csv",
-#     read_from="results_bigg_SCIP.csv",
-#     bins_column="time_ll_fba"
-# )
+count_errors(
+    intervals=[0, 10, 600, 1800], 
+    solving_strategies=[
+        "ll_fba", 
+        "cb_big_m", 
+        "cb_big_m_mis_0_1", 
+        "cb_big_m_mis_0_5", 
+        "cb_big_m_mis_1_0", 
+        "cb_big_m_mis_2_0", 
+        "cb_big_m_mis_5_0", 
+        "cb_big_m_mis_10_0", 
+        "cb_big_m_mis_20_0", 
+        "cb_big_m_mis_30_0"], 
+    save_as="sum_termination_status_mis_big_m.csv",
+    read_from="results_bigg_SCIP.csv",
+    bins_column="time_ll_fba"
+)
 
-# count_errors(
-#     intervals=[], 
-#     solving_strategies=[
-#         "ll_fba_indicator", 
-#         "cb", 
-#         "cb_mis_0_1", 
-#         "cb_mis_0_5", 
-#         "cb_mis_1_0", 
-#         "cb_mis_2_0", 
-#         "cb_mis_5_0", 
-#         "cb_mis_10_0", 
-#         "cb_mis_20_0", 
-#         "cb_mis_30_0"], 
-#     save_as="sum_termination_status_mis_indicator.csv",
-#     read_from="results_bigg_SCIP.csv",
-#     bins_column="time_ll_fba_indicator",
-#     mis_list=["0_1", "0_5", "1_0", "2_0", "5_0", "10_0", "20_0", "30_0"]
-# )
+count_errors(
+    intervals=[], 
+    solving_strategies=[
+        "ll_fba_indicator", 
+        "cb", 
+        "cb_mis_0_1", 
+        "cb_mis_0_5", 
+        "cb_mis_1_0", 
+        "cb_mis_2_0", 
+        "cb_mis_5_0", 
+        "cb_mis_10_0", 
+        "cb_mis_20_0", 
+        "cb_mis_30_0"], 
+    save_as="sum_termination_status_mis_indicator.csv",
+    read_from="results_bigg_SCIP.csv",
+    bins_column="time_ll_fba_indicator",
+    mis_list=["0_1", "0_5", "1_0", "2_0", "5_0", "10_0", "20_0", "30_0"]
+)
 
-# count_errors(
-#     intervals=[], 
-#     solving_strategies=[
-#         "ll_fba", 
-#         "cb", 
-#         "cb_big_m_mis_0_1", 
-#         "cb_big_m_mis_0_5", 
-#         "cb_big_m_mis_1_0", 
-#         "cb_big_m_mis_2_0", 
-#         "cb_big_m_mis_5_0", 
-#         "cb_big_m_mis_10_0", 
-#         "cb_big_m_mis_20_0", 
-#         "cb_big_m_mis_30_0"], 
-#     save_as="sum_termination_status_mis_big_m.csv",
-#     read_from="results_bigg_SCIP.csv",
-#     bins_column="time_ll_fba",
-#     mis_list=["0_1", "0_5", "1_0", "2_0", "5_0", "10_0", "20_0", "30_0"]
-# )
+count_errors(
+    intervals=[], 
+    solving_strategies=[
+        "ll_fba", 
+        "cb", 
+        "cb_big_m_mis_0_1", 
+        "cb_big_m_mis_0_5", 
+        "cb_big_m_mis_1_0", 
+        "cb_big_m_mis_2_0", 
+        "cb_big_m_mis_5_0", 
+        "cb_big_m_mis_10_0", 
+        "cb_big_m_mis_20_0", 
+        "cb_big_m_mis_30_0"], 
+    save_as="sum_termination_status_mis_big_m.csv",
+    read_from="results_bigg_SCIP.csv",
+    bins_column="time_ll_fba",
+    mis_list=["0_1", "0_5", "1_0", "2_0", "5_0", "10_0", "20_0", "30_0"]
+)
 
 # count_errors(
 #     intervals=[], 

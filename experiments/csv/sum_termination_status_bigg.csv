@@ -1,5 +1,5 @@
 bins,count,optimal_ll_fba_sum,optimal_ll_fba_indicator_sum,optimal_cb_big_m_sum,optimal_cb_sum,timelimit_ll_fba_sum,timelimit_ll_fba_indicator_sum,timelimit_cb_big_m_sum,timelimit_cb_sum,error_ll_fba_sum,error_ll_fba_indicator_sum,error_cb_big_m_sum,error_cb_sum,bins_string
-1,10,10,6,10,9,0,3,0,0,0,1,0,1,0-10
-2,5,5,3,4,3,0,2,0,2,0,0,1,0,10-600
-3,6,6,1,6,5,0,5,0,1,0,0,0,0,600-1800
-4,15,0,0,12,13,15,15,3,2,0,0,0,0,1800-Inf
+1,16,16,12,16,15,0,3,0,0,0,1,0,1,0-10
+2,8,8,4,7,6,0,4,0,2,0,0,1,0,10-600
+3,11,11,1,10,9,0,9,0,1,0,1,1,1,600-1800
+4,72,0,1,65,68,72,71,4,4,0,0,3,0,1800-Inf
