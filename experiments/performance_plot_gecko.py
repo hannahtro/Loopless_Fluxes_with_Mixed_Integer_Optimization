@@ -103,24 +103,24 @@ def build_solved_instances_plot(filename, colors, linestyles, save_as="", indica
 
     print(data.keys())
     # create solved instances plot
-    fig, axs = plt.subplots(2, 1, figsize=[6.8, 4.8]) #, layout='constrained')
+    fig, ax = plt.subplots(figsize=[6.8, 2.4])
 
-    axs[0].plot(data["time_ll_fba"], data["instances_ll_fba"], color=colors[0], label="ll-FBA (big-M)", linestyle=linestyles[0])
-    axs[0].plot(data["time_cb_big_m"], data["instances_cb_big_m"], color=colors[1], linestyle=linestyles[1])
-    axs[0].plot(data["time_cb_big_m_mis"], data["instances_cb_big_m_mis"], color=colors[2], linestyle=linestyles[2])
+    ax.plot(data["time_ll_fba"], data["instances_ll_fba"], color=colors[0], label="ll-FBA (big-M)", linestyle=linestyles[0])
+    ax.plot(data["time_cb_big_m"], data["instances_cb_big_m"], color=colors[1], label="CB (big-M)", linestyle=linestyles[1])
+    ax.plot(data["time_cb_big_m_mis"], data["instances_cb_big_m_mis"], color=colors[2], label="CB (big-M MIS 0.5\%)", linestyle=linestyles[2])
     # if indicator_and_big_m:
-    #     axs[0].plot(data["time_cb_indicator_and_big_m"], data["instances_cb_indicator_and_big_m"], color=colors[3], linestyle=linestyles[3])
-    axs[0].set_ylabel(r"$\textbf{solved instances}$")
-    axs[0].set_xlabel(r"$\textbf{time (s)}$")
-    axs[0].grid(True)
+    #     ax.plot(data["time_cb_indicator_and_big_m"], data["instances_cb_indicator_and_big_m"], color=colors[3], linestyle=linestyles[3])
+    ax.set_ylabel(r"$\textbf{solved instances}$")
+    ax.set_xlabel(r"$\textbf{time (s)}$")
+    ax.grid(True)
 
-    axs[1].plot(data["iter_cb_big_m"], np.arange(1, len(data["iter_cb_big_m"])+1), label="CB (big-M)", color=colors[1], linestyle=linestyles[1])
-    axs[1].plot(data["iter_cb_big_m_mis"], np.arange(1, len(data["iter_cb_big_m_mis"])+1), label="CB (big-M MIS 0.5\%)", color=colors[2], linestyle=linestyles[2])
-    # if indicator_and_big_m:
-    #         axs[1].plot(data["iter_cb_indicator_and_big_m"], np.arange(1, len(data["iter_cb_indicator_and_big_m"])+1), label="CB (indicator + big M)", color=colors[3], linestyle=linestyles[3])
-    axs[1].set_ylabel(r"$\textbf{solved instances}$")
-    axs[1].set_xlabel(r"$\textbf{iterations}$")
-    axs[1].grid(True)
+    # axs[1].plot(data["iter_cb_big_m"], np.arange(1, len(data["iter_cb_big_m"])+1), label="CB (big-M)", color=colors[1], linestyle=linestyles[1])
+    # axs[1].plot(data["iter_cb_big_m_mis"], np.arange(1, len(data["iter_cb_big_m_mis"])+1), label="CB (big-M MIS 0.5\%)", color=colors[2], linestyle=linestyles[2])
+    # # if indicator_and_big_m:
+    # #         axs[1].plot(data["iter_cb_indicator_and_big_m"], np.arange(1, len(data["iter_cb_indicator_and_big_m"])+1), label="CB (indicator + big M)", color=colors[3], linestyle=linestyles[3])
+    # axs[1].set_ylabel(r"$\textbf{solved instances}$")
+    # axs[1].set_xlabel(r"$\textbf{iterations}$")
+    # axs[1].grid(True)
 
     lines = []
     labels = []
