@@ -1,0 +1,6 @@
+bins,count,optimal_ll_fba_sum,optimal_ll_fba_indicator_sum,optimal_cb_big_m_sum,optimal_cb_sum,timelimit_ll_fba_sum,timelimit_ll_fba_indicator_sum,timelimit_cb_big_m_sum,timelimit_cb_sum,error_ll_fba_sum,error_ll_fba_indicator_sum,error_cb_big_m_sum,error_cb_sum,nrow,time_ll_fba_geom_shifted_mean,time_ll_fba_indicator_geom_shifted_mean,time_cb_geom_shifted_mean,time_cb_big_m_geom_shifted_mean,bins_string,optimal_ll_fba_perc,optimal_cb_big_m_perc,optimal_ll_fba_indicator_perc,optimal_cb_perc
+1.0,16.0,16.0,12.0,16.0,15.0,0.0,3.0,0.0,0.0,0.0,1.0,0.0,1.0,16.0,1.19,26.53,19.12,7.23,0-10,1.0,1.0,0.75,0.94
+2.0,8.0,8.0,4.0,7.0,6.0,0.0,4.0,0.0,2.0,0.0,0.0,1.0,0.0,8.0,127.36,400.43,93.54,55.32,10-600,1.0,0.88,0.5,0.75
+3.0,11.0,11.0,1.0,10.0,9.0,0.0,9.0,0.0,1.0,0.0,1.0,1.0,1.0,11.0,1159.27,1343.02,367.97,61.59,600-1800,1.0,0.91,0.09,0.82
+4.0,72.0,0.0,1.0,65.0,68.0,72.0,71.0,4.0,4.0,0.0,0.0,3.0,0.0,72.0,1800.0,1781.4,431.29,95.03,1800-Inf,0.0,0.9,0.01,0.94
+5.0,107.0,35.0,18.0,98.0,98.0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,516.69,829.15,238.96,60.16,all,0.33,0.92,0.17,0.92

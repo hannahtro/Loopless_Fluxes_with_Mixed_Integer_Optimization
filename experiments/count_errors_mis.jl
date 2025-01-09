@@ -45,6 +45,8 @@ function count_errors(;
         df[df[!,"optimal_cb_big_m_mis_" * string(mis)] .!= 1, "time_cb_big_m_mis_" * string(mis)] .= 1800
     end
 
+    @infiltrate
+
     new_df = DataFrame(
         instances=Int[], 
         mis=String[], 

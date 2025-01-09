@@ -70,6 +70,8 @@ function count_errors(;
     df[df.optimal_cb .!= 1, :time_cb] .= 1800
     df[df.optimal_cb_big_m .!= 1, :time_cb_big_m] .= 1800
 
+    # @infiltrate
+    # filter(row -> row.termination_loopless_fba == "ERROR", df)[!, [:organism]]
     # debug_df = filter(row -> row.bins == 3, df)[!, [:organism, :optimal_ll_fba, :time_ll_fba, :optimal_ll_fba_indicator, :time_ll_fba_indicator]]
     # CSV.write("csv/debug_bins_data.csv" , debug_df, append=false, writeheader=true)
 
@@ -103,19 +105,22 @@ function count_errors(;
 
     # calculate percentage of optimally solved instances
     if "optimal_ll_fba_sum" in names(gdf)
-        gdf[!, "optimal_ll_fba_perc"] = round.(gdf[!, "optimal_ll_fba_sum"] ./ gdf[!, :count], digits=2)
-        gdf[!, "optimal_cb_big_m_perc"] = round.(gdf[!, "optimal_cb_big_m_sum"] ./ gdf[!, :count], digits=2)
+        gdf[!, "optimal_ll_fba_perc"] = round.(gdf[!, "optimal_ll_fba_sum"] ./ gdf[!, :count], digits=2) * 100
+        gdf[!, "optimal_cb_big_m_perc"] = round.(gdf[!, "optimal_cb_big_m_sum"] ./ gdf[!, :count], digits=2) * 100
         for mis in mis_list
-            gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_perc"] = round.(gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2)
+            gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_perc"] = round.(gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2) * 100 
         end
     end 
     if "optimal_ll_fba_indicator_sum" in names(gdf)
-        gdf[!, "optimal_ll_fba_indicator_perc"] = round.(gdf[!, "optimal_ll_fba_indicator_sum"] ./ gdf[!, :count], digits=2)
-        gdf[!, "optimal_cb_perc"] = round.(gdf[!, "optimal_cb_sum"] ./ gdf[!, :count], digits=2)
+        gdf[!, "optimal_ll_fba_indicator_perc"] = round.(gdf[!, "optimal_ll_fba_indicator_sum"] ./ gdf[!, :count], digits=2) * 100
+        gdf[!, "optimal_cb_perc"] = round.(gdf[!, "optimal_cb_sum"] ./ gdf[!, :count], digits=2) * 100
         for mis in mis_list
-            gdf[!, "optimal_cb_mis_" * string(mis) * "_perc"] = round.(gdf[!, "optimal_cb_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2)
+            gdf[!, "optimal_cb_mis_" * string(mis) * "_perc"] = round.(gdf[!, "optimal_cb_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2) * 100
         end
     end
+
+    # @infiltrate
+    # CSV.write("csv/debug_bins_data.csv" , gdf, append=false, writeheader=true)
 
     gdf = gdf[!, [:bins_string, :count, :optimal_ll_fba_perc, :time_ll_fba_geom_shifted_mean, :optimal_ll_fba_indicator_perc, :time_ll_fba_indicator_geom_shifted_mean, :optimal_cb_big_m_perc, :time_cb_big_m_geom_shifted_mean, :optimal_cb_perc, :time_cb_geom_shifted_mean]]
 
