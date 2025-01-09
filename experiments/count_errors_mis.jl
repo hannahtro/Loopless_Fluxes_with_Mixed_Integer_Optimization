@@ -22,13 +22,13 @@ function count_errors(;
     # print(names(df))
 
     for strategy in solving_strategies 
-        if occursin("cb_big_m", strategy)
-            df[(df.organism .== "iRC1080"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
-            df[(df.organism .== "iSbBS512_1146"), Symbol("termination_" * strategy)] = ["TIME_LIMIT"]
-        end 
-        if occursin("cb_mis", strategy) || strategy == "cb"     
-            df[(df.organism .== "iSB619"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
-        end
+        # if occursin("cb_big_m", strategy)
+        #     df[(df.organism .== "iRC1080"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
+        #     df[(df.organism .== "iSbBS512_1146"), Symbol("termination_" * strategy)] = ["TIME_LIMIT"]
+        # end 
+        # if occursin("cb_mis", strategy) || strategy == "cb"     
+        #     df[(df.organism .== "iSB619"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
+        # end
 
         df[!, "optimal_" * strategy] = [termination=="OPTIMAL" ? 1 : 0 for termination in df[!, "termination_" * strategy]]
         df[!, "timelimit_" * strategy] = [termination=="TIME_LIMIT" ? 1 : 0 for termination in df[!, "termination_" * strategy]]
@@ -44,8 +44,6 @@ function count_errors(;
         df[df[!,"optimal_cb_mis_" * string(mis)] .!= 1, "time_cb_mis_" * string(mis)] .= 1800
         df[df[!,"optimal_cb_big_m_mis_" * string(mis)] .!= 1, "time_cb_big_m_mis_" * string(mis)] .= 1800
     end
-
-    @infiltrate
 
     new_df = DataFrame(
         instances=Int[], 
@@ -78,12 +76,12 @@ function count_errors(;
         new_df[idx, :]["error_ll_fba_indicator"] = sum(df[!, "error_ll_fba_indicator"])
         new_df[idx, :]["optimal_cb"] = sum(df[!,"optimal_cb_mis_" * string(mis)])
         new_df[idx, :]["time_cb_geom_shifted_mean"] = geom_shifted_mean(df[!, "time_cb_mis_" * string(mis)])
-        new_df[idx, :]["optimal_cb_perc"] = round(sum(df[!,"optimal_cb_mis_" * string(mis)]) ./ length(df[!, :organism]) * 100, digits=2)
+        new_df[idx, :]["optimal_cb_perc"] = round(sum(df[!,"optimal_cb_mis_" * string(mis)]) ./ length(df[!, :organism]) * 100, digits=0)
         new_df[idx, :]["timelimit_cb"] = sum(df[!,"timelimit_cb_mis_" * string(mis)])
         new_df[idx, :]["error_cb"] = sum(df[!,"error_cb_mis_" * string(mis)])
         new_df[idx, :]["optimal_cb_big_m"] = sum(df[!,"optimal_cb_big_m_mis_" * string(mis)])
         new_df[idx, :]["time_cb_big_m_geom_shifted_mean"] = geom_shifted_mean(df[!, "time_cb_big_m_mis_" * string(mis)])
-        new_df[idx, :]["optimal_cb_big_m_perc"] = round(sum(df[!,"optimal_cb_big_m_mis_" * string(mis)]) ./ length(df[!, :organism]) * 100, digits=2)
+        new_df[idx, :]["optimal_cb_big_m_perc"] = round(sum(df[!,"optimal_cb_big_m_mis_" * string(mis)]) ./ length(df[!, :organism]) * 100, digits=0)
         new_df[idx, :]["timelimit_cb_big_m"] = sum(df[!,"timelimit_cb_big_m_mis_" * string(mis)])
         new_df[idx, :]["error_cb_big_m"] =  sum(df[!,"error_cb_big_m_mis_" * string(mis)])
     end
@@ -93,14 +91,19 @@ function count_errors(;
     new_df[length(mis_list)+1, :][:mis] = 0
     # new_df[length(mis_list)+1, :][:optimal_ll_fba_perc] = round(sum(df[!,"optimal_ll_fba"]) ./ length(df[!, :organism]) * 100, digits=2)
     # new_df[length(mis_list)+1, :][:optimal_ll_fba_indicator_perc] = round(sum(df[!,"optimal_ll_fba_indicator"]) ./ length(df[!, :organism]) * 100, digits=2)
-    new_df[length(mis_list)+1, :][:optimal_cb_big_m_perc] = round(sum(df[!,"optimal_cb_big_m"]) ./ length(df[!, :organism]) * 100, digits=2)
-    new_df[length(mis_list)+1, :][:optimal_cb_perc] = round(sum(df[!,"optimal_cb"]) ./ length(df[!, :organism]) * 100, digits=2)
+    new_df[length(mis_list)+1, :][:optimal_cb_big_m_perc] = round(sum(df[!,"optimal_cb_big_m"]) ./ length(df[!, :organism]) * 100, digits=0)
+    new_df[length(mis_list)+1, :][:optimal_cb_perc] = round(sum(df[!,"optimal_cb"]) ./ length(df[!, :organism]) * 100, digits=0)
     # new_df[length(intervals)+1, :][:time_ll_fba_geom_shifted_mean] = geom_shifted_mean(df[!, :time_ll_fba])
     # new_df[length(intervals)+1, :][:time_ll_fba_indicator_geom_shifted_mean] = geom_shifted_mean(df[!, :time_cb_big_m])
     new_df[length(mis_list)+1, :][:time_cb_geom_shifted_mean] = geom_shifted_mean(df[!, :time_cb])
     new_df[length(mis_list)+1, :][:time_cb_big_m_geom_shifted_mean] = geom_shifted_mean(df[!, :time_cb_big_m])
 
     new_df = new_df[!, [:mis, :optimal_cb_perc, :time_cb_geom_shifted_mean, :optimal_cb_big_m_perc, :time_cb_big_m_geom_shifted_mean]]
+
+    # convert column values to integer values
+    new_df[!, :optimal_cb_perc] = Int.(new_df[!, :optimal_cb_perc])
+    new_df[!, :optimal_cb_big_m_perc] = Int.(new_df[!, :optimal_cb_big_m_perc])
+
     CSV.write("csv/" * save_as , new_df, append=false, writeheader=true)
 end 
 

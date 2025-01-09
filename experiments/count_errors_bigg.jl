@@ -51,13 +51,13 @@ function count_errors(;
 
     # TODO: recheck instances
     for strategy in solving_strategies 
-        if occursin("cb_big_m", strategy)
-            df[(df.organism .== "iRC1080"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
-            df[(df.organism .== "iSbBS512_1146"), Symbol("termination_" * strategy)] = ["TIME_LIMIT"]
-        end 
-        if occursin("cb_mis", strategy) || strategy == "cb"     
-            df[(df.organism .== "iSB619"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
-        end
+        # if occursin("cb_big_m", strategy)
+        #     df[(df.organism .== "iRC1080"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
+        #     df[(df.organism .== "iSbBS512_1146"), Symbol("termination_" * strategy)] = ["TIME_LIMIT"]
+        # end 
+        # if occursin("cb_mis", strategy) || strategy == "cb"     
+        #     df[(df.organism .== "iSB619"), Symbol("termination_" * strategy)] = ["INFEASIBLE"]
+        # end
 
         df[!, "optimal_" * strategy] = [termination=="OPTIMAL" ? 1 : 0 for termination in df[!, "termination_" * strategy]]
         df[!, "timelimit_" * strategy] = [termination=="TIME_LIMIT" ? 1 : 0 for termination in df[!, "termination_" * strategy]]
@@ -74,7 +74,7 @@ function count_errors(;
     df[df.optimal_cb .!= 1, :time_cb] .= 1800
     df[df.optimal_cb_big_m .!= 1, :time_cb_big_m] .= 1800
 
-    # filter(row -> row.termination_loopless_fba == "ERROR", df)[!, [:organism]]
+    # filter(row -> row.termination_cb_big_m == "INFEASIBLE", df)[!, [:organism]]
     # debug_df = filter(row -> row.bins == 3, df)[!, [:organism, :optimal_ll_fba, :time_ll_fba, :optimal_ll_fba_indicator, :time_ll_fba_indicator]]
     # CSV.write("csv/debug_bins_data.csv" , debug_df, append=false, writeheader=true)
 
@@ -108,22 +108,27 @@ function count_errors(;
 
     # calculate percentage of optimally solved instances
     if "optimal_ll_fba_sum" in names(gdf)
-        gdf[!, "optimal_ll_fba_perc"] = round.(gdf[!, "optimal_ll_fba_sum"] ./ gdf[!, :count], digits=2) * 100
-        gdf[!, "optimal_cb_big_m_perc"] = round.(gdf[!, "optimal_cb_big_m_sum"] ./ gdf[!, :count], digits=2) * 100
+        gdf[!, "optimal_ll_fba_perc"] = Int.(round.(gdf[!, "optimal_ll_fba_sum"] ./ gdf[!, :count], digits=2) * 100)
+        gdf[!, "optimal_cb_big_m_perc"] = Int.(round.(gdf[!, "optimal_cb_big_m_sum"] ./ gdf[!, :count], digits=2) * 100)
         for mis in mis_list
-            gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_perc"] = round.(gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2) * 100 
+            gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_perc"] = Int.(round.(gdf[!, "optimal_cb_big_m_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2) * 100) 
         end
     end 
     if "optimal_ll_fba_indicator_sum" in names(gdf)
-        gdf[!, "optimal_ll_fba_indicator_perc"] = round.(gdf[!, "optimal_ll_fba_indicator_sum"] ./ gdf[!, :count], digits=2) * 100
-        gdf[!, "optimal_cb_perc"] = round.(gdf[!, "optimal_cb_sum"] ./ gdf[!, :count], digits=2) * 100
+        gdf[!, "optimal_ll_fba_indicator_perc"] = Int.(round.(gdf[!, "optimal_ll_fba_indicator_sum"] ./ gdf[!, :count], digits=2) * 100)
+        gdf[!, "optimal_cb_perc"] = Int.(round.(gdf[!, "optimal_cb_sum"] ./ gdf[!, :count], digits=2) * 100)
         for mis in mis_list
-            gdf[!, "optimal_cb_mis_" * string(mis) * "_perc"] = round.(gdf[!, "optimal_cb_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2) * 100
+            gdf[!, "optimal_cb_mis_" * string(mis) * "_perc"] = Int.(round.(gdf[!, "optimal_cb_mis_" * string(mis) * "_sum"] ./ gdf[!, :count], digits=2) * 100)
         end
     end
 
-    # @infiltrate
     # CSV.write("csv/debug_bins_data.csv" , gdf, append=false, writeheader=true)
+
+    gdf[!, :count] = Int.(gdf[!, :count])
+    gdf[!, :time_ll_fba_geom_shifted_mean] = Int.(gdf[!, :time_ll_fba_geom_shifted_mean])
+    gdf[!, :time_ll_fba_indicator_geom_shifted_mean] = Int.(gdf[!, :time_ll_fba_indicator_geom_shifted_mean])
+    gdf[!, :time_cb_geom_shifted_mean] = Int.(gdf[!, :time_cb_geom_shifted_mean])
+    gdf[!, :time_cb_big_m_geom_shifted_mean] = Int.(gdf[!, :time_cb_big_m_geom_shifted_mean])
 
     gdf = gdf[!, [:bins_string, :count, :optimal_ll_fba_perc, :time_ll_fba_geom_shifted_mean, :optimal_ll_fba_indicator_perc, :time_ll_fba_indicator_geom_shifted_mean, :optimal_cb_big_m_perc, :time_cb_big_m_geom_shifted_mean, :optimal_cb_perc, :time_cb_geom_shifted_mean]]
 
@@ -141,7 +146,7 @@ end
 function geom_shifted_mean(xs; shift=big"1.0")
     n = length(xs)
     r = prod(xi + shift for xi in xs)
-    return round(Float64(r^(1/n) - shift), digits=2)
+    return round(Float64(r^(1/n) - shift), digits=0)
 end
 
 count_errors(
