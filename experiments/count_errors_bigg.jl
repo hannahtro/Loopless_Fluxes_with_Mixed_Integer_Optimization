@@ -64,13 +64,16 @@ function count_errors(;
         df[!, "error_" * strategy] = [(termination=="ERROR" || termination=="INFEASIBLE") ? 1 : 0 for termination in df[!, "termination_" * strategy]]
     end
 
+    # @infiltrate
+    # sum(ismissing.(df[!, :time_cb]))
+    # filter(row -> ismissing.(row.time_ll_fba_indicator), df)[!, [:organism]]
+    
     # set runtime to 1800 if status not optimal
     df[df.optimal_ll_fba_indicator .!= 1, :time_ll_fba_indicator] .= 1800
     df[df.optimal_ll_fba .!= 1, :time_ll_fba] .= 1800
     df[df.optimal_cb .!= 1, :time_cb] .= 1800
     df[df.optimal_cb_big_m .!= 1, :time_cb_big_m] .= 1800
 
-    # @infiltrate
     # filter(row -> row.termination_loopless_fba == "ERROR", df)[!, [:organism]]
     # debug_df = filter(row -> row.bins == 3, df)[!, [:organism, :optimal_ll_fba, :time_ll_fba, :optimal_ll_fba_indicator, :time_ll_fba_indicator]]
     # CSV.write("csv/debug_bins_data.csv" , debug_df, append=false, writeheader=true)
