@@ -767,6 +767,9 @@ function combinatorial_benders_data(organism; time_limit=1800, json=true, max_it
     if optimizer != SCIP.Optimizer
         type = type * "_" * replace(string(optimizer), ".Optimizer"=>"")
     end
+    if scip_tol != 1.0e-6
+	type = type * "_" * string(scip_tol) * "_tol"
+    end
     file_name = "json/" * organism * "_" * type * "_" * string(time_limit) * ".json"
     if json 
         open(file_name, "w") do f
