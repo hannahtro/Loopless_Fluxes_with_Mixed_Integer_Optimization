@@ -228,7 +228,7 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
         for didx, density in enumerate(cut_densities):
             ax.plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[2], label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)")
 
-        for idx, (mis, m) in enumerate([(0.5, 0.2), (0.5, 0.3), (0.5, 0.4), (1.0, 0.5), (2.0, 0.5), (5.0, 0.5)]):
+        for idx, (mis, m) in enumerate([(0.5, 0.2), (2.0, 0.5), (5.0, 0.5)]): #(1.0, 0.5), (0.5, 0.3), (0.5, 0.4), 
             print(mis, m)         
             ax.plot(data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], data["instances_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], color=colors[idx+6], linestyle=linestyles[6], label="CB max cuts " + str(m) + " (" + method + " " + str(mis) + "\%)")  
 
@@ -242,7 +242,7 @@ def build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, i
         for didx, density in enumerate(cut_densities):
             ax.plot(data["time_cb_mis_" + str(mis) + "_density_" + str(density)], data["instances_cb_mis_" + str(mis) + "_density_" + str(density)], color=colors[didx+2], linestyle=linestyles[2],  label="CB max density " + str(density) + " (" + method + " " + str(mis) + "\%)")       
 
-        for idx, (mis, m) in enumerate([(2.0, 0.5), (2.0, 1.0), (2.0, 1.5), (3.0, 2.0), (4.0, 2.0), (5.0, 2.0)]):
+        for idx, (mis, m) in enumerate([(2.0, 0.5), (5.0, 2.0)]): #(2.0, 1.5), (3.0, 2.0), , (2.0, 1.0), (4.0, 2.0)
             print(mis, m)         
             ax.plot(data["time_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], data["instances_cb_mis_" + str(mis) + "_max_cuts_" + str(m)], color=colors[idx+6], linestyle=linestyles[6], label="CB max cuts " + str(m) + " (" + method + " " + str(mis) + "\%)")  
 
@@ -358,7 +358,7 @@ build_solved_instances_plot(
     indicator=True, 
     mis_list=[0.5,1.0,2.0,3.0,4.0,5.0], 
     distinct_cuts=True, 
-    cut_densities=[5,10,15,20], 
+    cut_densities=[5,15], 
     time_limit=300, 
     max_cuts=[0.5,1.0,1.5,2.0],
     remove_easy_instances=True
@@ -373,7 +373,7 @@ build_solved_instances_plot(
     indicator=False, 
     mis_list=[0.5,1.0,2.0,5.0], 
     distinct_cuts=True, 
-    cut_densities=[5,10,15,20], 
+    cut_densities=[5], 
     time_limit=300, 
     max_cuts=[0.2,0.3,0.4,0.5],
     remove_easy_instances=True

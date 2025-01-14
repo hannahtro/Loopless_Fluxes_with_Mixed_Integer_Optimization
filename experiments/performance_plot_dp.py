@@ -190,7 +190,8 @@ markerstyles = ['o', 'v', '^', 's', 'p', 'D', 'd', 'p', 'D']
 build_solved_instances_plot(
     colors, 
     linestyles, 
-    markerstyles)
+    markerstyles,
+    big_m_1000=False)
 # build_solved_instances_plot(
 #     colors, 
 #     linestyles, 

@@ -310,8 +310,8 @@ linestyles = [
 markerstyles = ['o', 's', 'p', 'D', 'd', 'o', 'o']
 
 ### indicator mis plots 
-build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, indicator=True, all_subplots=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0, 20.0])
-build_time_vs_iterations_plot(colors, markerstyles, big_m=False, indicator=True, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0, 20.0])
+build_solved_instances_plot(colors, linestyles, markerstyles, big_m=False, indicator=True, all_subplots=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
+build_time_vs_iterations_plot(colors, markerstyles, big_m=False, indicator=True, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
 
 build_solved_instances_plot(colors, linestyles, markerstyles, big_m=True, indicator=False, all_subplots=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
 build_time_vs_iterations_plot(colors, markerstyles, big_m=True, indicator=False, mis_list=[0.1, 0.5, 2.0, 5.0, 10.0])
